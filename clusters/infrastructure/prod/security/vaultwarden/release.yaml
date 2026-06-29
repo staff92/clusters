@@ -1,0 +1,18 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: vault
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: vaultwarden
+      version: '1.3.0'
+      sourceRef:
+        kind: HelmRepository
+        name: vault 
+  valuesFrom:
+    - kind: ConfigMap
+      name: vault-values
+      valuesKey: values.yaml

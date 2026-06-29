@@ -1,0 +1,160 @@
+#! helm repo add robusta https://robusta-charts.storage.googleapis.com
+#! helm install my-robusta robusta/robusta --version 0.37.0
+
+# Robusta - values minimal mail + rate limit sans compte
+
+clusterName: "Default"
+
+globalConfig:
+  check_prometheus_flags: false
+  account_id: ""
+  signing_key: ""
+
+# Sink email
+sinksConfig:
+  - mail_sink:
+      name: email_alert
+      # mailto: "mailtos://${LDAP_USER1_EMAIL}"
+      # from: "noreply@${CLUSTER_DOMAIN}"
+      # smtp_host: "mail.mail"
+      # smtp_port: 587
+      #mailto: "mailto://mail.mail:587?from=noreply@${CLUSTER_DOMAIN}&to=${LDAP_USER1_EMAIL}"
+      mailto: "mailto://test:test@maildev-smtp.maildev:1025?from=noreply@${CLUSTER_DOMAIN}&to=${LDAP_USER1_EMAIL}"
+      throttleSeconds: 3600
+
+    # name: ses_mail_sink
+    # mailto: "mailtos://alerts@company.com"  # Recipient addresses
+    # use_ses: true
+    # aws_region: "us-east-1"
+    # from_email: "robusta-alerts@company.com"
+    # with_header: true  # optional
+
+enablePrometheusStack: false
+enableHolmesGPT: false
+enablePlatformPlaybooks: false
+
+#! media,authelia,traefik
+# Désactiver les ressources bruyantes dans kubewatch
+kubewatch:
+  config:
+    namespace: ""   #! ALL
+    resource:
+      deployment: false
+      pod: true
+      replicaset: false      
+      daemonset: false
+      statefulset: false
+      services: false
+      job: false
+      node: false
+      hpa: false
+      clusterrole: false
+      clusterrolebinding: false
+      serviceaccount: false
+      persistentvolume: false
+      namespace: false
+      configmap: false
+      secret: false
+      event: false            # SPAM absolu, toujours désactiver
+      coreevent: false
+      ingress: false
+
+# Playbooks avec rate_limit (1 mail max par heure par type d'événement)
+customPlaybooks: []
+  # - name: "CrashLoopAlert"
+  #   triggers:
+  #     - on_pod_crash_loop:
+  #         restart_reason: "CrashLoopBackOff"
+  #         rate_limit: 3600     # 1 alerte max par heure
+  #   actions:
+  #     - report_crash_loop: {}
+  #   sinks:
+  #     - "email_alert"
+
+  # - name: "ImagePullAlert"
+  #   triggers:
+  #     - on_image_pull_backoff:
+  #         rate_limit: 3600
+  #   actions:
+  #     - image_pull_backoff_reporter: {}
+  #   sinks:
+  #     - "email_alert"
+
+  # - name: "OOMKillAlert"
+  #   triggers:
+  #     - on_pod_oom_killed:
+  #         rate_limit: 3600
+  #   actions:
+  #     - pod_oom_killer_enricher:
+  #         attach_logs: false
+  #   sinks:
+  #     - "email_alert"
+  # - triggers:
+  #     - on_pod_eviction:
+  #         rate_limit: 3600
+  #   actions:
+  #     - create_finding:
+  #         title: "Pod Evicted: $name"
+  #   sinks:
+  #     - email_alert
+  # # Node Not Ready
+  # - triggers:
+  #     - on_node_not_ready:
+  #         rate_limit: 3600
+  #   actions:
+  #     - create_finding:
+  #         title: "Node Not Ready: $name"
+  #   sinks:
+  #     - email_alert
+
+
+# Désactiver tous les builtins (ils n'ont pas de rate_limit et envoient partout)
+builtinPlaybooks: 
+  #playbooks for non-prometheus based monitoring
+  - name: "CrashLoopBackOff"
+    triggers:
+    - on_pod_crash_loop:
+        restart_reason: "CrashLoopBackOff"
+    actions:
+    - report_crash_loop: {}
+    sinks:
+      - email_alert
+
+  - name: "ImagePullBackOff"
+    triggers:
+    - on_image_pull_backoff: {}
+    actions:
+    - image_pull_backoff_reporter: {}
+    sinks:
+      - email_alert
+
+  - name: "PodEvicted"
+    triggers:
+    - on_pod_evicted: {}
+    actions:
+    - pod_evicted_enricher: {}
+    - pod_events_enricher: {}
+    - enrich_pod_with_node_events: {}
+    sinks:
+      - email_alert
+
+  - name: "PodOOMKill"
+    triggers:
+    - on_pod_oom_killed:
+        rate_limit: 3600
+    actions:
+    - pod_oom_killer_enricher:
+        attach_logs: true
+        container_memory_graph: true
+        node_memory_graph: true
+        dmesg_log: false
+    stop: true
+    sinks:
+      - email_alert
+
+runner:
+  sendAdditionalTelemetry: false
+# runner:
+  # additional_env_vars:
+  #   - name: ENABLE_TELEMETRY
+  #     value: "false"

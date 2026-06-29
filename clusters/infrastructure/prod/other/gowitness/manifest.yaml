@@ -1,0 +1,128 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: gowitness
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: gowitness-screenshots
+  namespace: gowitness
+spec:
+  storageClassName: openebs-hostpath
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: gowitness-data
+  namespace: gowitness
+spec:
+  storageClassName: openebs-hostpath
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gowitness
+  namespace: gowitness
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gowitness
+  template:
+    metadata:
+      labels:
+        app: gowitness
+    spec:
+      containers:
+        - name: gowitness
+          image: ghcr.io/sensepost/gowitness:latest
+          imagePullPolicy: IfNotPresent
+          args:
+            - "gowitness" 
+            - "report"
+            - "server"
+            - "--address"
+            - "0.0.0.0:7171"
+            - "--db-uri"
+            - "sqlite:///data/gowitness.sqlite3"
+            - "--screenshot-path"
+            - "/screenshots"
+          ports:
+            - containerPort: 7171
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "250m"
+            limits:
+              memory: "2Gi"
+              cpu: "1000m"
+          securityContext:
+            capabilities:
+              add:
+                - SYS_ADMIN
+          volumeMounts:
+            - name: screenshots
+              mountPath: /screenshots
+            - name: data
+              mountPath: /data
+      volumes:
+        - name: screenshots
+          persistentVolumeClaim:
+            claimName: gowitness-screenshots
+        - name: data
+          persistentVolumeClaim:
+            claimName: gowitness-data
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gowitness
+  namespace: gowitness
+spec:
+  type: ClusterIP
+  selector:
+    app: gowitness
+  ports:
+    - port: 7171
+      targetPort: 7171
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: gowitness
+  namespace: gowitness
+  annotations:
+    traefik.ingress.kubernetes.io/router.middlewares: authelia-forwardauth-authelia@kubernetescrd
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: gowitness.${CLUSTER_DOMAIN}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: gowitness
+                port:
+                  number: 7171
+  tls:
+    - hosts:
+        - gowitness.${CLUSTER_DOMAIN}

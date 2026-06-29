@@ -1,0 +1,60 @@
+# USER
+grog.management-user/
+GROG.user/
+GROG.authorized-key/
+GROG.sudo/
+GROG.package/
+# DOCKER
+geerlingguy.docker/
+geerlingguy.kubernetes/
+geerlingguy.pip/
+geerlingguy.containerd/
+tumf.systemd-service/
+ansible-role-linux-kubernetes/
+# SSH client side
+linux-system-roles.ssh/
+# SSH server side
+willshersystems.sshd/
+# PACKAGE
+claranet.apt/
+# IPTABLES
+geerlingguy.firewall/
+# LOG ROTATE
+nickhammond.logrotate/
+ome.logrotate/
+# FAIL2BAN
+robertdebock.fail2ban/
+# BACKUP 
+ome.rsync_server/
+ome.selinux_utils/
+# CHISEL
+justin_p.chisel/
+# HELM
+geerlingguy.helm
+devsec.hardening.os_hardening
+devsec.hardening.ssh_hardening
+buluma.lynis
+ansible-hardening
+maxlareo.rkhunter
+maxlareo.chkrootkit
+buluma.auditd
+jnv.unattended-upgrades
+ansible_unattended_upgrades
+robertdebock.auditd
+robertdebock.update
+ansible-role-labocbz-install-grafana
+cloudalchemy.grafana
+CTL-Fed-Security.ansible-grafana
+thomasjpfan.docker-swarm
+asg1612.dockerswarm
+gantsign.golang
+singleplatform-eng.users
+linux-system-roles.sudo
+devsec.hardening.os_hardening
+devsec.hardening.ssh_hardening
+geerlingguy.firewall
+alvistack.podman
+linux-system-roles.podman
+linux-system-roles.selinux
+export
+bodsch.k0s

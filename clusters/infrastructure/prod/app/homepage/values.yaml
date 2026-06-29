@@ -1,0 +1,336 @@
+image:
+  repository: ghcr.io/gethomepage/homepage
+  # tag: v0.6.0
+
+# Enable RBAC. RBAC is necessary to use Kubernetes integration
+enableRbac: true
+
+extraClusterRoles:
+  # - apiGroups:
+  #   - some-group
+  #   resources:
+  #   - some-resource
+  #   verbs:
+  #   - get
+
+serviceAccount:
+  # Specify a different service account name. When blank it will default to the release
+  # name if *create* is enabled, otherwise it will refer to the default service account.
+  name: ""
+  # Create service account. Needed when RBAC is enabled.
+  create: true
+
+service:
+  main:
+    ports:
+      http:
+        port: 3000
+
+controller:
+  strategy: RollingUpdate
+  rollingUpdate:
+    maxSurge: 25%
+    maxUnavailable: 25%
+
+# Enable the ingress to expose Homepage to the network.
+ingress:
+  main:
+    enabled: true
+    labels: 
+    annotations:
+      gethomepage.dev/enabled: "true"
+      gethomepage.dev/name: "Homepage"
+      gethomepage.dev/description: "A modern, secure, highly customizable application dashboard."
+      gethomepage.dev/group: "Infrastructure"
+      gethomepage.dev/icon: "homepage.png"
+    ingressClassName: "traefik"
+    hosts:
+      - host: "homepage.${CLUSTER_DOMAIN}"
+        paths:
+          - path: /
+            pathType: Prefix
+config:
+  bookmarks:
+    - Degrees:
+        - UTT - Networks & Telecommunications:
+            - abbr: UTT
+              href: https://www.utt.fr
+        - IUT - Physical Measurements:
+            - abbr: IUT
+              href: https://www.iut-orsay.universite-paris-saclay.fr
+
+    - Languages:
+        - French:
+            - abbr: FR
+              href: https://fr.wikipedia.org/wiki/France
+        - English:
+            - abbr: EN
+              href: https://www.admissionsparalleles.com/niveau-toeic
+
+    - About me:
+        - Github:
+            - abbr: GH
+              href: https://github.com/${PSEUDO_USER1_ID}
+        - DockerHub:
+            - abbr: DH
+              href: https://hub.docker.com/u/${PSEUDO_USER1_ID}
+        - Linkedin:
+            - abbr: IN
+              href: https://www.linkedin.com/in/${LINKEDIN_USER1_ID}
+        # - SadServers:
+        #     - badge: https://img.shields.io/badge/SadServers-Advanced-7B1FA2?style=for-the-badge&labelColor=FFC400&logo=terraform&logoColor=1A237E&logoSize=auto
+
+
+
+    - Hobbies:
+        - Poker :
+            - abbr: 🃏
+              href: https://www.winamax.fr/
+        - Board Games :
+            - abbr: 🧠
+              href: https://iello.fr/jeux/shards-of-infinity/
+        - Cooking :
+            - abbr: 🍲
+              href: https://www.marmiton.org/recettes/recette_bourek-a-la-viande-hachee_371916.aspx
+        - Music Festival :
+            - abbr: 🎶
+              href: https://dice.fm/
+        - Video Games :
+            - abbr: 🕹
+              href: https://www.blizzard.com/
+
+
+
+  services:
+    - SKILLS:
+        - Dev:
+            - Python:
+                icon: python.png
+                description: Netmiko, Paramiko, Napalm, Flask, Django, Fastapi
+            - Javascript:
+                icon: javascript.png
+                description: React
+            - Bash:
+                icon: si-gnubash.svg
+                description: System scripts
+            - Go:
+                icon: si-go.svg
+                description: Golang
+
+        - Ops:
+            - Ansible:
+                icon: ansible.png
+                description: AWX & Semaphore
+            - Container:
+                icon: podman.png
+                description: Docker Compose & Swarm, Podman
+            - Kubernetes:
+                icon: kubernetes.png 
+                description: Kubespray, k0s
+            - GitOps:
+                icon: sh-argo-cd.png
+                description: CI/CD, argo CD, Flux CD
+            - Hypervisor:
+                icon: proxmox.png
+                description: Proxmox, Xen, KVM, VMware
+            - Linux:
+                icon: linux.png
+                description: Ubuntu, Debian, OpenSuse, Mac OS X
+            - Databases:
+                icon: postgresql.png
+                description: Maria DB, Postgresql & Mysql
+        - Network:
+            - DNS:
+                icon: powerdns.png
+                description: PowerDNS Recursor + Authoritative + Dist
+            - LDAP:
+                icon: lldap.png
+                description: OpenLDAP, LLDAP
+            - MAIL:
+                icon: sogo.png
+                description: Sogo + Qmail
+            - Firewall:
+                icon: fortinet.png
+                description: Fortinet
+            - VPN:
+                icon: sh-wireguard-transparent-dark.png
+                description: Openvpn, Wireguard 
+            - Radius:
+                icon: sh-freeradius.png
+                description: freeradius 
+            - Monitoring:
+                icon: prometheus.png
+                description: Prometheus, Mimir
+            - Pipeline:
+                icon: sh-apache-kafka-light.png
+                description: Filebeat, Kafka, Logstash, Loki, Alloy
+            - Observability:
+                icon: sh-grafana.png
+                description: Grafana, Opensearch
+
+    - JOBS:
+        - DevOps / Platform Engineer:
+            description: PARIS, France 
+            icon: kubernetes.png
+        - Transatel - November 2025 - Today | 👤 Infrastructure Team:
+            icon: https://www.transatel.com/wp-content/themes/transatel/images/logoTSL-NTT.svg
+            description: "Managing hypervisors & VMs, deploying Kubernetes clusters, providing on-call support for infrastructure, and ensuring monitoring, supervision, and security. ⚙️ GitOps, Xen, Ansible, Kubernetes"
+            href: https://www.transatel.com
+        - Transatel - November 2023 - November 2025 | 👤 Core Network Team:
+            icon: https://www.transatel.com/wp-content/themes/transatel/images/logoTSL-NTT.svg
+            description: "Automation of core network configurations. Overhaul of monitoring and migration of services to Kubernetes. ⚙️ Gitlab, Ansible, Kubernetes, Fastapi"
+            href: https://www.transatel.com
+        - Keyyo - Jully 2020 - November 2023:
+            icon: https://www.keyyo.com/sharedassets/telco/keyyo/theme/kcom/img/logo/logo-bte-keyyo.svg
+            description: "Recovery of the infrastructure as code mostly with open source solution 
+            and addition of old clusters of high availability servers in order to automate the whole. 
+            Maintenance and update of existing. ⚙️ Gitlab, Ansible, Docker"
+            href: https://www.keyyo.com/
+        - Thales - September 2019 - 6 months:
+            icon: https://upload.wikimedia.org/wikipedia/commons/2/21/Thales_Logo.svg
+            description: "Study of open-source DevNetOps tools in order to produce an application 
+            for network architects. The three-tier architecture application allows the visualization and compliance of network devices 
+            configurations. Writing technical documentation. ⚙️ Python, React, Postgresql"
+            href: https://www.thalesgroup.com/fr
+
+    - STACK:
+      - Media: 
+        - Awesome!:
+            # href: https://traefik.${CLUSTER_DOMAIN}
+            icon: si-flux.svg
+            description: "This stack is full InfraAsCode with k0s & fluxCD ! Easy to setup & scale !"
+      - Infrastructure:
+        - Traefik:
+            href: https://traefik.${CLUSTER_DOMAIN}
+            icon: traefik.png
+            namespace: traefik
+            app: traefik
+            showStats: true
+            description: "Traefik is an open-source Application Proxy and the core of the Traefik Hub Runtime Platform."
+        - Vault:
+            href: https://pwd.${CLUSTER_DOMAIN}
+            icon: vaultwarden.png
+            namespace: vault
+            app: vaultwarden
+            showStats: true
+            description: "An alternative server implementation of the Bitwarden Client API, written in Rust and compatible with official Bitwarden clients."
+        - Authelia:
+            href: https://auth.${CLUSTER_DOMAIN}
+            icon: authelia.png
+            namespace: authelia
+            app: authelia
+            showStats: true
+            description: "Authelia is an open-source authentication and authorization server"
+  widgets:
+    - resources:
+        # change backend to 'kubernetes' to use Kubernetes integration. Requires RBAC.
+        backend: kubernetes
+        expanded: true
+        cpu: true
+        disk: /
+        memory: true
+        network: true 
+        uptime: true
+    - search:
+        provider: duckduckgo
+        target: _blank
+    - greeting:
+        text_size: 2xl
+        text:  "Welcome to my home { Lab & Skills }"
+    - datetime:
+        #text_size: xl
+        format:
+          dateStyle: short
+          timeStyle: short
+          hour12: false
+    ## Uncomment to enable Kubernetes integration
+    # - kubernetes:
+    #     cluster:
+    #       show: true
+    #       cpu: true
+    #       memory: true
+    #       showLabel: true
+    #       label: "cluster"
+    #     nodes:
+    #       show: true
+    #       cpu: true
+    #       memory: true
+    #       showLabel: true
+  kubernetes:
+    # change mode to 'cluster' to use RBAC service account
+    mode: cluster
+    traefik: true
+    # Uncomment to enable gateway api HttpRoute discovery.
+    #gateway: true
+  docker:
+  settings:
+    # ingress: true
+    # traefik: true
+  # all sections can alternately be appended with "String" such as this example settings. This is useful
+  # for defining a stable ordering. Unfortunately Go's (and therefore Helm's) toYaml function sorts keys
+  # and loses and input ordering. Using a string is the best way around this.
+  settingsString: |
+    title: Home Lab & Skills
+    language: en
+    headerStyle: boxedWidgets
+    showStats: true
+    ingress: true
+    layout:
+      JOBS:
+        style: row
+        columns: 1
+      SKILLS:
+        style: row
+        columns: 3
+      STACK:
+        style: row
+        columns: 2
+      🔥 WANT SAME STACK ? 🔥:
+        style: row
+        columns: 1
+
+# -- Main environment variables. Template enabled.
+# Syntax options:
+# A) TZ: UTC
+# B) PASSWD: '{{ .Release.Name }}'
+# C) PASSWD:
+#      configMapKeyRef:
+#        name: config-map-name
+#        key: key-name
+# D) PASSWD:
+#      valueFrom:
+#        secretKeyRef:
+#          name: secret-name
+#          key: key-name
+#      ...
+# E) - name: TZ
+#      value: UTC
+# F) - name: TZ
+#      value: '{{ .Release.Name }}'
+env:
+  - name: HOMEPAGE_ALLOWED_HOSTS
+    # This value must be set
+    # ref: https://gethomepage.dev/installation/#homepage_allowed_hosts
+    value: homepage.${CLUSTER_DOMAIN}
+
+# To include environment variables from other configs or other secrets for use in
+# Homepage's variable substitutions. Refer to them here.
+# envFrom:
+#   - secretRef:
+#       name: my-secret
+#   - configMapRef:
+#       name: my-configmap
+
+persistence:
+  logs:
+    enabled: true
+    type: emptyDir
+    mountPath: /app/config/logs
+
+# resources:
+#   requests:
+#     memory: 10Mi
+#     cpu: 10m
+#   limits:
+#     memory: 200Mi
+#     cpu: 500m

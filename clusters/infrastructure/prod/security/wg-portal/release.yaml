@@ -1,0 +1,14 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: wg-portal
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: wg-portal
+  valuesFrom:
+    - kind: ConfigMap
+      name: wg-portal-values
+      valuesKey: values.yaml

@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: maildev-smtp-relay-rules
+data:
+  auto-relay-rules.json: |
+    [
+      { "allow": "*" }
+    ]

@@ -1,0 +1,27 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: vaultwarden-extra
+  namespace: vault
+  annotations:
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/name: "Vaultwarden"
+    gethomepage.dev/description: "An alternative server implementation of the Bitwarden Client API, written in Rust and compatible with official Bitwarden clients."
+    gethomepage.dev/group: "Infrastructure"
+    gethomepage.dev/icon: "bitwarden.png"
+    gethomepage.dev/pod-selector: "app.kubernetes.io/name=vaultwarden"
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`pwd.${CLUSTER_DOMAIN}`) && PathPrefix(`/api`)
+      kind: Rule
+      services:
+        - name: vault-vaultwarden
+          port: 8080
+    - match: Host(`pwd.${CLUSTER_DOMAIN}`) && Path(`/notifications/hub`)
+      kind: Rule
+      services:
+        - name: vault-vaultwarden
+          port: 8080
+  tls: {}

@@ -1,0 +1,30 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: bookshelf
+  namespace: media
+  annotations:
+    traefik.ingress.kubernetes.io/router.middlewares: authelia-forwardauth-authelia@kubernetescrd
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/name: "bookshelf"
+    gethomepage.dev/description: "Bookshelf is an ebook and audiobook collection manager for Usenet and BitTorrent users."
+    gethomepage.dev/group: "Media"
+    gethomepage.dev/icon: "bookshelf.png"
+    gethomepage.dev/pod-selector: "app.kubernetes.io/name=bookshelf"
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: bookshelf.${CLUSTER_DOMAIN}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: bookshelf
+                port:
+                  number: 80
+  # tls:
+  #   - hosts:
+  #       - bookshelf.xyzlab.dev
+  #     secretName: bookshelf-xyzlab-dev-tls

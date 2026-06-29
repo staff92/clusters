@@ -1,0 +1,10 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: sftp
+spec:
+  interval: 5m0s
+  url: oci://ghcr.io/sftpgo/helm-charts/sftpgo
+  ref:
+    tag: 0.44.0

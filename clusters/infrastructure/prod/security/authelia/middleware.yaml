@@ -1,0 +1,14 @@
+apiVersion: middlewares.traefik.io
+kind: middleware
+metadata:
+  name: authelia-forwardauth
+  namespace: authelia
+spec:
+  forwardAuth:
+    address: http://authelia:9091/api/verify?rd=https://auth.${CLUSTER_DOMAIN}
+    trustForwardHeader: true
+    authResponseHeaders:
+      - "Remote-User"
+      - "Remote-Name"
+      - "Remote-Email"
+      - "Remote-Groups"

@@ -1,0 +1,14 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: sftp
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: sftp
+  valuesFrom:
+    - kind: ConfigMap
+      name: sftp-values
+      valuesKey: values.yaml

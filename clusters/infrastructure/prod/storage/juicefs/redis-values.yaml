@@ -1,0 +1,189 @@
+image:
+  # -- The repository to pull the image from.
+  repository: redis
+  # -- The docker tag, if left empty chart's appVersion will be used.
+  # @default -- `.Chart.AppVersion`
+  tag: ''
+  # -- The pull policy for the controller.
+  pullPolicy: IfNotPresent
+
+# -- Optionally supply image pull secrets.
+imagePullSecrets: []
+
+nameOverride: ''
+fullnameOverride: ''
+
+controller:
+  # -- Create a workload for this chart.
+  enabled: true
+  # -- Type of the workload object.
+  kind: StatefulSet
+  # -- The number of replicas.
+  replicas: 1
+  # -- Additional annotations for the controller object.
+  annotations: {}
+  # -- Additional labels for the controller object.
+  labels: {}
+
+service:
+  # -- Create a service for exposing this chart.
+  enabled: true
+  # -- The service type used.
+  type: ClusterIP
+  # -- ClusterIP used if service type is `ClusterIP`.
+  clusterIP: ''
+  # -- LoadBalancerIP if service type is `LoadBalancer`.
+  loadBalancerIP: ''
+  # -- Allowed addresses when service type is `LoadBalancer`.
+  loadBalancerSourceRanges: []
+  # -- Additional annotations for the service object.
+  annotations: {}
+  # -- Additional labels for the service object.
+  labels: {}
+
+serviceMonitor:
+  # -- Create a service monitor for prometheus operator.
+  enabled: false
+  # -- How frequently the exporter should be scraped.
+  interval: 30s
+  # -- Timeout value for individual scrapes.
+  timeout: 10s
+  # -- Additional annotations for the service monitor object.
+  annotations: {}
+  # -- Additional labels for the service monitor object.
+  labels: {}
+
+redisExporter:
+  # -- Enable optional redis exporter instance as sidecar container.
+  enabled: false
+  # -- Image for the metric exporter
+  image:
+    # -- The repository to pull the image from.
+    repository: oliver006/redis_exporter
+    # -- The docker tag, if left empty latest will be used.
+    # @default -- `latest`
+    tag: 'latest'
+    # -- The pull policy for the exporter.
+    pullPolicy: IfNotPresent
+  # -- Pod-level security attributes. More info [here](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#security-context).
+  securityContext:
+    runAsUser: 59000
+    runAsGroup: 59000
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - ALL
+  # -- Compute resources used by the container. More info [here](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/).
+  resources:
+    requests:
+      cpu: 10m
+      memory: 50Mi
+    limits:
+      cpu: 100m
+      memory: 100Mi
+
+env:
+  # -- Timezone for the container.
+  - name: TZ
+    value: UTC
+
+# -- List of extra arguments for the container.
+extraArgs: #[]
+  - --appendonly yes
+  - --appendfsync everysec
+  # - --loglevel warning
+
+ports:
+  redis:
+    # -- Enable the port inside the `Controller` and `Service` objects.
+    enabled: true
+    # -- The port used as internal port and cluster-wide port if `.service.type` == `ClusterIP`.
+    port: 6379
+    # -- The external port used if `.service.type` == `NodePort`.
+    nodePort: null
+    # -- The protocol used for the service.
+    protocol: TCP
+    # -- The application protocol for this port. Used as hint for implementations to offer richer behavior.
+    appProtocol: redis
+
+persistentVolumeClaim:
+  # -- Create a new persistent volume claim object.
+  create: true
+  # -- Mount path of the persistent volume claim object.
+  mountPath: /data
+  # -- Access mode of the persistent volume claim object.
+  accessMode: ReadWriteOnce
+  # -- Volume mode of the persistent volume claim object.
+  volumeMode: Filesystem
+  # -- Storage request size for the persistent volume claim object.
+  size: 1Gi
+  # -- Storage class name for the persistent volume claim object.
+  storageClassName: 'openebs-hostpath'
+  # -- Use an existing persistent volume claim object.
+  existingPersistentVolumeClaim: ''
+  # -- Additional annotations for the persistent volume claim object.
+  annotations: {}
+  # -- Additional labels for the persistent volume claim object.
+  labels: {}
+
+serviceAccount:
+  # -- Specify the service account used for the controller.
+  name: ''
+
+# -- Optional priority class name to be used for pods.
+priorityClassName: ''
+
+# -- Pod-level security attributes. More info [here](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#security-context).
+securityContext: {}
+  # fsGroup: 1000
+  # runAsNonRoot: true
+  # runAsGroup: 1000
+  # runAsUser: 1000
+
+# -- Compute resources used by the container. More info [here](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/).
+resources: {}
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+# -- Pod-level affinity. More info [here](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#scheduling).
+affinity: {}
+  # nodeAffinity:
+  #   requiredDuringSchedulingIgnoredDuringExecution:
+  #     nodeSelectorTerms:
+  #       - matchExpressions:
+  #           - key: kubernetes.io/hostname
+  #             operator: In
+  #             values:
+  #               - my-node-xyz
+
+# -- Pod-level tolerations. More info [here](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#scheduling).
+tolerations: []
+  # - key: node-role.kubernetes.io/control-plane
+  #   operator: Exists
+  #   effect: NoSchedule
+
+# -- Pod-level node selector. More info [here](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#scheduling).
+nodeSelector: {}
+  # label: value
+
+# -- Specify any extra containers here as dictionary items - each should have its own key.
+extraContainers: {}
+  # container:
+  #   name: my-container
+  #   image: my-org/my-image
+
+# -- Specify extra volume mounts for the default containers.
+extraVolumeMounts: []
+  # - name: my-volume
+  #   mountPath: /path/to/volume
+  #   readOnly: false
+
+# -- Specify extra volumes for the workload.
+extraVolumes: []
+  # - name: my-volume
+  #   secret:
+  #     secretName: my-secret

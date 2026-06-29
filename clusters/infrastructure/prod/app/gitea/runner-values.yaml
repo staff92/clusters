@@ -1,0 +1,178 @@
+# Configure Gitea Actions
+## @section Gitea Actions
+#
+## @param enabled Create an act runner StatefulSet.
+## @param statefulset.replicas the amount of (replica) runner pods deployed
+## @param statefulset.timezone is the timezone that will be set in the act_runner image
+## @param statefulset.annotations Act runner annotations
+## @param statefulset.labels Act runner labels
+## @param statefulset.resources Act runner resources
+## @param statefulset.nodeSelector NodeSelector for the statefulset
+## @param statefulset.tolerations Tolerations for the statefulset
+## @param statefulset.affinity Affinity for the statefulset
+## @param statefulset.extraVolumes Extra volumes for the statefulset
+## @param statefulset.persistence.size Size for persistence to store act runner data
+## @param statefulset.securityContext Customize the SecurityContext
+## @param statefulset.serviceAccountName Customize the service account name
+## @param statefulset.runtimeClassName Select a different RuntimeClass for pods
+## @param statefulset.hostAliases Inject entries into the /etc/hosts file
+#
+## @param statefulset.persistence.size Size for persistence to store act runner data
+#
+## @param statefulset.actRunner.registry image registry, e.g. gcr.io,docker.io
+## @param statefulset.actRunner.repository The Gitea act runner image
+## @param statefulset.actRunner.tag The Gitea act runner tag
+## @param statefulset.actRunner.digest Image digest. Allows to pin the given image tag. Useful for having control over mutable tags like `latest`
+## @param statefulset.actRunner.pullPolicy The Gitea act runner pullPolicy
+## @param statefulset.actRunner.fullOverride Completely overrides the image registry, path/image, tag and digest.
+## @param statefulset.actRunner.extraVolumeMounts Allows mounting extra volumes in the act runner container
+## @param statefulset.actRunner.extraEnvs Allows adding custom environment variables
+## @param statefulset.actRunner.flushCache whether to clear the .runner (cache) file by creating an extra init container, can slightly increase boot-up time
+## @param statefulset.actRunner.config [default: Too complex. See values.yaml] Act runner custom configuration. See [Act Runner documentation](https://docs.gitea.com/usage/actions/act-runner#configuration) for details.
+#
+## @param statefulset.dind.rootless [default: false] a simple flag to let helm know we are dealing with a rootless dind container
+## @param statefulset.dind.uid a field to set the running user id for the rootless dind container, so it knows where to look for the socket
+## @param statefulset.dind.registry image registry, e.g. gcr.io,docker.io
+## @param statefulset.dind.repository The Docker-in-Docker image
+## @param statefulset.dind.tag The Docker-in-Docker image tag
+## @param statefulset.dind.digest Image digest. Allows to pin the given image tag. Useful for having control over mutable tags like `latest`
+## @param statefulset.dind.fullOverride Completely overrides the image registry, path/image, tag and digest.
+## @param statefulset.dind.pullPolicy The Docker-in-Docker pullPolicy
+## @param statefulset.dind.extraVolumeMounts Allows mounting extra volumes in the Docker-in-Docker container
+## @param statefulset.dind.extraEnvs Allows adding custom environment variables, such as `DOCKER_IPTABLES_LEGACY`
+## @param statefulset.dind.extraArgs Allows adding custom arguments to the Docker Daemon
+#
+enabled: true
+statefulset:
+  replicas: 1
+  timezone: Etc/UTC
+  annotations: {}
+  labels: {}
+  resources: {}
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+  extraVolumes: []
+  securityContext: {}
+  serviceAccountName: ""
+  runtimeClassName: ""
+
+  # Add /etc/hosts injections into the pods
+  hostAliases:
+    []
+  #  - ip: 8.8.8.8
+  #    hostnames:
+  #      - googel.com
+  #      - googol.com
+
+  persistence:
+    size: 1Gi
+    storageClass: openebs-hostpath
+    # claimName: data-act-runner
+    # accessModes:
+    #   - ReadWriteOnce
+
+  actRunner:
+    registry: "docker.gitea.com"
+    repository: act_runner
+    tag: 0.4.1
+    digest: ""
+    pullPolicy: IfNotPresent
+    fullOverride: ""
+    extraVolumeMounts: []
+    extraEnvs:
+      []
+      # - name: "GITEA_RUNNER_NAME"
+      #   valueFrom:
+      #     fieldRef:
+      #       fieldPath: metadata.name
+
+    # See full details: https://gitea.com/gitea/helm-actions/issues/73
+    flushCache: false
+    # See full example here: https://gitea.com/gitea/act_runner/src/branch/main/internal/pkg/config/config.example.yaml
+    config: |
+      log:
+        level: debug
+      cache:
+        enabled: false
+      container:
+        require_docker: true
+        docker_timeout: 300s
+
+  dind:
+    rootless: true
+    uid: ""
+    registry: "docker.io"
+    repository: docker
+    tag: 29.4.0-dind-rootless
+    digest: ""
+    pullPolicy: IfNotPresent
+    fullOverride: ""
+    extraVolumeMounts: []
+
+    # If the container keeps crashing in your environment, you might have to add the `DOCKER_IPTABLES_LEGACY` environment variable.
+    # See https://github.com/docker-library/docker/issues/463#issuecomment-1881909456
+    extraEnvs:
+      []
+      #  - name: "DOCKER_IPTABLES_LEGACY"
+      #    value: "1"
+
+    # Option to add extra arguments/commands to the container/pod:
+    # [#22](https://gitea.com/gitea/helm-actions/issues/22) [k8s docs](https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/)
+    extraArgs:
+      []
+      #  - --mtu=1400
+
+## @section Gitea Actions Init
+#
+## @param init.image.registry image registry, e.g. gcr.io,docker.io
+## @param init.image.repository The init image
+## @param init.image.tag the init image tag
+## @param init.image.digest Image digest. Allows to pin the given image tag. Useful for having control over mutable tags like `latest`
+## @param init.image.pullPolicy The init image pullPolicy
+## @param init.image.fullOverride Completely overrides the image registry, path/image, tag and digest.
+init:
+  image:
+    registry: ""
+    repository: busybox
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: "1.37.0"
+    digest: ""
+    pullPolicy: IfNotPresent
+    fullOverride: ""
+
+## @section Runner Token Secret Configuration
+#
+## @param existingSecret Secret that contains the token
+## @param existingSecretKey Secret key
+existingSecret: "gitea-ldap-secret"
+existingSecretKey: "tokenRunner"
+
+## @section Gitea URL Setting
+#
+## @param giteaRootURL URL the act_runner registers and connect with
+giteaRootURL: "http://gitea-http.gitea:3000"
+
+## @section Extra Init Containers
+#
+## @param preExtraInitContainers Additional init containers to run in the pod before Gitea-actions runs it owns init containers.
+## @param postExtraInitContainers Additional init containers to run in the pod after Gitea-actions runs it owns init containers.
+preExtraInitContainers: []
+# - name: pre-init-container
+#   image: docker.io/library/busybox
+#   command: [ /bin/sh, -c, 'echo "Hello world! I am a pre init container."' ]
+
+postExtraInitContainers: []
+# - name: post-init-container
+#   image: docker.io/library/busybox
+#   command: [ /bin/sh, -c, 'echo "Hello world! I am a post init container."' ]
+
+## @section Global
+#
+## @param global.imageRegistry global image registry override
+## @param global.imagePullSecrets global image registry pull secrets
+## @param global.storageClass global storage class override
+global:
+  imageRegistry: ""
+  imagePullSecrets: []
+  storageClass: ""

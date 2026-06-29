@@ -1,0 +1,19 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: sm-operator
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: sm-operator
+      version: '1.1.0'
+      sourceRef:
+        kind: HelmRepository
+        name: bitwarden
+        namespace: sm-operator-system
+  valuesFrom:
+    - kind: ConfigMap
+      name: sm-operator-values
+      valuesKey: values.yaml

@@ -1,0 +1,16 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: authelia
+spec:
+  interval: 1h
+  url: https://charts.authelia.com
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: redis
+spec:
+  interval: 1h
+  url: https://charts.pascaliske.dev

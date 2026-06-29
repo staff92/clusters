@@ -1,0 +1,69 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bookshelf
+  namespace: media
+  labels:
+    app: bookshelf
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bookshelf
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: bookshelf
+    spec:
+      containers:
+        - name: bookshelf
+          image: ghcr.io/pennydreadful/bookshelf:hardcover
+          env:
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+            - name: TZ
+              value: "Europe/Paris"
+            - name: READARR__AUTH__METHOD
+              value: "External"
+            - name: READARR__AUTH__ENABLED
+              value: "false"
+            - name: READARR__AUTH__TYPE
+              value: "DisabledForLocalAddresses"
+          ports:
+            - containerPort: 8787
+              name: http
+          volumeMounts:
+            - name: config
+              mountPath: /config
+            - name: books
+              mountPath: /books
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "100m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8787
+            initialDelaySeconds: 30
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8787
+            initialDelaySeconds: 15
+            periodSeconds: 10
+      volumes:
+        - name: config
+          persistentVolumeClaim:
+            claimName: bookshelf-config
+        - name: books
+          persistentVolumeClaim:
+            claimName: bookshelf-books

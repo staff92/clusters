@@ -1,0 +1,40 @@
+apiVersion: k0sctl.k0sproject.io/v1beta1
+kind: Cluster
+metadata:
+  name: k0s-cluster
+  user: bot
+spec:
+  hosts:
+  - role: single
+    installFlags:
+    - --debug
+    ssh:
+      address: 1.1.1.1
+      user: bot
+      port: 22
+      keyPath: ~/.ssh/id_ed25519
+  k0s:
+    version: v1.35.4+k0s.0
+    config:
+      apiVersion: k0s.k0sproject.io/v1beta1
+      kind: ClusterConfig
+      metadata:
+        name: k0s-cluster
+      spec:
+        network:
+          provider: kuberouter
+        api:
+          sans:
+            - 1.1.1.1
+  options:
+    wait:
+      enabled: true
+    drain:
+      enabled: true
+    evictTaint:
+      enabled: false
+      taint: k0sctl.k0sproject.io/evict=true
+      effect: NoExecute
+    concurrency:
+      limit: 30
+      uploads: 5

@@ -1,0 +1,348 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: sliver
+  labels:
+    app: sliver
+    app.kubernetes.io/name: sliver
+    app.kubernetes.io/part-of: sliver-c2
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: sliver-config
+  namespace: sliver
+  labels:
+    app: sliver
+    app.kubernetes.io/name: sliver-config
+data:
+  server.yaml: |
+    daemon_mode: true
+    daemon:
+        host: "0.0.0.0"
+        port: 31337
+        tailscale: false
+    logs:
+        level: 4
+        grpc_unary_payloads: false
+        grpc_stream_payloads: false
+        tls_key_logger: false
+    grpc:
+        keepalive:
+            min_time_seconds: 30
+            permit_without_stream: true
+    watch_tower: null
+    go_proxy: ""
+    http_default:
+        headers:
+            - method: GET
+              name: Cache-Control
+              value: no-store, no-cache, must-revalidate
+              probability: 100
+    notifications:
+        enabled: false
+        services: {}
+    cc: {}
+    cxx: {}
+
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: sliver-data
+  namespace: sliver
+  labels:
+    app: sliver
+    app.kubernetes.io/name: sliver-data
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 20Gi
+  storageClassName: openebs-hostpath
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: sliver
+  namespace: sliver
+  labels:
+    app: sliver
+    app.kubernetes.io/name: sliver
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: sliver-role
+  namespace: sliver
+  labels:
+    app: sliver
+rules:
+  - apiGroups: [""]
+    resources: ["pods", "pods/log"]
+    verbs: ["get", "list", "watch"]
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: sliver-rolebinding
+  namespace: sliver
+  labels:
+    app: sliver
+subjects:
+  - kind: ServiceAccount
+    name: sliver
+    namespace: sliver
+roleRef:
+  kind: Role
+  name: sliver-role
+  apiGroup: rbac.authorization.k8s.io
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sliver-server
+  namespace: sliver
+  labels:
+    app: sliver
+    app.kubernetes.io/name: sliver-server
+    app.kubernetes.io/component: c2-server
+spec:
+  replicas: 1  # Sliver server typically runs as single instance
+  selector:
+    matchLabels:
+      app: sliver-server
+  template:
+    metadata:
+      labels:
+        app: sliver-server
+        app.kubernetes.io/name: sliver-server
+      annotations:
+        # Prometheus scrape annotation (if using metrics collection)
+        prometheus.io/scrape: "false"
+    spec:
+      serviceAccountName: sliver
+      
+      # Security Context - Run as non-root user for security
+      securityContext:
+        fsGroup: 0
+        runAsGroup: 0
+        runAsNonRoot: false
+        runAsUser: 0
+      containers:
+        # Main Sliver server container
+        - name: sliver-server
+          image: ghcr.io/staff92/sliver:latest
+          imagePullPolicy: IfNotPresent
+          command:
+            - /opt/sliver-server
+          args:
+            - daemon
+          ports:
+            - name: multiplayer
+              containerPort: 31337
+              protocol: TCP
+            - name: c2-http
+              containerPort: 8888
+              protocol: TCP
+            - name: implants-https
+              containerPort: 8443
+              protocol: TCP
+            - name: implants-http
+              containerPort: 8080
+              protocol: TCP
+            - name: dns
+              containerPort: 8553
+              protocol: UDP
+          volumeMounts:
+          - name: sliver-data
+            mountPath: /root/.sliver
+          livenessProbe:
+            tcpSocket:
+              port: 31337
+            initialDelaySeconds: 30
+            periodSeconds: 60
+            timeoutSeconds: 10
+            failureThreshold: 3
+          
+          readinessProbe:
+            tcpSocket:
+              port: 31337
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+          
+          # Resource limits - Adjust based on expected workload
+          resources:
+            requests:
+              cpu: 500m
+              memory: 512Mi
+            limits:
+              cpu: 2000m
+              memory: 2Gi
+          
+          # Security context
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: false  # Need to write to /root/.sliver
+            capabilities:
+              drop:
+                - ALL
+      
+      volumes:
+        - name: sliver-data
+          persistentVolumeClaim:
+            claimName: sliver-data
+        - name: sliver-config
+          configMap:
+            name: sliver-config
+        - name: tmp-storage
+          emptyDir:
+            medium: Memory
+            sizeLimit: 100Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sliver-multiplayer
+  namespace: sliver
+  labels:
+    app: sliver
+    app.kubernetes.io/name: sliver-multiplayer
+  annotations:
+    # Traefik will route TCP traffic to this service
+    traefik.io/ingress-route: multiplayer
+spec:
+  type: ClusterIP
+  clusterIP: None  # Headless for direct pod access
+  selector:
+    app: sliver-server
+  ports:
+    - name: grpc
+      port: 31337
+      targetPort: 31337
+      protocol: TCP
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sliver-implants
+  namespace: sliver
+  labels:
+    app: sliver
+    app.kubernetes.io/name: sliver-implants
+spec:
+  type: ClusterIP
+  selector:
+    app: sliver-server
+  ports:
+    - name: http
+      port: 8080
+      targetPort: 8080
+      protocol: TCP
+    - name: https
+      port: 8443
+      targetPort: 8443
+      protocol: TCP
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sliver-c2
+  namespace: sliver
+  labels:
+    app: sliver
+    app.kubernetes.io/name: sliver-c2
+spec:
+  type: ClusterIP
+  selector:
+    app: sliver-server
+  ports:
+    - name: http-c2
+      port: 8888
+      targetPort: 8888
+      protocol: TCP
+
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRouteTCP
+metadata:
+  name: sliver-multiplayer-ingress
+  namespace: sliver
+  labels:
+    app: sliver
+    app.kubernetes.io/name: sliver-multiplayer-ingress
+spec:
+  # Entry point must be configured in Traefik (see EntryPoints section below)
+  entryPoints:
+    - multiplayer
+  routes:
+    - match: HostSNI(`*`)
+      # kind: Rule
+      services:
+        - name: sliver-multiplayer
+          port: 31337
+          # TLS passthrough - Sliver handles its own mTLS
+  tls:
+    passthrough: true
+
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: sliver-implants-ingress
+  namespace: sliver
+  labels:
+    app: sliver
+    app.kubernetes.io/name: sliver-implants-ingress
+spec:
+  entryPoints:
+    - web
+    - websecure
+  routes:
+    - match: Host(`implants.${CLUSTER_DOMAIN}`) && PathPrefix(`/`)
+      kind: Rule
+      services:
+        - name: sliver-implants
+          port: 8443
+          scheme: https
+    - match: PathPrefix(`/`)
+      kind: Rule
+      services:
+        - name: sliver-implants
+          port: 8080
+  tls:
+    secretName: ""  
+    domains: []  
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: sliver-c2-ingress
+  namespace: sliver
+  labels:
+    app: sliver
+    app.kubernetes.io/name: sliver-c2-ingress
+spec:
+  # HTTP entry point
+  entryPoints:
+    - websecure
+  # Routing rules based on host
+  routes:
+    - match: Host(`callbacks.${CLUSTER_DOMAIN}`) && PathPrefix(`/`)
+      kind: Rule
+      services:
+        - name: sliver-c2
+          port: 8888
+          scheme: http

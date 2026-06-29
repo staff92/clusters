@@ -1,0 +1,301 @@
+# Default values for roundcube.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# Number of replicas
+replicaCount: 1
+
+image:
+  # Image repository
+  repository: roundcube/roundcubemail
+  # Image pull policy
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: ""
+
+# Image pull secrets
+imagePullSecrets: []
+
+# Override name
+nameOverride: ""
+
+# Override full name
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  name: ""
+
+# Pod annotations
+podAnnotations: {}
+
+# Pod security context
+podSecurityContext:
+  fsGroup: 33
+  runAsUser: 33
+  runAsNonRoot: true
+
+# Security context
+securityContext:
+  capabilities:
+    drop:
+    - ALL
+  readOnlyRootFilesystem: false
+  allowPrivilegeEscalation: false
+
+service:
+  # Service type
+  type: ClusterIP
+  # Service port
+  port: 80
+  # Target port
+  targetPort: 80
+  # Annotations
+  annotations: {}
+
+ingress:
+  # Enable ingress
+  enabled: false
+  # Ingress class name
+  className: ""
+  # Annotations
+  annotations: {}
+    # cert-manager.io/cluster-issuer: letsencrypt-prod
+    # nginx.ingress.kubernetes.io/proxy-body-size: 25m
+  # Hosts configuration
+  hosts:
+    - host: webmail.jingooh.fr
+      paths:
+        - path: /
+          pathType: Prefix
+  # TLS configuration
+  tls: []
+  #  - secretName: roundcube-tls
+  #    hosts:
+  #      - webmail.example.com
+
+resources:
+  # Resource limits
+  limits:
+    memory: 512Mi
+  # Resource requests
+  requests:
+    cpu: 100m
+    memory: 256Mi
+
+# Autoscaling configuration
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 80
+  targetMemoryUtilizationPercentage: 80
+
+# Node selector
+nodeSelector: {}
+
+# Tolerations
+tolerations: []
+
+# Affinity
+affinity: {}
+
+# Persistence configuration
+persistence:
+  # Enable persistence
+  enabled: true
+  # Storage class
+  storageClass: ""
+  # Access mode
+  accessMode: ReadWriteOnce
+  # Size
+  size: 5Gi
+  # Existing claim
+  existingClaim: ""
+  # Mount path for SQLite database
+  sqlitePath: /var/roundcube/db
+  # Mount path for temp files
+  tempPath: /tmp/roundcube
+  # Mount path for logs
+  logsPath: /var/roundcube/logs
+
+# Roundcube configuration
+roundcube:
+  # Default host for IMAP connection
+  defaultHost: "ssl://mail.example.com"
+  # Default port for IMAP connection
+  defaultPort: 993
+  # SMTP server
+  smtpServer: "tls://mail.example.com"
+  # SMTP port
+  smtpPort: 587
+  # SMTP user (use %u for current user)
+  smtpUser: "%u"
+  # SMTP pass (use %p for current password)
+  smtpPass: "%p"
+  # Support URL
+  supportUrl: ""
+  # Product name
+  productName: "Roundcube Webmail"
+  # Plugins to enable (built-in plugins)
+  plugins:
+    - archive
+    - zipdownload
+    - managesieve
+  # Additional plugins to install via composer
+  # Format: vendor/package-name
+  composerPlugins: []
+    # Example:
+    # - johndoh/contextmenu
+    # - sblaisot/automatic_addressbook
+    # - texxasrulez/persistent_login
+  # Skin
+  skin: "elastic"
+  # Upload max filesize
+  uploadMaxFilesize: "25M"
+  # Secret environment variables
+  # These will be stored in a Kubernetes Secret and injected as environment variables
+  # Use this for sensitive values like passwords, API keys, OAuth secrets, etc.
+  # Reference these in pluginConfigs using getenv('VAR_NAME')
+  # Example:
+  # secretEnvVars:
+  #   LDAP_BIND_PASSWORD: "my-secret-password"
+  #   API_KEY: "my-api-key"
+  #   OAUTH_CLIENT_SECRET: "oauth-secret"
+  secretEnvVars: {}
+  # Extra environment variables (for non-sensitive values or external secret references)
+  # For sensitive values, prefer secretEnvVars above
+  extraEnvVars: []
+  # Extra volume mounts
+  extraVolumeMounts: []
+  # Extra volumes
+  extraVolumes: []
+  # Custom configuration (will be mounted as config.inc.php)
+  customConfig: ""
+  # Plugin-specific configurations
+  # Each plugin can have its own config.inc.php file that will be directly mounted
+  # Key = plugin name, Value = PHP configuration content
+  # 
+  # IMPORTANT: For secrets, use getenv() in PHP and provide secrets via extraEnvVars
+  # This follows standard Kubernetes patterns (ConfigMap for config, Secret for secrets)
+  pluginConfigs: {}
+    # Example with environment variable for secrets:
+    # identity_from_directory: |
+    #   <?php
+    #   $config['identity_from_directory_ldap_host'] = ['ldap://localhost:389'];
+    #   $config['identity_from_directory_ldap_base_dn'] = 'dc=example,dc=com';
+    #   $config['identity_from_directory_ldap_bind_pass'] = getenv('LDAP_BIND_PASSWORD');
+    # 
+    # Then provide the secret via extraEnvVars:
+    # extraEnvVars:
+    #   - name: LDAP_BIND_PASSWORD
+    #     valueFrom:
+    #       secretKeyRef:
+    #         name: my-ldap-secret
+    #         key: password
+  # Multi-domain configuration (simplified setup for multiple IMAP servers)
+  # When enabled, will auto-generate config for multiple domains
+  multiDomain:
+    enabled: false
+    # List of domain configurations
+    domains: []
+    # Example:
+    # - name: "example.com"
+    #   config: |
+    #     $config['default_host'] = 'ssl://imap.example.com:993';
+    #     $config['smtp_server'] = 'tls://smtp.example.com:587';
+    #     $config['managesieve_host'] = 'tls://imap.example.com:4190';
+    #     $config['managesieve_usetls'] = true;
+    # - name: "company.org"
+    #   config: |
+    #     $config['default_host'] = 'ssl://mail.company.org:993';
+    #     $config['smtp_server'] = 'tls://mail.company.org:587';
+    #     $config['managesieve_host'] = 'mail.company.org';
+    #     $config['managesieve_port'] = 4190;
+    #     $config['password_algorithm'] = 'sha256-crypt';
+    #     $config['password_db_dsn'] = 'mysql://user:pass@localhost/postfix';
+  # DES key for encryption (auto-generated if not set)
+  desKey: ""
+
+# Database configuration
+database:
+  # Database type (sqlite, mysql, pgsql)
+  type: sqlite
+  # External database configuration (when type != sqlite)
+  external:
+    # Host
+    host: ""
+    # Port
+    port: 3306
+    # Database name
+    name: roundcube
+    # Username
+    user: roundcube
+    # Password
+    password: ""
+    # Existing secret with database credentials
+    existingSecret: ""
+    # Keys in existing secret
+    existingSecretPasswordKey: "password"
+    existingSecretUserKey: "username"
+
+# Redis configuration for session storage
+redis:
+  # Enable Redis for session storage
+  enabled: false
+  # Redis host
+  host: ""
+  # Redis port
+  port: 6379
+  # Redis password
+  password: ""
+  # Existing secret with Redis password
+  existingSecret: ""
+  # Key in existing secret
+  existingSecretPasswordKey: "password"
+
+# Memcached configuration for caching
+memcached:
+  # Enable Memcached for caching
+  enabled: false
+  # Memcached host
+  host: ""
+  # Memcached port
+  port: 11211
+
+# Init containers
+initContainers: []
+
+# Sidecar containers
+sidecarContainers: []
+
+# Liveness probe
+livenessProbe:
+  enabled: true
+  initialDelaySeconds: 30
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 3
+  successThreshold: 1
+
+# Readiness probe
+readinessProbe:
+  enabled: true
+  initialDelaySeconds: 5
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 3
+  successThreshold: 1
+
+# Startup probe
+startupProbe:
+  enabled: false
+  initialDelaySeconds: 0
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 30
+  successThreshold: 1

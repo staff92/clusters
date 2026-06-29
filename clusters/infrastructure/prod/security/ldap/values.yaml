@@ -1,0 +1,397 @@
+# yaml-language-server: $schema=values.schema.json
+# Default values for lldap.
+
+# -- Number of lldap replicas.
+# Do not increase this above 1 if you are using the SQLite backend.
+replicaCount: 1
+
+image:
+  # -- Image repository
+  repository: lldap/lldap
+  # -- Image pull policy
+  pullPolicy: IfNotPresent
+  # -- Image tag
+  # @default -- chart.appVersion
+  tag: ""
+  # -- Image variant. Leave blank for default image.
+  variant: "-debian-rootless"
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+lldap:
+  # -- Base DN for LDAP.
+  # This is usually your domain name, and is used as a namespace for your users. The choice is
+  # arbitrary, but will be needed to configure the LDAP integration with other services. The sample
+  # value is for "example.com", but you can extend it with as many "dc" as you want, and you don't
+  # actually need to own the domain name.
+  baseDN: "dc=example,dc=com"
+
+  # -- Name of the Kubernetes secret containing credentials.
+  # If this isn't specified, a secret will be generated with the credentials provided
+  # in the values file. If you want to provide an external secret, for instance when
+  # deploying with GitOps, specify its name here.
+  secretName: "lldap-credentials"
+
+
+  # -- Random secret for JWT signature.
+  # This secret should be random, and should be shared with application servers that need to
+  # consume the JWTs. Changing this secret will invalidate all user sessions and require them
+  # to re-login. You can generate it with (on linux):
+  # LC_ALL=C tr -dc 'A-Za-z0-9!#%&'\''()*+,-./:;<=>?@[\]^_{|}~' </dev/urandom | head -c 32; echo ''
+  jwtSecret: ""
+
+  # -- Name of the JWT signature key in the `.Values.lldap.secretName` Kubernetes secret.
+  jwtSecretKey: jwtSecret
+
+  # -- Admin username.
+  # For the LDAP interface, a value of "admin" here will create the LDAP user
+  # "cn=admin,ou=people,dc=example,dc=com" (with the base DN above). For the administration
+  # interface, this is the username.
+  ldapUserDN: "admin"
+
+  # -- Admin password.
+  # Password for the admin account, both for the LDAP bind and for the administration interface.
+  # It is only used when initially creating the admin user. It should be minimum 8 characters long.
+  # Note: you can create another admin user for user administration, this is just the default one.
+  ldapUserPass: ""
+
+  # -- Name of the LDAP admin password key in the `.Values.lldap.secretName` Kubernetes secret.
+  ldapUserPassKey: ldapUserPass
+
+  # -- Reset the LDAP admin password to ldapUserPass[Key] every time the server starts.
+  forceLDAPUserPassReset: false
+
+  # -- Seed to generate the server private key. This can be any random string, the recommendation
+  # is that it's at least 12 characters long.
+  keySeed: ""
+
+  # -- Name of the key holding the private key seed in the `.Values.lldap.secretName` Kubernetes secret.
+  keySeedKey: keySeed
+
+  # -- LDAP host. To enable IPv6 listening, change to `::`
+  ldapHost: 0.0.0.0
+
+  # -- HTTP API host. To enable IPv6 listening, change to `::`
+  httpHost: 0.0.0.0
+
+  uid: 1000
+  gid: 1000
+  tz: "Etc/UTC"
+
+  # -- Tune the logging to be more verbose
+  verbose: false
+
+  # -- Options to configure SMTP parameters, to send password reset emails.
+  # @default -- see below
+  smtp:
+    # -- Whether to enabled password reset via email, from LLDAP.
+    enablePasswordReset: true
+    # -- The SMTP server.
+    server: "mail.mail"
+    # -- The SMTP port.
+    port: 587
+    # -- How the connection is encrypted, either "NONE" (no encryption), "TLS" or "STARTTLS".
+    smtpEncryption: "STARTTLS"
+    # -- The SMTP user, usually your email address.
+    user: ""
+    # -- The SMTP password.
+    password: ""
+    # -- Name of the SMTP password key in the `.Values.lldap.secretName` Kubernetes secret.
+    # Overrides the `.Values.lldap.smtp.password` if a custom secret is defined.
+    #passwordKey: ""
+    #passwordKey: smtpPassword
+    # -- The header field: how the sender appears in the email. The first
+    # is a free-form name, followed by an email between <>. Optional.
+    from: "LLDAP Admin <ldap@${CLUSTER_DOMAIN}>"
+    # -- Same for reply-to, optional.
+    replyTo: "Do not reply <noreply@${CLUSTER_DOMAIN}>"
+
+  # -- Options to configure LDAPS
+  # @default -- see below
+  ldaps:
+    # -- Whether to enable LDAPS.
+    enabled: "false"
+    # -- Certificate file.
+    certFile: "/data/cert.pem"
+    # -- Certificate key file.
+    keyFile: "/data/key.pem"
+
+  # --- define extra volumes and mounts for the ldap
+  extraVolumes: []
+  extraVolumeMounts: []
+
+  # -- Ignored attributes.
+  # Some services will request attributes that are not present in LLDAP. When it is the case, LLDAP
+  # will warn about the attribute being unknown. If you want to ignore the attribute and the
+  # service works without, you can add it to this list to silence the warning.
+  # ignored_user_attributes = [ "sAMAccountName" ]
+  # ignored_group_attributes = [ "mail", "userPrincipalName" ]
+
+serviceAccount:
+  # -- Specifies whether a service account should be created
+  create: true
+  # Automatically mount a ServiceAccount's API credentials?
+  automount: false
+  # -- Annotations to add to the service account
+  annotations: {}
+  # -- The name of the service account to use.
+  # @default -- a name is generated using the fullname template
+  name: ""
+
+podAnnotations: {}
+podLabels: {}
+deploymentAnnotations: {}
+deploymentLabels: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+# -- Configures service settings for the chart.
+# @default -- See values.yaml
+service:
+  http:
+    type: ClusterIP
+    port: 17170
+    annotations: {}
+  ldap:
+    type: ClusterIP
+    port: 3890
+    annotations: {}
+  ldaps:
+    type: ClusterIP
+    port: 6360
+
+# -- Enable and configure ingress settings for the chart under this key.
+# @default -- See values.yaml
+ingress:
+  enabled: true
+  className: "traefik"
+  annotations: 
+    #traefik.ingress.kubernetes.io/router.middlewares: traefik-botblocker@kubernetescrd
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/name: "LLDAP"
+    gethomepage.dev/description: "Light LDAP implementation for authentication"
+    gethomepage.dev/group: "Infrastructure"
+    gethomepage.dev/icon: "lldap.png"
+    gethomepage.dev/pod-selector: "app.kubernetes.io/name=lldap"
+  hosts:
+    - host: ldap.${CLUSTER_DOMAIN}
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+# -- Persistence is only required if you are using the SQLite database (default).
+# You can disable persistence if you select MariaDB or PostgreSQL.
+# @default -- see below
+persistence:
+  enabled: false
+  size: 100Mi
+  accessMode: ReadWriteOnce
+  ## If defined, storageClassName: <storageClass>
+  ## If set to "-", storageClassName: "", which disables dynamic provisioning
+  ## If undefined (the default) or set to null, no storageClassName spec is
+  ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
+  ##   GKE, AWS & OpenStack)
+  ##
+  # storageClass: "-"
+
+resources: {}
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+livenessProbe:
+  httpGet:
+    path: /
+    port: http
+readinessProbe:
+  httpGet:
+    path: /
+    port: http
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+# -- Enable and configure postgresql database subchart under this key.
+#    For more options see [postgresql chart documentation](https://github.com/bitnami/charts/tree/master/bitnami/postgresql)
+# @default -- https://github.com/bitnami/charts/blob/master/bitnami/postgresql/values.yaml
+postgresql:
+  enabled: false
+  image:
+    repository: bitnamilegacy/postgresql
+  auth:
+    postgresPassword:	lldapadminpw
+    username:	lldap
+    password:	lldap
+    database: lldap
+  primary:
+    persistence:
+      enabled: false
+      # storageClass: ""
+      size: 1Gi
+    resources: {}
+
+
+# --- Enable and configure external postgresql database
+externalPostgresql:
+  enabled: false
+  # -- Name of the Kubernetes secret containing the database URI
+  # fromSecret:
+  # -- Name of the secret key containing the database URI
+  # uriKey:
+  auth:
+    host: ""
+    port: 5432
+    username:	""
+    password:	""
+    database: lldap
+
+
+# -- Enable and configure mariadb database subchart under this key.
+#    For more options see [mariadb chart documentation](https://github.com/bitnami/charts/tree/master/bitnami/mariadb)
+# @default -- https://github.com/bitnami/charts/blob/master/bitnami/mariadb/values.yaml
+mariadb:
+  enabled: false
+  image:
+    repository: bitnamilegacy/mariadb
+  architecture: standalone
+  auth:
+    database: lldap
+    username: lldap
+    password: lldap
+    rootPassword: lldapadminpw
+  primary:
+    resources: {}
+    persistence:
+      enabled: false
+      size: 1Gi
+      # storageClass: ""
+
+
+# -- Enable and configure external mariadb database
+externalMariadb:
+  enabled: false
+  # -- Name of the Kubernetes secret containing the database URI
+  # fromSecret:
+  # -- Name of the secret key containing the database URI
+  # uriKey:
+  auth:
+    host: ""
+    port: 3306
+    username: ""
+    password: ""
+    database: lldap
+
+
+# -- Bootstrap (i.e. create) users and groups automatically.
+# It is safe to run the bootstrap multiple times, however the one-shot
+# Kubernetes job will be created on the first deployment, and the job
+# will not be executed on subsequent deployments unless the job is deleted.
+# @default -- see below
+bootstrap:
+  enabled: true
+  # -- Remove redundant users and groups which are not in the config below
+  cleanup: true
+  groups:
+    - jelly_admin
+    - analytics
+    - gitea_user
+    - gitea_admin
+    - vpn_user
+    - vpn_admin
+    - sftp_user
+    # - lldap_admin
+    # - lldap_password_manager
+    
+#ldap-userX-email
+#ldap-userX-lastname
+#ldap-userX-firstname
+#ldap-userX-id
+
+
+  users:
+    - id: "${LDAP_USER1_ID}"
+      email: "${LDAP_USER1_EMAIL}"
+      passwordSecret: 
+        name: lldap-credentials
+        key: user1Password
+      displayName: "${LDAP_USER1_FIRSTNAME} ${LDAP_USER1_LASTNAME}"
+      firstName: "${LDAP_USER1_FIRSTNAME}"
+      lastName: "${LDAP_USER1_LASTNAME}"
+      gravatar_avatar: "false"
+      weserv_avatar: "false"
+      groups:
+        - jelly_admin
+        - lldap_admin
+        - lldap_password_manager
+        - analytics
+        - gitea_user
+        - gitea_admin
+        - vpn_user
+        - vpn_admin
+    - id: "${LDAP_USER2_ID}"
+      email: "${LDAP_USER2_EMAIL}"
+      passwordSecret: 
+        name: lldap-credentials
+        key: userpasswordtemp
+      displayName: "${LDAP_USER2_FIRSTNAME} ${LDAP_USER2_LASTNAME}"
+      firstName: "${LDAP_USER2_FIRSTNAME}"
+      lastName: "${LDAP_USER2_LASTNAME}"
+      gravatar_avatar: "false"
+      weserv_avatar: "false"
+      groups: []
+      # attributes:
+      #   - name: intmail
+      #     value: "${LDAP_USER2_ID}@${CLUSTER_DOMAIN}"
+    - id: "${LDAP_USER3_ID}"
+      email: "${LDAP_USER3_EMAIL}"
+      passwordSecret: 
+        name: lldap-credentials
+        key: userpasswordtemp
+      displayName: "${LDAP_USER3_FIRSTNAME} ${LDAP_USER3_LASTNAME}"
+      firstName: "${LDAP_USER3_FIRSTNAME}"
+      lastName: "${LDAP_USER3_LASTNAME}"
+      gravatar_avatar: "false"
+      weserv_avatar: "false"
+      groups: []
+    - id: "${LDAP_USER4_ID}"
+      email: "${LDAP_USER4_EMAIL}"
+      passwordSecret: 
+        name: lldap-credentials
+        key: userpasswordtemp
+      displayName: "${LDAP_USER4_FIRSTNAME} ${LDAP_USER4_LASTNAME}"
+      firstName: "${LDAP_USER4_FIRSTNAME}"
+      lastName: "${LDAP_USER4_LASTNAME}"
+      gravatar_avatar: "false"
+      weserv_avatar: "false"
+      groups:
+        - jelly_admin
+
+
+#! https://artifacthub.io/packages/helm/djjudas21/lldap
+
+      # {{- if (hasKey. "passwordSecret" ) }}
+      # "password_file": "/user-secrets/{{ .passwordSecret.name }}/{{ .passwordSecret.key }}",
+      # {{- else }}
+      # "password": "{{ .password }}",
+  

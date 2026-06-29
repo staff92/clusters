@@ -1,0 +1,66 @@
+
+# USER
+# - src: grog.management-user
+# - src: GROG.user
+# - src: GROG.authorized-key
+# - src: GROG.sudo
+# DOCKER
+# - src: geerlingguy.docker
+# CONTAINERD
+# - src: geerlingguy.containerd
+# # KUBERNETES
+# - src: git+https://github.com/garutilorenzo/ansible-role-linux-kubernetes.git
+# - src: geerlingguy.kubernetes
+# PIP
+# - src: geerlingguy.pip
+#! USER
+- src: singleplatform-eng.users
+- src: linux-system-roles.sudo
+#! HARDENING => collection 
+# - src: devsec.hardening.os_hardening
+- src: devsec.hardening.ssh_hardening
+# - src: geerlingguy.firewall
+# - src: linux-system-roles.selinux
+#! PODS
+# - src: alvistack.podman
+# - src: linux-system-roles.podman
+# - src: bodsch.k0s
+# - src: fedora.linux_system_roles.firewall
+# jnv.unattended-upgrades
+# - src: asg1612.dockerswarm
+# SYSTEM
+# - src: tumf.systemd-service
+# # SSH client side
+# # PACKAGE
+# - src: GROG.package
+# # IPTABLES
+# - src: geerlingguy.firewall
+# - src: robertdebock.auditd
+# - src: buluma.lynis
+# # LOG ROTATE
+# - src: nickhammond.logrotate
+# - src: ome.logrotate
+# # FAIL2BAN
+# - src: robertdebock.fail2ban
+# # BACKUP
+# - src: ome.rsync_server
+# - src: ome.selinux_utils
+# # HELM
+# - src: geerlingguy.helm
+# ## SETUP
+# - src: buluma.lynis
+# - src: maxlareo.rkhunter
+# - src: maxlareo.chkrootkit
+# - src: robertdebock.auditd
+# - src: gantsign.golang
+# - src: robertdebock.update
+# # - src: buluma.auditd
+# #   version: v1.0.10
+# # - src: jnv.unattended-upgrades
+# # - src: dominion_solutions.netbird
+#   # version: 0.1.6
+# - name: ansible_unattended_upgrades
+#   src: git+https://gitlab.epfl.ch/ansible-sti-roles/ansible-unattended-upgrades.git
+# - name: ansible-role-labocbz-install-grafana
+#   src: git+https://gitlab.com/cbz-d-velop/public-ansible/ansible-role-labocbz-install-grafana.git
+# - src: thomasjpfan.docker-swarm

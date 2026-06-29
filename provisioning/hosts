@@ -1,0 +1,3 @@
+[all]
+#contabo ansible_host=1.1.1.1 ansible_user=root
+#prod ansible_host=1.1.1.1 ansible_user=root

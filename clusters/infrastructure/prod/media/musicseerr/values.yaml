@@ -1,0 +1,151 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: musicseerr-config
+  namespace: media
+spec:
+  storageClassName: openebs-hostpath
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: musicseerr-cache
+  namespace: media
+spec:
+  storageClassName: openebs-hostpath
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: musicseerr
+  namespace: media
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: musicseerr
+  template:
+    metadata:
+      labels:
+        app: musicseerr
+    spec:
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+      containers:
+        - name: musicseerr
+          image: ghcr.io/habirabbu/musicseerr:latest
+          env:
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+            - name: PORT
+              value: "8688"
+            - name: TZ
+              value: "Etc/UTC"
+          ports:
+            - containerPort: 8688
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8688
+            initialDelaySeconds: 15
+            periodSeconds: 30
+            timeoutSeconds: 10
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8688
+            initialDelaySeconds: 15
+            periodSeconds: 30
+            timeoutSeconds: 10
+          volumeMounts:
+            - name: config
+              mountPath: /app/config
+            - name: cache
+              mountPath: /app/cache
+            # Décommenter si tu veux monter ta bibliothèque musicale
+            # - name: music
+            #   mountPath: /music
+            #   readOnly: true
+      volumes:
+        - name: config
+          persistentVolumeClaim:
+            claimName: musicseerr-config
+        - name: cache
+          persistentVolumeClaim:
+            claimName: musicseerr-cache
+        # - name: music
+        #   hostPath:
+        #     path: /path/to/music
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: musicseerr
+  namespace: media
+spec:
+  selector:
+    app: musicseerr
+  ports:
+    - port: 8688
+      targetPort: 8688
+  type: ClusterIP
+---
+# ============================================================
+# INGRESSROUTE TRAEFIK - NextJS App (HTTPS)
+# ============================================================
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: musicseerr
+  namespace: media
+  annotations:
+    gethomepage.dev/href: "https://music.${CLUSTER_DOMAIN}"
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/description: "Self-hosted music request and discovery project built supporting Jellyfin "
+    gethomepage.dev/group: Media
+    gethomepage.dev/icon: "sh-apple-music.png"
+    #gethomepage.dev/app: musicseerr # optional, may be needed if app.kubernetes.io/name != ingress metadata.name
+    gethomepage.dev/name: Musicseerr
+    gethomepage.dev/pod-selector: "app=musicseerr"
+
+  # annotations:
+  #   # traefik.ingress.kubernetes.io/router.entrypoints: websecure
+  #   # traefik.ingress.kubernetes.io/router.tls: "true"
+  #   # traefik.ingress.kubernetes.io/router.middlewares: authelia-forwardauth-authelia@kubernetescrd
+  #   gethomepage.dev/enabled: "true"
+  #   gethomepage.dev/name: "Musicseerr"
+  #   gethomepage.dev/description: "Self-hosted music request and discovery project built supporting Jellyfin "
+  #   gethomepage.dev/group: "Media"
+  #   gethomepage.dev/icon: "sh-apple-music.png"
+  #   gethomepage.dev/pod-selector: "app.kubernetes.io/name=musicseerr"
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`music.${CLUSTER_DOMAIN}`)
+      kind: Rule
+      middlewares:
+        - name: 'forwardauth-authelia'
+          namespace: 'authelia'
+      services:
+        - name: musicseerr
+          port: 8688

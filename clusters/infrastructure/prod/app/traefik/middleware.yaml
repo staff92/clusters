@@ -1,0 +1,28 @@
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: botblocker
+spec:
+  plugin:
+    botblocker:
+      ipblocklisturls:
+        - "https://raw.githubusercontent.com/stamparm/ipsum/master/levels/5.txt"
+        - "https://lists.blocklist.de/lists/all.txt"
+      useragentblocklisturls:
+        - "https://raw.githubusercontent.com/mitchellkrogza/nginx-ultimate-bad-bot-blocker/master/_generator_lists/bad-user-agents.list"
+#---
+# apiVersion: traefik.io/v1alpha1
+# kind: Middleware
+# metadata:
+#   name: umami
+#   namespace: traefik
+# spec:
+#   plugin:
+#     umami: 
+#       umamiHost: "http://umami.umami.svc.cluster.local:3000" 
+#       umamiUsername: "admin"
+#       umamiPassword: "umami" 
+#       createNewWebsites: true
+#       trackAllResources: true
+#       ignoreIPs: []
+#       headerIp: X-Forwarded-For

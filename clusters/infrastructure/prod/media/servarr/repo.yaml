@@ -1,0 +1,19 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: servarr
+spec:
+  interval: 1h
+  url: https://charts.kubito.dev
+# ---
+# apiVersion: source.toolkit.fluxcd.io/v1
+# kind: OCIRepository
+# metadata:
+#   name: podinfo
+#   namespace: default
+# spec:
+#   interval: 5m0s
+#   url: oci://ghcr.io/stefanprodan/manifests/podinfo
+#   ref:
+#     tag: latest

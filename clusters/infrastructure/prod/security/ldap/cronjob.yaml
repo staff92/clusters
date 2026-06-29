@@ -1,0 +1,155 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: check-lldap-user-${LDAP_USER1_ID}
+  namespace: lldap
+spec:
+  schedule: "0 8 * * *" 
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: Never
+          containers:
+          - name: ldap-checker
+            image: alpine:latest
+            command:
+            - /bin/sh
+            - -c
+            - |
+              # Installation des outils
+              apk add --no-cache openldap-clients curl mailx
+
+              # Recherche LDAP
+              RESULT=$(ldapsearch \
+                -H ldap://lldap-service.lldap.svc.cluster.local:3890 \
+                -D "uid=admin,ou=people,dc=example,dc=com" \
+                -w "$LDAP_ADMIN_PASSWORD" \
+                -b "ou=people,dc=example,dc=com" \
+                "(uid=${LDAP_USER1_ID})" \
+                dn 2>&1)
+
+              echo "Résultat LDAP: $RESULT"
+
+              # Vérification si l'utilisateur existe
+              if echo "$RESULT" | grep -q "uid=${LDAP_USER1_ID}"; then
+                echo "✅ Utilisateur ${LDAP_USER1_ID} trouvé dans LDAP - Aucune action nécessaire"
+                exit 0
+              else
+                echo "❌ Utilisateur ${LDAP_USER1_ID} introuvable - Envoi de l'alerte mail..."
+
+                # Envoi du mail via SMTP avec authentification test:test
+                curl \
+                  --url "smtp://$SMTP_HOST:$SMTP_PORT" \
+                  --user "test:test" \
+                  --mail-from "$MAIL_FROM" \
+                  --mail-rcpt "$MAIL_TO" \
+                  --upload-file - <<EOF
+              From: $MAIL_FROM
+              To: $MAIL_TO
+              Subject: [ALERTE] Utilisateur ${LDAP_USER1_ID} absent dans LDAP
+              Content-Type: text/plain; charset=UTF-8
+
+              Bonjour,
+
+              L'utilisateur "${LDAP_USER1_ID}" est introuvable dans l'annuaire LDAP.
+
+              Details:
+              - Date     : $(date)
+              - Filtre   : (uid=${LDAP_USER1_ID})
+
+              Merci de vérifier l'annuaire LDAP.
+
+              -- 
+              Kubernetes Job Monitor
+              EOF
+
+                if [ $? -eq 0 ]; then
+                  echo "📧 Mail envoyé avec succès"
+                else
+                  echo "💥 Échec de l'envoi du mail"
+                  exit 1
+                fi
+
+                exit 2
+              fi
+            env:
+            - name: LDAP_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: lldap-credentials
+                  key: ldapUserPass
+            - name: SMTP_HOST
+              value: "maildev-smtp.maildev"
+            - name: SMTP_PORT
+              value: "1025"
+            - name: MAIL_FROM
+              value: "alertes@example.com"
+            - name: MAIL_TO
+              value: "${LDAP_USER1_EMAIL}"
+      backoffLimit: 0
+
+
+
+
+
+# apiVersion: batch/v1
+# kind: CronJob
+# metadata:
+#   name: check-lldap-user-${LDAP_USER1_ID}
+#   namespace: monitoring
+# spec:
+#   schedule: "0 8 * * *"   # Tous les jours à 8h
+#   jobTemplate:
+#     spec:
+#       template:
+#         spec:
+#           restartPolicy: Never
+#           containers:
+#           - name: ldap-checker
+#             image: alpine:latest
+#             command:
+#             - /bin/sh
+#             - -c
+#             - |
+#               apk add --no-cache openldap-clients curl
+
+#               RESULT=$(ldapsearch \
+#                 -H ldap://lldap-service.lldap.svc.cluster.local:3890 \
+#                 -D "uid=admin,ou=people,dc=example,dc=com" \
+#                 -w "$LDAP_ADMIN_PASSWORD" \
+#                 -b "ou=people,dc=example,dc=com" \
+#                 "(uid=${LDAP_USER1_ID})" dn 2>&1)
+
+#               if echo "$RESULT" | grep -q "uid=${LDAP_USER1_ID}"; then
+#                 echo "✅ ${LDAP_USER1_ID} existe"
+#                 exit 0
+#               else
+#                 echo "❌ ${LDAP_USER1_ID} absent - envoi mail..."
+#                 curl --url "smtp://$SMTP_HOST:$SMTP_PORT" \
+#                   --user "test:test" \
+#                   --mail-from "$MAIL_FROM" \
+#                   --mail-rcpt "$MAIL_TO" \
+#                   --upload-file - <<EOF
+#           From: $MAIL_FROM
+#           To: $MAIL_TO
+#           Subject: [ALERTE] ${LDAP_USER1_ID} absent dans LDAP
+          
+#           Utilisateur ${LDAP_USER1_ID} introuvable - $(date)
+#           EOF
+#               fi
+#             env:
+#             - name: LDAP_ADMIN_PASSWORD
+#               valueFrom:
+#                 secretKeyRef:
+#                   name: lldap-credentials
+#                   key: LLDAP_ADMIN_PASSWORD
+#             - name: SMTP_HOST
+#               value: "smtp.example.com"
+#             - name: SMTP_PORT
+#               value: "587"
+#             - name: MAIL_FROM
+#               value: "alertes@example.com"
+#             - name: MAIL_TO
+#               value: "admin@example.com"
+#       backoffLimit: 0

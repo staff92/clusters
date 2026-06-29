@@ -1,0 +1,72 @@
+- hosts: all
+  #! Need first setup with root access user
+  become: true
+  vars:
+    #* USERS 
+    users:
+      - username: bot
+        name: bot user
+        home: /home/bot
+        ssh_key:
+          - "ssh-ed25519 XXXXX"
+    sudo_sudoers_files:
+      - path: /etc/sudoers.d/bot
+        user_specifications:
+          - users:
+              - bot
+            hosts:
+              - ALL
+            operators:
+              - ALL
+            commands:
+              - "NOPASSWD: ALL"
+    #* PACKAGES
+    package_repo:
+      - python3-pip
+      # - podman
+      - lsof
+      - ncdu
+      - ack
+    #* FIREWALL
+    firewall_allowed_tcp_ports:
+      - "22"
+      - "6443"
+      - "80"
+      - "443"
+      # - "25"
+      # - "6881"
+       #25, 587 ou 465
+  pre_tasks:
+
+    - ansible.builtin.apt:
+        update_cache: yes
+
+    - ansible.builtin.apt:
+        name: "*"
+        state: latest
+
+    - ansible.builtin.apt:
+        upgrade: safe
+
+    - ansible.builtin.apt:
+        clean: yes
+
+    - ansible.builtin.apt:
+        name: "{{ item }}"
+        state: latest
+      loop: "{{ package_repo }}"
+      when: package_repo is defined
+
+    - ansible.builtin.pip:
+        name: "{{ item }}"
+      loop: "{{ package_pip }}"
+      when: package_pip is defined
+
+#! ROLES
+  roles:
+    - name: singleplatform-eng.users
+    - name: linux-system-roles.sudo
+    - name: devsec.hardening.ssh_hardening
+    #! delete user like root
+    # - name: devsec.hardening.os_hardening
+    # - name: geerlingguy.firewall

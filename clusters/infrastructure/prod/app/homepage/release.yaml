@@ -1,0 +1,82 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: homepage
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: homepage
+      version: '2.1.0'
+      sourceRef:
+        kind: HelmRepository
+        name: homepage
+  valuesFrom:
+    - kind: ConfigMap
+      name: homepage-values
+      valuesKey: values.yaml
+  # postBuild:
+  #   substitute:
+  #     CLUSTER_DOMAIN: "${CLUSTER_DOMAIN}"
+    # substituteFrom:
+    #   - kind: Secret
+    #     name: cluster-secrets
+    #     optional: false
+    #   - kind: ConfigMap
+    #     name: cluster-vars
+    #     optional: true
+
+# ---
+# apiVersion: helm.toolkit.fluxcd.io/v2
+# kind: HelmRelease
+# metadata:
+#   name: homepage
+# spec:
+#   interval: 1h
+#   chartRef:
+#     kind: OCIRepository
+#     name: homepage
+#   valuesFrom:
+#     - kind: ConfigMap
+#       name: homepage-values
+#       valuesKey: values.yaml
+  # targetNamespace: longhorn
+  # createTargetNamespace: true 
+  # install:
+  #   createNamespace: true
+      # namespace: default
+
+      # valuesFiles:
+      #   - ./clusters/infrastructure/podinfo/values-env.yaml
+        #- values-env.yaml
+        #- values-env.yaml
+  # values:
+  #   replicaCount: 1
+  #   resource:
+  #     requests:
+  #       cpu: 100m
+  #       memory: 64Mi
+
+
+    # spec:
+    #   chart: homepage
+    #   version: '2.1.0'
+    #   sourceRef:
+    #     kind: OCIRepository
+    #     name: homepage
+
+# ---
+# apiVersion: source.toolkit.fluxcd.io/v1
+# kind: HelmChart
+# metadata:
+#   name: podinfo
+#   namespace: default
+# spec:
+#   interval: 5m0s
+#   chart: podinfo
+#   reconcileStrategy: ChartVersion
+#   sourceRef:
+#     kind: HelmRepository
+#     name: podinfo
+#   version: '5.*'

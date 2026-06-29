@@ -1,0 +1,665 @@
+# helm upgrade --install docker-mailserver docker-mailserver/docker-mailserver --namespace mail --create-namespace -f clusters/infrastructure/preprod/webmail/values.yaml
+#  helm repo add docker-mailserver https://docker-mailserver.github.io/docker-mailserver-helm
+#! docker-mailserver/docker-mailserver     CHART VERSION => 5.1.1           15.1.0          A fullstack but simple mailserver (smtp, imap, ...
+nameOverride: ""
+fullnameOverride: ""
+
+image:
+  ## image.name is the name of the container image to use. Refer to https://hub.docker.com/r/mailserver/docker-mailserver
+  name: "mailserver/docker-mailserver"
+  ## image.tag is the tag of the container image to use. Refer to https://hub.docker.com/r/mailserver/docker-mailserver
+  ## If image.tag is not defined it will default to `.Chart.appVersion`
+  # tag: "latest"
+  pullPolicy: "IfNotPresent"
+
+# Specify whether to create a serviceAccount for the pod. The name is generated from the
+# dockermailserver.serviceAccountName template
+serviceAccount:
+  create: true
+
+## Specify the name of a TLS secret that contains a certificate and private key for your email domain.
+## See https://kubernetes.io/docs/concepts/configuration/secret/#tls-secrets
+certificate:
+
+# List extra RBL domains to use for hard reject filtering
+rblRejectDomains: []
+
+deployment:
+  ## How many versions of the deployment to run
+  replicas: 1
+
+  ## Optionally specify affinity for the deployment
+  affinity: {}
+
+  ## Optionally add additional annotations to the deployment
+  annotations: {}
+
+  ## Optionally add additional labels to the deployment
+  labels: {}
+
+  ## Optionally specify a runtimeClassName for the deployment
+  runtimeClassName:
+
+  ## Optionally specify a priorityClassName for the deployment
+  priorityClassName:
+
+  ## Optionally specify a nodeSelector for the deployment
+  nodeSelector: {}
+
+  ## Update strategy - only really applicable for deployments with RWO PVs attached
+  ## If replicas = 1, an update can get "stuck", as the previous pod remains attached to the
+  ## PV, and the "incoming" pod can never start. Setting the strategy to "Recreate" (our default) will
+  ## terminate the single previous pod, so that the new, incoming pod can attach to the PV
+  strategy:
+    # rollingUpdate:
+    #   maxSurge: 1
+    #   maxUnavailable: 1
+    type: "Recreate"
+
+  ## The following variables affect the behaviour of docker-mailserver
+  ## See https://docker-mailserver.github.io/docker-mailserver/latest/config/environment/ for details
+  ## Note that an empty value indicates the default as described in the docs above
+  env:
+    # -----------------------------------------------
+    # --- Required Section ---------------------------
+    # -----------------------------------------------
+    OVERRIDE_HOSTNAME: jingooh.fr       # You must OVERRIDE this!
+
+    # -----------------------------------------------
+    # --- General Section ---------------------------
+    # -----------------------------------------------
+    LOG_LEVEL: info
+    SUPERVISOR_LOGLEVEL:
+    DMS_VMAIL_UID:
+    DMS_VMAIL_GID:
+    POSTFIX_MYDESTINATION: "localhost"
+    #! check => postconf mynetworks
+    POSTFIX_MYNETWORKS: "127.0.0.0/8 10.0.0.0/8 172.16.0.0/12 192.168.0.0/16"
+    ACCOUNT_PROVISIONER:
+    POSTMASTER_ADDRESS:
+    ENABLE_UPDATE_CHECK: 1
+    UPDATE_CHECK_INTERVAL: 1d
+    PERMIT_DOCKER: connected-networks
+    TZ: Europe/Paris
+    NETWORK_INTERFACE:
+    TLS_LEVEL:
+    SPOOF_PROTECTION:
+    ENABLE_SRS: 0
+    ENABLE_OPENDKIM: 1
+    ENABLE_OPENDMARC: 1
+    ENABLE_POLICYD_SPF: 1
+    ENABLE_POP3:
+    ENABLE_IMAP: 1
+    ENABLE_CLAMAV: 0
+    ENABLE_RSPAMD: 1
+    ENABLE_RSPAMD_REDIS: 1
+    RSPAMD_LEARN: 0
+    RSPAMD_CHECK_AUTHENTICATED: 0
+    RSPAMD_GREYLISTING: 0
+    RSPAMD_HFILTER: 1
+    RSPAMD_HFILTER_HOSTNAME_UNKNOWN_SCORE: 6
+    RSPAMD_NEURAL: 0
+    ENABLE_AMAVIS: 0
+    AMAVIS_LOGLEVEL: 0
+    ENABLE_DNSBL: 0
+    ENABLE_FAIL2BAN: 0
+    FAIL2BAN_BLOCKTYPE: drop
+    ENABLE_MANAGESIEVE:
+    POSTSCREEN_ACTION: enforce
+    SMTP_ONLY:
+    # These values are automatically set by the chart based on the certificate key
+    # SSL_TYPE:
+    # SSL_CERT_PATH:
+    # SSL_KEY_PATH:
+    SSL_ALT_CERT_PATH:
+    SSL_ALT_KEY_PATH:
+    VIRUSMAILS_DELETE_DELAY:
+    POSTFIX_DAGENT:
+    POSTFIX_MAILBOX_SIZE_LIMIT:
+    ENABLE_QUOTAS: 1
+    POSTFIX_MESSAGE_SIZE_LIMIT:
+    CLAMAV_MESSAGE_SIZE_LIMIT:
+    PFLOGSUMM_TRIGGER:
+    PFLOGSUMM_RECIPIENT:
+    PFLOGSUMM_SENDER:
+    LOGWATCH_INTERVAL:
+    LOGWATCH_RECIPIENT:
+    LOGWATCH_SENDER:
+    REPORT_RECIPIENT:
+    REPORT_SENDER:
+    LOGROTATE_COUNT: 4
+    LOGROTATE_INTERVAL: weekly
+    POSTFIX_REJECT_UNKNOWN_CLIENT_HOSTNAME: 0
+    POSTFIX_INET_PROTOCOLS: all
+    DOVECOT_INET_PROTOCOLS: all
+
+    # -----------------------------------------------
+    # --- SpamAssassin Section ----------------------
+    # -----------------------------------------------
+    ENABLE_SPAMASSASSIN: 0
+    ENABLE_SPAMASSASSIN_KAM: 0
+    SPAMASSASSIN_SPAM_TO_INBOX: 1
+    MOVE_SPAM_TO_JUNK: 1
+    MARK_SPAM_AS_READ: 0
+    SA_TAG: 2.0
+    SA_TAG2: 6.31
+    SA_KILL: 10.0
+    SPAM_SUBJECT: '***SPAM*** '
+
+    # -----------------------------------------------
+    # --- Fetchmail Section -------------------------
+    # -----------------------------------------------
+    ENABLE_FETCHMAIL: 0
+    FETCHMAIL_POLL: 300
+    FETCHMAIL_PARALLEL: 0
+    ENABLE_GETMAIL: 0
+    GETMAIL_POLL: 5
+
+    # -----------------------------------------------
+    # --- LDAP Section ------------------------------
+    # -----------------------------------------------
+    LDAP_START_TLS:
+    LDAP_SERVER_HOST:
+    LDAP_SEARCH_BASE:
+    # set those unless you're using a secret
+    #LDAP_BIND_DN:
+    #LDAP_BIND_PW:
+    LDAP_QUERY_FILTER_USER:
+    LDAP_QUERY_FILTER_GROUP:
+    LDAP_QUERY_FILTER_ALIAS:
+    LDAP_QUERY_FILTER_DOMAIN:
+
+    # -----------------------------------------------
+    # --- Dovecot Section ---------------------------
+    # -----------------------------------------------
+    DOVECOT_TLS:
+    DOVECOT_USER_FILTER:
+    DOVECOT_PASS_FILTER:
+    DOVECOT_MAILBOX_FORMAT: maildir
+    DOVECOT_AUTH_BIND:
+
+    # -----------------------------------------------
+    # --- Postgrey Section --------------------------
+    # -----------------------------------------------
+    ENABLE_POSTGREY: 0
+    POSTGREY_DELAY: 300
+    POSTGREY_MAX_AGE: 35
+    POSTGREY_TEXT: "Delayed by Postgrey"
+    POSTGREY_AUTO_WHITELIST_CLIENTS: 5
+
+    # -----------------------------------------------
+    # --- SASL Section ------------------------------
+    # -----------------------------------------------
+    ENABLE_SASLAUTHD: 0
+    SASLAUTHD_MECHANISMS:
+    SASLAUTHD_MECH_OPTIONS:
+    SASLAUTHD_LDAP_SERVER:
+    # set those unless you're using a secret
+    #SASLAUTHD_LDAP_BIND_DN:
+    #SASLAUTHD_LDAP_PASSWORD:
+    SASLAUTHD_LDAP_SEARCH_BASE:
+    SASLAUTHD_LDAP_FILTER:
+    SASLAUTHD_LDAP_START_TLS:
+    SASLAUTHD_LDAP_TLS_CHECK_PEER:
+    SASLAUTHD_LDAP_TLS_CACERT_FILE:
+    SASLAUTHD_LDAP_TLS_CACERT_DIR:
+    SASLAUTHD_LDAP_PASSWORD_ATTR:
+    SASLAUTHD_LDAP_AUTH_METHOD:
+    SASLAUTHD_LDAP_MECH:
+
+    # -----------------------------------------------
+    # --- SRS Section -------------------------------
+    # -----------------------------------------------
+    SRS_SENDER_CLASSES: envelope_sender
+    SRS_EXCLUDE_DOMAINS:
+    SRS_SECRET:
+
+    # -----------------------------------------------
+    # --- Default Relay Host Section ----------------
+    # -----------------------------------------------
+
+    DEFAULT_RELAY_HOST:
+
+    # -----------------------------------------------
+    # --- Multi-Domain Relay Section ----------------
+    # -----------------------------------------------
+
+    RELAY_HOST:
+    RELAY_PORT: 25
+    RELAY_USER:
+    # set those unless you're using a secret
+    #RELAY_PASSWORD:
+  securityContext:
+    runAsUser: 5000
+    runAsGroup: 5000
+
+  containerSecurityContext:
+    readOnlyRootFilesystem: false # incompatible with the way docker-mailserver works
+    privileged: false
+
+  ## More generally, a "request" can be thought of as "how much is this container expected to need usually". it should be
+  ## possible to burst outside these constraints (during a high load operation). However, Kubernetes may kill the pod
+  ## if the node is under too higher load and the burst is outside its request
+  ##
+  ## Limits are hard limits. Violating them is either impossible, or results in container death. I'm not sure whether
+  ## making these optional is a good idea or not; at the moment, I think I'm happy to defer QOS to the cluster and try
+  ## and keep requests close to usage.
+  ##
+  ## Requests are what are used to determine whether more software "fits" onto the cluster.
+  ##
+  ## Ref: http://kubernetes.io/docs/user-guide/compute-resources/
+  ## Ref: https://github.com/kubernetes/kubernetes/blob/master/docs/design/resource-qos.md
+  ## Ref: https://docs.docker.com/engine/reference/run/#/runtime-constraints-on-resources
+  resources:
+    requests:
+      ## How much CPU this container is expected to need
+      cpu: "1"
+      ## How much memory this container is expected to need.
+      ## Reduce these at requests your peril - too few resources can cause daemons (i.e., clamd) to fail, or timeouts to occur.
+      ## A test installation with clamd running was killed when it consumed 1437Mi (which is why this value was increased to 1536)
+      memory: "1536Mi"
+      ephemeral-storage: "100Mi"
+    limits:
+      ## The max CPU this container should be allowed to use
+      cpu: "2"
+      ## The max memory this container should be allowed to use. Note: If a container exceeds its memory limit,
+      ## it may terminated.
+      memory: "2048Mi"
+      ephemeral-storage: "500Mi"
+
+  ## Container resource resize policy for the docker-mailserver container
+  ## Allows dynamic adjustment of CPU and memory resources without pod restart
+  ## Useful for handling load spikes or optimizing resource utilization in production
+  ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/resize-container-resources/
+  resizePolicy: []
+    # - resourceName: memory
+    #   restartPolicy: NotRequired
+    # - resourceName: cpu
+    #   restartPolicy: RestartContainer
+
+  ## Optionally specify tolerations for the deployment
+  tolerations: []
+
+  ## Optionally specify initContainers
+  initContainers: []
+  #  - name: init
+  #    image: alpine:3
+  #    command: [sh, -c]
+  #    args:
+  #      - echo "Hello, world!" > /mnt/extra-storage/test
+  #    volumeMounts:
+  #      - name: extra-storage
+  #        mountPath: /mnt/extra-storage
+  #        subPath: another-folder
+
+  ## Optionally specify a list of extra mounts to add (normally used with extraVolumes)
+  extraVolumeMounts: []
+  #  - name: extra-storage
+  #    mountPath: /mnt/extra-storage
+  #    subPath: another-folder
+
+  ## Optionally specify a list of extra volumes to add
+  extraVolumes: []
+  #  - name: extra-storage
+  #    emptyDir: {}
+
+service:
+  ## What scope the service should be exposed in. One of:
+  ## - LoadBalancer (to the world)
+  ## - NodePort (to the world, via high port on a node)
+  ## - ClusterIP (to the cluster)
+  type: "ClusterIP"
+  ## Manually overwrite the externalTrafficPolicy. One of:
+  ## - Local
+  ## - Cluster
+  ## Set it to "Local" when used with type "LoadBalancer" and set it to "Cluster" when used with "NodePort",
+  ## unless you have a good reason not to.
+  externalTrafficPolicy: "Cluster"
+  ## Traffic distribution preference for Services. One of:
+  ## - PreferClose
+  ## - PreferSameZone (started from 1.34)
+  ## - PreferSameNode (started from 1.34)
+  ## Ref: https://kubernetes.io/docs/concepts/services-networking/service/#traffic-distribution
+  trafficDistribution: ""
+  ## If there is a particular IP that should be used for the service, specify it here.
+  ## Note: It's quite unlikely that an IP should be specific. Normally, the best thing to do is leave it to Kubernetes
+  ##       to allocate a free IP from the pool.
+  ## Default: Automatically assign a random IP
+  # clusterIp: 
+  ## IP family policy for the service. Options: SingleStack, PreferDualStack, RequireDualStack
+  ## Default: SingleStack
+  #ipFamilyPolicy:
+  ## List of IP families to use. Options: IPv4, IPv6
+  ## Order determines preference when ipFamilyPolicy is PreferDualStack or RequireDualStack
+  ## Default: Determined by cluster configuration
+  #ipFamilies:
+  annotations: {}
+  labels: {}
+  # nodePort:
+  #   smtp: 30025
+
+# Note this is a dictionary and not a list so individual keys can be overridden by --set or --value helm parameters
+persistent_volume_claims:
+  # Stores generated configuration files
+  # https://docker-mailserver.github.io/docker-mailserver/edge/faq/#what-about-the-docker-datadmsconfig-directory
+  mail-config:
+    enabled: true
+    existingClaim: ""
+    size: 1Mi
+    annotations: {}
+    accessModes:
+      - ReadWriteOnce
+    storageClass: openebs-hostpath
+    selector: {}
+
+  # Stores emails
+  mail-data:
+    enabled: true
+    existingClaim: ""
+    size: 10Gi
+    annotations: {}
+    accessModes:
+      - ReadWriteOnce
+    storageClass: openebs-hostpath
+    selector: {}
+
+  # Stores state for Postfix, Dovecot, Fail2Ban, Amavis, PostGrey, ClamAV, SpamAssassin, Rspamd & Redis
+  # https://docker-mailserver.github.io/docker-mailserver/edge/faq/#what-about-the-docker-datadmsmail-state-directory
+  mail-state:
+    enabled: true
+    existingClaim: ""
+    size: 1Gi
+    annotations: {}
+    accessModes:
+      - ReadWriteOnce
+    storageClass: openebs-hostpath
+    selector: {}
+
+  # Store mail logs
+  mail-log:
+    enabled: true
+    existingClaim: ""
+    size: 1Gi
+    annotations: {}
+    accessModes:
+      - ReadWriteOnce
+    storageClass: openebs-hostpath
+    selector: {}
+
+persistence:
+  # Stores generated configuration files
+  # https://docker-mailserver.github.io/docker-mailserver/edge/faq/#what-about-the-docker-datadmsconfig-directory
+  mail-config:
+    volumeName: mail-config
+    mountPath: /tmp/docker-mailserver
+    subPath:
+
+  # Stores emails
+  mail-data:
+    volumeName: mail-data
+    mountPath: /var/mail
+    subPath:
+
+  # Stores state for Postfix, Dovecot, Fail2Ban, Amavis, PostGrey, ClamAV, SpamAssassin, Rspamd & Redis
+  # https://docker-mailserver.github.io/docker-mailserver/edge/faq/#what-about-the-docker-datadmsmail-state-directory
+  mail-state:
+    volumeName: mail-state
+    mountPath: /var/mail-state
+    subPath:
+
+  # Store mail logs
+  mail-log:
+    volumeName: mail-log
+    mountPath: /var/log/mail
+    subPath:
+
+## Monitoring adds the prometheus.io annotations to pods and services, so that the Prometheus Kubernetes SD mechanism
+## as configured in the examples will automatically discover both the pods and the services to query.
+##
+## This defaults on, as the annotations should do no harm where Prometheus is not available but will automatically
+## expose the application where Prometheus is.
+##
+## See https://github.com/prometheus/docs/blob/master/content/docs/operating/configuration.md
+## See https://github.com/prometheus/prometheus/blob/master/documentation/examples/prometheus-kubernetes.yml
+monitoring:
+  ## Whether to scrape this service with the monitoring toolkit. Mostly useful for blackbox probing of a given service
+  ## to ensure it's "up"
+  service:
+    ## monitoring should be configured to only scrape services that have a value of "true"
+    scrape: "true"
+    ## monitoring should be configured to only probe services that have a value of "true"
+    probe: "false"
+    ## Path on which metrics are exposed
+    path: "/metrics"
+    ## Port on which HTTP server is served
+    port: "9102"
+  ## Whether to scape the pods associated with this application. Useful for collecting metrics.
+  pod:
+    ## monitoring should be configured to only scrape pods that have a value of `true`
+    scrape: "true"
+    ## monitoring should be configured to only probe services that have a value of "true"
+    probe: "false"
+    ## Path on which metrics are exposed
+    path: "/metrics"
+    ## Port on which HTTP server is served
+    port: "9102"
+
+rspamd:
+  ingress:
+    enabled: false
+    ingressClassName: nginx
+    annotations: {}
+    host: rspamd.example.com
+    path: /
+    tls:
+      enabled: false
+      secret:
+
+dovecot:
+  fullTextSearch:
+    enabled: false
+    verbose: 0 # 0 (silent), 1 (verbose) or 2 (debug)
+    resources:
+      memory: 2GB
+    cron:
+      enabled: true       # Optimize index every day
+      schedule: 0 4 * * * # Every day at 4am
+
+proxyProtocol:
+  enabled: true
+  # List of sources (in CIDR format, space-separated) to permit PROXY protocol from
+  trustedNetworks: "10.0.0.0/8 192.168.0.0/16 172.16.0.0/12"
+
+# when metrics is enabled, we mount subpath log from pvc into /var/log/mail
+metrics:
+  enabled: false
+  image:
+    name: blackflysolutions/postfix-exporter@sha256
+    tag: 7ed7c0534112aff5b44757ae84a206bf659171631edfc325c3c1638d78e74f73
+    pullPolicy: "IfNotPresent"
+
+  resources:
+    requests:
+      memory: "256Mi"
+    #  cpu: "100M"
+    #limits:
+    #  memory: "256Mi"
+    #  cpu: "500M"
+
+  ## Container resource resize policy for the metrics-exporter container
+  ## Allows dynamic adjustment of CPU and memory resources without pod restart
+  ## Useful for handling load spikes or optimizing resource utilization in production
+  ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/resize-container-resources/
+  resizePolicy: []
+    # - resourceName: memory
+    #   restartPolicy: NotRequired
+    # - resourceName: cpu
+    #   restartPolicy: RestartContainer
+
+  serviceMonitor:
+    enabled: false
+    scrapeInterval: 15s
+    ## Optionally add additional labels to the deployment
+    labels: {}
+
+## ConfigMaps (and Secrets) are used to copy docker-mailserver configuration files
+## into running containers. This chart automatically sets up any config files that
+## are stored in its chart/config directory.
+##
+## However, Helm does not provide a way to save external files to a ConfigMap or Secret.
+## This is problem for docker-mailserver because you need to setup postfix accounts,
+## dovecot accounts, etc.
+##
+## The configs and secrets keys solve this problem. They allow you to add additional config
+## files by either referencing existing ConfigMaps (that you create before installing the Chart)
+## or by creating new ones (set the create key to true).
+##
+configMaps:
+  dovecot.cf:
+    create: true
+    path: dovecot.cf
+    data: |
+      {{- if .Values.proxyProtocol.enabled }}
+        haproxy_trusted_networks = {{ .Values.proxyProtocol.trustedNetworks }}
+
+        {{- if and (.Values.deployment.env.ENABLE_IMAP) (not .Values.deployment.env.SMTP_ONLY) }}
+        service imap-login {
+            inet_listener imap {
+                port = 143
+            }
+
+            inet_listener imaps {
+                port = 993
+                ssl = yes
+            }
+
+            inet_listener imap_proxyprotocol {
+                haproxy = yes
+                port = 10143
+                ssl = no
+            }
+
+            inet_listener imaps_proxyprotocol {
+                haproxy = yes
+                port = 10993
+                ssl = yes
+            }
+        }
+        {{- end -}}
+
+        {{- if and (.Values.deployment.env.ENABLE_POP3) (not .Values.deployment.env.SMTP_ONLY) }}
+        service pop3-login {
+            inet_listener pop3 {
+                port = 110
+            }
+
+            inet_listener pop3s {
+                port = 995
+                ssl = yes
+            }
+
+            inet_listener pop3_proxyprotocol {
+                haproxy = yes
+                port = 10110
+                ssl = no
+            }
+
+            inet_listener pop3s_proxyprotocol {
+                haproxy = yes
+                port = 10995
+                ssl = yes
+            }
+        }
+        {{- end -}}
+
+        {{- if and (.Values.deployment.env.ENABLE_MANAGESIEVE) (not .Values.deployment.env.SMTP_ONLY) }}
+        service managesieve-login {
+            inet_listener sieve {
+                port = 4190
+            }
+
+            inet_listener sieve_proxyprotocol {
+                port = 14190
+            }
+        }
+        {{- end -}}
+      {{- end -}}
+
+  fts-xapian-plugin.conf:
+    create: true
+    path: /etc/dovecot/conf.d/10-plugin.conf
+    data: |
+      {{- if .Values.dovecot.fullTextSearch.enabled }}
+        mail_plugins = $mail_plugins fts fts_xapian
+
+        plugin {
+            fts = xapian
+            fts_xapian = partial=3 full=20 verbose={{ .Values.dovecot.fullTextSearch.verbose }}
+
+            fts_autoindex = yes
+            fts_enforced = yes
+
+            # Index attachements
+            fts_decoder = decode2text
+        }
+
+        service indexer-worker {
+            # limit size of indexer-worker RAM usage, ex: 512MB, 1GB, 2GB
+            vsz_limit = {{ .Values.dovecot.fullTextSearch.resources.memory }}
+        }
+      {{- end -}}
+
+  user-patches.sh:
+    create: true
+    path: user-patches.sh
+    data: |
+      #!/bin/bash
+
+      {{- if .Values.proxyProtocol.enabled }}
+      # NOTE: Keep in sync with upstream advice:
+      # https://github.com/docker-mailserver/docker-mailserver/blob/v15.0.0/docs/content/examples/tutorials/mailserver-behind-proxy.md?plain=1#L238-L268
+
+      # Duplicate the config for the submission(s) service ports (587 / 465) with adjustments for the PROXY ports (10587 / 10465) and `syslog_name` setting:
+      postconf -Mf submission/inet | sed -e s/^submission/10587/ -e 's/submission/submission-proxyprotocol/' >> /etc/postfix/master.cf
+      postconf -Mf submissions/inet | sed -e s/^submissions/10465/ -e 's/submissions/submissions-proxyprotocol/' >> /etc/postfix/master.cf
+      # Enable PROXY Protocol support for these new service variants:
+      postconf -P 10587/inet/smtpd_upstream_proxy_protocol=haproxy
+      postconf -P 10465/inet/smtpd_upstream_proxy_protocol=haproxy
+      
+      # Create a variant for port 25 too (NOTE: Port 10025 is already assigned in DMS to Amavis):
+      postconf -Mf smtp/inet | sed -e s/^smtp/12525/ >> /etc/postfix/master.cf
+      # Enable PROXY Protocol support:
+      # - Uses a different setting as port 25 is handled via the postscreen service
+      # - Optionally configure a `syslog_name` to distinguish in logs:
+      postconf -P \
+        12525/inet/postscreen_upstream_proxy_protocol=haproxy \
+        12525/inet/syslog_name=postfix/smtpd-proxyprotocol
+
+      # Add the `proxy:` prefix to share this cache between each running postscreen service via `proxymap`:
+      postconf 'postscreen_cache_map = proxy:btree:$data_directory/postscreen_cache'
+      {{- end }}
+
+## The secrets key works the same way as the configs key. Use secrets to store sensitive information,
+## such as DKIM signing keys.
+##
+##  secrets:
+##    rspamd.example.com:
+##      name: rspamd.example.com                      # This is the name of the Secret
+##      create: true                                  # If true, create a new Secret
+##      path: rspamd.dkim.rsa-2048-mail-example.com.private.txt
+##      data: abace                           # If create is true, then you must specify content. Must be base 64 encoded!
+##
+##    rspamd.dkim.rsa-2048-mail-example.com.public:
+##      name: rspamd.dkim.rsa-2048-mail-example.com.public
+##      create: true
+##      path: rspamd/dkim/rsa-2048-mail-example.com.public
+##      data: abace                           # If create is true, then you must specify content. Must be base 64 encoded!
+##
+##  If you set the create key to false, then you must manually create the Secrets before deploying the chart.
+##
+##    kubectl create secret rspamd.example.com --namespace mail --from-file=rspamd.dkim.rsa-2048-mail-example.com.private.txt=<path_to_rspamd.dkim.rsa-2048-mail-example.com.private.txt>
+secrets: {}
+
+## @param extraDeploy Array of extra objects to deploy with the release
+##
+extraDeploy: []

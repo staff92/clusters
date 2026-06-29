@@ -1,0 +1,26 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: gitea
+spec:
+  interval: 1h
+  url: https://dl.gitea.io/charts/
+
+
+# ---
+# apiVersion: source.toolkit.fluxcd.io/v1
+# kind: OCIRepository
+# metadata:
+#   name: gitea
+# spec:
+#   interval: 1h
+#   url: oci://ghcr.io/m0nsterrr/helm-charts/homepage
+#   ref:
+#     tag: 4.6.0
+
+#   # type: "oci"
+#   # interval: 5m0s
+#   # url: oci://ghcr.io/m0nsterrr/helm-charts/homepage
+#   # ref:
+#   #   tag: "4.5.0"

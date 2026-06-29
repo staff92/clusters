@@ -1,0 +1,19 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: vault
+spec:
+  interval: 1h
+  url: https://gissilabs.github.io/charts/
+# ---
+# apiVersion: source.toolkit.fluxcd.io/v1
+# kind: OCIRepository
+# metadata:
+#   name: podinfo
+#   namespace: default
+# spec:
+#   interval: 5m0s
+#   url: oci://ghcr.io/stefanprodan/manifests/podinfo
+#   ref:
+#     tag: latest
