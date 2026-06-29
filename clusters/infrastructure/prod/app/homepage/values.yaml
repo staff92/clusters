@@ -196,9 +196,9 @@ config:
     - STACK:
       - Media: 
         - Awesome!:
-            # href: https://traefik.${CLUSTER_DOMAIN}
+            href: https://github.com/staff92/clusters
             icon: si-flux.svg
-            description: "This stack is full InfraAsCode with k0s & fluxCD ! Easy to setup & scale !"
+            description: "This stack is full InfraAsCode with k0s & fluxCD ! Check the code :)"
       - Infrastructure:
         - Traefik:
             href: https://traefik.${CLUSTER_DOMAIN}
