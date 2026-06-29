@@ -2,8 +2,8 @@ module.exports = {
   // Repo(s) à scanner
   repositories: ["staff92/clusters"],
 
-//   // Auteur des commits
-//   gitAuthor: "Renovate Bot <renovate@gmail.com>",
+  // Auteur des commits
+  gitAuthor: "Renovate Bot <renovate@gmail.com>",
 
   // Plateforme
   platform: "github",
