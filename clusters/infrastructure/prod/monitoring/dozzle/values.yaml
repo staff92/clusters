@@ -113,9 +113,6 @@ metadata:
   name: dozzle-https
   namespace: dozzle
   annotations:
-    # traefik.ingress.kubernetes.io/router.entrypoints: websecure
-    # traefik.ingress.kubernetes.io/router.tls: "true"
-    # traefik.ingress.kubernetes.io/router.middlewares: authelia-forwardauth-authelia@kubernetescrd
     gethomepage.dev/enabled: "true"
     gethomepage.dev/name: "Dozzle"
     gethomepage.dev/description: " It is a lightweight, web-based log viewer designed to simplify monitoring and debugging containerized applications"
@@ -126,9 +123,9 @@ metadata:
 spec:
   entryPoints:
     - websecure
-  middlewares: 
-    - name: 'forwardauth-authelia'
-      namespace: 'authelia'
+  # middlewares: 
+  #   - name: 'forwardauth-authelia'
+  #     namespace: 'authelia'
   routes:
     - match: Host(`dozzle.${CLUSTER_DOMAIN}`)
       kind: Rule
