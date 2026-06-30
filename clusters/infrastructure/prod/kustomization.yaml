@@ -10,7 +10,7 @@ resources:
   - storage/local-storage
   - storage/juicefs
 #! LB
-  - app/traefik
+  # - app/traefik
 #! MAIL
   - mail/maildev
 #! SECURITY
