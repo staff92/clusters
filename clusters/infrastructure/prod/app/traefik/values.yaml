@@ -225,10 +225,6 @@ ingressRoute:
       gethomepage.dev/group: "Infrastructure"
       gethomepage.dev/icon: "traefik.png"
       gethomepage.dev/app: "traefik"
-      traefik.ingress.kubernetes.io/router.middlewares: authelia-forwardauth-authelia@kubernetescrd
-      #traefik.ingress.kubernetes.io/router.middlewares: authelia-forwardauth-authelia@kubernetescrd
-      # traefik.ingress.kubernetes.io/router.tls.certresolver: myresolver
-    # -- The router match rule used for the dashboard ingressRoute
     matchRule: Host(`traefik.${CLUSTER_DOMAIN}`) 
     #&& PathPrefix(`/dashboard`) || PathPrefix(`/api`)
     # -- The internal service used for the dashboard ingressRoute
@@ -241,7 +237,9 @@ ingressRoute:
     # /!\ Do not expose your dashboard without any protection over the internet /!\
     entryPoints: ["websecure"]
     # -- Additional ingressRoute middlewares (e.g. for authentication)
-    middlewares: []
+    middlewares: 
+      - name: 'forwardauth-authelia' # name of your middleware, as defined in your middleware.yml
+        namespace: 'authelia'
     # -- TLS options (e.g. secret containing certificate)
     tls: {}
   healthcheck:

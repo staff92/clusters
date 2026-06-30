@@ -123,10 +123,12 @@ metadata:
     gethomepage.dev/icon: "dozzle.png"
     gethomepage.dev/pod-selector: "app=dozzle"
     gethomepage.dev/href: "https://dozzle.${CLUSTER_DOMAIN}"
-    traefik.ingress.kubernetes.io/router.middlewares: authelia-forwardauth-authelia@kubernetescrd
 spec:
   entryPoints:
     - websecure
+  middlewares: 
+    - name: 'forwardauth-authelia'
+      namespace: 'authelia'
   routes:
     - match: Host(`dozzle.${CLUSTER_DOMAIN}`)
       kind: Rule
