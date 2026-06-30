@@ -123,12 +123,12 @@ metadata:
 spec:
   entryPoints:
     - websecure
-  # middlewares: 
-  #   - name: 'forwardauth-authelia'
-  #     namespace: 'authelia'
   routes:
     - match: Host(`dozzle.${CLUSTER_DOMAIN}`)
       kind: Rule
+      middlewares: 
+        - name: 'forwardauth-authelia'
+          namespace: 'authelia'
       services:
         - name: dozzle-service
           port: 8080
