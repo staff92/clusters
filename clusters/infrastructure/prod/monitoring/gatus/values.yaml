@@ -83,6 +83,7 @@ ingress:
     gethomepage.dev/group: "Infrastructure"
     gethomepage.dev/icon: "gatus.png"
     gethomepage.dev/pod-selector: "app.kubernetes.io/name=gatus"
+    traefik.ingress.kubernetes.io/router.middlewares: authelia-forwardauth-authelia@kubernetescrd
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
   labels: {}

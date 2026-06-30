@@ -20,6 +20,7 @@ resources:
   - security/wg-portal
 #! MONITORING
   - monitoring/gatus
+  - monitoring/dozzle
 # # #! ALERT
 # #   - alert
 #! MEDIA

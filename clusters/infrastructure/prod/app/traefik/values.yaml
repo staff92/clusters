@@ -225,6 +225,7 @@ ingressRoute:
       gethomepage.dev/group: "Infrastructure"
       gethomepage.dev/icon: "traefik.png"
       gethomepage.dev/app: "traefik"
+      traefik.ingress.kubernetes.io/router.middlewares: authelia-forwardauth-authelia@kubernetescrd
       #traefik.ingress.kubernetes.io/router.middlewares: authelia-forwardauth-authelia@kubernetescrd
       # traefik.ingress.kubernetes.io/router.tls.certresolver: myresolver
     # -- The router match rule used for the dashboard ingressRoute
