@@ -2931,6 +2931,10 @@ configMap:
     # @schema
     # -- Access Control Rule list.
     rules: 
+    - domain: 'traefik.${CLUSTER_DOMAIN}'
+      policy: one_factor 
+    - domain: 'dozzle.${CLUSTER_DOMAIN}'
+      policy: one_factor 
     - domain: 'gatus.${CLUSTER_DOMAIN}'
       policy: one_factor 
     - domain: 'music.${CLUSTER_DOMAIN}'
