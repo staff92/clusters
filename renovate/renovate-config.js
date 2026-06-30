@@ -1,6 +1,6 @@
 module.exports = {
   repositories: ["staff92/clusters"],
-  gitAuthor: "Renovate Bot",
+  gitAuthor: "Renovate Bot <renovate@gmail.com>",
   platform: "github",
   schedule: ["every 17th of month"],
   prCreation: "immediate",

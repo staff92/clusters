@@ -869,7 +869,6 @@ docker run --rm authelia/authelia:latest authelia crypto hash generate pbkdf2 --
 # REAL HARDENING 
 
 ***https://github.com/duggytuxy/syswarden***
-***https://blog.${LDAP_USER1_FIRSTNAME}-robert.info/docs/securiser/reseaux/syswarden/***
 
 # TIPS 
 
