@@ -452,7 +452,16 @@ envFromSecrets: []
 envFromConfigMaps: []
 
 # -- Extra environment variables from mapping
-extraEnvVariables: {}
+extraEnvVariables:
+  - name: SEMAPHORE_DB_DIALECT
+    value: "bolt"
+  - name: SEMAPHORE_DB
+    value: "/var/lib/semaphore/database.boltdb"
+# -e SEMAPHORE_ADMIN=admin \
+# -e SEMAPHORE_ADMIN_PASSWORD=changeme \
+# -e SEMAPHORE_ADMIN_NAME="Admin" \
+# -e SEMAPHORE_MIGRATE_FROM_BOLTDB=/var/lib/semaphore/database.boltdb \
+
 
 # -- Extra environment variables from secrets
 extraEnvSecrets: {}
