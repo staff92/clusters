@@ -912,9 +912,12 @@ du -hs /var/jfsCache
 rm -rf /var/jfsCache/df357eae-cbc8-41b0-81c1-bab489844b89/raw/chunks/*
 ```
 
-# SED
-
 ```
 # replace mac os cli
 LC_ALL=C find clusters -type f -exec sed -i '' 's|test|${LDAP_USER1_LASTNAME}|g' {} + 
+```
+
+```
+# show images name + tag
+k0s ctr images ls -q | grep -v sha256
 ```

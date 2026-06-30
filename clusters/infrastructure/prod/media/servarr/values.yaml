@@ -439,8 +439,8 @@ qbittorrent:
   image:
     repository: lscr.io/linuxserver/qbittorrent
     pullPolicy: IfNotPresent
-    tag: 5.1.4
-    #tag: latest
+    #tag: 5.1.4
+    tag: latest
 #    tag: "4.6.7"
 
   imagePullSecrets: []

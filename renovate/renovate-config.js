@@ -1,53 +1,68 @@
 module.exports = {
-  // Repo(s) à scanner
   repositories: ["staff92/clusters"],
-
-  // Auteur des commits
-  gitAuthor: "Renovate Bot <renovate@gmail.com>",
-
-  // Plateforme
+  gitAuthor: "Renovate Bot",
   platform: "github",
-
-  // Fréquence
-  schedule: ["before 6am on monday"],
-
-  // Créer des PRs automatiquement
+  schedule: ["every 17th of month"],
   prCreation: "immediate",
+  prConcurrentLimit: 10,
+  prHourlyLimit: 0,
 
-  // Limite de PRs ouvertes en même temps
-  prConcurrentLimit: 5,
+  flux: {
+    fileMatch: ["\\.ya?ml$"],
+  },
 
-  // Grouper les updates par type
+  helmValues: {
+    fileMatch: ["\\.ya?ml$"],
+  },
+
   packageRules: [
     {
-      // Grouper toutes les images Docker/OCI (Flux HelmRelease, etc.)
       matchDatasources: ["docker"],
       groupName: "Docker images",
       automerge: false,
+      versioning: "docker",
     },
     {
-      // Helm charts
       matchDatasources: ["helm"],
       groupName: "Helm charts",
       automerge: false,
     },
+    {
+      matchDatasources: ["helm"],
+      matchUpdateTypes: ["patch"],
+      automerge: false, 
+    },
+    {
+      matchDatasources: ["docker"],
+      matchCurrentValue: "/^(latest|main|master|dev)$/",
+      enabled: false,
+    },
   ],
 
-  // Pour Flux CD - détecter les fichiers HelmRelease et kustomization
   customManagers: [
+    // Images manifests Kubernetes
     {
       customType: "regex",
       fileMatch: ["\\.ya?ml$"],
       matchStrings: [
-        // Détecte les tags d'image dans les values Helm via Flux
-        "image:\\s*(?<depName>[^:]+):(?<currentValue>[^\\s]+)",
+        // Format: image: registry/name:tag
+        "image:\\s*['\"]?(?<depName>[a-z0-9][a-z0-9._\\-/]*(?:/[a-z0-9._\\-]+)*):(?<currentValue>[a-zA-Z0-9._\\-]+)['\"]?",
       ],
       datasourceTemplate: "docker",
     },
+    // HelmRelease chart version
+    {
+      customType: "regex",
+      fileMatch: ["\\.ya?ml$"],
+      matchStrings: [
+        "chart:\\s*\\n\\s+spec:\\s*\\n\\s+chart:\\s*(?<depName>[^\\n]+)\\s*\\n\\s+version:\\s*(?<currentValue>[^\\n]+)\\s*\\n\\s+sourceRef:",
+      ],
+      datasourceTemplate: "helm",
+    },
   ],
 
-  // Ignorer certains paths si besoin
   ignorePaths: [
     "**/.github/**",
+    "**/archive/**",
   ],
 };
