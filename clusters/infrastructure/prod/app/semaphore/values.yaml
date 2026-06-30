@@ -214,7 +214,7 @@ general:
 
 database:
   # -- Type of database backend
-  type: postgresql
+  type: postgres
 
   # -- Read username from secret
   usernameFromSecret: true
