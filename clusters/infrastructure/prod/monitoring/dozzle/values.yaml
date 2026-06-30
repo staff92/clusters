@@ -33,7 +33,7 @@ metadata:
 subjects:
   - kind: ServiceAccount
     name: pod-viewer
-    namespace: default
+    namespace: dozzle
 roleRef:
   kind: ClusterRole
   name: pod-viewer-role
