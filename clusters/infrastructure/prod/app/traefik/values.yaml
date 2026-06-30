@@ -377,42 +377,42 @@ providers:
     # -- Allows Traefik to automatically watch for file changes
     watch: true
     # -- File content (YAML format, go template supported) (see https://doc.traefik.io/traefik/providers/file/)
-    content: ""
+    content: {}
 
   # @schema additionalProperties: false
-  kubernetesIngressNginx:
-    # -- Enable Kubernetes Ingress NGINX provider (experimental)
-    enabled: false
-    # -- Ingress Class Controller value this controller satisfies
-    controllerClass: "k8s.io/ingress-nginx"
-    # -- Name of the ingress class this controller satisfies
-    ingressClass: "nginx"
-    # -- Define if Ingress Controller should watch for Ingress Class by Name together with Controller Class
-    ingressClassByName: false
-    # -- Define if Ingress Controller should also watch for Ingresses without an IngressClass or the annotation specified
-    watchIngressWithoutClass: false
-    # -- Namespace the controller watches for updates to Kubernetes objects. Mutually exclusive with watchNamespaceSelector.
-    watchNamespace: ""
-    # -- Select namespaces the controller watches for updates to Kubernetes objects. Mutually exclusive with watchNamespace.
-    watchNamespaceSelector: ""
-    publishService:
-      # -- Service fronting the Ingress controller. Takes the form 'namespace/name'
-      enabled: false
-      pathOverride: ""
-    # -- Customized address (or addresses, separated by comma) to set as the load-balancer status of Ingress objects this controller satisfies
-    publishStatusAddress: ""
-    # -- Service used to serve HTTP requests not matching any known server name (catch-all). Takes the form 'namespace/name'
-    defaultBackendService: ""
-    # -- Disable support for Services of type ExternalName
-    disableSvcExternalName: false
-    # -- Ingress refresh throttle duration
-    throttleDuration: ""
-    # -- Kubernetes certificate authority file path (not needed for in-cluster client)
-    certAuthFilePath: ""
-    # -- Kubernetes server endpoint (required for external cluster client)
-    endpoint: ""
-    # -- Kubernetes bearer token (not needed for in-cluster client). It accepts either a token value or a file path to the token
-    token: ""
+  # kubernetesIngressNginx:
+  #   # -- Enable Kubernetes Ingress NGINX provider (experimental)
+  #   enabled: false
+  #   # -- Ingress Class Controller value this controller satisfies
+  #   controllerClass: "k8s.io/ingress-nginx"
+  #   # -- Name of the ingress class this controller satisfies
+  #   ingressClass: "nginx"
+  #   # -- Define if Ingress Controller should watch for Ingress Class by Name together with Controller Class
+  #   ingressClassByName: false
+  #   # -- Define if Ingress Controller should also watch for Ingresses without an IngressClass or the annotation specified
+  #   watchIngressWithoutClass: false
+  #   # -- Namespace the controller watches for updates to Kubernetes objects. Mutually exclusive with watchNamespaceSelector.
+  #   watchNamespace: ""
+  #   # -- Select namespaces the controller watches for updates to Kubernetes objects. Mutually exclusive with watchNamespace.
+  #   watchNamespaceSelector: ""
+  #   publishService:
+  #     # -- Service fronting the Ingress controller. Takes the form 'namespace/name'
+  #     enabled: false
+  #     pathOverride: ""
+  #   # -- Customized address (or addresses, separated by comma) to set as the load-balancer status of Ingress objects this controller satisfies
+  #   publishStatusAddress: ""
+  #   # -- Service used to serve HTTP requests not matching any known server name (catch-all). Takes the form 'namespace/name'
+  #   defaultBackendService: ""
+  #   # -- Disable support for Services of type ExternalName
+  #   disableSvcExternalName: false
+  #   # -- Ingress refresh throttle duration
+  #   throttleDuration: ""
+  #   # -- Kubernetes certificate authority file path (not needed for in-cluster client)
+  #   certAuthFilePath: ""
+  #   # -- Kubernetes server endpoint (required for external cluster client)
+  #   endpoint: ""
+  #   # -- Kubernetes bearer token (not needed for in-cluster client). It accepts either a token value or a file path to the token
+  #   token: ""
 
   # @schema additionalProperties: false
   knative:
@@ -445,57 +445,57 @@ additionalVolumeMounts: []
 #   mountPath: /var/log/traefik
 
 logs:
-  general:
-    # -- Set [logs format](https://doc.traefik.io/traefik/observability/logs/#format)
-    format:  # @schema enum:["common", "json", null]; type:[string, null]; default: "common"
-    # By default, the level is set to INFO.
-    # -- Alternative logging levels are TRACE, DEBUG, INFO, WARN, ERROR, FATAL, and PANIC.
-    level: "INFO"  # @schema enum:[TRACE,DEBUG,INFO,WARN,ERROR,FATAL,PANIC]; default: "INFO"
-    # -- To write the logs into a log file, use the filePath option.
-    filePath: ""
-    # -- When set to true and format is common, it disables the colorized output.
-    noColor: false
-    otlp:
-      # -- Set to true in order to enable OpenTelemetry on logs. Note that experimental.otlpLogs needs to be enabled.
+# general:
+  # -- Set [logs format](https://doc.traefik.io/traefik/observability/logs/#format)
+  format:  # @schema enum:["common", "json", null]; type:[string, null]; default: "common"
+  # By default, the level is set to INFO.
+  # -- Alternative logging levels are TRACE, DEBUG, INFO, WARN, ERROR, FATAL, and PANIC.
+  level: "INFO"  # @schema enum:[TRACE,DEBUG,INFO,WARN,ERROR,FATAL,PANIC]; default: "INFO"
+  # -- To write the logs into a log file, use the filePath option.
+  filePath: ""
+  # -- When set to true and format is common, it disables the colorized output.
+  noColor: false
+  otlp:
+    # -- Set to true in order to enable OpenTelemetry on logs. Note that experimental.otlpLogs needs to be enabled.
+    enabled: false
+    # -- Service name used in OTLP backend. Default: traefik.
+    serviceName:  # @schema type:[string, null]
+    http:
+      # -- Set to true in order to send logs to the OpenTelemetry Collector using HTTP.
       enabled: false
-      # -- Service name used in OTLP backend. Default: traefik.
-      serviceName:  # @schema type:[string, null]
-      http:
-        # -- Set to true in order to send logs to the OpenTelemetry Collector using HTTP.
-        enabled: false
-        # -- Format: <scheme>://<host>:<port><path>. Default: https://localhost:4318/v1/logs
-        endpoint: ""
-        # -- Additional headers sent with logs by the reporter to the OpenTelemetry Collector.
-        headers: {}
-        ## Defines the TLS configuration used by the reporter to send logs to the OpenTelemetry Collector.
-        tls:
-          # -- The path to the certificate authority, it defaults to the system bundle.
-          ca: ""
-          # -- The path to the public certificate. When using this option, setting the key option is required.
-          cert: ""
-          # -- The path to the private key. When using this option, setting the cert option is required.
-          key: ""
-          # -- When set to true, the TLS connection accepts any certificate presented by the server regardless of the hostnames it covers.
-          insecureSkipVerify:  # @schema type:[boolean, null]
-      grpc:
-        # -- Set to true in order to send logs  to the OpenTelemetry Collector using gRPC
-        enabled: false
-        # -- Format: <host>:<port>. Default: "localhost:4317"
-        endpoint: ""
-        # -- Allows reporter to send logs to the OpenTelemetry Collector without using a secured protocol.
-        insecure: false
-        ## Defines the TLS configuration used by the reporter to send logs to the OpenTelemetry Collector.
-        tls:
-          # -- The path to the certificate authority, it defaults to the system bundle.
-          ca: ""
-          # -- The path to the public certificate. When using this option, setting the key option is required.
-          cert: ""
-          # -- The path to the private key. When using this option, setting the cert option is required.
-          key: ""
-          # -- When set to true, the TLS connection accepts any certificate presented by the server regardless of the hostnames it covers.
-          insecureSkipVerify: false
-      # -- Defines additional resource attributes to be sent to the collector.
-      resourceAttributes: {}
+      # -- Format: <scheme>://<host>:<port><path>. Default: https://localhost:4318/v1/logs
+      endpoint: ""
+      # -- Additional headers sent with logs by the reporter to the OpenTelemetry Collector.
+      headers: {}
+      ## Defines the TLS configuration used by the reporter to send logs to the OpenTelemetry Collector.
+      tls:
+        # -- The path to the certificate authority, it defaults to the system bundle.
+        ca: ""
+        # -- The path to the public certificate. When using this option, setting the key option is required.
+        cert: ""
+        # -- The path to the private key. When using this option, setting the cert option is required.
+        key: ""
+        # -- When set to true, the TLS connection accepts any certificate presented by the server regardless of the hostnames it covers.
+        insecureSkipVerify:  # @schema type:[boolean, null]
+    grpc:
+      # -- Set to true in order to send logs  to the OpenTelemetry Collector using gRPC
+      enabled: false
+      # -- Format: <host>:<port>. Default: "localhost:4317"
+      endpoint: ""
+      # -- Allows reporter to send logs to the OpenTelemetry Collector without using a secured protocol.
+      insecure: false
+      ## Defines the TLS configuration used by the reporter to send logs to the OpenTelemetry Collector.
+      tls:
+        # -- The path to the certificate authority, it defaults to the system bundle.
+        ca: ""
+        # -- The path to the public certificate. When using this option, setting the key option is required.
+        cert: ""
+        # -- The path to the private key. When using this option, setting the cert option is required.
+        key: ""
+        # -- When set to true, the TLS connection accepts any certificate presented by the server regardless of the hostnames it covers.
+        insecureSkipVerify: false
+    # -- Defines additional resource attributes to be sent to the collector.
+    resourceAttributes: {}
 
   access:
     # -- To enable access logs
@@ -1147,11 +1147,11 @@ rbac:  # @schema additionalProperties: false
   # https://kubernetes.io/docs/reference/access-authn-authz/rbac/#user-facing-roles
   aggregateTo: []
   # List of Kubernetes secrets that are accessible for Traefik. If empty, then access is granted to every secret.
-  secretResourceNames: []
+  # secretResourceNames: []
 
 # -- Enable to create a PodSecurityPolicy and assign it to the Service Account via RoleBinding or ClusterRoleBinding
-podSecurityPolicy:
-  enabled: false
+# podSecurityPolicy:
+#   enabled: false
 
 # -- The service account the pods will use to interact with the Kubernetes API
 serviceAccount:  # @schema additionalProperties: false
