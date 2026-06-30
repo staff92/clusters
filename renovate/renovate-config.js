@@ -2,7 +2,7 @@ module.exports = {
   repositories: ["staff92/clusters"],
   gitAuthor: "Renovate Bot <renovate@gmail.com>",
   platform: "github",
-  schedule: ["every 17th of month"],
+  schedule: ["before 6am on monday"],
   prCreation: "immediate",
   prConcurrentLimit: 10,
   prHourlyLimit: 0,
