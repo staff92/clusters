@@ -454,7 +454,7 @@ envFromConfigMaps: []
 # -- Extra environment variables from mapping
 extraEnvVariables:
   - name: SEMAPHORE_DB_DIALECT
-    value: "bolt"
+    value: "sqlite"
   - name: SEMAPHORE_DB
     value: "/var/lib/semaphore/database.boltdb"
 # -e SEMAPHORE_ADMIN=admin \
