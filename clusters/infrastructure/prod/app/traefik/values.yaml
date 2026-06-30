@@ -377,42 +377,42 @@ providers:
     # -- Allows Traefik to automatically watch for file changes
     watch: true
     # -- File content (YAML format, go template supported) (see https://doc.traefik.io/traefik/providers/file/)
-    content: {}
+    content: ""
 
   # @schema additionalProperties: false
-  # kubernetesIngressNginx:
-  #   # -- Enable Kubernetes Ingress NGINX provider (experimental)
-  #   enabled: false
-  #   # -- Ingress Class Controller value this controller satisfies
-  #   controllerClass: "k8s.io/ingress-nginx"
-  #   # -- Name of the ingress class this controller satisfies
-  #   ingressClass: "nginx"
-  #   # -- Define if Ingress Controller should watch for Ingress Class by Name together with Controller Class
-  #   ingressClassByName: false
-  #   # -- Define if Ingress Controller should also watch for Ingresses without an IngressClass or the annotation specified
-  #   watchIngressWithoutClass: false
-  #   # -- Namespace the controller watches for updates to Kubernetes objects. Mutually exclusive with watchNamespaceSelector.
-  #   watchNamespace: ""
-  #   # -- Select namespaces the controller watches for updates to Kubernetes objects. Mutually exclusive with watchNamespace.
-  #   watchNamespaceSelector: ""
-  #   publishService:
-  #     # -- Service fronting the Ingress controller. Takes the form 'namespace/name'
-  #     enabled: false
-  #     pathOverride: ""
-  #   # -- Customized address (or addresses, separated by comma) to set as the load-balancer status of Ingress objects this controller satisfies
-  #   publishStatusAddress: ""
-  #   # -- Service used to serve HTTP requests not matching any known server name (catch-all). Takes the form 'namespace/name'
-  #   defaultBackendService: ""
-  #   # -- Disable support for Services of type ExternalName
-  #   disableSvcExternalName: false
-  #   # -- Ingress refresh throttle duration
-  #   throttleDuration: ""
-  #   # -- Kubernetes certificate authority file path (not needed for in-cluster client)
-  #   certAuthFilePath: ""
-  #   # -- Kubernetes server endpoint (required for external cluster client)
-  #   endpoint: ""
-  #   # -- Kubernetes bearer token (not needed for in-cluster client). It accepts either a token value or a file path to the token
-  #   token: ""
+  kubernetesIngressNginx:
+    # -- Enable Kubernetes Ingress NGINX provider (experimental)
+    enabled: false
+    # -- Ingress Class Controller value this controller satisfies
+    controllerClass: "k8s.io/ingress-nginx"
+    # -- Name of the ingress class this controller satisfies
+    ingressClass: "nginx"
+    # -- Define if Ingress Controller should watch for Ingress Class by Name together with Controller Class
+    ingressClassByName: false
+    # -- Define if Ingress Controller should also watch for Ingresses without an IngressClass or the annotation specified
+    watchIngressWithoutClass: false
+    # -- Namespace the controller watches for updates to Kubernetes objects. Mutually exclusive with watchNamespaceSelector.
+    watchNamespace: ""
+    # -- Select namespaces the controller watches for updates to Kubernetes objects. Mutually exclusive with watchNamespace.
+    watchNamespaceSelector: ""
+    publishService:
+      # -- Service fronting the Ingress controller. Takes the form 'namespace/name'
+      enabled: false
+      pathOverride: ""
+    # -- Customized address (or addresses, separated by comma) to set as the load-balancer status of Ingress objects this controller satisfies
+    publishStatusAddress: ""
+    # -- Service used to serve HTTP requests not matching any known server name (catch-all). Takes the form 'namespace/name'
+    defaultBackendService: ""
+    # -- Disable support for Services of type ExternalName
+    disableSvcExternalName: false
+    # -- Ingress refresh throttle duration
+    throttleDuration: ""
+    # -- Kubernetes certificate authority file path (not needed for in-cluster client)
+    certAuthFilePath: ""
+    # -- Kubernetes server endpoint (required for external cluster client)
+    endpoint: ""
+    # -- Kubernetes bearer token (not needed for in-cluster client). It accepts either a token value or a file path to the token
+    token: ""
 
   # @schema additionalProperties: false
   knative:
@@ -444,136 +444,131 @@ additionalVolumeMounts: []
 # - name: traefik-logs
 #   mountPath: /var/log/traefik
 
-# -- See [logs reference](https://doc.traefik.io/traefik/reference/install-configuration/observability/logs-and-accesslogs/)
-log:
-  # -- Set [logs format](https://doc.traefik.io/traefik/reference/install-configuration/observability/logs-and-accesslogs/#opt-log-format)
-  format:  # @schema enum:["common", "json", null]; type:[string, null]; default: "common"
-  # By default, the level is set to INFO.
-  # -- Alternative logging levels are TRACE, DEBUG, INFO, WARN, ERROR, FATAL, and PANIC.
-  level: "INFO"  # @schema enum:[TRACE,DEBUG,INFO,WARN,ERROR,FATAL,PANIC]; default: "INFO"
-  # -- To write the logs into a log file, use the filePath option.
-  filePath: ""
-  # -- When set to true and format is common, it disables the colorized output.
-  noColor: false
-  otlp:
-    # -- Set to true in order to enable OpenTelemetry on logs. Note that experimental.otlpLogs needs to be enabled.
-    enabled: false
-    # -- Service name used in OTLP backend. Default: traefik.
-    serviceName:  # @schema type:[string, null]
-    http:
-      # -- Set to true in order to send logs to the OpenTelemetry Collector using HTTP.
+logs:
+  general:
+    # -- Set [logs format](https://doc.traefik.io/traefik/observability/logs/#format)
+    format:  # @schema enum:["common", "json", null]; type:[string, null]; default: "common"
+    # By default, the level is set to INFO.
+    # -- Alternative logging levels are TRACE, DEBUG, INFO, WARN, ERROR, FATAL, and PANIC.
+    level: "INFO"  # @schema enum:[TRACE,DEBUG,INFO,WARN,ERROR,FATAL,PANIC]; default: "INFO"
+    # -- To write the logs into a log file, use the filePath option.
+    filePath: ""
+    # -- When set to true and format is common, it disables the colorized output.
+    noColor: false
+    otlp:
+      # -- Set to true in order to enable OpenTelemetry on logs. Note that experimental.otlpLogs needs to be enabled.
       enabled: false
-      # -- Format: <scheme>://<host>:<port><path>. Default: https://localhost:4318/v1/logs
-      endpoint: ""
-      # -- Additional headers sent with logs by the reporter to the OpenTelemetry Collector.
-      headers: {}
-      ## Defines the TLS configuration used by the reporter to send logs to the OpenTelemetry Collector.
-      tls:
-        # -- The path to the certificate authority, it defaults to the system bundle.
-        ca: ""
-        # -- The path to the public certificate. When using this option, setting the key option is required.
-        cert: ""
-        # -- The path to the private key. When using this option, setting the cert option is required.
-        key: ""
-        # -- When set to true, the TLS connection accepts any certificate presented by the server regardless of the hostnames it covers.
-        insecureSkipVerify:  # @schema type:[boolean, null]
-    grpc:
-      # -- Set to true in order to send logs  to the OpenTelemetry Collector using gRPC
-      enabled: false
-      # -- Format: <host>:<port>. Default: "localhost:4317"
-      endpoint: ""
-      # -- Allows reporter to send logs to the OpenTelemetry Collector without using a secured protocol.
-      insecure: false
-      ## Defines the TLS configuration used by the reporter to send logs to the OpenTelemetry Collector.
-      tls:
-        # -- The path to the certificate authority, it defaults to the system bundle.
-        ca: ""
-        # -- The path to the public certificate. When using this option, setting the key option is required.
-        cert: ""
-        # -- The path to the private key. When using this option, setting the cert option is required.
-        key: ""
-        # -- When set to true, the TLS connection accepts any certificate presented by the server regardless of the hostnames it covers.
-        insecureSkipVerify:  # @schema type:[boolean, null]
-    # -- Defines additional resource attributes to be sent to the collector.
-    resourceAttributes: {}
+      # -- Service name used in OTLP backend. Default: traefik.
+      serviceName:  # @schema type:[string, null]
+      http:
+        # -- Set to true in order to send logs to the OpenTelemetry Collector using HTTP.
+        enabled: false
+        # -- Format: <scheme>://<host>:<port><path>. Default: https://localhost:4318/v1/logs
+        endpoint: ""
+        # -- Additional headers sent with logs by the reporter to the OpenTelemetry Collector.
+        headers: {}
+        ## Defines the TLS configuration used by the reporter to send logs to the OpenTelemetry Collector.
+        tls:
+          # -- The path to the certificate authority, it defaults to the system bundle.
+          ca: ""
+          # -- The path to the public certificate. When using this option, setting the key option is required.
+          cert: ""
+          # -- The path to the private key. When using this option, setting the cert option is required.
+          key: ""
+          # -- When set to true, the TLS connection accepts any certificate presented by the server regardless of the hostnames it covers.
+          insecureSkipVerify:  # @schema type:[boolean, null]
+      grpc:
+        # -- Set to true in order to send logs  to the OpenTelemetry Collector using gRPC
+        enabled: false
+        # -- Format: <host>:<port>. Default: "localhost:4317"
+        endpoint: ""
+        # -- Allows reporter to send logs to the OpenTelemetry Collector without using a secured protocol.
+        insecure: false
+        ## Defines the TLS configuration used by the reporter to send logs to the OpenTelemetry Collector.
+        tls:
+          # -- The path to the certificate authority, it defaults to the system bundle.
+          ca: ""
+          # -- The path to the public certificate. When using this option, setting the key option is required.
+          cert: ""
+          # -- The path to the private key. When using this option, setting the cert option is required.
+          key: ""
+          # -- When set to true, the TLS connection accepts any certificate presented by the server regardless of the hostnames it covers.
+          insecureSkipVerify: false
+      # -- Defines additional resource attributes to be sent to the collector.
+      resourceAttributes: {}
 
-# -- See [access logs reference](https://doc.traefik.io/traefik/reference/install-configuration/observability/logs-and-accesslogs/)
-accessLog:
-  # -- To enable access logs
-  enabled: false
-  # -- Set [access log format](https://doc.traefik.io/traefik/reference/install-configuration/observability/logs-and-accesslogs/#opt-accesslog-format)
-  format:  # @schema enum:["common", "genericCLF", "json", null]; type:[string, null]; default: "common"
-  # filePath: "/var/log/traefik/access.log
-  # -- Set [bufferingSize](https://doc.traefik.io/traefik/reference/install-configuration/observability/logs-and-accesslogs/#opt-accesslog-bufferingSize)
-  bufferingSize:  # @schema type:[integer, null]
-  # -- Set [timezone](https://doc.traefik.io/traefik/reference/install-configuration/observability/logs-and-accesslogs/#time-zones)
-  timezone: ""
-  # -- Set [filtering](https://doc.traefik.io/traefik/observe/logs-and-access-logs/#access-log-filters)
-  # @default -- See below
-  filters:  # @schema additionalProperties: false
-    # -- Set statusCodes, to limit the access logs to requests with a status codes in the specified range
-    statusCodes: ""
-    # -- Set retryAttempts, to keep the access logs when at least one retry has happened
-    retryAttempts: false
-    # -- Set minDuration, to keep access logs when requests take longer than the specified duration
-    minDuration: ""
-  # -- Enables accessLogs for internal resources. Default: false.
-  addInternals: false
-  # -- Enables access log output alongside OTLP (v3.7+).
-  dualOutput: false
-  fields:
-    # -- Set default mode for fields.names
-    defaultMode: keep  # @schema enum:[keep, drop, redact]; default: keep
-    # -- Names of the fields to limit.
-    names: {}
-    headers:
-      # -- [Limit logged fields or headers](https://doc.traefik.io/traefik/observe/logs-and-access-logs/#log-fields-customization)
-      defaultMode: drop  # @schema enum:[keep, drop, redact]; default: drop
-      names: {}
-    queryParameters:
-      # -- Keep or drop all query parameters in the RequestPath access log field (v3.7.3+).
-      defaultMode:  # @schema enum:[keep, drop, null]; type:[string, null]; default: null
-  otlp:
-    # -- Set to true in order to enable OpenTelemetry on access logs. Note that experimental.otlpLogs needs to be enabled.
+  access:
+    # -- To enable access logs
     enabled: false
-    # -- Service name used in OTLP backend. Default: traefik.
-    serviceName:  # @schema type:[string, null]
-    http:
-      # -- Set to true in order to send access logs to the OpenTelemetry Collector using HTTP.
+    # -- Set [access log format](https://doc.traefik.io/traefik/observability/access-logs/#format)
+    format:  # @schema enum:["common", "genericCLF", "json", null]; type:[string, null]; default: "common"
+    # filePath: "/var/log/traefik/access.log
+    # -- Set [bufferingSize](https://doc.traefik.io/traefik/observability/access-logs/#bufferingsize)
+    bufferingSize:  # @schema type:[integer, null]
+    # -- Set [timezone](https://doc.traefik.io/traefik/observability/access-logs/#time-zones)
+    timezone: ""
+    # -- Set [filtering](https://docs.traefik.io/observability/access-logs/#filtering)
+    # @default -- See below
+    filters:  # @schema additionalProperties: false
+      # -- Set statusCodes, to limit the access logs to requests with a status codes in the specified range
+      statuscodes: ""
+      # -- Set retryAttempts, to keep the access logs when at least one retry has happened
+      retryattempts: false
+      # -- Set minDuration, to keep access logs when requests take longer than the specified duration
+      minduration: ""
+    # -- Enables accessLogs for internal resources. Default: false.
+    addInternals: false
+    fields:
+      general:
+        # -- Set default mode for fields.names
+        defaultmode: keep  # @schema enum:[keep, drop, redact]; default: keep
+        # -- Names of the fields to limit.
+        names: {}
+      headers:
+        # -- [Limit logged fields or headers](https://doc.traefik.io/traefik/observability/access-logs/#limiting-the-fieldsincluding-headers)
+        defaultmode: drop  # @schema enum:[keep, drop, redact]; default: drop
+        names: {}
+    otlp:
+      # -- Set to true in order to enable OpenTelemetry on access logs. Note that experimental.otlpLogs needs to be enabled.
       enabled: false
-      # -- Format: <scheme>://<host>:<port><path>. Default: https://localhost:4318/v1/logs
-      endpoint: ""
-      # -- Additional headers sent with access logs by the reporter to the OpenTelemetry Collector.
-      headers: {}
-      ## Defines the TLS configuration used by the reporter to send access logs to the OpenTelemetry Collector.
-      tls:
-        # -- The path to the certificate authority, it defaults to the system bundle.
-        ca: ""
-        # -- The path to the public certificate. When using this option, setting the key option is required.
-        cert: ""
-        # -- The path to the private key. When using this option, setting the cert option is required.
-        key: ""
-        # -- When set to true, the TLS connection accepts any certificate presented by the server regardless of the hostnames it covers.
-        insecureSkipVerify:  # @schema type:[boolean, null]
-    grpc:
-      # -- Set to true in order to send access logs to the OpenTelemetry Collector using gRPC
-      enabled: false
-      # -- Format: <host>:<port>. Default: "localhost:4317"
-      endpoint: ""
-      # -- Allows reporter to send access logs to the OpenTelemetry Collector without using a secured protocol.
-      insecure: false
-      ## Defines the TLS configuration used by the reporter to send access logs to the OpenTelemetry Collector.
-      tls:
-        # -- The path to the certificate authority, it defaults to the system bundle.
-        ca: ""
-        # -- The path to the public certificate. When using this option, setting the key option is required.
-        cert: ""
-        # -- The path to the private key. When using this option, setting the cert option is required.
-        key: ""
-        # -- When set to true, the TLS connection accepts any certificate presented by the server regardless of the hostnames it covers.
-        insecureSkipVerify:  # @schema type:[boolean, null]
-    # -- Defines additional resource attributes to be sent to the collector.
-    resourceAttributes: {}
+      # -- Service name used in OTLP backend. Default: traefik.
+      serviceName:  # @schema type:[string, null]
+      http:
+        # -- Set to true in order to send access logs to the OpenTelemetry Collector using HTTP.
+        enabled: false
+        # -- Format: <scheme>://<host>:<port><path>. Default: https://localhost:4318/v1/logs
+        endpoint: ""
+        # -- Additional headers sent with access logs by the reporter to the OpenTelemetry Collector.
+        headers: {}
+        ## Defines the TLS configuration used by the reporter to send access logs to the OpenTelemetry Collector.
+        tls:
+          # -- The path to the certificate authority, it defaults to the system bundle.
+          ca: ""
+          # -- The path to the public certificate. When using this option, setting the key option is required.
+          cert: ""
+          # -- The path to the private key. When using this option, setting the cert option is required.
+          key: ""
+          # -- When set to true, the TLS connection accepts any certificate presented by the server regardless of the hostnames it covers.
+          insecureSkipVerify:  # @schema type:[boolean, null]
+      grpc:
+        # -- Set to true in order to send access logs to the OpenTelemetry Collector using gRPC
+        enabled: false
+        # -- Format: <host>:<port>. Default: "localhost:4317"
+        endpoint: ""
+        # -- Allows reporter to send access logs to the OpenTelemetry Collector without using a secured protocol.
+        insecure: false
+        ## Defines the TLS configuration used by the reporter to send access logs to the OpenTelemetry Collector.
+        tls:
+          # -- The path to the certificate authority, it defaults to the system bundle.
+          ca: ""
+          # -- The path to the public certificate. When using this option, setting the key option is required.
+          cert: ""
+          # -- The path to the private key. When using this option, setting the cert option is required.
+          key: ""
+          # -- When set to true, the TLS connection accepts any certificate presented by the server regardless of the hostnames it covers.
+          insecureSkipVerify: false
+      # -- Defines additional resource attributes to be sent to the collector.
+      resourceAttributes: {}
 
 metrics:
   # -- Enable metrics for internal resources. Default: false
@@ -1038,11 +1033,10 @@ tlsStore: {}
 
 service:
   enabled: true
-  # -- Override the default Service name. Useful for adopting an existing Service (e.g., during migration from another ingress controller).
-  nameOverride: ""  # @schema type:[string, null]
   ## -- Single service is using `MixedProtocolLBService` feature gate.
   ## -- When set to false, it will create two Service, one for TCP and one for UDP.
   single: true
+  type: LoadBalancer
   # -- Additional annotations applied to both TCP and UDP services (e.g. for cloud provider specific config)
   annotations: {}
   # -- Additional annotations for TCP service only
@@ -1051,68 +1045,39 @@ service:
   annotationsUDP: {}
   # -- Additional service labels (e.g. for filtering Service by custom labels)
   labels: {}
-  # -- Additional entries here will be added to the Service [spec](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.35/#servicespec-v1-core).
-  # Cannot contain selector or ports entries.
+  # -- Additional entries here will be added to the service spec.
+  # -- Cannot contain type, selector or ports entries.
   spec:
-    # type: LoadBalancer
-    loadBalancerIP: ${LOADBALANCER_IP}
-  # -- Can be used to create multiple Service.
-  # See EXAMPLES.md for more details.
+    externalTrafficPolicy: Local
+    # loadBalancerIP: "1.1.1.1"
+  # clusterIP: "2.3.4.5"
+  loadBalancerSourceRanges: []
+  # - 192.168.0.1/32
+  # - 172.16.0.0/16
+  ## -- Class of the load balancer implementation
+  # loadBalancerClass: service.k8s.aws/nlb
+  externalIPs: 
+    - ${LOADBALANCER_IP}
+  # - 1.2.3.4
+  ## One of SingleStack, PreferDualStack, or RequireDualStack.
+  # ipFamilyPolicy: SingleStack
+  ## List of IP families (e.g. IPv4 and/or IPv6).
+  ## ref: https://kubernetes.io/docs/concepts/services-networking/dual-stack/#services
+  # ipFamilies:
+  #   - IPv4
+  #   - IPv6
+  ##
   additionalServices: {}
-
-
-
-
-
-
-
-# service:
-#   enabled: true
-#   ## -- Single service is using `MixedProtocolLBService` feature gate.
-#   ## -- When set to false, it will create two Service, one for TCP and one for UDP.
-#   single: true
-#   type: LoadBalancer
-#   # -- Additional annotations applied to both TCP and UDP services (e.g. for cloud provider specific config)
-#   annotations: {}
-#   # -- Additional annotations for TCP service only
-#   annotationsTCP: {}
-#   # -- Additional annotations for UDP service only
-#   annotationsUDP: {}
-#   # -- Additional service labels (e.g. for filtering Service by custom labels)
-#   labels: {}
-#   # -- Additional entries here will be added to the service spec.
-#   # -- Cannot contain type, selector or ports entries.
-#   spec:
-#     externalTrafficPolicy: Local
-#     # loadBalancerIP: "1.1.1.1"
-#   # clusterIP: "2.3.4.5"
-#   loadBalancerSourceRanges: []
-#   # - 192.168.0.1/32
-#   # - 172.16.0.0/16
-#   ## -- Class of the load balancer implementation
-#   # loadBalancerClass: service.k8s.aws/nlb
-#   externalIPs: 
-#     - ${LOADBALANCER_IP}
-#   # - 1.2.3.4
-#   ## One of SingleStack, PreferDualStack, or RequireDualStack.
-#   # ipFamilyPolicy: SingleStack
-#   ## List of IP families (e.g. IPv4 and/or IPv6).
-#   ## ref: https://kubernetes.io/docs/concepts/services-networking/dual-stack/#services
-#   # ipFamilies:
-#   #   - IPv4
-#   #   - IPv6
-#   ##
-#   additionalServices: {}
-#   ## -- An additional and optional internal Service.
-#   ## Same parameters as external Service
-#   # internal:
-#   #   type: ClusterIP
-#   #   # labels: {}
-#   #   # annotations: {}
-#   #   # spec: {}
-#   #   # loadBalancerSourceRanges: []
-#   #   # externalIPs: []
-#   #   # ipFamilies: [ "IPv4","IPv6" ]
+  ## -- An additional and optional internal Service.
+  ## Same parameters as external Service
+  # internal:
+  #   type: ClusterIP
+  #   # labels: {}
+  #   # annotations: {}
+  #   # spec: {}
+  #   # loadBalancerSourceRanges: []
+  #   # externalIPs: []
+  #   # ipFamilies: [ "IPv4","IPv6" ]
 
 autoscaling:  # @schema additionalProperties: false
   # -- Create HorizontalPodAutoscaler object.
@@ -1182,11 +1147,11 @@ rbac:  # @schema additionalProperties: false
   # https://kubernetes.io/docs/reference/access-authn-authz/rbac/#user-facing-roles
   aggregateTo: []
   # List of Kubernetes secrets that are accessible for Traefik. If empty, then access is granted to every secret.
-  # secretResourceNames: []
+  secretResourceNames: []
 
 # -- Enable to create a PodSecurityPolicy and assign it to the Service Account via RoleBinding or ClusterRoleBinding
-# podSecurityPolicy:
-#   enabled: false
+podSecurityPolicy:
+  enabled: false
 
 # -- The service account the pods will use to interact with the Kubernetes API
 serviceAccount:  # @schema additionalProperties: false
