@@ -311,10 +311,10 @@ oidc:
       client_secret: "${SEMAPHORE_SSO_SECRET}"
       redirect_url: "https://semaphore.${CLUSTER_DOMAIN}/api/auth/oidc/authelia/redirect"
       scopes: ["openid", "profile", "email"]
-      username_claim: preferred_username",
-      email_claim: email",
-      name_claim: name",
-      order": 1
+      username_claim: preferred_username
+      email_claim: email
+      name_claim: name
+      order: 1
     # keycloak:
     #   display_name: Keycloak
     #   provider_url: https://auth.${CLUSTER_DOMAIN}/auth/realms/example

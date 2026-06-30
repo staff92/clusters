@@ -4162,6 +4162,14 @@ configMap:
           id_token: ['vaultwarden_roles']
           custom_claims:
             vaultwarden_roles: {}
+      semaphore_claims_policy:
+        id_token:
+          - groups
+          - email
+          - email_verified
+          - alt_emails
+          - preferred_username
+          - name
       # claims_policies:
         # policy_name:
           # id_token: []
@@ -4423,6 +4431,7 @@ configMap:
       - client_id: 'semaphore'
         client_name: 'Semaphore'
         client_secret: '${SEMAPHORE_SSO_CLIENT_SECRET_HASH}' 
+        claims_policy: semaphore_claims_policy
         public: false
         authorization_policy: 'one_factor'
         require_pkce: false
