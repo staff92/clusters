@@ -661,7 +661,7 @@ pod:
   initContainers: []
   # initContainers:
   # - name: myapp-init
-  #   image: busybox:1.36
+  #   image: busybox:1.38
   #   command: ['sh', '-c', 'echo The app is starting! && sleep 5']
 
   # @schema
