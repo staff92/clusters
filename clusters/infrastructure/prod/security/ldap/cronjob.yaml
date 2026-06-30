@@ -5,6 +5,8 @@ metadata:
   namespace: lldap
 spec:
   schedule: "0 8 * * *" 
+  successfulJobsHistoryLimit: 0
+  failedJobsHistoryLimit: 0
   jobTemplate:
     spec:
       template:
