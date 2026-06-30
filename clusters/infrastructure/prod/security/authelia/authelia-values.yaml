@@ -4162,14 +4162,14 @@ configMap:
           id_token: ['vaultwarden_roles']
           custom_claims:
             vaultwarden_roles: {}
-      semaphore_claims_policy:
-        id_token:
-          - groups
-          - email
-          - email_verified
-          - alt_emails
-          - preferred_username
-          - name
+        semaphore_claims_policy:
+          id_token:
+            - groups
+            - email
+            - email_verified
+            - alt_emails
+            - preferred_username
+            - name
       # claims_policies:
         # policy_name:
           # id_token: []
