@@ -180,7 +180,7 @@ customCertificates:
 
 general:
   # -- Host to access Semaphore
-  host: semaphore.${CLUSTER_DOMAIN}
+  host:
 
   # -- Use Git client implementation
   gitClient: cmd_git
