@@ -455,7 +455,7 @@ envFromConfigMaps: []
 extraEnvVariables:
   - name: SEMAPHORE_DB_DIALECT
     value: "sqlite"
-  - name: SEMAPHORE_DB
+  - name: SEMAPHORE_MIGRATE_FROM_BOLTDB
     value: "/var/lib/semaphore/database.boltdb"
 # -e SEMAPHORE_ADMIN=admin \
 # -e SEMAPHORE_ADMIN_PASSWORD=changeme \
