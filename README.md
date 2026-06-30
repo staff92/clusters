@@ -865,6 +865,11 @@ To create new authelia OIDC secrets
 docker run --rm authelia/authelia:latest authelia crypto hash generate pbkdf2 --password "XXXXXX"
 ```
 
+for semaphore
+  --from-literal=cookieHash=$(openssl rand -base64 32) \
+  --from-literal=cookieEncryption=$(openssl rand -base64 32) \
+  --from-literal=accesskeyEncryption=$(openssl rand -base64 32) \
+
 
 # REAL HARDENING 
 
