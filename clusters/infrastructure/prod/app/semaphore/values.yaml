@@ -520,7 +520,7 @@ postgresql:
     username: semaphore
 
     # -- Password for semaphore database
-    password:
+    password: ${SEMAPHORE_DB_PASSWORD}
 
   serviceAccount:
     # -- Create service account for postgresql
