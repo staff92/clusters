@@ -232,7 +232,7 @@ database:
   passwordKey: password
 
   # -- Existing secret to use for credentials
-  existingSecret:
+  existingSecret: secret-semaphore
 
   # -- Host for database connection
   host:
