@@ -118,8 +118,14 @@ ingress:
   tls: []
 
   # -- Additional annotations for the ingress
-  annotations: {}
-
+  annotations:
+    #traefik.ingress.kubernetes.io/router.middlewares: traefik-botblocker@kubernetescrd
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/name: "Semaphore"
+    gethomepage.dev/description: "Semaphore UI is a modern web interface for managing popular DevOps tools"
+    gethomepage.dev/group: "Infrastructure"
+    gethomepage.dev/icon: "semaphore.png"
+    gethomepage.dev/pod-selector: "app.kubernetes.io/name=semaphore"
   # -- Additional labels for the ingress
   labels: {}
 
@@ -208,7 +214,7 @@ general:
 
 database:
   # -- Type of database backend
-  type: bolt
+  type: postgresql
 
   # -- Read username from secret
   usernameFromSecret: true
@@ -452,9 +458,9 @@ envFromSecrets: []
 envFromConfigMaps: []
 
 # -- Extra environment variables from mapping
-extraEnvVariables:
-  SEMAPHORE_DB_DIALECT: "sqlite"
-  SEMAPHORE_MIGRATE_FROM_BOLTDB: "/var/lib/semaphore/database.boltdb"
+extraEnvVariables: {}
+  # SEMAPHORE_DB_DIALECT: "sqlite"
+  # SEMAPHORE_MIGRATE_FROM_BOLTDB: "/var/lib/semaphore/database.boltdb"
 # -e SEMAPHORE_ADMIN=admin \
 # -e SEMAPHORE_ADMIN_PASSWORD=changeme \
 # -e SEMAPHORE_ADMIN_NAME="Admin" \
@@ -498,7 +504,7 @@ mariadb:
 
 postgresql:
   # -- Enable postgresql dependency
-  enabled: false
+  enabled: true
 
   # -- Override fullname of postgresql dependency
   fullnameOverride: postgresql
