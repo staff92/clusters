@@ -208,7 +208,7 @@ general:
 
 database:
   # -- Type of database backend
-  type: bolt
+  type: sqlite
 
   # -- Read username from secret
   usernameFromSecret: true
