@@ -28,7 +28,7 @@ config:
         cert_validation: false
         base_dn: "dc=example,dc=com"
         bind_user: "uid=admin,ou=people,dc=example,dc=com"
-        bind_pass: "${WG_PORTAL_AUTH__LDAP__0__BIND_PASS}"
+        bind_pass: "$${WG_PORTAL_AUTH__LDAP__0__BIND_PASS}"
         field_map:
           user_identifier: "uid"
           email: "mail"
