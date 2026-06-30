@@ -8,7 +8,7 @@ spec:
   chart:
     spec:
       chart: gitea
-      version: '12.5.0'
+      version: '12.6.0'
       sourceRef:
         kind: HelmRepository
         name: gitea
@@ -26,7 +26,7 @@ spec:
   chart:
     spec:
       chart: actions
-      version: '0.1.0'
+      version: '0.1.1'
       sourceRef:
         kind: HelmRepository
         name: gitea
