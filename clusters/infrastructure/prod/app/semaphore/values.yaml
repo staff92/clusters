@@ -144,7 +144,7 @@ persistence:
     - ReadWriteOnce
 
   # -- Name of an already existing claim
-  existingClaim:
+  existingClaim: data-postgresql-0
 
 secrets:
   # -- Cookie hash secret, generated if not present
@@ -264,7 +264,7 @@ database:
       - ReadWriteOnce
 
     # -- Name of an already existing claim
-    existingClaim:
+    existingClaim: data-postgresql-0
 
 ldap:
   # -- Enable LDAP authentication
