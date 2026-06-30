@@ -453,10 +453,8 @@ envFromConfigMaps: []
 
 # -- Extra environment variables from mapping
 extraEnvVariables:
-  - name: SEMAPHORE_DB_DIALECT
-    value: "sqlite"
-  - name: SEMAPHORE_MIGRATE_FROM_BOLTDB
-    value: "/var/lib/semaphore/database.boltdb"
+  SEMAPHORE_DB_DIALECT: "sqlite"
+  SEMAPHORE_MIGRATE_FROM_BOLTDB: "/var/lib/semaphore/database.boltdb"
 # -e SEMAPHORE_ADMIN=admin \
 # -e SEMAPHORE_ADMIN_PASSWORD=changeme \
 # -e SEMAPHORE_ADMIN_NAME="Admin" \
