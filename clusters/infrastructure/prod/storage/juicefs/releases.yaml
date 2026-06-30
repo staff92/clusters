@@ -8,7 +8,7 @@ spec:
   chart:
     spec:
       chart: juicefs-csi-driver
-      version: '0.31.3'
+      version: '0.31.10'
       sourceRef:
         kind: HelmRepository
         name: juicefs
