@@ -317,7 +317,7 @@ image:
   ## Ref: https://hub.docker.com/r/vaultwarden/server/tags
   ##
   #tag: 1.35.0
-  tag: "1.35.4"
+  tag: "1.36.0"
 
   # # -- Image repository
   # repository: vaultwarden/server
