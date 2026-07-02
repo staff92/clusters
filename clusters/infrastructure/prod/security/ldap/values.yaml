@@ -89,15 +89,15 @@ lldap:
     # -- Whether to enabled password reset via email, from LLDAP.
     enablePasswordReset: true
     # -- The SMTP server.
-    server: "mail.mail"
+    server: "maildev-smtp.maildev"
     # -- The SMTP port.
-    port: 587
+    port: 1025
     # -- How the connection is encrypted, either "NONE" (no encryption), "TLS" or "STARTTLS".
-    smtpEncryption: "STARTTLS"
+    smtpEncryption: "NONE"
     # -- The SMTP user, usually your email address.
-    user: ""
+    user: "test"
     # -- The SMTP password.
-    password: ""
+    password: "test"
     # -- Name of the SMTP password key in the `.Values.lldap.secretName` Kubernetes secret.
     # Overrides the `.Values.lldap.smtp.password` if a custom secret is defined.
     #passwordKey: ""

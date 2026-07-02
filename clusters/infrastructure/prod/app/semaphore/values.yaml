@@ -220,7 +220,7 @@ database:
   usernameFromSecret: true
 
   # -- Username for database
-  username: semaphore
+  username: 
 
   # -- Key used within secret for username
   usernameKey: username
@@ -264,7 +264,7 @@ database:
       - ReadWriteOnce
 
     # -- Name of an already existing claim
-    existingClaim: data-postgresql-0
+    existingClaim: 
 
 ldap:
   # -- Enable LDAP authentication
