@@ -5,6 +5,7 @@ resources:
   - namespace.yaml
   - repo.yaml
   - secret.yaml
+  - cm.yaml
   - release.yaml
 configMapGenerator:
   - name: semaphore-values
