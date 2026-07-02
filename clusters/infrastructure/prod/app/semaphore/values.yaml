@@ -74,12 +74,19 @@ extraInitContainers: []
 extraSidecarContainers: []
 
 # -- List of extra volumes
-extraVolumes: []
+extraVolumes:
+  - name: scripts
+    configMap:
+      name: semaphore-cm
+      defaultMode: 0755
   # - name: extra
   #   emptyDir: {}
 
 # -- List of extra volume mounts
-extraVolumeMounts: []
+extraVolumeMounts:
+  - name: scripts
+    mountPath: /tmp/semaphore/
+    readOnly: true
   # - name: extra
   #   mountPath: /usr/local/share
   #   readOnly: true
