@@ -45,10 +45,10 @@ spec:
               echo "LDAP group: $RESULT_GROUP"
 
               if echo "$RESULT_GROUP" | grep -q "^dn: cn=$LLDAP_GROUP,"; then
-                echo "✅ Groupe jelly_admin trouvé dans LDAP"
+                echo "✅ Groupe $LLDAP_GROUP trouvé dans LDAP"
                 exit 0
               else
-                echo "❌ Groupe jelly_admin introuvable"
+                echo "❌ Groupe $LLDAP_GROUP introuvable"
               fi
 
                 curl \
