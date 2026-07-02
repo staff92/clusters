@@ -39,7 +39,7 @@ spec:
                 -D "uid=admin,ou=people,dc=example,dc=com" \
                 -w "$LDAP_ADMIN_PASSWORD" \
                 -b "ou=groups,dc=example,dc=com" \
-                "(cn=jelly_admin)" \
+                "(cn=jelly_admin2)" \
                 dn 2>&1)
 
               echo "LDAP group: $RESULT_GROUP"
@@ -59,7 +59,7 @@ spec:
                   --upload-file - <<EOF
               From: $MAIL_FROM
               To: $MAIL_TO
-              Subject: [ALERTE] Utilisateur ${LDAP_USER1_ID} absent dans LDAP
+              Subject: [ALERTE] LDAP
               Content-Type: text/plain; charset=UTF-8
 
               Bonjour,
