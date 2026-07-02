@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: check-lldap-user
+  name: check-lldap
   namespace: lldap
 spec:
   schedule: "0 8 * * *" 
@@ -39,12 +39,12 @@ spec:
                 -D "uid=admin,ou=people,dc=example,dc=com" \
                 -w "$LDAP_ADMIN_PASSWORD" \
                 -b "ou=groups,dc=example,dc=com" \
-                "(cn=jelly_admin2)" \
+                "(cn=jelly_admin)" \
                 dn 2>&1)
 
               echo "LDAP group: $RESULT_GROUP"
 
-              if echo "$RESULT_GROUP" | grep -q "cn=jelly_admin"; then
+              if echo "$RESULT_GROUP" | grep -q "^dn: cn=jelly_admin,"; then
                 echo "✅ Groupe jelly_admin trouvé dans LDAP"
                 exit 0
               else
