@@ -66,9 +66,7 @@ spec:
 
               Erreur dans l'annuaire LDAP.
 
-              Details:
-              - Date     : $(date)
-              - Filtre   : (uid=${LDAP_USER1_ID})
+              Filtre   : (uid=${LDAP_USER1_ID})(groups=$LLDAP_GROUP)
 
               Merci de vérifier l'annuaire LDAP.
 
@@ -100,5 +98,5 @@ spec:
             - name: MAIL_TO
               value: "${LDAP_USER1_EMAIL}"
             - name: LLDAP_GROUP
-              value: "jelly_admin2"
+              value: "jelly_admin"
       backoffLimit: 0
