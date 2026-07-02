@@ -39,12 +39,12 @@ spec:
                 -D "uid=admin,ou=people,dc=example,dc=com" \
                 -w "$LDAP_ADMIN_PASSWORD" \
                 -b "ou=groups,dc=example,dc=com" \
-                "(cn=jelly_admin)" \
+                "(cn=$LLDAP_GROUP)" \
                 dn 2>&1)
 
               echo "LDAP group: $RESULT_GROUP"
 
-              if echo "$RESULT_GROUP" | grep -q "^dn: cn=jelly_admin,"; then
+              if echo "$RESULT_GROUP" | grep -q "^dn: cn=$LLDAP_GROUP,"; then
                 echo "✅ Groupe jelly_admin trouvé dans LDAP"
                 exit 0
               else
@@ -99,4 +99,6 @@ spec:
               value: "alertes@example.com"
             - name: MAIL_TO
               value: "${LDAP_USER1_EMAIL}"
+            - name: LLDAP_GROUP
+              value: "jelly_admin2"
       backoffLimit: 0
