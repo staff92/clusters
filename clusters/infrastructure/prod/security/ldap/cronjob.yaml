@@ -29,12 +29,11 @@ spec:
                 dn 2>&1)
               echo "LDAP: $RESULT"
               if echo "$RESULT" | grep -q "uid=${LDAP_USER1_ID}"; then
-                echo "✅ Utilisateur ${LDAP_USER1_ID} trouvé dans LDAP - Aucune action nécessaire"
-                exit 0
+                echo "✅ User ${LDAP_USER1_ID} find in LDAP"
               else
                 echo "❌ Utilisateur ${LDAP_USER1_ID} introuvable - Envoi de l'alerte mail..."
               fi
-              
+
               RESULT_GROUP=$(ldapsearch \
                 -H ldap://lldap-ldap.lldap.svc.cluster.local:3890 \
                 -D "uid=admin,ou=people,dc=example,dc=com" \
