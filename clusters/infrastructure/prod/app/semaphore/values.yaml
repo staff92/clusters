@@ -134,7 +134,7 @@ persistence:
   enabled: true
 
   # -- Size for boltdb volume
-  size: 10G
+  size: 8G
 
   # -- Storage class used for workdir volume
   storageClass: openebs-hostpath
@@ -144,7 +144,7 @@ persistence:
     - ReadWriteOnce
 
   # -- Name of an already existing claim
-  existingClaim: data-postgresql-0
+  #existingClaim: data-postgresql-0
 
 secrets:
   # -- Cookie hash secret, generated if not present
