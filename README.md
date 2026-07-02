@@ -825,6 +825,16 @@ ls
 cd /dossier
 ```
 
+# SEMAPHORE
+
+First connection, need to be admin (set in db) to create project 
+Or you can restore old one 
+
+Repo => Local => /tmp/semaphore => None
+Key => ansible => ssh => no passphrase => user bot 
+Inventory => perso => static-yaml
+
+
 # BITWARDEN SECRETS 
 
 | app | Secret Key | Bitwarden Secret name | command |

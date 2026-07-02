@@ -320,6 +320,7 @@ bootstrap:
     - vpn_user
     - vpn_admin
     - sftp_user
+    - test_group
     # - lldap_admin
     # - lldap_password_manager
     

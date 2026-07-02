@@ -334,7 +334,7 @@ email:
   alert: true
 
   # -- Sender for email alerting
-  sender:
+  sender: semaphore@gmail.com
 
   # -- Host of the SMTP server
   host: maildev-smtp.maildev
