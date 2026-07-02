@@ -31,5 +31,5 @@ resources:
 #! APPS
   - app/gitea
   - app/homepage
-  # - app/semaphore
+  - app/semaphore
   # - app/sliver
