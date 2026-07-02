@@ -19,10 +19,7 @@ spec:
             - /bin/sh
             - -c
             - |
-              # Installation des outils
               apk add --no-cache openldap-clients curl mailx
-
-              # Recherche LDAP
               RESULT=$(ldapsearch \
                 -H ldap://lldap-ldap.lldap.svc.cluster.local:3890 \
                 -D "uid=admin,ou=people,dc=example,dc=com" \
@@ -30,17 +27,31 @@ spec:
                 -b "ou=people,dc=example,dc=com" \
                 "(uid=${LDAP_USER1_ID})" \
                 dn 2>&1)
-
-              echo "Résultat LDAP: $RESULT"
-
-              # Vérification si l'utilisateur existe
+              echo "LDAP: $RESULT"
               if echo "$RESULT" | grep -q "uid=${LDAP_USER1_ID}"; then
                 echo "✅ Utilisateur ${LDAP_USER1_ID} trouvé dans LDAP - Aucune action nécessaire"
                 exit 0
               else
                 echo "❌ Utilisateur ${LDAP_USER1_ID} introuvable - Envoi de l'alerte mail..."
+              fi
+              
+              RESULT_GROUP=$(ldapsearch \
+                -H ldap://lldap-ldap.lldap.svc.cluster.local:3890 \
+                -D "uid=admin,ou=people,dc=example,dc=com" \
+                -w "$LDAP_ADMIN_PASSWORD" \
+                -b "ou=groups,dc=example,dc=com" \
+                "(cn=jelly_admin)" \
+                dn 2>&1)
 
-                # Envoi du mail via SMTP avec authentification test:test
+              echo "LDAP group: $RESULT_GROUP"
+
+              if echo "$RESULT_GROUP" | grep -q "cn=jelly_admin"; then
+                echo "✅ Groupe jelly_admin trouvé dans LDAP"
+                exit 0
+              else
+                echo "❌ Groupe jelly_admin introuvable"
+              fi
+
                 curl \
                   --url "smtp://$SMTP_HOST:$SMTP_PORT" \
                   --user "test:test" \
@@ -54,7 +65,7 @@ spec:
 
               Bonjour,
 
-              L'utilisateur "${LDAP_USER1_ID}" est introuvable dans l'annuaire LDAP.
+              Erreur dans l'annuaire LDAP.
 
               Details:
               - Date     : $(date)
