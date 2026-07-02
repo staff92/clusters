@@ -321,15 +321,6 @@ oidc:
       email_claim: email
       name_claim: name
       order: 1
-    # keycloak:
-    #   display_name: Keycloak
-    #   provider_url: https://auth.${CLUSTER_DOMAIN}/auth/realms/example
-    #   redirect_url: https://semaphore.${CLUSTER_DOMAIN}/api/auth/oidc/keycloak/redirect
-    #   client_id: semaphore
-    #   client_secret: 0208901c-ecd7-46ae-931a-d03f02e8dcd2
-    #   username_claim: preferred_username
-    #   name_claim: preferred_username
-    #   email_claim: email
 
 email:
   # -- Enable email alerting
@@ -532,20 +523,11 @@ postgresql:
     serviceMonitor:
       # -- Enable service monitor for postgresql
       enabled: false
-  persistence:
-    ## @param readReplicas.persistence.enabled Enable PostgreSQL read only data persistence using PVC
-    ##
-    enabled: true
-    storageClass: openebs-hostpath
-    accessModes:
-      - ReadWriteOnce
-    ## @param readReplicas.persistence.size PVC Storage Request for PostgreSQL volume
-    ##
-    size: 8Gi
-    ## @param readReplicas.persistence.annotations Annotations for the PVC
-    ##
-    annotations: {}
-    ## @param readReplicas.persistence.labels Labels for the PVC
-    ##
-    labels: {}
+  primary:
+    persistence:
+      enabled: true
+      storageClass: openebs-hostpath
+      accessModes:
+        - ReadWriteOnce
+      size: 8Gi
 ...
