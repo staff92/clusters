@@ -85,7 +85,7 @@ extraVolumes:
 # -- List of extra volume mounts
 extraVolumeMounts:
   - name: scripts
-    mountPath: /tmp/semaphore/
+    mountPath: /tmp/semaphore/local
     readOnly: true
   # - name: extra
   #   mountPath: /usr/local/share
