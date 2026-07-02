@@ -235,10 +235,10 @@ database:
   existingSecret: secret-semaphore
 
   # -- Host for database connection
-  host:
+  host: postgresql
 
   # -- Port for database connection
-  port:
+  port: 5432
 
   # -- Name of the used database
   name: semaphore
