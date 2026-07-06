@@ -113,7 +113,7 @@ metadata:
     helm.toolkit.fluxcd.io/namespace: lldap
   name: lldap-bootstrap
 spec:
-  schedule: "0 9 * * *" 
+  schedule: "0 7 * * *" 
   successfulJobsHistoryLimit: 0
   failedJobsHistoryLimit: 0
   jobTemplate:
@@ -149,7 +149,7 @@ spec:
           - mountPath: /user-secrets/lldap-credentials
             name: user-secret-lldap-credentials
             readOnly: true
-        restartPolicy: OnFailure
+          restartPolicy: OnFailure
         volumes:
         - name: credentials
           secret:
