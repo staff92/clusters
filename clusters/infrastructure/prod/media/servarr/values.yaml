@@ -495,7 +495,7 @@ qbittorrent:
       port: 8080
       nodePort: ""
     bt:
-      type: ClusterIP
+      type: nodePort
       port: 6881
       nodePort: "6881"
 
