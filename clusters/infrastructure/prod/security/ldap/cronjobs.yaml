@@ -100,3 +100,67 @@ spec:
             - name: LLDAP_GROUP
               value: "jelly_admin"
       backoffLimit: 0
+
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  annotations:
+    argocd.argoproj.io/hook: PostSync
+    argocd.argoproj.io/hook-delete-policy: BeforeHookCreation
+  labels:
+    helm.toolkit.fluxcd.io/name: lldap
+    helm.toolkit.fluxcd.io/namespace: lldap
+  name: lldap-bootstrap
+spec:
+  schedule: "0 9 * * *" 
+  successfulJobsHistoryLimit: 0
+  failedJobsHistoryLimit: 0
+  jobTemplate:
+    template:
+      spec:
+        containers:
+        - command:
+          - ./bootstrap.sh
+          env:
+          - name: LLDAP_URL
+            value: http://lldap-http:17170
+          - name: LLDAP_ADMIN_USERNAME
+            value: admin
+          - name: LLDAP_ADMIN_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: ldapUserPass
+                name: lldap-credentials
+          - name: DO_CLEANUP
+            value: "true"
+          image: lldap/lldap:v0.6.2-debian-rootless
+          name: bootstrap
+          volumeMounts:
+          - mountPath: /credentials
+            name: credentials
+            readOnly: true
+          - mountPath: /user-configs
+            name: user-configs
+            readOnly: true
+          - mountPath: /group-configs
+            name: group-configs
+            readOnly: true
+          - mountPath: /user-secrets/lldap-credentials
+            name: user-secret-lldap-credentials
+            readOnly: true
+        restartPolicy: OnFailure
+        volumes:
+        - name: credentials
+          secret:
+            secretName: lldap-credentials
+        - name: user-configs
+          secret:
+            secretName: lldap-users
+        - configMap:
+            name: lldap-groups
+          name: group-configs
+        - name: user-secret-lldap-credentials
+          secret:
+            secretName: lldap-credentials
+    # ttlSecondsAfterFinished: 300

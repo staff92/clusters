@@ -6,7 +6,7 @@ resources:
   - secret.yaml
   - repo.yaml
   - release.yaml
-  - cronjob.yaml
+  - cronjobs.yaml
 configMapGenerator:
   - name: lldap-values
     files:
