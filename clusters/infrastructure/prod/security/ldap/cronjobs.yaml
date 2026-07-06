@@ -150,7 +150,7 @@ spec:
             - mountPath: /user-secrets/lldap-credentials
               name: user-secret-lldap-credentials
               readOnly: true
-            restartPolicy: OnFailure
+          restartPolicy: OnFailure
           volumes:
           - name: credentials
             secret:
