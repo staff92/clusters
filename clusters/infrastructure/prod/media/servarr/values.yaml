@@ -497,7 +497,7 @@ qbittorrent:
     bt:
       type: NodePort
       port: 6881
-      nodePort: "6881"
+      nodePort: "30000"
 
   ingress:
     enabled: true
