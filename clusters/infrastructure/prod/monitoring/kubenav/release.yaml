@@ -1,0 +1,19 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: kubenav
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: kubenav
+      version: '1.0.8'
+      sourceRef:
+        kind: HelmRepository
+        name: kubenav
+        namespace: kubenav
+  valuesFrom:
+    - kind: ConfigMap
+      name: kubenav-values
+      valuesKey: values.yaml
