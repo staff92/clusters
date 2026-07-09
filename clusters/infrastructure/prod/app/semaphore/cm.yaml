@@ -8,32 +8,13 @@ data:
     echo "Hello from Semaphore"
     date
     hostname
-  test.sh: |
-    #!/bin/bash
-    echo "Hello from Semaphore"
-    date
-    hostname
-  hello.yaml: |
+  restart_media_storage.yaml: |
     - hosts: all
       gather_facts: yes
 
       tasks:
-        - ping:
-
-        - command: hostname
+        - command: k0s kubectl rollout restart deployment  servarr-jellyfin servarr-lidarr servarr-qbittorrent servarr-radarr servarr-sonarr
           register: result
 
         - debug:
-            msg: "Connecté avec succès sur {{ result.stdout }}"
-
-        - command: date
-          register: date_result
-
-        - debug:
-            msg: "Date distante : {{ date_result.stdout }}"
-
-        - debug:
-            msg:
-              - "OS: {{ ansible_distribution }} {{ ansible_distribution_version }}"
-              - "Kernel: {{ ansible_kernel }}"
-              - "Uptime host: {{ ansible_hostname }}"
+            msg: "{{ result.stdout }}"

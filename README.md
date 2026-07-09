@@ -806,7 +806,7 @@ iptables -A FORWARD -i eno1 -o wg0 -j ACCEPT
 
 # SFTP
 
-Connect to webadmin UI with admin credentials then add the group **jelly_admin**
+Connect to webadmin UI with admin credentials then add the group **sftp_user**
 
 Need first connection to create the user, then in admin panel Users > Actions > Edit then add : 
  - Public keys
