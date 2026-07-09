@@ -495,9 +495,9 @@ qbittorrent:
       port: 8080
       nodePort: ""
     bt:
-      type: NodePort
+      type: ClusterIP
       port: 6881
-      nodePort: "6881"
+      nodePort: ""
 
   ingress:
     enabled: true
