@@ -56,7 +56,7 @@
 tracearr:
   image:
     repository: ghcr.io/connorgallopo/tracearr
-    tag: latest
+    # tag: latest
     # tag: "@sha256:ca93988326c26597e0d9c91d69c0f97e7ed23c517cf327c22bc7f188002af998"  # defaults to appVersion
     pullPolicy: IfNotPresent
 
