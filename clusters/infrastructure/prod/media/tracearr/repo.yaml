@@ -16,7 +16,7 @@ metadata:
   name: tracearr
   namespace: media
 spec:
-  type: oci
+  # type: oci
   interval: 1h
   url: oci://oci.trueforge.org/truecharts/tracearr
   # ref:
