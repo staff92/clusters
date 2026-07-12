@@ -16,7 +16,7 @@ metadata:
   name: tracearr
   namespace: media
 spec:
-  interval: 5m0s
+  interval: 1h
   url: oci://oci.trueforge.org/truecharts/tracearr
   ref:
-    tag: latest
+    tag: 4.12.4
