@@ -17,6 +17,6 @@ metadata:
   namespace: media
 spec:
   interval: 1h
-  url: oci://oci.trueforge.org/truecharts/tracearr
+  url: oci://ghcr.io/connorgallopo/tracearr
   ref:
     tag: 4.12.4
