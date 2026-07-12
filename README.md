@@ -735,6 +735,14 @@ test
 To change notif Users > {{ name.user }} > Edit Settings > Notifications
 ```
 
+## TRACEARR
+
+
+Need to change manually : 
+ - all pvc to add storageclassname
+ - change the image tag of tracearr 
+ - install plugin in jelly 
+
 ## CLEANUPARR
 
 
