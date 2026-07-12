@@ -97,12 +97,12 @@ tracearr:
   topologySpreadConstraints: []
 
 secrets:
-  autoGenerate: true
+  autoGenerate: false
   jwtSecret: ""      # openssl rand -hex 32
   cookieSecret: ""   # openssl rand -hex 32
   dbPassword: "tracearr"
   # Use an existing Secret (needs JWT_SECRET, COOKIE_SECRET, DB_PASSWORD keys)
-  existingSecret: ""
+  existingSecret: "tracearr-credentials"
 
 timescale:
   enabled: true
