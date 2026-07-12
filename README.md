@@ -511,6 +511,10 @@ test
 noreply@jellyfin.org
 ${LDAP_USER2_EMAIL},${LDAP_USER1_EMAIL}
 add radarr/sonarr for upcoming
+
+tracearr 
+
+https://raw.githubusercontent.com/Tracearr/Media-Server-SSE/main/manifest.json
 ```
 
 Custom Login UI (Dashboad > Slogan)
