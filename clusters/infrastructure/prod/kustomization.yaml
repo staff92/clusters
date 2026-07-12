@@ -27,7 +27,7 @@ resources:
 #! MEDIA
   - media/servarr
   - media/sftpgo
-  - media/streamystats
+  # - media/streamystats
   - media/musicseerr
 #! APPS
   - app/gitea
