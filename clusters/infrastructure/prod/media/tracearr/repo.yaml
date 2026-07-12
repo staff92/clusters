@@ -1,10 +1,22 @@
+# apiVersion: source.toolkit.fluxcd.io/v1
+# kind: GitRepository
+# metadata:
+#   name: tracearr
+#   namespace: flux-system
+# spec:
+#   interval: 30m
+#   url: https://github.com/connorgallopo/Tracearr
+#   ref:
+#     branch: main
+# ---
+---
 apiVersion: source.toolkit.fluxcd.io/v1
-kind: GitRepository
+kind: OCIRepository
 metadata:
   name: tracearr
-  namespace: flux-system
+  namespace: media
 spec:
-  interval: 30m
-  url: https://github.com/connorgallopo/Tracearr
+  interval: 5m0s
+  url: oci://oci.trueforge.org/truecharts/tracearr
   ref:
-    branch: main
+    tag: latest

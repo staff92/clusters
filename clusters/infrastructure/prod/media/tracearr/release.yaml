@@ -5,15 +5,31 @@ metadata:
   name: tracearr
 spec:
   interval: 1h
-  chart:
-    spec:
-      chart: ./docker/helm/tracearr
-      sourceRef:
-        kind: GitRepository
-        name: tracearr
-        namespace: flux-system
-      reconcileStrategy: Revision
+  chartRef:
+    kind: OCIRepository
+    name: tracearr
   valuesFrom:
     - kind: ConfigMap
-      name: sftp-values
+      name: tracearr-values
       valuesKey: values.yaml
+  targetNamespace: media
+
+# ---
+# apiVersion: helm.toolkit.fluxcd.io/v2
+# kind: HelmRelease
+# metadata:
+#   name: tracearr
+# spec:
+#   interval: 1h
+#   chart:
+#     spec:
+#       chart: ./docker/helm/tracearr
+#       sourceRef:
+#         kind: GitRepository
+#         name: tracearr
+#         namespace: flux-system
+#       reconcileStrategy: Revision
+#   valuesFrom:
+#     - kind: ConfigMap
+#       name: sftp-values
+#       valuesKey: values.yaml
