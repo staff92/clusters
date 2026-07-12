@@ -94,12 +94,12 @@ tracearr:
   backups:
     enabled: true
     size: 10Gi
-    storageClass: "openebs-hostpath"
+    storageClass: openebs-hostpath
 
   imageCache:
     enabled: true
     size: 5Gi
-    storageClass: "openebs-hostpath"
+    storageClass: openebs-hostpath
 
   # Dockerfile user: 1001:1001 (tracearr:nodejs)
   podSecurityContext:
@@ -201,7 +201,7 @@ timescale:
 
   persistence:
     size: 50Gi
-    storageClass: "openebs-hostpath"
+    storageClass: openebs-hostpath
 
   resources:
     requests:
@@ -267,7 +267,7 @@ redis:
 
   persistence:
     size: 2Gi
-    storageClass: "openebs-hostpath"
+    storageClass: openebs-hostpath
 
   resources:
     requests:
