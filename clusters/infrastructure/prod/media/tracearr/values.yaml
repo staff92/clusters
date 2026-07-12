@@ -86,7 +86,7 @@ tracearr:
     OIDC_ISSUER_URL: https://auth.${CLUSTER_DOMAIN}
     OIDC_CLIENT_ID: tracearr
     GZIP_ENABLED: true
-    OIDC_PROVIDER_NAME: SSO 
+    OIDC_PROVIDER_NAME: Authelia 
     TRUST_PROXY: true
     # DATABASE_POOL_MAX: "50"
     # POLLER_ENABLED: "true"
