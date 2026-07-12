@@ -20,7 +20,9 @@ spec:
   url: oci://oci.trueforge.org/truecharts/tracearr
   ref:
     tag: 4.12.4
-
+  layerSelector:
+    mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
+    operation: copy
 
 # ---
 # apiVersion: source.toolkit.fluxcd.io/v1
