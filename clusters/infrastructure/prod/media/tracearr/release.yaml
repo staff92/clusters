@@ -14,6 +14,23 @@ spec:
       valuesKey: values.yaml
   targetNamespace: media
 
+
+
+# ---
+# apiVersion: source.toolkit.fluxcd.io/v1
+# kind: HelmChart
+# metadata:
+#   name: podinfo
+#   namespace: default
+# spec:
+#   interval: 5m0s
+#   chart: podinfo
+#   reconcileStrategy: ChartVersion
+#   sourceRef:
+#     kind: HelmRepository
+#     name: podinfo
+#   version: '5.*'
+
 # ---
 # apiVersion: helm.toolkit.fluxcd.io/v2
 # kind: HelmRelease
