@@ -51,13 +51,13 @@ ntfy:
   # -- @default -- `[]`
   extraEnv:
     - name: NTFY_SMTP_SENDER_ADDR
-      value: "maildev-smtp.maildev:1025"
+      value: "${SMTP_HOST}:587"
     - name: NTFY_SMTP_SENDER_FROM
-      value: "ntfy"
+      value: "noreply@${CLUSTER_DOMAIN}"
     - name: NTFY_SMTP_SENDER_USER
-      value: "test"
+      value: "${LDAP_USER1_EMAIL}"
     - name: NTFY_SMTP_SENDER_PASS
-      value: "test"
+      value: "${GATUS_CONFIG_EMAIL_PASSWORD}"
 
 # =============================================================================
 # Persistence
