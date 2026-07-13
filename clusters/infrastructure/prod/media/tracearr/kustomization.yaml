@@ -5,6 +5,7 @@ resources:
   - secret.yaml
   - repo.yaml
   - release.yaml
+  - ingress.yaml
 configMapGenerator:
   - name: tracearr-values
     files:

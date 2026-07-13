@@ -739,7 +739,7 @@ To change notif Users > {{ name.user }} > Edit Settings > Notifications
 
 
 Need to change manually : 
- - all pvc to add storageclassname
+ - all pvc to add storageclassname =>     storageClassName: openebs-hostpath
  - change the image tag of tracearr 
  - install plugin in jelly 
 
