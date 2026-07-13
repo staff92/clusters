@@ -57,7 +57,10 @@ ntfy:
     - name: NTFY_SMTP_SENDER_USER
       value: ${LDAP_USER1_EMAIL}
     - name: NTFY_SMTP_SENDER_PASS
-      value: ${GATUS_CONFIG_EMAIL_PASSWORD}
+      valueFrom:
+        secretKeyRef:
+          name: ntfy-mail-secret
+          key: mail-password
 
 # =============================================================================
 # Persistence
