@@ -29,7 +29,7 @@ imagePullSecrets: []
 
 ntfy:
   # -- Public base URL of the instance (e.g. https://ntfy.example.com)
-  baseUrl: ""
+  baseUrl: "https://ntfy.example.com"
   # -- Default access for unauthenticated users (read-write, read-only, write-only, deny-all)
   authDefaultAccess: "read-write"
   # -- Enable behind-proxy mode (trust X-Forwarded-For headers)
@@ -53,7 +53,7 @@ ntfy:
     - name: NTFY_SMTP_SENDER_ADDR
       value: "maildev-smtp.maildev:1025"
     - name: NTFY_SMTP_SENDER_FROM
-      value: "test@gmail.com"
+      value: "ntfy"
     - name: NTFY_SMTP_SENDER_USER
       value: "test"
     - name: NTFY_SMTP_SENDER_PASS
