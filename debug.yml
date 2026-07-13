@@ -4,7 +4,7 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: sqlite-debug
-  namespace: vault
+  namespace: media
   labels:
     app: sqlite-debug
 spec:
@@ -19,8 +19,8 @@ spec:
       command: ["sleep", "3600"]
       volumeMounts:
         - mountPath: /data
-          name: vault-data
+          name: data
   volumes:
-    - name: vault-data
+    - name: data
       persistentVolumeClaim:
-        claimName: vault-vaultwarden
+        claimName: servarr-jellyfin-config
