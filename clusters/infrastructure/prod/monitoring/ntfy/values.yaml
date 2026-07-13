@@ -53,11 +53,11 @@ extraEnv:
   - name: NTFY_SMTP_SENDER_ADDR
     value: "maildev-smtp.maildev:1025"
   - name: NTFY_SMTP_SENDER_FROM
-    value: "ntfy"
+    value: "test@gmail.com"
   - name: NTFY_SMTP_SENDER_USER
     value: "test"
   - name: NTFY_SMTP_SENDER_PASS
-    value: "test@gmail.com"
+    value: "test"
 
 # =============================================================================
 # Persistence
