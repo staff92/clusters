@@ -49,11 +49,15 @@ ntfy:
   extraConfig: ""
   # -- Extra environment variables for the container
   # -- @default -- `[]`
-  extraEnv: 
-    - NTFY_SMTP_SENDER_ADDR=maildev-smtp.maildev:1025
-    - NTFY_SMTP_SENDER_FROM=ntfy
-    - NTFY_SMTP_SENDER_USER=test
-    - NTFY_SMTP_SENDER_PASS=test
+extraEnv:
+  - name: NTFY_SMTP_SENDER_ADDR
+    value: "maildev-smtp.maildev:1025"
+  - name: NTFY_SMTP_SENDER_FROM
+    value: "ntfy"
+  - name: NTFY_SMTP_SENDER_USER
+    value: "test"
+  - name: NTFY_SMTP_SENDER_PASS
+    value: "test"
 
 # =============================================================================
 # Persistence
