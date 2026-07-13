@@ -1,63 +1,8 @@
-# image:
-#   repository: ghcr.io/connorgallopo/tracearr
-#   pullPolicy: IfNotPresent
-#   tag: 1.4.31@sha256:61ee18f815139edb7de682f36c755d8e1517361988756fdf8ccb73865eb7def4
-
-# securityContext:
-#   container:
-#     readOnlyRootFilesystem: false
-
-# service:
-#   main:
-#     ports:
-#       main:
-#         protocol: http
-#         targetPort: 3000
-#         port: 3000
-
-# cnpg:
-#   main:
-#     enabled: false
-#     user: tracearr
-#     database: tracearr
-
-# redis:
-#   enabled: false
-#   redisUsername: default
-
-# workload:
-#   main:
-#     podSpec:
-#       containers:
-#         main:
-#           env:
-#             PORT: "{{ .Values.service.main.ports.main.port }}"
-#             # JWT_SECRET: "changeme"
-#             # COOKIE_SECRET: "changeme"
-#             # # Optional MaxMind GeoIP license key
-#             # MAXMIND_LICENSE_KEY: ""
-#             CORS_ORIGIN: "*"
-#             LOG_LEVEL: info
-#             # # Enable reverse proxy support
-#             # TRUST_PROXY: true
-#             # DATABASE_URL:
-#             #   secretKeyRef:
-#             #     name: cnpg-main-urls
-#             #     key: std
-#             # REDIS_URL:
-#             #   secretKeyRef:
-#             #     expandObjectName: false
-#             #     name: '{{ printf "%s-%s" .Release.Name "rediscreds" }}'
-#             #     key: url
-
-
-# Tracearr with TimescaleDB (PG18) and Redis.
-
 tracearr:
   image:
     repository: ghcr.io/connorgallopo/tracearr
-    tag: ""  #
-    digest: "sha256:ca93988326c26597e0d9c91d69c0f97e7ed23c517cf327c22bc7f188002af998"
+    tag: "1.4.31"  #
+    #digest: "sha256:ca93988326c26597e0d9c91d69c0f97e7ed23c517cf327c22bc7f188002af998"
     pullPolicy: IfNotPresent
     # tag: 1.4.31
     # tag: latest
