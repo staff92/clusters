@@ -57,7 +57,7 @@ extraEnv:
   - name: NTFY_SMTP_SENDER_USER
     value: "test"
   - name: NTFY_SMTP_SENDER_PASS
-    value: "test"
+    value: "test@gmail.com"
 
 # =============================================================================
 # Persistence
