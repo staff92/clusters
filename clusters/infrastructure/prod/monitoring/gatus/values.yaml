@@ -308,7 +308,6 @@ config:
     #     success-threshold: 1
     ntfy:
       topic: "gatus"
-      token: faketoken
       url: http://ntfy-ntfy.ntfy.svc.cluster.local:80
       email: ${LDAP_USER1_EMAIL}
       default-alert:
