@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: log-alert-test
+  namespace: dozzle
+  labels:
+    app: log-alert-test
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: log-alert-test
+  template:
+    metadata:
+      labels:
+        app: log-alert-test
+    spec:
+      containers:
+      - name: log-alert-test
+        image: busybox:latest
+        command:
+        - sh
+        - -c
+        - |
+          echo "Starting application..."
+          sleep 5
+          echo "INFO: Application initialized successfully"
+          sleep 3
+          echo "ERROR: Database connection failed - timeout after 30s"
+          sleep 2
+          echo "FATAL: Unable to recover, shutting down"
+          sleep 2
+          exit 1

@@ -257,21 +257,21 @@ config:
       conditions:
         - "[CERTIFICATE_EXPIRATION] > 72h"
       alerts:
-        - type: email
+        - type: ntfy
     - name: seerr
       url: https://seerr.${CLUSTER_DOMAIN}
       interval: 1h
       conditions:
-        - "[STATUS] == 200"
+        - "[STATUS] == 2000"
       alerts:
-        - type: email
+        - type: ntfy
     - name: jellyfin
       url: https://jelly.${CLUSTER_DOMAIN}
       interval: 1h
       conditions:
         - "[STATUS] == 200"
       alerts:
-        - type: email
+        - type: ntfy
     - name: authelia
       #url: http://127.0.0.1:9999
       url: https://auth.${CLUSTER_DOMAIN}
@@ -279,7 +279,7 @@ config:
       conditions:
         - "[STATUS] == 200"
       alerts:
-        - type: email
+        - type: ntfy
     # - name: musicseerr
     #   url: http://musicseerr.media:8688
     #   interval: 60s
@@ -291,18 +291,27 @@ config:
     #   conditions:
     #     - "[STATUS] == 200"
   alerting:
-    email:
-      from: noreply@${CLUSTER_DOMAIN}
-      username: ${LDAP_USER1_EMAIL}
-      password: ${GATUS_CONFIG_EMAIL_PASSWORD}
-      host: ${SMTP_HOST}
-      port: 587
-      to: ${LDAP_USER1_EMAIL}
-      tls: true
-      # client:
-      #   insecure: false
+    # email:
+    #   from: noreply@${CLUSTER_DOMAIN}
+    #   username: ${LDAP_USER1_EMAIL}
+    #   password: ${GATUS_CONFIG_EMAIL_PASSWORD}
+    #   host: ${SMTP_HOST}
+    #   port: 587
+    #   to: ${LDAP_USER1_EMAIL}
+    #   tls: true
+    #   # client:
+    #   #   insecure: false
+    #   default-alert:
+    #     description: "health check failed"
+    #     send-on-resolved: false
+    #     failure-threshold: 1
+    #     success-threshold: 1
+    ntfy:
+      topic: "gatus"
+      token: faketoken
+      url: http://ntfy-ntfy.ntfy.svc.cluster.local:80
+      email: ${LDAP_USER1_EMAIL}
       default-alert:
-        description: "health check failed"
         send-on-resolved: false
         failure-threshold: 1
         success-threshold: 1
