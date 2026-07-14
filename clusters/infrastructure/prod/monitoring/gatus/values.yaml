@@ -262,7 +262,7 @@ config:
       url: https://seerr.${CLUSTER_DOMAIN}
       interval: 1h
       conditions:
-        - "[STATUS] == 2000"
+        - "[STATUS] == 200"
       alerts:
         - type: ntfy
     - name: jellyfin
@@ -314,6 +314,7 @@ config:
         send-on-resolved: false
         failure-threshold: 1
         success-threshold: 1
+        reminder-interval: 12h
 
 # Name of an external ConfigMap resource. If set, `config` is ignored.
 externalConfigMap: ""
