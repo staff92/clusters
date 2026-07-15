@@ -671,6 +671,15 @@ Example of Movies / TV for testing :
 
   - ⚠️ Settings > Media Management > Root Folders > Add root folders : /media/tv => Check juicefs
 
+## SEERR NG
+
+```markdown
+# JELLY
+⚠️ https://jelly.${CLUSTER_DOMAIN}
+⚠️ admin@${CLUSTER_DOMAIN}
+⚠️ admin
+⚠️ pass
+```
 
 ## SEERR
 
@@ -740,7 +749,7 @@ To change notif Users > {{ name.user }} > Edit Settings > Notifications
 
 Need to change manually : 
  - all pvc to add storageclassname => storageClassName: openebs-hostpath
- - change the image tag of tracearr => supervised
+ - change the image tag of tracearr => supervised-nightly-20260715
  - install plugin in jelly 
  - add & sync jelly
  - to allow users to use tracearr, need to set "owner" in timescaledb (table users)
