@@ -26,7 +26,7 @@ resources:
 #! MEDIA
   - media/servarr
   - media/sftpgo
-  - media/tracearr
+  # - media/tracearr
   - media/seerrng
   - media/musicseerr
 #! APPS
