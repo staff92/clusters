@@ -1,0 +1,27 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    gethomepage.dev/description: Real-time monitoring for Plex, Jellyfin, and Emby.
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: Media
+    gethomepage.dev/icon: sh-seerr.png
+    gethomepage.dev/name: seerrng
+    gethomepage.dev/pod-selector: app.kubernetes.io/name=seerrng
+  name: seerrng
+  namespace: media
+spec:
+  ingressClassName: traefik
+  rules:
+  - host: seerrng.${CLUSTER_DOMAIN}
+    http:
+      paths:
+      - backend:
+          service:
+            name: seerrng
+            port:
+              number: 80
+        path: /
+        pathType: ImplementationSpecific
+status:
+  loadBalancer: {}
