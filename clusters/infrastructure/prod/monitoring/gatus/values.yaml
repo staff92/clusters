@@ -291,21 +291,6 @@ config:
     #   conditions:
     #     - "[STATUS] == 200"
   alerting:
-    # email:
-    #   from: noreply@${CLUSTER_DOMAIN}
-    #   username: ${LDAP_USER1_EMAIL}
-    #   password: ${GATUS_CONFIG_EMAIL_PASSWORD}
-    #   host: ${SMTP_HOST}
-    #   port: 587
-    #   to: ${LDAP_USER1_EMAIL}
-    #   tls: true
-    #   # client:
-    #   #   insecure: false
-    #   default-alert:
-    #     description: "health check failed"
-    #     send-on-resolved: false
-    #     failure-threshold: 1
-    #     success-threshold: 1
     ntfy:
       topic: "gatus"
       url: http://ntfy-ntfy.ntfy.svc.cluster.local:80
