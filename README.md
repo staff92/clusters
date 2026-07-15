@@ -740,7 +740,7 @@ To change notif Users > {{ name.user }} > Edit Settings > Notifications
 
 Need to change manually : 
  - all pvc to add storageclassname => storageClassName: openebs-hostpath
- - change the image tag of tracearr => 1.4.31
+ - change the image tag of tracearr => supervised
  - install plugin in jelly 
  - add & sync jelly
  - to allow users to use tracearr, need to set "owner" in timescaledb (table users)
