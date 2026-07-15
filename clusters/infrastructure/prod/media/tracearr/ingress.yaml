@@ -23,3 +23,5 @@ spec:
               number: 3000
         path: /
         pathType: ImplementationSpecific
+status:
+  loadBalancer: {}

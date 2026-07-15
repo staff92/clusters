@@ -20,6 +20,8 @@ spec:
           service:
             name: seerrng-seerr-chart
             port:
-              number: 80
+              name: http
         path: /
         pathType: Prefix
+status:
+  loadBalancer: {}
