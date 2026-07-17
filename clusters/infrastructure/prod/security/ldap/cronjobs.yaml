@@ -135,7 +135,7 @@ spec:
                   name: lldap-credentials
             - name: DO_CLEANUP
               value: "true"
-            image: lldap/lldap:v0.6.2-debian-rootless
+            image: lldap/lldap:v0.6.3-debian-rootless
             name: bootstrap
             volumeMounts:
             - mountPath: /credentials
