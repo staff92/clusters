@@ -78,9 +78,6 @@ data:
               delay: 2
               changed_when: false
 
-            - ansible.builtin.pause:
-                seconds: 3
-
             - ansible.builtin.command:
                 cmd: >-
                   {{ kubectl_bin }} exec -n {{ cluster_namespace }} {{ pod_name }} --
