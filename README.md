@@ -956,3 +956,11 @@ LC_ALL=C find clusters -type f -exec sed -i '' 's|test|toto|g' {} +
 # show images name + tag
 k0s ctr images ls -q | grep -v sha256
 ```
+
+```
+kubectl apply -f debug_vault.yml 
+kubectl exec -it sqlite-debug -- sh  
+sqlite3 /data/db.sqlite3
+sqlite> delete from sso_auth;
+sqlite> delete from sso_user;
+```

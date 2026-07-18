@@ -10,11 +10,91 @@ data:
     hostname
   restart_media_storage.yaml: |
     - hosts: all
-      gather_facts: yes
-
+      name: restart media stack 
+      gather_facts: false
       tasks:
         - command: k0s kubectl rollout restart deployment  servarr-jellyfin servarr-lidarr servarr-qbittorrent servarr-radarr servarr-sonarr
           register: result
 
         - debug:
             msg: "{{ result.stdout }}"
+  vaultwarden_sso_cleanup_k0s: |
+      - name: clean SSO Vaultwarden (k0s)
+        hosts: all
+        become: true
+        gather_facts: false
+
+        vars:
+          namespace: vault
+          pod_name: sqlite-debug
+          db_path: "/data/db.sqlite3"
+          kubectl_bin: "k0s kubectl"
+          manifest_tmp_path: "/tmp/debug_vault_{{ pod_name }}.yml"
+
+          pod_manifest:
+            apiVersion: v1
+            kind: Pod
+            metadata:
+              name: "{{ pod_name }}"
+              namespace: "{{ namespace }}"
+              labels:
+                app: sqlite-debug
+            spec:
+              restartPolicy: Never
+              securityContext:
+                runAsUser: 0
+              containers:
+                - name: sqlite-debug
+                  image: keinos/sqlite3
+                  securityContext:
+                    runAsUser: 0
+                  command: ["sleep", "3600"]
+                  volumeMounts:
+                    - mountPath: /data
+                      name: data
+              volumes:
+                - name: data
+                  persistentVolumeClaim:
+                    claimName: vault-vaultwarden
+
+        block:
+
+          - ansible.builtin.copy:
+              content: "{{ pod_manifest | to_nice_yaml(indent=2) }}"
+              dest: "{{ manifest_tmp_path }}"
+              mode: "0600"
+
+          - ansible.builtin.command:
+              cmd: "{{ kubectl_bin }} apply -f {{ manifest_tmp_path }}"
+            register: apply_result
+            changed_when: "'created' in apply_result.stdout or 'configured' in apply_result.stdout"
+
+          - ansible.builtin.command:
+              cmd: "{{ kubectl_bin }} get pod {{ pod_name }} -n {{ namespace }} -o jsonpath='{.status.phase}'"
+            register: pod_phase
+            until: pod_phase.stdout == "Running"
+            retries: 30
+            delay: 2
+            changed_when: false
+
+          - ansible.builtin.pause:
+              seconds: 3
+
+          - ansible.builtin.command:
+              cmd: >-
+                {{ kubectl_bin }} exec -n {{ namespace }} {{ pod_name }} --
+                sqlite3 {{ db_path }} "DELETE FROM sso_auth; DELETE FROM sso_user;"
+            register: cleanup_result
+            changed_when: true
+
+          - ansible.builtin.debug:
+              var: cleanup_result.stdout
+
+        always:
+          - ansible.builtin.command:
+              cmd: "{{ kubectl_bin }} delete pod {{ pod_name }} -n {{ namespace }} --ignore-not-found"
+            changed_when: true
+
+          - ansible.builtin.file:
+              path: "{{ manifest_tmp_path }}"
+              state: absent
