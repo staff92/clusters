@@ -84,7 +84,7 @@ data:
             - ansible.builtin.command:
                 cmd: >-
                   {{ kubectl_bin }} exec -n {{ cluster_namespace }} {{ pod_name }} --
-                  sqlite3 {{ db_path }} "DELETE FROM sso_auth; DELETE FROM sso_user;"
+                  sqlite3 {{ db_path }} "DELETE FROM sso_auth; DELETE FROM sso_users;"
               register: cleanup_result
               changed_when: true
 
