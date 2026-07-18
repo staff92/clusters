@@ -8,7 +8,7 @@ module.exports = {
   prHourlyLimit: 0,
 
   flux: {
-    fileMatch: ["\\.ya?ml$"],
+    enabled: true,
   },
 
   helmValues: {
@@ -64,5 +64,7 @@ module.exports = {
   ignorePaths: [
     "**/.github/**",
     "**/archive/**",
+    "**/mail/**",
+    "**/provisioning/**",
   ],
 };
