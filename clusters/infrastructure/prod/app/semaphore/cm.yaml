@@ -18,7 +18,7 @@ data:
 
         - debug:
             msg: "{{ result.stdout }}"
-  vaultwarden_sso_cleanup_k0s: |
+  vaultwarden_sso_cleanup_k0s.yaml: |
       - name: clean SSO Vaultwarden (k0s)
         hosts: all
         become: true
