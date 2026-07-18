@@ -6,7 +6,8 @@ module.exports = {
   prCreation: "immediate",
   prConcurrentLimit: 10,
   prHourlyLimit: 0,
-
+  dependencyDashboard: true, 
+  
   flux: {
     enabled: true,
   },
