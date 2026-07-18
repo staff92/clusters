@@ -172,14 +172,22 @@ spec:
             periodSeconds: 60
             timeoutSeconds: 10
             failureThreshold: 3
-          
           readinessProbe:
-            tcpSocket:
-              port: 31337
-            initialDelaySeconds: 10
+            exec:
+              command:
+                - sh
+                - -c
+                - "nc -z localhost 31337"
+            initialDelaySeconds: 5
             periodSeconds: 10
-            timeoutSeconds: 5
-            failureThreshold: 3
+
+          # readinessProbe:
+          #   tcpSocket:
+          #     port: 31337
+          #   initialDelaySeconds: 10
+          #   periodSeconds: 10
+          #   timeoutSeconds: 5
+          #   failureThreshold: 3
           
           # Resource limits - Adjust based on expected workload
           resources:
