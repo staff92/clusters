@@ -78,8 +78,7 @@ spec:
       serviceAccountName: pod-viewer
       containers:
         - name: dozzle
-          image: amir20/dozzle:v10.6.7
-          #latest
+          image: amir20/dozzle:latest
           ports:
             - containerPort: 8080
           env:

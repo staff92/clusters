@@ -69,8 +69,6 @@ kubectl run tmp-shell --rm -i --tty --image nicolaka/netshoot
 # K0S STANDALONE
 
 
-***https://blog.${LDAP_USER1_FIRSTNAME}-robert.info/docs/conteneurs/orchestrateurs/kubernetes/k0s/***
-
 spec.hosts[*].role <string> (required)
 
   - controller - a controller host
@@ -104,7 +102,7 @@ flux bootstrap github \
 
 ## GITEA
 flux bootstrap git \
-  --url=https://gitea.${CLUSTER_DOMAIN}:443/${LDAP_USER1_ID}/k0s.git \
+  --url=https://gitea.${CLUSTER_DOMAIN}:443/user/k0s.git \
   --branch=main \
   --path=clusters/my-cluster \
   --password=TOKEN_GITEA
@@ -865,7 +863,7 @@ Inventory => perso => static-yaml
 | ldap | jwtSecret | ldap-jwt | `openssl rand -base64 32` |
 |  | keySeed | ldap-key-seed | `openssl rand -base64 32` |
 |  | ldapUserPass | ldap-admin-password | `openssl rand -base64 24` |
-|  | user1Password | ldap-${LDAP_USER1_ID}-password | `openssl rand -base64 24` |
+|  | user1Password | ldap-1-password | `openssl rand -base64 24` |
 |  | userpasswordtemp | ldap-user-password-temp | `openssl rand -base64 24` |
 |  | smtpPassword | ldap-smtp-password-maildev | `openssl rand -base64 24` |
 | authelia | authentication.ldap.password.txt | ldap-admin-password | *(reprise mdp ldap)* |
@@ -951,7 +949,7 @@ rm -rf /var/jfsCache/df357eae-cbc8-41b0-81c1-bab489844b89/raw/chunks/*
 
 ```
 # replace mac os cli
-LC_ALL=C find clusters -type f -exec sed -i '' 's|test|${LDAP_USER1_LASTNAME}|g' {} + 
+LC_ALL=C find clusters -type f -exec sed -i '' 's|test|toto|g' {} + 
 ```
 
 ```

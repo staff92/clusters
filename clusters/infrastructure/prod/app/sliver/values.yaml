@@ -284,16 +284,13 @@ metadata:
     app: sliver
     app.kubernetes.io/name: sliver-multiplayer-ingress
 spec:
-  # Entry point must be configured in Traefik (see EntryPoints section below)
   entryPoints:
     - multiplayer
   routes:
     - match: HostSNI(`*`)
-      # kind: Rule
       services:
         - name: sliver-multiplayer
           port: 31337
-          # TLS passthrough - Sliver handles its own mTLS
   tls:
     passthrough: true
 
@@ -335,10 +332,8 @@ metadata:
     app: sliver
     app.kubernetes.io/name: sliver-c2-ingress
 spec:
-  # HTTP entry point
   entryPoints:
     - websecure
-  # Routing rules based on host
   routes:
     - match: Host(`callbacks.${CLUSTER_DOMAIN}`) && PathPrefix(`/`)
       kind: Rule

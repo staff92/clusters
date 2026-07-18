@@ -33,4 +33,4 @@ resources:
   - app/gitea
   - app/homepage
   - app/semaphore
-  # - app/sliver
+  - app/sliver
