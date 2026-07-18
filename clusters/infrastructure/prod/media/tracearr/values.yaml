@@ -108,7 +108,7 @@ secrets:
   existingSecret: "tracearr-credentials"
 
 timescale:
-  enabled: true
+  enabled: false
 
   image:
     repository: timescale/timescaledb-ha
@@ -190,7 +190,7 @@ externalDatabase:
   database: tracearr
 
 redis:
-  enabled: true
+  enabled: false
 
   image:
     repository: redis
