@@ -7,4 +7,4 @@ spec:
   interval: 5m0s
   url: oci://ghcr.io/sftpgo/helm-charts/sftpgo
   ref:
-    tag: 0.44.0
+    tag: 0.47.0
