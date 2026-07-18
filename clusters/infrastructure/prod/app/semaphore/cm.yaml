@@ -91,7 +91,7 @@ data:
             - ansible.builtin.debug:
                 var: cleanup_result.stdout
 
-          - always:
+            always:
             - ansible.builtin.command:
                 cmd: "{{ kubectl_bin }} delete pod {{ pod_name }} -n {{ namespace }} --ignore-not-found"
               changed_when: true
