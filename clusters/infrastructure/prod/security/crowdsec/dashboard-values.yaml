@@ -45,6 +45,8 @@ ingress:
   main:
     ingressClassName: "traefik"
     enabled: true
+    annotations:
+      traefik.ingress.kubernetes.io/router.middlewares: traefik-crowdsec-bouncer@kubernetescrd
     hosts:
       - host: "crowdsec.${CLUSTER_DOMAIN}"
         paths:
