@@ -323,9 +323,7 @@ spec:
       services:
         - name: sliver-implants
           port: 8080
-  tls:
-    secretName: ""  
-    domains: []  
+          scheme: http
 ---
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
