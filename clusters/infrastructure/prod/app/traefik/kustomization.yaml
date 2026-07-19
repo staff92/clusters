@@ -5,9 +5,8 @@ resources:
   - namespace.yaml
   - repo.yaml
   #! If first setup => remove middleware (umami not ready)
-  #! need for antibot
-  # - middleware.yaml
-  - whitelist.yaml
+  - middleware.yaml
+  # - whitelist.yaml
   - release.yaml
 configMapGenerator:
   - name: traefik-values
