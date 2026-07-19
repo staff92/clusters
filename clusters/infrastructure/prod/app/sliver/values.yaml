@@ -308,7 +308,7 @@ spec:
     - web
     - websecure
   routes:
-    - match: Host(`implants.${CLUSTER_DOMAIN}`) && PathPrefix(`/`)
+    - match: Host(`check.${CLUSTER_DOMAIN}`) && PathPrefix(`/`)
       kind: Rule
       middlewares:
         - name: ip-whitelist
