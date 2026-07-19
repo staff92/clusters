@@ -964,3 +964,16 @@ sqlite3 /data/db.sqlite3
 sqlite> delete from sso_auth;
 sqlite> delete from sso_user;
 ```
+
+
+rate limite + crowdsec  ? 
+
+| app | rate limite | crowdsec |
+|-----|-----|------|
+| ldap | ✅  | ✅  |
+| authelia | ✅ | ✅  |
+| vaultwarden | ✅ | ✅ |
+| wg-portal | ✅  | ✅ |
+| semaphore | ✅ | ✅ |
+| gitea | ✅ | ✅ |
+| tracearr | ✅ | ✅ |

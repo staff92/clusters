@@ -18,8 +18,9 @@ resources:
   - security/authelia
   - security/vaultwarden
   - security/wg-portal
+  - security/crowdsec
 #! MONITORING
-  - monitoring/gatus
+  # - monitoring/gatus
   - monitoring/dozzle
   - monitoring/kubenav
   - monitoring/ntfy
@@ -28,7 +29,7 @@ resources:
   - media/sftpgo
   - media/tracearr
   # # - media/seerrng
-  - media/musicseerr
+  # - media/musicseerr
 #! APPS
   - app/gitea
   - app/homepage

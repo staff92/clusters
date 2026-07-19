@@ -1,0 +1,16 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: crowdsec
+spec:
+  interval: 1h
+  url: https://crowdsecurity.github.io/helm-charts
+# ---
+# apiVersion: source.toolkit.fluxcd.io/v1
+# kind: HelmRepository
+# metadata:
+#   name: dashboard
+# spec:
+#   interval: 1h
+#   url: https://zekker6.github.io/helm-charts
