@@ -141,7 +141,7 @@ config:
   # db_config:
   #   type:     postgresql
   #   user:     crowdsec
-  #   password: ${DB_PASSWORD}
+  #   password: $${DB_PASSWORD}
   #   db_name:  crowdsec
   #   host:     192.168.0.2
   #   port:     5432
