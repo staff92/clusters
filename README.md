@@ -965,6 +965,7 @@ sqlite> delete from sso_auth;
 sqlite> delete from sso_user;
 ```
 
+cscli bouncers add traefik-bouncer
 
 rate limite + crowdsec  ? 
 
