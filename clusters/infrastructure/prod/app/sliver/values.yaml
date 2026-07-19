@@ -310,12 +310,16 @@ spec:
   routes:
     - match: Host(`implants.${CLUSTER_DOMAIN}`) && PathPrefix(`/`)
       kind: Rule
+      middlewares:
+        - name: ip-whitelist
       services:
         - name: sliver-implants
           port: 8443
           scheme: https
     - match: PathPrefix(`/`)
       kind: Rule
+      middlewares:
+        - name: ip-whitelist
       services:
         - name: sliver-implants
           port: 8080
