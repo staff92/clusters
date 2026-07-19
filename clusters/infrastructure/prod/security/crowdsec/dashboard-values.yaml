@@ -44,7 +44,7 @@ service:
 ingress:
   main:
     ingressClassName: "traefik"
-    enabled: false
+    enabled: true
     hosts:
       - host: "crowdsec.${CLUSTER_DOMAIN}"
         paths:
