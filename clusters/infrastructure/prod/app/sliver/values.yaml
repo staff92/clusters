@@ -315,7 +315,7 @@ spec:
       services:
         - name: sliver-implants
           port: 8443
-          scheme: https
+          # scheme: https
     - match: PathPrefix(`/`)
       kind: Rule
       middlewares:

