@@ -965,8 +965,16 @@ sqlite> delete from sso_auth;
 sqlite> delete from sso_user;
 ```
 
+```
 cscli bouncers add traefik-bouncer
+cscli bouncers list
+cscli decisions list
+cscli collections list
+cscli decisions add --ip <IP> --duration 5m --reason "test manuel"
 
+
+echo '{"ClientHost":"9.9.9.9","RequestPath":"/wp-login.php","RequestMethod":"GET","DownstreamStatus":404,"RequestHost":"test.domain","time":"2026-07-20T02:35:00Z"}' | cscli explain --type traefik -f -
+```
 rate limite + crowdsec  ? 
 
 | app | rate limite | crowdsec |

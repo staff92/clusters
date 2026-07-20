@@ -149,7 +149,26 @@ config:
   # -- notifications configuration (https://docs.crowdsec.net/docs/next/notification_plugins/intro)
   # Those files are only mounted in the lapi pod
   ## @param config.notifications notification on alert configuration
-  notifications: {}
+  notifications:
+    http.yaml: |
+      type: http
+      name: ntfy
+      log_level: info
+      url: http://ntfy-ntfy.ntfy.svc.cluster.local:80
+      method: POST
+      headers:
+        Title: "🚨 CrowdSec Alert"
+        Priority: "high"
+        Tags: "warning,crowdsec"
+      format: |
+        {{range . -}}
+        Ban : {{.MachineID}} - {{.Scenario}}
+        IP : {{.Source.IP}} ({{.Source.Cn}})
+        Since : {{.Source.AsName}}
+        Duration : {{.Duration}}
+      {{end -}}
+
+  # notifications: {}
     # email.yaml: |
     #   type: email
     #   name: email_default
@@ -274,6 +293,7 @@ lapi:
       value: "true"
     - name: CROWDSEC_MODE
       value: "standalone"
+
     # by default disable the agent because it only needs the local API.
     # - name: DISABLE_AGENT
     #   value: "true"
