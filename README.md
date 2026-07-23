@@ -965,14 +965,17 @@ sqlite> delete from sso_auth;
 sqlite> delete from sso_user;
 ```
 
+## CROWDSEC
+
 ```
 cscli bouncers add traefik-bouncer
 cscli bouncers list
 cscli decisions list
 cscli collections list
 cscli decisions add --ip <IP> --duration 5m --reason "test manuel"
+cscli parsers inspect crowdsecurity/public-dns-allowlist
 
-
+#! test 
 echo '{"ClientHost":"9.9.9.9","RequestPath":"/wp-login.php","RequestMethod":"GET","DownstreamStatus":404,"RequestHost":"test.domain","time":"2026-07-20T02:35:00Z"}' | cscli explain --type traefik -f -
 ```
 rate limite + crowdsec  ? 
@@ -986,3 +989,33 @@ rate limite + crowdsec  ?
 | semaphore | ✅ | ✅ |
 | gitea | ✅ | ✅ |
 | tracearr | ✅ | ✅ |
+
+
+## PLUGINS
+
+```
+# access
+kubectl krew install access-matrix
+kubectl access-matrix
+kubectl access-matrix --namespace default
+
+# access
+kubectl krew install who-can
+kubectl who-can get pods
+
+# view
+kubectl krew install tree
+kubectl tree deployment crowdsec-lapi
+
+# scan 
+kubectl krew install kubesec-scan
+kubectl kubesec-scan -n crowdsec deployment crowdsec-lapi
+
+# Check image outdated
+kubectl krew install outdated
+kubectl outdated
+
+# view unused ressources
+brew install kor
+kor all
+```

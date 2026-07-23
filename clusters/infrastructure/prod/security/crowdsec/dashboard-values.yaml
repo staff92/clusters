@@ -47,6 +47,12 @@ ingress:
     enabled: true
     annotations:
       traefik.ingress.kubernetes.io/router.middlewares: traefik-crowdsec-bouncer@kubernetescrd
+      gethomepage.dev/enabled: "true"
+      gethomepage.dev/name: "crowdsec"
+      gethomepage.dev/description: " Curated Threat Intelligence"
+      gethomepage.dev/group: "Infrastructure"
+      gethomepage.dev/icon: "sh-crowdsec.png"
+      gethomepage.dev/pod-selector: "app.kubernetes.io/name=crowdsec-web-ui"
     hosts:
       - host: "crowdsec.${CLUSTER_DOMAIN}"
         paths:
