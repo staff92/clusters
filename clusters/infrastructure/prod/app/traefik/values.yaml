@@ -326,7 +326,7 @@ providers:
     # -- Load Kubernetes Ingress provider
     enabled: true
     # -- Allows to reference ExternalName services in Ingress
-    allowExternalNameServices: false
+    allowExternalNameServices: true
     # -- Allows to return 503 when there are no endpoints available
     allowEmptyServices: true
     # -- Only for Traefik v3.0, Deprecated since v3.1. See [upstream documentation](https://doc.traefik.io/traefik/v3.0/providers/kubernetes-ingress/#disableingressclasslookup)
