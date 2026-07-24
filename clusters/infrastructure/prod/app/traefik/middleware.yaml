@@ -41,13 +41,13 @@ spec:
 #       trackAllResources: true
 #       ignoreIPs: []
 #       headerIp: X-Forwarded-For
----
-apiVersion: traefik.io/v1alpha1 
-kind: Middleware
-metadata:
-  name: ip-whitelist
-  namespace: sliver
-spec:
-  ipAllowList:
-    sourceRange:
-      - "${LOADBALANCER_IP}/32"
+# ---
+# apiVersion: traefik.io/v1alpha1 
+# kind: Middleware
+# metadata:
+#   name: ip-whitelist
+#   namespace: sliver
+# spec:
+#   ipAllowList:
+#     sourceRange:
+#       - "${LOADBALANCER_IP}/32"
