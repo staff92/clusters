@@ -2,6 +2,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   annotations:
+    traefik.ingress.kubernetes.io/router.middlewares: traefik-crowdsec-bouncer@kubernetescrd
     gethomepage.dev/description: Real-time monitoring for Plex, Jellyfin, and Emby.
     gethomepage.dev/enabled: "true"
     gethomepage.dev/group: Media

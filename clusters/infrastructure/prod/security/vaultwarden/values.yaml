@@ -276,7 +276,10 @@ ingressRoute:
   entrypoints:
     - websecure
   # -- Traefik middlewares
-  middlewares: []
+  # middlewares: []
+  middlewares: 
+    - name: 'crowdsec-bouncer'
+      namespace: 'traefik'
   # -- TLS configuration
   tls: {}
 

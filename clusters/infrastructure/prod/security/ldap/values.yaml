@@ -177,6 +177,7 @@ ingress:
   enabled: true
   className: "traefik"
   annotations: 
+    traefik.ingress.kubernetes.io/router.middlewares: traefik-crowdsec-bouncer@kubernetescrd
     #traefik.ingress.kubernetes.io/router.middlewares: traefik-botblocker@kubernetescrd
     gethomepage.dev/enabled: "true"
     gethomepage.dev/name: "LLDAP"

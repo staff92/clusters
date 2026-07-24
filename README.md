@@ -975,7 +975,10 @@ cscli alert list
 cscli collections list
 cscli scenario list
 
-cscli decisions add --ip <IP> --duration 5m --reason "test manuel"
+cscli allowlists create maintenance -d "Test"
+cscli allowlists add maintenance 192.168.1.0/24 -d "Test"
+
+cscli decisions add --ip <IP> --duration 5m --reason "test"
 cscli parsers inspect crowdsecurity/public-dns-allowlist
 
 #! test 
@@ -983,7 +986,7 @@ echo '{"ClientHost":"9.9.9.9","RequestPath":"/wp-login.php","RequestMethod":"GET
 ```
 rate limite + crowdsec  ? 
 
-| app | rate limite | crowdsec |
+| app | appsec | crowdsec |
 |-----|-----|------|
 | ldap | ✅  | ✅  |
 | authelia | ✅ | ✅  |
