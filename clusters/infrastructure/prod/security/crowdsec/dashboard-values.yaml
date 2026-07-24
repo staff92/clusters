@@ -29,7 +29,8 @@ env:
     value: "${CROWDSEC_LAPI_USER}"
   - name: "CROWDSEC_PASSWORD"
     value: "${CROWDSEC_LAPI_KEY}"
-
+  # - name: CROWDSEC_LOOKBACK_PERIOD
+  #   value: "72h"
 
 envFrom: []
 #  - secretRef:
@@ -89,9 +90,10 @@ controller:
   strategy: Recreate
   replicas: 1
 
+
 resources:
   limits:
-    memory: 256Mi
+    memory: 512Mi
   requests:
     cpu: 10m
     memory: 20Mi
