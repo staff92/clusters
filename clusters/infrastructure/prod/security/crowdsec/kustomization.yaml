@@ -5,6 +5,7 @@ resources:
   - namespace.yaml
   - repo.yaml
   - secret.yaml
+  - rbac.yaml
   - release.yaml
 configMapGenerator:
   - name: crowdsec-values
