@@ -973,6 +973,8 @@ cscli bouncers list
 cscli decisions list
 cscli alert list
 cscli collections list
+cscli scenario list
+
 cscli decisions add --ip <IP> --duration 5m --reason "test manuel"
 cscli parsers inspect crowdsecurity/public-dns-allowlist
 
@@ -1025,27 +1027,4 @@ kor version: v0.6.7
 go install github.com/howardjohn/kubectl-resources@latest
 kubectl resources --by namespace
 kubectl resources
-
-NAMESPACE           CPU USE  CPU REQ  CPU LIM  MEM USE  MEM REQ  MEM LIM
-authelia            16m      -        -        84Mi     -        -
-crowdsec            11m      1010m    1000m    428Mi    770Mi    1006Mi
-default             1m       -        -        188Mi    -        -
-dozzle              -        -        -        28Mi     -        -
-flux-system         74m      350m     4000m    359Mi    256Mi    4096Mi
-gitea               63m      200m     300m     164Mi    256Mi    384Mi
-homepage            1m       -        -        157Mi    -        -
-kube-system         54m      1660m    8000m    824Mi    2362Mi   8192Mi
-lldap               1m       -        -        3Mi      -        -
-local-storage       3m       -        -        12Mi     -        -
-maildev             1m       -        -        45Mi     -        -
-media               99m      850m     7000m    2604Mi   2688Mi   5632Mi
-ntfy                1m       -        -        46Mi     -        -
-semaphore           22m      200m     150m     122Mi    192Mi    192Mi
-sliver              1m       1000m    4000m    121Mi    1024Mi   4096Mi
-sm-operator-system  2m       10m      500m     27Mi     64Mi     128Mi
-traefik             1m       -        -        48Mi     -        -
-vault               1m       -        -        82Mi     -        -
-wg-portal           -        -        -        27Mi     -        -
-                    352m     5280m    24950m   5377Mi   7612Mi   23726Mi
-
 ```

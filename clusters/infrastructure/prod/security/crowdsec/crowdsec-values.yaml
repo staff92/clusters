@@ -8,7 +8,7 @@
 
 ## @section Global
 ## @param container_runtime [default: docker] [string] for raw logs format: docker or containerd
-container_runtime: docker
+container_runtime: containerd
 
 ## @section Image
 image:
@@ -278,8 +278,6 @@ dashboard:
 # lapi will deploy pod with crowdsec lapi and dashboard as deployment
 ## @section lapi
 lapi:
-  dashboard:
-    enabled: true
   # -- enable lapi (by default enabled)
   ## @param lapi.enabled  Enable LAPI deployment (enabled by default)
   enabled: true
@@ -536,6 +534,7 @@ agent:
       podName: traefik-*
       program: traefik
       poll_without_inotify: true
+
     #- namespace: "" #ingress-nginx
     # -- to select pod logs to process
     #  podName: "" #ingress-nginx-controller-*
