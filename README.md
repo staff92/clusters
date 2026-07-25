@@ -984,17 +984,6 @@ cscli parsers inspect crowdsecurity/public-dns-allowlist
 #! test 
 echo '{"ClientHost":"9.9.9.9","RequestPath":"/wp-login.php","RequestMethod":"GET","DownstreamStatus":404,"RequestHost":"test.domain","time":"2026-07-20T02:35:00Z"}' | cscli explain --type traefik -f -
 ```
-rate limite + crowdsec  ? 
-
-| app | appsec | crowdsec |
-|-----|-----|------|
-| ldap | ✅  | ✅  |
-| authelia | ✅ | ✅  |
-| vaultwarden | ✅ | ✅ |
-| wg-portal | ✅  | ✅ |
-| semaphore | ✅ | ✅ |
-| gitea | ✅ | ✅ |
-| tracearr | ✅ | ✅ |
 
 
 ## PLUGINS

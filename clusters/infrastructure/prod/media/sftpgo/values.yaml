@@ -321,7 +321,7 @@ ui:
 
     # -- Annotations to be added to the ingress.
     annotations:
-      traefik.ingress.kubernetes.io/router.middlewares: traefik-crowdsec-bouncer@kubernetescrd
+      traefik.ingress.kubernetes.io/router.middlewares: traefik-crowdsec-bouncer-appsec@kubernetescrd
       #traefik.ingress.kubernetes.io/router.middlewares: authelia-forwardauth-authelia@kubernetescrd
       gethomepage.dev/enabled: "true"
       gethomepage.dev/name: "sftpgo"
