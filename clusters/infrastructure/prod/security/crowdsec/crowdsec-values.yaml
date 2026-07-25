@@ -291,7 +291,11 @@ lapi:
       value: "true"
     - name: CROWDSEC_MODE
       value: "standalone"
-
+    - name: BOUNCER_KEY_traefik
+      valueFrom:
+        secretKeyRef:
+          name: crowdsec-lapi-secrets
+          key: CROWDSEC_TRAEFIK_BOUNCER_KEY
     # by default disable the agent because it only needs the local API.
     # - name: DISABLE_AGENT
     #   value: "true"
@@ -783,17 +787,27 @@ appsec:
   # -- Additional acquisitions for AppSec
   ## @param appsec.acquisitions [array] AppSec acquisitions (datasource listeners), e.g. appsec listener on 7422
   acquisitions:
-    - source: appsec
-      listen_addr: "0.0.0.0:7422"
-      path: /
-      appsec_config: crowdsecurity/appsec-virtual-patching 
-      # appsec_configs:
-      #   # - crowdsecurity/appsec-default     
-      #   - crowdsecurity/appsec-virtual-patching 
-      #   - crowdsecurity/appsec-generic-rules
-      #   # - crowdsecurity/appsec-crs           # OWASP
-      labels:
-        type: appsec
+      - source: appsec
+        listen_addr: "0.0.0.0:7422"
+        path: /
+        appsec_configs:
+          - crowdsecurity/appsec-default
+          - crowdsecurity/crs
+        labels:
+          type: appsec
+
+  # acquisitions:
+  #   - source: appsec
+  #     listen_addr: "0.0.0.0:7422"
+  #     path: /
+  #     appsec_config: crowdsecurity/appsec-virtual-patching 
+  #     # appsec_configs:
+  #     #   # - crowdsecurity/appsec-default     
+  #     #   - crowdsecurity/appsec-virtual-patching 
+  #     #   - crowdsecurity/appsec-generic-rules
+  #     #   # - crowdsecurity/appsec-crs           # OWASP
+  #     labels:
+  #       type: appsec
   # -- Custom scenarios for the appsec pod. See https://docs.crowdsec.net/docs/next/scenarios/intro
   # Those files are only mounted in the appsec pods
   ## @param appsec.scenarios [object] Custom scenario files for the appsec pod (key = filename, value = file content)
@@ -894,7 +908,9 @@ appsec:
 
   # -- environment variables
   ## @param appsec.env [array] Environment variables for the AppSec container (collections/configs/rules toggles, etc.)
-  env: []
+  env:
+    - name: COLLECTIONS
+      value: "crowdsecurity/appsec-virtual-patching crowdsecurity/appsec-crs crowdsecurity/appsec-generic-rules"
     # #-- COLLECTIONS to install, separated by space (value: "crowdsecurity/appsec-virtual-patching crowdsecurity/appsec-crs")
     # - name: COLLECTIONS
     #   value: "crowdsecurity/appsec-virtual-patching crowdsecurity/appsec-generic-rules crowdsecurity/appsec-crs"
