@@ -106,6 +106,7 @@ jellyfin:
     enabled: true
     labels: {}
     annotations:
+      traefik.ingress.kubernetes.io/router.middlewares: traefik-crowdsec-bouncer@kubernetescrd
       #traefik.ingress.kubernetes.io/router.middlewares: traefik-botblocker@kubernetescrd
       gethomepage.dev/enabled: "true"
       gethomepage.dev/name: "Jellyfin"
@@ -987,6 +988,7 @@ seerr:
     enabled: true
     className: "traefik"
     annotations: 
+      traefik.ingress.kubernetes.io/router.middlewares: traefik-crowdsec-bouncer@kubernetescrd
       gethomepage.dev/enabled: "true"
       gethomepage.dev/name: "Seerr"
       gethomepage.dev/description: "Seerr is a free and open source software application for managing requests for your media library."
