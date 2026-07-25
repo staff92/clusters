@@ -782,13 +782,13 @@ appsec:
 
   # -- Additional acquisitions for AppSec
   ## @param appsec.acquisitions [array] AppSec acquisitions (datasource listeners), e.g. appsec listener on 7422
-  acquisitions: []
-    #- source: appsec
-    #  listen_addr: "0.0.0.0:7422"
-    #  path: /
-    #  appsec_config: crowdsecurity/virtual-patching
-    #  labels:
-    #    type: appsec
+  acquisitions:
+    - source: appsec
+      listen_addr: "0.0.0.0:7422"
+      path: /
+      appsec_config: crowdsecurity/virtual-patching
+      labels:
+        type: appsec
   # -- Custom scenarios for the appsec pod. See https://docs.crowdsec.net/docs/next/scenarios/intro
   # Those files are only mounted in the appsec pods
   ## @param appsec.scenarios [object] Custom scenario files for the appsec pod (key = filename, value = file content)
