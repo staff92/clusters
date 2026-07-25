@@ -894,12 +894,12 @@ appsec:
 
   # -- environment variables
   ## @param appsec.env [array] Environment variables for the AppSec container (collections/configs/rules toggles, etc.)
-  env:
-    #-- COLLECTIONS to install, separated by space (value: "crowdsecurity/appsec-virtual-patching crowdsecurity/appsec-crs")
-    - name: COLLECTIONS
-      value: "crowdsecurity/appsec-virtual-patching crowdsecurity/appsec-generic-rules crowdsecurity/appsec-crs"
-    # -- APPSEC_CONFIGS files to install, separated by space (value: "crowdsecurity/config-1 crowdsecurity/config-2")
-    #- name: APPSEC_CONFIGS
+  env: []
+    # #-- COLLECTIONS to install, separated by space (value: "crowdsecurity/appsec-virtual-patching crowdsecurity/appsec-crs")
+    # - name: COLLECTIONS
+    #   value: "crowdsecurity/appsec-virtual-patching crowdsecurity/appsec-generic-rules crowdsecurity/appsec-crs"
+    # # -- APPSEC_CONFIGS files to install, separated by space (value: "crowdsecurity/config-1 crowdsecurity/config-2")
+    # #- name: APPSEC_CONFIGS
     #  value: "crowdsecurity/appsec-default"
     # -- APPSEC_RULES files to install, separated by space (value: "crowdsecurity/rules-1 crowdsecurity/rules-2")
     #- name: APPSEC_RULES
