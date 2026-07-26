@@ -42,7 +42,7 @@
 ## @param statefulset.dind.extraEnvs Allows adding custom environment variables, such as `DOCKER_IPTABLES_LEGACY`
 ## @param statefulset.dind.extraArgs Allows adding custom arguments to the Docker Daemon
 #
-enabled: true
+enabled: false
 statefulset:
   replicas: 1
   timezone: Etc/UTC
