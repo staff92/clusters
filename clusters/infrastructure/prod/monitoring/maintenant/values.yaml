@@ -32,8 +32,9 @@ service:
 ingress:
   enabled: true
   className: "traefik"
-  annotations: {}
-  host: "maintenant.${CLUSTER_DOMAIN}"
+  annotations: 
+    traefik.ingress.kubernetes.io/router.middlewares: authelia-chain-authelia-auth@kubernetescrd
+  host: "main.${CLUSTER_DOMAIN}"
   tls: []
   #  - secretName: maintenant-tls
   #    hosts:
