@@ -454,9 +454,9 @@ ingress:
           #       required: false
           # @schema
           # -- List of Middlewares to apply before the forwardAuth Middleware in the authentication chain.
-          before: 
-          - name: 'crowdsec-bouncer-appsec'
-            namespace: 'traefik'
+          before: []
+          # - name: 'crowdsec-bouncer-appsec'
+          #   namespace: 'traefik'
 
           # - name: 'headers-authelia'
           #   namespace: 'authelia'
@@ -500,9 +500,9 @@ ingress:
           # @schema
           # -- List of Middlewares to apply before the middleware in the IngressRoute chain.
           # before: []
-          before: []
-          # - name: 'crowdsec-bouncer-appsec'
-          #   namespace: 'traefik'
+          before:
+          - name: 'crowdsec-bouncer-appsec'
+            namespace: 'traefik'
 
           # @schema
           # required: false
