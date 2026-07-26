@@ -22,7 +22,7 @@ resources:
 #! MONITORING
   # - monitoring/gatus
   - monitoring/dozzle
-  - monitoring/maintenant
+  # - monitoring/maintenant
   - monitoring/kubenav
   - monitoring/ntfy
 #! MEDIA

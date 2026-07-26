@@ -50,7 +50,7 @@ resources:
 ## Extra environment variables injected into the container
 extraEnv:
   - name: MAINTENANT_DISABLE_TELEMETRY
-    value: true
+    value: "true"
 # - name: MAINTENANT_WEBHOOK_URL
 #   value: "https://hooks.example.com/..."
 
