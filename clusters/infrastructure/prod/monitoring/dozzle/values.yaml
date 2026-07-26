@@ -129,7 +129,7 @@ spec:
       middlewares: 
         # - name: crowdsec-bouncer-appsec
         #   namespace: 'traefik'      
-        - name: 'forwardauth-authelia'
+        - name: 'chain-authelia-auth'
           namespace: 'authelia'
       services:
         - name: dozzle-service
