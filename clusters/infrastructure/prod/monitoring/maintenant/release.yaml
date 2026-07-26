@@ -36,4 +36,8 @@ spec:
                 value: 0
               - op: add
                 path: /spec/template/spec/containers/0/securityContext/capabilities/add
-                value: ["CHOWN", "SETGID", "SETUID"]
+                value: ["ALL"]
+              - op: drop
+                path: /spec/template/spec/containers/0/securityContext/capabilities/drop
+                value: [""]
+# "CHOWN", "SETGID", "SETUID", (add)
