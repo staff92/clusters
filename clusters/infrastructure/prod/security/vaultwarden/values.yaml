@@ -278,7 +278,7 @@ ingressRoute:
   # -- Traefik middlewares
   # middlewares: []
   middlewares: 
-    - name: 'crowdsec-bouncer'
+    - name: 'crowdsec-bouncer-appsec'
       namespace: 'traefik'
   # -- TLS configuration
   tls: {}
