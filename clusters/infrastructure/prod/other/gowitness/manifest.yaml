@@ -109,7 +109,7 @@ metadata:
   name: gowitness
   namespace: gowitness
   annotations:
-    traefik.ingress.kubernetes.io/router.middlewares: authelia-forwardauth-authelia@kubernetescrd
+    traefik.ingress.kubernetes.io/router.middlewares: authelia-chain-authelia-auth@kubernetescrd
 spec:
   ingressClassName: traefik
   rules:

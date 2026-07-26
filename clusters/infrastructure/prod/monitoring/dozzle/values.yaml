@@ -127,8 +127,8 @@ spec:
     - match: Host(`dozzle.${CLUSTER_DOMAIN}`)
       kind: Rule
       middlewares: 
-        - name: crowdsec-bouncer-appsec
-          namespace: 'traefik'      
+        # - name: crowdsec-bouncer-appsec
+        #   namespace: 'traefik'      
         - name: 'forwardauth-authelia'
           namespace: 'authelia'
       services:

@@ -361,7 +361,7 @@ dashboard:
     enabled: true
     className: "traefik"
     annotations:
-      traefik.ingress.kubernetes.io/router.middlewares: authelia-forwardauth-authelia@kubernetescrd
+      traefik.ingress.kubernetes.io/router.middlewares: authelia-chain-authelia-auth@kubernetescrd
       gethomepage.dev/enabled: "true"
       gethomepage.dev/name: "JuiceFS"
       gethomepage.dev/description: "A High-Performance, Cloud-Native, Distributed File System"

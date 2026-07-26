@@ -78,7 +78,7 @@ ingress:
   className: "traefik"
   # -- Additional annotations for the Ingress resource
   annotations:
-    traefik.ingress.kubernetes.io/router.middlewares: authelia-forwardauth-authelia@kubernetescrd
+    traefik.ingress.kubernetes.io/router.middlewares: authelia-chain-authelia-auth@kubernetescrd
     gethomepage.dev/enabled: "true"
     gethomepage.dev/name: "umami"
     gethomepage.dev/description: "Powerful analytics without the complexity"

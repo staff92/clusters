@@ -76,14 +76,14 @@ ingress:
   # Values can be templated
   className: "traefik"
   annotations:
-    #traefik.ingress.kubernetes.io/router.middlewares: authelia-forwardauth-authelia@kubernetescrd
+    #traefik.ingress.kubernetes.io/router.middlewares: authelia-chain-authelia-auth@kubernetescrd
     gethomepage.dev/enabled: "true"
     gethomepage.dev/name: "Gatus"
     gethomepage.dev/description: "Automated service health dashboard"
     gethomepage.dev/group: "Infrastructure"
     gethomepage.dev/icon: "gatus.png"
     gethomepage.dev/pod-selector: "app.kubernetes.io/name=gatus"
-    traefik.ingress.kubernetes.io/router.middlewares: authelia-forwardauth-authelia@kubernetescrd
+    traefik.ingress.kubernetes.io/router.middlewares: authelia-chain-authelia-auth@kubernetescrd
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
   labels: {}

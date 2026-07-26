@@ -319,7 +319,7 @@ sonarr:
     enabled: true
     className: "traefik"
     annotations: 
-      traefik.ingress.kubernetes.io/router.middlewares: authelia-forwardauth-authelia@kubernetescrd
+      traefik.ingress.kubernetes.io/router.middlewares: authelia-chain-authelia-auth@kubernetescrd
       gethomepage.dev/enabled: "true"
       gethomepage.dev/name: "Sonarr"
       gethomepage.dev/description: "Sonarr is an internet PVR for Usenet and Torrents. Use for tv-shows"
@@ -504,7 +504,7 @@ qbittorrent:
     enabled: true
     className: "traefik"
     annotations: 
-      traefik.ingress.kubernetes.io/router.middlewares: authelia-forwardauth-authelia@kubernetescrd
+      traefik.ingress.kubernetes.io/router.middlewares: authelia-chain-authelia-auth@kubernetescrd
       gethomepage.dev/enabled: "true"
       gethomepage.dev/name: "Qbittorrent"
       gethomepage.dev/description: "The qBittorrent project aims to provide an open-source software alternative to µTorrent"
@@ -709,7 +709,7 @@ prowlarr:
     className: "traefik"
     annotations:
       #traefik.ingress.kubernetes.io/router.middlewares: authelia-chain-authelia-auth@kubernetescrd
-      traefik.ingress.kubernetes.io/router.middlewares: authelia-forwardauth-authelia@kubernetescrd
+      traefik.ingress.kubernetes.io/router.middlewares: authelia-chain-authelia-auth@kubernetescrd
       gethomepage.dev/enabled: "true"
       gethomepage.dev/name: "Prowlarr"
       gethomepage.dev/description: "Prowlarr is an indexer manager/proxy built on the popular *arr base stack to integrate with your various PVR apps"
@@ -1129,7 +1129,7 @@ bazarr:
     enabled: true
     className: "traefik"
     annotations:
-      traefik.ingress.kubernetes.io/router.middlewares: authelia-forwardauth-authelia@kubernetescrd
+      traefik.ingress.kubernetes.io/router.middlewares: authelia-chain-authelia-auth@kubernetescrd
       gethomepage.dev/enabled: "true"
       gethomepage.dev/name: "Bazarr"
       gethomepage.dev/description: "Bazarr is a companion application to Sonarr and Radarr that manages and downloads subtitles"
@@ -1287,7 +1287,7 @@ radarr:
     enabled: true
     className: "traefik"
     annotations:
-      traefik.ingress.kubernetes.io/router.middlewares: authelia-forwardauth-authelia@kubernetescrd
+      traefik.ingress.kubernetes.io/router.middlewares: authelia-chain-authelia-auth@kubernetescrd
       gethomepage.dev/enabled: "true"
       gethomepage.dev/name: "Radarr"
       gethomepage.dev/description: "Radarr is a movie collection manager for Usenet and BitTorrent users"
@@ -1449,7 +1449,7 @@ lidarr:
     enabled: true
     className: "traefik"
     annotations:
-      traefik.ingress.kubernetes.io/router.middlewares: authelia-forwardauth-authelia@kubernetescrd
+      traefik.ingress.kubernetes.io/router.middlewares: authelia-chain-authelia-auth@kubernetescrd
       gethomepage.dev/enabled: "true"
       gethomepage.dev/name: "Lidarr"
       gethomepage.dev/description: "Lidarr is a music collection manager for Usenet and BitTorrent users"
@@ -1619,7 +1619,7 @@ cleanuparr:
     enabled: true
     className: "traefik"
     annotations:
-      traefik.ingress.kubernetes.io/router.middlewares: authelia-forwardauth-authelia@kubernetescrd
+      traefik.ingress.kubernetes.io/router.middlewares: authelia-chain-authelia-auth@kubernetescrd
       gethomepage.dev/enabled: "true"
       gethomepage.dev/name: "Cleanuparr"
       gethomepage.dev/description: "It removes incomplete or blocked downloads, updates queues, and enforces blacklists or whitelists to manage file selection."

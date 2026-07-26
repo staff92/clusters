@@ -322,7 +322,7 @@ ui:
     # -- Annotations to be added to the ingress.
     annotations:
       traefik.ingress.kubernetes.io/router.middlewares: traefik-crowdsec-bouncer-appsec@kubernetescrd
-      #traefik.ingress.kubernetes.io/router.middlewares: authelia-forwardauth-authelia@kubernetescrd
+      #traefik.ingress.kubernetes.io/router.middlewares: authelia-chain-authelia-auth@kubernetescrd
       gethomepage.dev/enabled: "true"
       gethomepage.dev/name: "sftpgo"
       gethomepage.dev/description: "Full-featured and highly configurable event-driven file transfer solution."

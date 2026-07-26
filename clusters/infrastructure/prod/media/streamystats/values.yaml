@@ -461,7 +461,7 @@ metadata:
   annotations:
     # traefik.ingress.kubernetes.io/router.entrypoints: websecure
     # traefik.ingress.kubernetes.io/router.tls: "true"
-    # traefik.ingress.kubernetes.io/router.middlewares: authelia-forwardauth-authelia@kubernetescrd
+    # traefik.ingress.kubernetes.io/router.middlewares: authelia-chain-authelia-auth@kubernetescrd
     gethomepage.dev/enabled: "true"
     gethomepage.dev/name: "JellyStats"
     gethomepage.dev/description: "free and open source Statistics App for Jellyfin"

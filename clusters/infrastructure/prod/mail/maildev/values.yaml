@@ -95,7 +95,7 @@ ingress:
   className: "traefik"
   # -- Additional annotations for the Ingress resource
   annotations: 
-    traefik.ingress.kubernetes.io/router.middlewares: authelia-forwardauth-authelia@kubernetescrd
+    traefik.ingress.kubernetes.io/router.middlewares: authelia-chain-authelia-auth@kubernetescrd
     gethomepage.dev/enabled: "true"
     gethomepage.dev/name: "MailDev"
     gethomepage.dev/description: "MailDev is a simple way to test your project's generated email during development"
