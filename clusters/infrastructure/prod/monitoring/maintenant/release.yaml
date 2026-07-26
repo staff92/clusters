@@ -12,28 +12,28 @@ spec:
         kind: GitRepository
         name: maintenant
         namespace: maintenant
-  # postRenderers:
-  #   - kustomize:
-  #       patches:
-  #         - target:
-  #             kind: Deployment
-  #             name: maintenant
-  #           patch: |
-  #             - op: replace
-  #               path: /spec/template/spec/containers/0/securityContext/allowPrivilegeEscalation
-  #               value: true
-  #             - op: replace
-  #               path: /spec/template/spec/securityContext/runAsNonRoot
-  #               value: false
-  #             - op: replace
-  #               path: /spec/template/spec/securityContext/runAsUser
-  #               value: 0
-  #             - op: replace
-  #               path: /spec/template/spec/securityContext/runAsGroup
-  #               value: 0
-  #             - op: replace
-  #               path: /spec/template/spec/securityContext/fsGroup
-  #               value: 0
-  #             - op: add
-  #               path: /spec/template/spec/containers/0/securityContext/capabilities/add
-  #               value: ["CHOWN", "SETGID", "SETUID"]
+  postRenderers:
+    - kustomize:
+        patches:
+          - target:
+              kind: Deployment
+              name: maintenant
+            patch: |
+              - op: replace
+                path: /spec/template/spec/containers/0/securityContext/allowPrivilegeEscalation
+                value: true
+              - op: replace
+                path: /spec/template/spec/securityContext/runAsNonRoot
+                value: false
+              - op: replace
+                path: /spec/template/spec/securityContext/runAsUser
+                value: 0
+              - op: replace
+                path: /spec/template/spec/securityContext/runAsGroup
+                value: 0
+              - op: replace
+                path: /spec/template/spec/securityContext/fsGroup
+                value: 0
+              - op: add
+                path: /spec/template/spec/containers/0/securityContext/capabilities/add
+                value: ["CHOWN", "SETGID", "SETUID"]
