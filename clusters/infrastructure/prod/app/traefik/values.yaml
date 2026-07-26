@@ -241,7 +241,7 @@ ingressRoute:
     entryPoints: ["websecure"]
     # -- Additional ingressRoute middlewares (e.g. for authentication)
     middlewares: 
-      - name: 'forwardauth-authelia' # name of your middleware, as defined in your middleware.yml
+      - name: 'chain-authelia-auth' # name of your middleware, as defined in your middleware.yml
         namespace: 'authelia'
     # -- TLS options (e.g. secret containing certificate)
     tls: {}
