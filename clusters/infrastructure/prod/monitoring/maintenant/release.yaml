@@ -12,7 +12,16 @@ spec:
         kind: GitRepository
         name: maintenant
         namespace: maintenant
-
+  postRenderers:
+    - kustomize:
+        patches:
+          - target:
+              kind: Deployment
+              name: maintenant
+            patch: |
+              - op: add
+                path: /spec/template/spec/containers/0/securityContext/capabilities/add
+                value: ["SETGID", "SETUID"]
 # ---
 # apiVersion: helm.toolkit.fluxcd.io/v2
 # kind: HelmRelease
