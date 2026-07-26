@@ -316,14 +316,14 @@ spec:
         - name: sliver-implants
           port: 8443
           # scheme: https
-    - match: PathPrefix(`/`)
-      kind: Rule
-      middlewares:
-        - name: ip-whitelist
-      services:
-        - name: sliver-implants
-          port: 8080
-          scheme: http
+    # - match: PathPrefix(`/`)
+    #   kind: Rule
+    #   middlewares:
+    #     - name: ip-whitelist
+    #   services:
+    #     - name: sliver-implants
+    #       port: 8080
+    #       scheme: http
 ---
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
