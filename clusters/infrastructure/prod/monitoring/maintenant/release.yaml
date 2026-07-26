@@ -19,6 +19,9 @@ spec:
               kind: Deployment
               name: maintenant
             patch: |
+              - op: replace
+                path: /spec/template/spec/containers/0/securityContext/allowPrivilegeEscalation
+                value: true
               - op: add
                 path: /spec/template/spec/containers/0/securityContext/capabilities/add
                 value: ["SETGID", "SETUID"]
