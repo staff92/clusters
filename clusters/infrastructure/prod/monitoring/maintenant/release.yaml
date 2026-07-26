@@ -1,0 +1,67 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: maintenant
+  namespace: maintenant
+spec:
+  interval: 1h
+  chart:
+    spec:
+      chart: deploy/helm/maintenant
+      sourceRef:
+        kind: GitRepository
+        name: maintenant
+        namespace: media
+
+# ---
+# apiVersion: helm.toolkit.fluxcd.io/v2
+# kind: HelmRelease
+# metadata:
+#   name: tracearr
+# spec:
+#   interval: 1h
+#   chartRef:
+#     kind: OCIRepository
+#     name: tracearr
+#   valuesFrom:
+#     - kind: ConfigMap
+#       name: tracearr-values
+#       valuesKey: values.yaml
+#   targetNamespace: media
+
+
+
+# ---
+# apiVersion: source.toolkit.fluxcd.io/v1
+# kind: HelmChart
+# metadata:
+#   name: podinfo
+#   namespace: default
+# spec:
+#   interval: 5m0s
+#   chart: podinfo
+#   reconcileStrategy: ChartVersion
+#   sourceRef:
+#     kind: HelmRepository
+#     name: podinfo
+#   version: '5.*'
+
+# ---
+# apiVersion: helm.toolkit.fluxcd.io/v2
+# kind: HelmRelease
+# metadata:
+#   name: tracearr
+# spec:
+#   interval: 1h
+#   chart:
+#     spec:
+#       chart: ./docker/helm/tracearr
+#       sourceRef:
+#         kind: GitRepository
+#         name: tracearr
+#         namespace: flux-system
+#       reconcileStrategy: Revision
+#   valuesFrom:
+#     - kind: ConfigMap
+#       name: sftp-values
+#       valuesKey: values.yaml
