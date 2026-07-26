@@ -206,7 +206,7 @@ ingress:
   # @schema
   # -- Extra annotations for ingress related manifests.
   annotations:
-    traefik.ingress.kubernetes.io/router.middlewares: traefik-crowdsec-bouncer-appsec@kubernetescrd
+    # traefik.ingress.kubernetes.io/router.middlewares: traefik-crowdsec-bouncer-appsec@kubernetescrd
     #traefik.ingress.kubernetes.io/router.middlewares: traefik-botblocker@kubernetescrd
     gethomepage.dev/enabled: "true"
     gethomepage.dev/name: "Authelia"
@@ -496,10 +496,10 @@ ingress:
           #       required: false
           # @schema
           # -- List of Middlewares to apply before the middleware in the IngressRoute chain.
-          before: []
-          # before:
-          # - name: 'extra-middleware-name'
-          #   namespace: 'default'
+          # before: []
+          before:
+          - name: 'crowdsec-bouncer-appsec'
+            namespace: 'traefik'
 
           # @schema
           # required: false
