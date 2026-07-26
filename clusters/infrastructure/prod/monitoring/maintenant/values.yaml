@@ -8,7 +8,7 @@ image:
 imagePullSecrets: []
 
 ## Runtime: "kubernetes" or "docker"
-runtime: kubernetes
+# runtime: kubernetes
 
 ## License key (Pro edition)
 license:
