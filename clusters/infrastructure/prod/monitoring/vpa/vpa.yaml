@@ -1,0 +1,23 @@
+# apiVersion: autoscaling.k8s.io/v1
+# kind: VerticalPodAutoscaler
+# metadata:
+#   name: CHANGEME-vpa
+#   namespace: CHANGEME-namespace
+# spec:
+#   targetRef:
+#     apiVersion: "apps/v1"
+#     kind: Deployment              # StatefulSet, DaemonSet...
+#     name: CHANGEME-deployment-name
+#   updatePolicy:
+#     updateMode: "Off"             
+#   resourcePolicy:
+#     containerPolicies:
+#       - containerName: '*'        
+#         minAllowed:
+#           cpu: 25m
+#           memory: 64Mi
+#         maxAllowed:
+#           cpu: 2
+#           memory: 4Gi
+#         controlledResources: ["cpu", "memory"]
+#         controlledValues: RequestsAndLimits   # or "RequestsOnly"
