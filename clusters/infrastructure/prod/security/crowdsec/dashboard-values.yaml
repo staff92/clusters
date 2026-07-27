@@ -54,6 +54,7 @@ ingress:
       gethomepage.dev/group: "Infrastructure"
       gethomepage.dev/icon: "sh-crowdsec.png"
       gethomepage.dev/pod-selector: "app.kubernetes.io/name=crowdsec-web-ui"
+      gethomepage.dev/href: "https://crowdsec.${CLUSTER_DOMAIN}"
     hosts:
       - host: "crowdsec.${CLUSTER_DOMAIN}"
         paths:

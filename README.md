@@ -1039,4 +1039,13 @@ kor version: v0.6.7
 go install github.com/howardjohn/kubectl-resources@latest
 kubectl resources --by namespace
 kubectl resources
+
+# Scan your current cluster
+kubescape scan
+
+# Scan a specific YAML file or directory
+kubescape scan /path/to/manifests/
+
+# Scan a container image for vulnerabilities
+kubescape scan image nginx:latest
 ```
