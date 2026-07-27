@@ -7,7 +7,7 @@ spec:
   interval: 1h
   chart:
     spec:
-      chart: vertical-pod-autoscaler 
+      chart: goldilocks
       version: '10.4.1'
       sourceRef:
         kind: HelmRepository
