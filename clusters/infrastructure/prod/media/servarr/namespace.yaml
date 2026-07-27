@@ -5,3 +5,4 @@ metadata:
   name: media
   labels:
     juicefs.com/enable-injection: "true"
+    goldilocks.fairwinds.com/enabled: "true"

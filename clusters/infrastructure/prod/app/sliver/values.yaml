@@ -6,6 +6,7 @@ metadata:
     app: sliver
     app.kubernetes.io/name: sliver
     app.kubernetes.io/part-of: sliver-c2
+    goldilocks.fairwinds.com/enabled: "true"
 
 ---
 apiVersion: v1
