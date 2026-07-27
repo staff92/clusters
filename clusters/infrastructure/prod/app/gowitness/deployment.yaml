@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gowitness
+  namespace: gowitness
+  labels:
+    app: gowitness
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate 
+  selector:
+    matchLabels:
+      app: gowitness
+  template:
+    metadata:
+      labels:
+        app: gowitness
+    spec:
+      securityContext:
+        fsGroup: 1000
+      containers:
+        - name: gowitness
+          image: ghcr.io/sensepost/gowitness:latest
+          args:
+            - "report"
+            - "server"
+            - "--host"
+            - "0.0.0.0"
+            - "--port"
+            - "7171"
+            - "--db-uri"
+            - "sqlite:///data/gowitness.sqlite3"
+            - "--screenshot-path"
+            - "/data/screenshots"
+          ports:
+            - name: http
+              containerPort: 7171
+          volumeMounts:
+            - name: data
+              mountPath: /data
+          resources:
+            requests:
+              cpu: 50m
+              memory: 128Mi
+            limits:
+              memory: 1Gi
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: gowitness-data

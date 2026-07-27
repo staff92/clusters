@@ -37,3 +37,4 @@ resources:
   - app/homepage
   - app/semaphore
   - app/sliver
+  - app/gowitness
