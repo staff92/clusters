@@ -969,11 +969,17 @@ sqlite> delete from sso_user;
 
 ```
 cscli bouncers add traefik-bouncer
+
 cscli bouncers list
 cscli decisions list
 cscli alert list
 cscli collections list
 cscli scenario list
+cscli machine list
+cscli notifications list
+cscli allowlists list
+
+cscli metrics show appsec
 
 cscli allowlists create maintenance -d "Test"
 cscli allowlists add maintenance 192.168.1.0/24 -d "Test"

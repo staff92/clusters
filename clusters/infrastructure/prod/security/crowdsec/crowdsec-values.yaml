@@ -900,11 +900,11 @@ appsec:
   ## @param appsec.resources [object] Resource requests and limits for AppSec pods
   resources:
     limits:
-      memory: 250Mi
-      cpu: 500m
+      memory: 1000Mi
+      cpu: 1500m
     requests:
-      cpu: 500m
-      memory: 250Mi
+      cpu: 1000m
+      memory: 500Mi
 
   # -- environment variables
   ## @param appsec.env [array] Environment variables for the AppSec container (collections/configs/rules toggles, etc.)
