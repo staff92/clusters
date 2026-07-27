@@ -2961,6 +2961,10 @@ configMap:
       subject:
       - 'group:jelly_admin'
       policy: one_factor
+    - domain: 'gowitness.${CLUSTER_DOMAIN}'
+      subject:
+      - 'group:jelly_admin'
+      policy: one_factor
     - domain: 'gold.${CLUSTER_DOMAIN}'
       subject:
       - 'group:jelly_admin'
