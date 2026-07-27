@@ -99,6 +99,7 @@ data:
   scan.yaml: |
       - name: Scan
         hosts: all
+        become: true
         gather_facts: false
         vars:
           cluster_namespace: gowitness
