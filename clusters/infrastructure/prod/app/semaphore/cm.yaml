@@ -141,12 +141,12 @@ data:
             msg: "{{ item }}"
           loop: "{{ nc_port.results }}"
 
-          - ansible.builtin.command:
-              cmd: >-
-                {{ kubectl_bin }} get pods -n {{ cluster_namespace }}
-                -l app={{ cluster_namespace }}
-                -o jsonpath='{.items[0].metadata.name}'
-            register: pod_name_result
+        - ansible.builtin.command:
+            cmd: >-
+              {{ kubectl_bin }} get pods -n {{ cluster_namespace }}
+              -l app={{ cluster_namespace }}
+              -o jsonpath='{.items[0].metadata.name}'
+          register: pod_name_result
 
         - ansible.builtin.command:
             cmd: >-
