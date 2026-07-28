@@ -5,4 +5,4 @@ metadata:
   name: kubescape
 spec:
   interval: 1h
-  url: https://djjudas21.github.io/charts/
+  url: https://kubescape.github.io/helm-charts/
