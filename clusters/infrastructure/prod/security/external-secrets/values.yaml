@@ -31,12 +31,12 @@ containers:
       tag:
     # The pod resource requirements.  You can adjust these up and down for your environment
     resources:
-      limits:
-        cpu: 500m
-        memory: 128Mi
       requests:
-        cpu: 10m
-        memory: 64Mi
+        cpu: 15m
+        memory: 100Mi
+      limits:
+        cpu: 29m
+        memory: 170M
     terminationGracePeriodSeconds: 10
 
   # Provide annotations for the service account

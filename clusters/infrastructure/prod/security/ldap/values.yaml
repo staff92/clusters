@@ -210,7 +210,13 @@ persistence:
   ##
   # storageClass: "-"
 
-resources: {}
+resources:
+  requests:
+    cpu: 15m
+    memory: 100Mi
+  limits:
+    cpu: 29m
+    memory: 100Mi
   # limits:
   #   cpu: 100m
   #   memory: 128Mi

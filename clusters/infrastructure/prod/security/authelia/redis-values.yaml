@@ -76,11 +76,17 @@ redisExporter:
   # -- Compute resources used by the container. More info [here](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/).
   resources:
     requests:
-      cpu: 10m
-      memory: 50Mi
-    limits:
-      cpu: 100m
+      cpu: 22m
       memory: 100Mi
+    limits:
+      cpu: 61m
+      memory: 100Mi
+    # requests:
+    #   cpu: 10m
+    #   memory: 50Mi
+    # limits:
+    #   cpu: 100m
+    #   memory: 100Mi
 
 env:
   # -- Timezone for the container.

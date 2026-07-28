@@ -93,12 +93,18 @@ controller:
 
 
 resources:
-  limits:
-    cpu: 500m
-    memory: 1024Mi
   requests:
-    cpu: 250m
-    memory: 512Mi
+    cpu: 15m
+    memory: 715M
+  limits:
+    cpu: 93m
+    memory: 1909M
+  # limits:
+  #   cpu: 500m
+  #   memory: 1024Mi
+  # requests:
+  #   cpu: 250m
+  #   memory: 512Mi
 # additionalContainers:
 #  - name: oauth2-proxy
 #    image: quay.io/oauth2-proxy/oauth2-proxy:v7.13.0
