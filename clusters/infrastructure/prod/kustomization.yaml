@@ -19,6 +19,7 @@ resources:
   - security/vaultwarden
   - security/wg-portal
   - security/crowdsec
+  - security/kubescape
 #! MONITORING
   # - monitoring/gatus
   - monitoring/dozzle
