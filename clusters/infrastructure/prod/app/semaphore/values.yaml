@@ -349,14 +349,14 @@ email:
   # -- Username for SMTP server
   username: test
 
-  # # -- Key used within secret for username
-  # usernameKey: username
+  # -- Key used within secret for username
+  usernameKey: username
 
   # -- Password for SMTP server
   password: test
 
-  # # -- Key used within secret for password
-  # passwordKey: password
+  # -- Key used within secret for password
+  passwordKey: password
 
   # -- Existing secret to use for email
   existingSecret:
