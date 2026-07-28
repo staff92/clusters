@@ -598,7 +598,6 @@ storage:
 # +++++++++++++++++++++++++++++ Node-agent ++++++++++++++++++++++++++++++++++++++++++++++++
 
 nodeAgent:
-  enable: false
   name: node-agent
   # GOMEMLIMIT as a fraction of resources.limits.memory. 0.8 = 80%.
   # Lower values give the runtime more headroom; raise toward 1.0 only if
