@@ -1048,4 +1048,29 @@ kubescape scan /path/to/manifests/
 
 # Scan a container image for vulnerabilities
 kubescape scan image nginx:latest
+
+NAME                         
+kubescape   
+kubevuln
+node-agent       
+operator       
+storage
+
+CRD
+kubectl get workloadconfigurationscans -A
+kubectl get vulnerabilitymanifests -A
+
+workloadconfigurationscans.spdx.softwarecomposition.kubescape.io
+
+workloadconfigurationscansummaries
+
+vulnerabilitymanifests
+
+vulnerabilitymanifestsummaries
+
+configurationscansummaries
+
+applicationprofiles
+
+sbomspdxv2p3
 ```

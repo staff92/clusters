@@ -11,7 +11,7 @@ fullnameOverride: "kubescape"
 
 # cluster name: cluster name must be defined by the user!
 # --set clusterName=`kubectl config current-context`
-clusterName: "cluster"
+clusterName: "k0s-cluster"
 
 # The namespace for running the chart
 # If you wish to run the chart in a different namespace, make sure to update this value
