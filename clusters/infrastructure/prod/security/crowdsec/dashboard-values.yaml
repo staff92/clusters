@@ -92,13 +92,13 @@ controller:
   replicas: 1
 
 
-resources:
-  requests:
-    cpu: 15m
-    memory: 715M
-  limits:
-    cpu: 93m
-    memory: 1909M
+resources: {}
+  # requests:
+  #   cpu: 15m
+  #   memory: 715M
+  # limits:
+  #   cpu: 93m
+  #   memory: 1909M
   # limits:
   #   cpu: 500m
   #   memory: 1024Mi
