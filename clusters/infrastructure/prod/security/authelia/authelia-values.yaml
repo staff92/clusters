@@ -2962,6 +2962,10 @@ configMap:
       subject:
       - 'group:jelly_admin'
       policy: one_factor
+    - domain: 'db.${CLUSTER_DOMAIN}'
+      subject:
+      - 'group:jelly_admin'
+      policy: one_factor
     - domain: 'qbittorrent.${CLUSTER_DOMAIN}'
       subject:
       - 'group:jelly_admin'

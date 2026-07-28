@@ -1,0 +1,89 @@
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: tools
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sqlite-web
+  namespace: tools
+  labels:
+    app: sqlite-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sqlite-web
+  template:
+    metadata:
+      labels:
+        app: sqlite-web
+    spec:
+      containers:
+        - name: sqlite-web
+          image: ghcr.io/coleifer/sqlite-web:latest
+          args:
+            - "/data/db.sqlite3"
+            - "-H"
+            - "0.0.0.0"
+            - "-p"
+            - "8080"
+          ports:
+            - containerPort: 8080
+          resources:
+            requests:
+              cpu: 10m
+              memory: 32Mi
+            limits:
+              cpu: 100m
+              memory: 128Mi
+          volumeMounts:
+            - name: vault-data
+              mountPath: /data
+      volumes:
+        - name: vault-data
+          persistentVolumeClaim:
+            claimName: vault-vaultwarden
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sqlite-web
+  namespace: tools
+spec:
+  selector:
+    app: sqlite-web
+  ports:
+    - port: 8080
+      targetPort: 8080
+
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: sqlite-web
+  namespace: tools
+  annotations:
+      traefik.ingress.kubernetes.io/router.middlewares: authelia-chain-authelia-auth@kubernetescrd
+  #   gethomepage.dev/enabled: "true"
+  #   gethomepage.dev/name: "Dozzle"
+  #   gethomepage.dev/description: " It is a lightweight, web-based log viewer designed to simplify monitoring and debugging containerized applications"
+  #   gethomepage.dev/group: "Infrastructure"
+  #   gethomepage.dev/icon: "dozzle.png"
+  #   gethomepage.dev/pod-selector: "app=dozzle"
+  #   gethomepage.dev/href: "https://db.${CLUSTER_DOMAIN}"
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`db.${CLUSTER_DOMAIN}`)
+      kind: Rule
+      services:
+        - name: sqlite-web
+          port: 8080
+      middlewares:
+        - name: 'chain-authelia-auth'
+          namespace: 'authelia'
+
