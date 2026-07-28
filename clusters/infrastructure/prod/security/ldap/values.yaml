@@ -216,7 +216,7 @@ resources:
     memory: 100Mi
   limits:
     cpu: 29m
-    memory: 100Mi
+    memory: 208M
   # limits:
   #   cpu: 100m
   #   memory: 128Mi
