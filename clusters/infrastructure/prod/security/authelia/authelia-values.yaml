@@ -1076,13 +1076,13 @@ pod:
   # @schema
   # required: false
   # @schema
-  resources:
-    requests:
-      cpu: 15m
-      memory: 100Mi
-    limits:
-      cpu: 29m
-      memory: 294M
+  resources: {}
+    # requests:
+    #   cpu: 15m
+    #   memory: 100Mi
+    # limits:
+    #   cpu: 29m
+    #   memory: 294M
     # # @schema
     # # required: false
     # # additionalProperties: true

@@ -30,13 +30,13 @@ containers:
       # Will default to the Chart's AppVersion, but you can override here.
       tag:
     # The pod resource requirements.  You can adjust these up and down for your environment
-    resources:
-      requests:
-        cpu: 15m
-        memory: 100Mi
-      limits:
-        cpu: 29m
-        memory: 170M
+    resources: {}
+      # requests:
+      #   cpu: 15m
+      #   memory: 100Mi
+      # limits:
+      #   cpu: 29m
+      #   memory: 170M
     terminationGracePeriodSeconds: 10
 
   # Provide annotations for the service account

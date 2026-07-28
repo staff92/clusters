@@ -384,13 +384,13 @@ lapi:
 
   # -- resources for lapi
   ## @param lapi.resources [object] Resource requests and limits for the LAPI pods
-  resources:
-    requests:
-      cpu: 15m
-      memory: 110M
-    limits:
-      cpu: 130m
-      memory: 436M
+  resources: {}
+    # requests:
+    #   cpu: 15m
+    #   memory: 110M
+    # limits:
+    #   cpu: 130m
+    #   memory: 436M
 
   # -- Enable persistent volumes
   persistentVolume:
@@ -614,13 +614,13 @@ agent:
     privileged: false
 
   ## @param agent.resources [object] Resource requests and limits for agent pods
-  resources:
-    requests:
-      cpu: 15m
-      memory: 100Mi
-    limits:
-      cpu: 61m
-      memory: 250M
+  resources: {}
+    # requests:
+    #   cpu: 15m
+    #   memory: 100Mi
+    # limits:
+    #   cpu: 61m
+    #   memory: 250M
   # -- Enable persistent volumes
   persistentVolume:
     # -- Persistent volume for config folder. Stores local config (parsers, scenarios etc.)
@@ -923,13 +923,13 @@ appsec:
     privileged: false
   # -- resources for appsec pods
   ## @param appsec.resources [object] Resource requests and limits for AppSec pods
-  resources:
-    requests:
-      cpu: 15m
-      memory: 145M
-    limits:
-      cpu: 29m
-      memory: 386M
+  resources: {}
+    # requests:
+    #   cpu: 15m
+    #   memory: 145M
+    # limits:
+    #   cpu: 29m
+    #   memory: 386M
     # limits:
     #   memory: 1000Mi
     #   cpu: 1500m
