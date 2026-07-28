@@ -338,28 +338,28 @@ email:
   sender: semaphore@gmail.com
 
   # -- Host of the SMTP server
-  host: maildev-smtp.maildev
+  host: "${SMTP_HOST}"
 
   # -- Port of the SMTP server
-  port: 1025
+  port: 587
 
   # -- Enable a secure connection
-  secure: false
+  secure: true
 
-  # -- Username for SMTP server
-  username: test
+  # # -- Username for SMTP server
+  # username: "${LDAP_USER1_EMAIL}"
 
   # -- Key used within secret for username
-  usernameKey: username
+  usernameKey: smtp-outgoing-username
 
   # -- Password for SMTP server
-  password: test
+  # password: test
 
   # -- Key used within secret for password
-  passwordKey: password
+  passwordKey: smtp-outgoing-password
 
   # -- Existing secret to use for email
-  existingSecret:
+  existingSecret: secret-semaphore
 
 telegram:
   # -- Enable telegram alerting
