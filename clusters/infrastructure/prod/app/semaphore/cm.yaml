@@ -13,11 +13,11 @@ data:
       name: test play
       gather_facts: false
       tasks:
-        - command: k0s kubectl rollout restart deployment  servarr-jellyfin servarr-lidarr servarr-qbittorrent servarr-radarr servarr-sonarr
+        - command: echo "lala"
           register: result
 
-          - debug:
-              msg: "{{ result.stdout }}"
+        - debug:
+            msg: "{{ result.stdout }}"
   restart_media_storage.yaml: |
     - hosts: all
       name: restart media stack 
