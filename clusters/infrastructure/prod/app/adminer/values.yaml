@@ -143,7 +143,8 @@ config:
   ##   - tables-filter
   ##   - dump-json
   ##
-  plugins: []
+  plugins:
+    - login-password-less
   ## @param config.design Choosing a design
   ## The image bundles all the designs that are available in the source package of adminer. You can
   ## find the list of designs on GitHub: https://github.com/vrana/adminer/tree/master/designs.
