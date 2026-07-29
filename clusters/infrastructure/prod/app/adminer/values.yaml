@@ -822,7 +822,7 @@ ingress:
   apiVersion: ""
   ## @param ingress.hostname Default host for the ingress record
   ##
-  hostname: adminer.${CLUSTER_DOMAIN}
+  hostname: db.${CLUSTER_DOMAIN}
   ## @param ingress.path Default path for the ingress record
   ## NOTE: You may need to set this to '/*' in order to use this with ALB ingress controllers
   ##
