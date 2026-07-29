@@ -3,6 +3,7 @@ kind: Kustomization
 namespace: adminer
 resources:
   - namespace.yaml
+  - plugins.yaml
   - repo.yaml
   - release.yaml
 configMapGenerator:

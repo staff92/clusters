@@ -143,8 +143,9 @@ config:
   ##   - tables-filter
   ##   - dump-json
   ##
-  plugins:
-    - login-password-less
+  plugins: []
+    # - name: login-password-less
+    #   password_hash: test1234
   ## @param config.design Choosing a design
   ## The image bundles all the designs that are available in the source package of adminer. You can
   ## find the list of designs on GitHub: https://github.com/vrana/adminer/tree/master/designs.
@@ -585,6 +586,9 @@ extraVolumes:
     hostPath:
       path: /var/openebs/local/
       type: Directory
+  - name: password-less-plugin
+    configMap:
+      name: adminer-login-password-less
 ## @param extraVolumeMounts Additional volume mounts attached to the Adminer container. References volumes declared in `extraVolumes`.
 ## E.g.
 ## extraVolumeMounts:
@@ -595,6 +599,9 @@ extraVolumeMounts:
   - name: openebs-data
     mountPath: /sqlite-data
     readOnly: true
+  - name: password-less-plugin
+    mountPath: /var/www/html/plugins-enabled/login-password-less.php
+    subPath: login-password-less.php
 ## @param initContainers Additional init containers added to the Adminer pod. Useful for preparing shared volumes before the main container starts (e.g. assembling a combined CA bundle for a sidecar). Pair with `extraVolumes`/`extraVolumeMounts`.
 ## ref: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/
 ## E.g.

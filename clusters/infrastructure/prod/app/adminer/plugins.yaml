@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: adminer-login-password-less
+data:
+  login-password-less.php: |
+    <?php 
+    return array(
+        new AdminerLoginPasswordLess('$2y$12$93xT8vhgniY04zigrl3mdO5IJ.Pgyc8JWulSW5Xknk.jl8JYGmDXW'),
+    );

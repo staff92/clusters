@@ -1,0 +1,146 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: authelia-admin-config
+  namespace: default
+spec:
+  storageClassName: openebs-hostpath
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: authelia-admin-config
+  namespace: default
+data:
+  # ─────────────────────────────────────────────────────────
+  # Authelia Integration (MANDATORY)
+  # ─────────────────────────────────────────────────────────
+  AAD_AUTHELIA_DOMAIN: "auth.${CLUSTER_DOMAIN}"
+  # Path inside the container to Authelia's configuration.yml
+  AAD_AUTHELIA_CONFIG_PATH: "/config/configuration.yml"
+  AAD_AUTHELIA_COOKIE_NAME: "authelia_session"
+  AAD_AUTHELIA_MIN_AUTH_LEVEL: "2"
+  AAD_AUTHELIA_ALLOWED_USERS: ""
+  # ─────────────────────────────────────────────────────────
+  # Directory Service — LLDAP GraphQL (MANDATORY)
+  # ─────────────────────────────────────────────────────────
+  AAD_DIRECTORY_TYPE: "lldap-graphql"
+  AAD_DIRECTORY_LLDAP_GRAPHQL_ENDPOINT: "http://lldap-http.lldap:17170/api/graphql"
+  AAD_DIRECTORY_LLDAP_GRAPHQL_USER: "admin"
+  # REQUIRED — replace with your actual LLDAP admin password
+  AAD_DIRECTORY_LLDAP_GRAPHQL_PASSWORD: "${LDAP_ADMIN_PASSWORD}"
+  AAD_DIRECTORY_LLDAP_GRAPHQL_LDAP_HOST: "lldap-ldap.lldap"
+  AAD_DIRECTORY_LLDAP_GRAPHQL_LDAP_PORT: "3890"
+  # Required for password-change operations — replace with your LDAP base DN
+  AAD_DIRECTORY_LLDAP_GRAPHQL_LDAP_BASE_DN: "dc=example,dc=com"
+  # ─────────────────────────────────────────────────────────
+  # Security (MANDATORY)
+  # ─────────────────────────────────────────────────────────
+  # Trusted origins for CSRF protection — must match the public domain
+  TRUSTED_ORIGINS: "https://auth.${CLUSTER_DOMAIN}"
+  # Set to "0" if using self-signed certificates (dev/staging only)
+  NODE_TLS_REJECT_UNAUTHORIZED: "0"
+  # ─────────────────────────────────────────────────────────
+  # Application
+  # ─────────────────────────────────────────────────────────
+  AAD_LOGLEVEL: "WARN"
+  PORT: "9093"
+  HOST: "0.0.0.0"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: authelia-admin
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: authelia-admin
+  template:
+    metadata:
+      labels:
+        app: authelia-admin
+    spec:
+      containers:
+        - name: authelia-admin
+          # Image confirmed: published on GHCR
+          image: ghcr.io/asalimonov/authelia-admin:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 9093
+              name: http
+          envFrom:
+            - configMapRef:
+                name: authelia-admin-config
+          livenessProbe:
+            httpGet:
+              path: /auth-admin/health
+              port: 9093
+            initialDelaySeconds: 10
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /auth-admin/health
+              port: 9093
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          resources:
+            requests:
+              cpu: 50m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+          # Optional: mount a custom config.yml via a volume
+          # volumeMounts:
+          #   - name: config
+          #     mountPath: /opt/authelia-admin/config.yml
+          #     subPath: config.yml
+          #     readOnly: true
+      # volumes:
+      #   - name: config
+      #     persistentVolumeClaim:
+      #       claimName: authelia-admin-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: authelia-admin
+  namespace: default
+spec:
+  type: ClusterIP
+  selector:
+    app: authelia-admin
+  ports:
+    - port: 9093
+      targetPort: 9093
+      protocol: TCP
+      name: http
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: authelia-admin
+  namespace: default
+  annotations:
+    traefik.ingress.kubernetes.io/router.middlewares: authelia-chain-authelia-auth@kubernetescrd
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: admin.${CLUSTER_DOMAIN}
+      http:
+        paths:
+          - path: /auth-admin
+            pathType: Prefix
+            backend:
+              service:
+                name: authelia-admin
+                port:
+                  number: 9093

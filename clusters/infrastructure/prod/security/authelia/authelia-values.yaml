@@ -4781,7 +4781,7 @@ persistence:
   # required: false
   # @schema
   # -- Enable the PersistentVolumeClaim features for Authelia.
-  enabled: false
+  enabled: true
 
   # @schema
   # required: false
@@ -4833,7 +4833,7 @@ persistence:
   # required: false
   # @schema
   # -- Uses the specified storageClass for the PersistentVolumeClaim.
-  storageClass: ''
+  storageClass: 'openebs-hostpath'
 
   # @schema
   # required: false
