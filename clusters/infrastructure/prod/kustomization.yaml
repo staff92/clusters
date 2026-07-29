@@ -39,4 +39,5 @@ resources:
   - app/semaphore
   - app/sliver
   - app/gowitness
-  - app/sqliteweb
+  - app/adminer
+  #- app/sqliteweb
