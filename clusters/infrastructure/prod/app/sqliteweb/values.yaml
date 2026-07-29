@@ -3,6 +3,10 @@ apiVersion: v1
 kind: Namespace
 metadata:
   name: tools
+  labels:
+    app: tools
+    app.kubernetes.io/name: tools
+    goldilocks.fairwinds.com/enabled: "true"
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -40,12 +44,16 @@ spec:
               cpu: 100m
               memory: 128Mi
           volumeMounts:
-            - name: vault-data
+            - name: openebs-data
               mountPath: /data
       volumes:
-        - name: vault-data
-          persistentVolumeClaim:
-            claimName: vault-vaultwarden
+      - name: openebs-data
+        hostPath:
+          path: /var/openebs/local/
+          type: Directory
+        # - name: vault-data
+        #   persistentVolumeClaim:
+        #     claimName: vault-vaultwarden
 ---
 apiVersion: v1
 kind: Service

@@ -997,7 +997,7 @@ Ingress
 app/gitea/gitea-values.yaml
 app/homepage/values.yaml
 app/semaphore/values.yaml
-media/servarr/values.yaml (jelly with agent alone)
+media/servarr/values.yaml (no jelly)
 media/sftpgo/values.yaml
 media/tracearr/ingress.yaml
 security/authelia/authelia-values.yaml
@@ -1005,6 +1005,20 @@ security/crowdsec/dashboard-values.yaml
 security/ldap/values.yaml
 security/wg-portal/values.yaml
 ```
+
+## DB VIEW
+
+
+postgres
+```
+gitea 
+tracearr
+semaphore
+```
+
+sqlite => all other 
+
+
 
 ## PLUGINS
 
