@@ -579,14 +579,21 @@ startupWaitOptions: {}
 ##   - name: tmp
 ##     emptyDir: {}
 ##
-extraVolumes: []
+extraVolumes:
+  - name: openebs-data
+    hostPath:
+      path: /var/openebs/local/
+      type: Directory
 ## @param extraVolumeMounts Additional volume mounts attached to the Adminer container. References volumes declared in `extraVolumes`.
 ## E.g.
 ## extraVolumeMounts:
 ##   - name: tmp
 ##     mountPath: /tmp
 ##
-extraVolumeMounts: []
+extraVolumeMounts:
+  - name: openebs-data
+    mountPath: /sqlite-data
+    readOnly: true
 ## @param initContainers Additional init containers added to the Adminer pod. Useful for preparing shared volumes before the main container starts (e.g. assembling a combined CA bundle for a sidecar). Pair with `extraVolumes`/`extraVolumeMounts`.
 ## ref: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/
 ## E.g.
