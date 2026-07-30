@@ -298,6 +298,9 @@ falcosidekick:
       # -- Affinity for the Web UI Redis pods
       affinity: {}
   config:
+    extraEnv:
+      - name: FALCOSIDEKICK_UI_DISABLEAUTH
+        value: "true"
     smtp:
       # -- "host:port" address of SMTP server, if not empty, SMTP output is *enabled*
       hostport: "maildev-smtp.maildev:1025"
