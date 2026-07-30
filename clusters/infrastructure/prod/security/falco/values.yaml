@@ -64,6 +64,16 @@ falco:
 
 
 falcosidekick:
+  image:
+    # -- The image registry to pull from
+    registry: docker.io
+    # -- The image repository to pull from
+    repository: falcosecurity/falcosidekick
+    # -- The image tag to pull
+    tag: latest
+    # -- The image pull policy
+    pullPolicy: IfNotPresent
+
   enabled: true
   replicaCount: 1
   webui:
@@ -298,6 +308,7 @@ falcosidekick:
       # -- Affinity for the Web UI Redis pods
       affinity: {}
   config:
+    debug: true
     extraEnv:
       - name: FALCOSIDEKICK_UI_DISABLEAUTH
         value: "true"
