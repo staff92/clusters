@@ -3,7 +3,6 @@ kind: Kustomization
 namespace: falco
 resources:
   - namespace.yaml
-  - secret.yaml
   - repo.yaml
   - release.yaml
 configMapGenerator:
