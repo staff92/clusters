@@ -1,0 +1,326 @@
+# Enable the driver, and choose between the kernel module or the modern eBPF probe.
+# Default value: modern eBPF probe.
+driver:
+  enabled: true
+  kind: module
+
+# Enable the collectors used to enrich the events with metadata.
+# Check the values.yaml file for fine-grained options.
+collectors:
+  enabled: true
+
+# We set the controller to daemonset since we have the syscalls source enabled.
+# It will ensure that every node on our cluster will be monitored by Falco.
+# Please note that the api-server will use the "k8saudit-webhook" service to send
+# audit logs to the falco instances. That means that when we have multiple instances of Falco
+# we can not predict to which instance the audit logs will be sent. When testing please check all
+# the Falco instance to make sure that at least one of them have received the audit logs.
+controller:
+  kind: daemonset
+
+falcoctl:
+  artifact:
+    install:
+      # -- Enable the init container.
+      enabled: true
+    follow:
+      # -- Enable the sidecar container.
+      enabled: true
+  config:
+    artifact:
+      install:
+        # -- List of artifacts to be installed by the falcoctl init container.
+        refs: [falco-rules:5, k8saudit-rules:0.16, k8saudit:0.16]
+      follow:
+        # -- List of artifacts to be followed by the falcoctl sidecar container.
+        refs: [falco-rules:5, k8saudit-rules:0.16, k8saudit:0.16]
+
+services:
+  - name: k8saudit-webhook
+    type: ClusterIP
+    ports:
+      - port: 9765 # See plugin open_params
+        targetPort: 9765
+        #nodePort: 30007
+        protocol: TCP
+
+falco:
+  rules_files:
+    - /etc/falco/falco_rules.yaml
+    - /etc/falco/k8s_audit_rules.yaml
+    - /etc/falco/rules.d
+  plugins:
+    - name: k8saudit
+      library_path: libk8saudit.so
+      init_config:
+        ""
+        # maxEventBytes: 1048576
+        # sslCertificate: /etc/falco/falco.pem
+      open_params: "http://:9765/k8s-audit"
+    - name: json
+      library_path: libjson.so
+      init_config: ""
+  load_plugins: [k8saudit, json]
+
+
+falcosidekick:
+  enabled: true
+  replicaCount: 1
+
+  webui:
+    # -- enable Falcosidekick-UI
+    enabled: true
+    # -- number of running pods
+    replicaCount: 1
+    # -- number of old history to retain to allow rollback (If not set, default Kubernetes value is set to 10)
+    # revisionHistoryLimit: 1
+    # -- Log level ("debug", "info", "warning", "error")
+    loglevel: "info"
+    # -- TTL for keys, the syntax in X<unit>, with <unit>: s, m, d, w (0 for no ttl)
+    ttl: 0
+    # -- User in format <login>:<password>
+    user: "admin:admin"
+    # -- Disable the basic auth
+    disableauth: true
+    # -- Existing secret with configuration
+    existingSecret: ""
+    # -- Allow CORS
+    allowcors: false
+    image:
+      # -- The web UI image registry to pull from
+      registry: docker.io
+      # -- The web UI image repository to pull from
+      repository: falcosecurity/falcosidekick-ui
+      # -- The web UI image tag to pull
+      tag: "2.2.0"
+      # -- The web UI image pull policy
+      pullPolicy: IfNotPresent
+
+    # -- Web UI wait-redis initContainer
+    initContainer:
+      image:
+        # -- wait-redis initContainer image registry to pull from
+        registry: docker.io
+        # -- wait-redis initContainer image repository to pull from
+        repository: redis/redis-stack
+        # -- wait-redis initContainer image tag to pull
+        tag: "7.2.0-v11"
+      # -- wait-redis initContainer securityContext
+      securityContext: {}
+      # -- wait-redis initContainer resources
+      resources: {}
+
+    # -- Web UI pod securityContext
+    podSecurityContext:
+      runAsUser: 1234
+      fsGroup: 1234
+
+    # -- Web UI container securityContext
+    securityContext: {}
+
+    # -- Name of the priority class to be used by the Web UI pods, priority class needs to be created beforehand
+    priorityClassName: ""
+
+    # -- additions labels on the pods web UI
+    podLabels: {}
+    # -- additions annotations on the pods web UI
+    podAnnotations: {}
+
+    service:
+      # -- The web UI service type
+      type: ClusterIP
+      # -- The web UI service port dor the falcosidekick-ui
+      port: 2802
+      # -- The web UI service nodePort
+      nodePort: 30282
+      # -- The web UI service targetPort
+      targetPort: 2802
+      # -- The web UI service annotations (use this to set a internal LB, for example.)
+      annotations: {}
+      # service.beta.kubernetes.io/aws-load-balancer-internal: "true"
+
+    ingress:
+      # -- Whether to create the Web UI ingress
+      enabled: true
+      # -- ingress class name
+      ingressClassName: "traefik"
+      # --  Web UI ingress annotations
+      annotations: 
+        traefik.ingress.kubernetes.io/router.middlewares: authelia-chain-authelia-auth@kubernetescrd
+        # kubernetes.io/ingress.class: nginx
+        # kubernetes.io/tls-acme: "true"
+      # --  Web UI ingress hosts configuration
+      hosts:
+        - host: falco.${CLUSTER_DOMAIN}
+          paths:
+          - path: /
+      # --  Web UI ingress TLS configuration
+      tls: []
+      #  - secretName: chart-example-tls
+      #    hosts:
+      #      - chart-example.local
+
+    httproute:
+      # -- Whether to create the Web UI HTTPRoute (Gateway API). Requires the Gateway API CRDs to be installed in the cluster
+      enabled: false
+      # -- HTTPRoute apiVersion (defaults to "gateway.networking.k8s.io/v1" when empty)
+      apiVersion: ""
+      # -- HTTPRoute kind (defaults to "HTTPRoute" when empty)
+      kind: ""
+      # --  Web UI HTTPRoute annotations
+      annotations: {}
+      # --  Web UI HTTPRoute additional labels
+      labels: {}
+      # --  parentRefs references the Gateways this HTTPRoute should be attached to
+      parentRefs: []
+        # - name: my-gateway
+        #   sectionName: http
+      # --  hostnames (templated) that should match against the HTTP Host header to select this HTTPRoute
+      hostnames: []
+        # - falcosidekick-ui.local
+      # --  matches define conditions used for matching the rule against incoming HTTP requests
+      matches:
+        - path:
+            type: PathPrefix
+            value: /
+      # --  filters applied to requests that match this rule
+      filters: []
+      # --  additionalRules (templated) prepends custom rules to the route
+      additionalRules: []
+      # --  httpsRedirect adds a filter to redirect HTTP to HTTPS (301). When enabled, matches and filters are ignored
+      httpsRedirect: false
+    # --  The resources for the web UI pods
+    resources: {}
+      # We usually recommend not to specify default resources and to leave this as a conscious
+      # choice for the user. This also increases chances charts run on environments with little
+      # resources, such as Minikube. If you do want to specify resources, uncomment the following
+      # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+      # limits:
+      #   cpu: 100m
+      #   memory: 128Mi
+      # requests:
+      #   cpu: 100m
+      #   memory: 128Mi
+    # -- Web UI nodeSelector field
+    nodeSelector: {}
+    # -- Tolerations for pod assignment
+    tolerations: []
+    # -- Affinity for the Web UI pods
+    affinity: {}
+    externalRedis:
+      # -- Enable or disable the usage of an external Redis. Is mutually exclusive with webui.redis.enabled.
+      enabled: false
+      # -- The URL of the external Redis database with RediSearch > v2
+      url: ""
+      # -- Set the password of the external Redis
+      password: ""
+      # --  The port of the external Redis database with RediSearch > v2
+      port: 6379
+    redis:
+      # -- Is mutually exclusive with webui.externalRedis.enabled
+      enabled: true
+      image:
+        # -- The web UI Redis image registry to pull from
+        registry: docker.io
+        # -- The web UI Redis image repository to pull from
+        repository: redis/redis-stack
+        # -- The web UI Redis image tag to pull from
+        tag: "7.2.0-v11"
+        # -- The web UI image pull policy
+        pullPolicy: IfNotPresent
+
+      # -- List of Custom config overrides for Redis
+      customConfig: []
+        # - maxmemory-policy allkeys-lfu
+        # - maxmemory 4096mb
+
+      # -- Existing secret with configuration
+      existingSecret: ""
+
+      # -- Set a password for Redis
+      password: ""
+
+      # -- Name of the priority class to be used by the Web UI Redis pods, priority class needs to be created beforehand
+      priorityClassName: ""
+
+      # -- custom labels to add to all resources
+      customLabels: {}
+
+      # -- custom annotations to add to all resources
+      customAnnotations: {}
+
+      # -- additions labels on the pods
+      podLabels: {}
+      # -- additions annotations on the pods
+      podAnnotations: {}
+
+      # -- Enable the PVC for the redis pod
+      storageEnabled: true
+      # -- Size of the PVC for the redis pod
+      storageSize: "1Gi"
+      # -- Storage class of the PVC for the redis pod
+      storageClass: "openebs-hostpath"
+
+      service:
+        # -- The web UI Redis service type (i. e: LoadBalancer)
+        type: ClusterIP
+        # -- The web UI Redis service port dor the falcosidekick-ui
+        port: 6379
+        # -- The web UI Redis service targetPort
+        targetPort: 6379
+        # -- The web UI Redis service annotations (use this to set a internal LB, for example.)
+        annotations: {}
+
+      # -- Web UI Redis pod securityContext
+      podSecurityContext: {}
+
+      # -- Web UI Redis container securityContext
+      securityContext: {}
+
+      # -- The resources for the redis pod
+      resources: {}
+        # We usually recommend not to specify default resources and to leave this as a conscious
+        # choice for the user. This also increases chances charts run on environments with little
+        # resources, such as Minikube. If you do want to specify resources, uncomment the following
+        # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+        # limits:
+        #   cpu: 100m
+        #   memory: 128Mi
+        # requests:
+        #   cpu: 100m
+        #   memory: 128Mi
+
+      # -- Web UI Redis nodeSelector field
+      nodeSelector: {}
+
+      # -- Tolerations for pod assignment
+      tolerations: []
+
+      # -- Affinity for the Web UI Redis pods
+      affinity: {}
+  config:
+    smtp:
+      # -- "host:port" address of SMTP server, if not empty, SMTP output is *enabled*
+      hostport: "maildev-smtp.maildev:1025"
+      # -- use TLS connection (true/false)
+      tls: false
+      # -- SASL Mechanisms : plain, oauthbearer, external, anonymous or "" (disable SASL)
+      authmechanism: "plain"
+      # -- user to access SMTP server
+      user: "test"
+      # -- password to access SMTP server
+      password: "test"
+      # -- OAuthBearer token for OAuthBearer Mechanism
+      token: ""
+      # -- identity string for Plain and External Mechanisms
+      identity: ""
+      # -- trace string for Anonymous Mechanism
+      trace: ""
+      # -- Sender address (mandatory if SMTP output is *enabled*)
+      from: "noreply@kubernetescrd"
+      # -- comma-separated list of Recipident addresses, can't be empty (mandatory if SMTP output is *enabled*)
+      to: "${LDAP_USER1_EMAIL}"
+      # -- html, text
+      outputformat: "html"
+      # -- minimum priority of event to use this output, order is `emergency\|alert\|critical\|error\|warning\|notice\|informational\|debug or ""`
+      minimumpriority: ""

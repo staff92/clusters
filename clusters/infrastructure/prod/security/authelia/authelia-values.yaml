@@ -2974,6 +2974,10 @@ configMap:
       subject:
       - 'group:jelly_admin'
       policy: one_factor
+    - domain: 'falco.${CLUSTER_DOMAIN}'
+      subject:
+      - 'group:jelly_admin'
+      policy: one_factor
     - domain: 'gold.${CLUSTER_DOMAIN}'
       subject:
       - 'group:jelly_admin'
