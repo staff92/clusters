@@ -66,7 +66,6 @@ falco:
 falcosidekick:
   enabled: true
   replicaCount: 1
-
   webui:
     # -- enable Falcosidekick-UI
     enabled: true
@@ -79,7 +78,7 @@ falcosidekick:
     # -- TTL for keys, the syntax in X<unit>, with <unit>: s, m, d, w (0 for no ttl)
     ttl: 0
     # -- User in format <login>:<password>
-    user: "admin:admin"
+    # user: "admin:admin"
     # -- Disable the basic auth
     disableauth: true
     # -- Existing secret with configuration
