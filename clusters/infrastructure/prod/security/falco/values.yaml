@@ -64,6 +64,8 @@ falco:
 
 
 falcosidekick:
+  enabled: true
+  replicaCount: 1
   image:
     # -- The image registry to pull from
     registry: docker.io
@@ -73,9 +75,6 @@ falcosidekick:
     tag: latest
     # -- The image pull policy
     pullPolicy: IfNotPresent
-
-  enabled: true
-  replicaCount: 1
   webui:
     # -- enable Falcosidekick-UI
     enabled: true
