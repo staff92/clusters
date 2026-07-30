@@ -78,11 +78,11 @@ falcosidekick:
     # -- TTL for keys, the syntax in X<unit>, with <unit>: s, m, d, w (0 for no ttl)
     ttl: 0
     # -- User in format <login>:<password>
-    # user: "admin:admin"
+    # user: ""
     # -- Disable the basic auth
     disableauth: true
     # -- Existing secret with configuration
-    existingSecret: ""
+    # existingSecret: ""
     # -- Allow CORS
     allowcors: false
     image:
