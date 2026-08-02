@@ -5,6 +5,7 @@ resources:
   - namespace.yaml
   - repo.yaml
   - release.yaml
+  - ingressroute.yaml
 configMapGenerator:
   - name: falco-values
     files:

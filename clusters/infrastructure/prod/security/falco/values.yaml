@@ -149,7 +149,7 @@ falcosidekick:
 
     ingress:
       # -- Whether to create the Web UI ingress
-      enabled: true
+      enabled: false
       # -- ingress class name
       ingressClassName: "traefik"
       # --  Web UI ingress annotations

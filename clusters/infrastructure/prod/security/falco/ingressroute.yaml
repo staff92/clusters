@@ -1,0 +1,26 @@
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: falco-https
+  namespace: falco
+  annotations:
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/name: "falco"
+    gethomepage.dev/description: "Falco is a cloud native runtime security tool for Linux operating systems."
+    gethomepage.dev/group: "Infrastructure"
+    gethomepage.dev/icon: "si-falco.svg"
+    gethomepage.dev/pod-selector: "app.kubernetes.io/name=falcosidekick"
+    gethomepage.dev/href: "https://falco.${CLUSTER_DOMAIN}"
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`falco.${CLUSTER_DOMAIN}`)
+      kind: Rule
+      middlewares:
+        - name: 'chain-authelia-auth'
+          namespace: 'authelia'
+      services:
+        - name: falco-falcosidekick-ui
+          port: 2802
