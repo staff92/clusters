@@ -186,15 +186,15 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`auth.${CLUSTER_DOMAIN}`) && PathPrefix(`/auth-admin`)
+    - match: Host(`admin.${CLUSTER_DOMAIN}`)
       kind: Rule
-      priority: 20
+      # priority: 20
       services:
         - name: authelia-admin
           port: 9093
-      # middlewares:
-      #   - name: chain-authelia-auth
-      #     namespace: authelia
+      middlewares:
+        - name: chain-authelia-auth
+          namespace: authelia
   # tls:
   #   certResolver: letsencrypt
 
