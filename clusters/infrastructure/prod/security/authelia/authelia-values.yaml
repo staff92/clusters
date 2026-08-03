@@ -2845,7 +2845,7 @@ configMap:
       # required: false
       # @schema
       # -- Enables standard password policy.
-      enabled: false
+      enabled: true
 
       # @schema
       # required: false
@@ -2863,25 +2863,25 @@ configMap:
       # required: false
       # @schema
       # -- Require uppercase characters.
-      require_uppercase: false
+      require_uppercase: true
 
       # @schema
       # required: false
       # @schema
       # -- Require lowercase characters.
-      require_lowercase: false
+      require_lowercase: true
 
       # @schema
       # required: false
       # @schema
       # -- Require numeric characters.
-      require_number: false
+      require_number: true
 
       # @schema
       # required: false
       # @schema
       # -- Require special characters.
-      require_special: false
+      require_special: true
 
     # @schema
     # required: false
