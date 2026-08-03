@@ -81,7 +81,7 @@ data:
   # # Security (MANDATORY)
   # # ─────────────────────────────────────────────────────────
   # # Trusted origins for CSRF protection — must match the public domain
-  TRUSTED_ORIGINS: "https://auth.${CLUSTER_DOMAIN}"
+  TRUSTED_ORIGINS: "https://admin.${CLUSTER_DOMAIN}"
   # # Set to "0" if using self-signed certificates (dev/staging only)
   # NODE_TLS_REJECT_UNAUTHORIZED: "0"
   # # ─────────────────────────────────────────────────────────
