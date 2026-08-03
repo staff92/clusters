@@ -143,7 +143,14 @@ spec:
             - name: authelia-config
               mountPath: /config/configuration.yml
               subPath: configuration.yaml
-              # readOnly: true
+            - name: authelia-data
+              mountPath: /config/db.sqlite3
+              subPath: db.sqlite3
+
+            # - name: database
+            #   mountPath: /config/db.sqlite3
+            #   # subPath: db.sqlite3
+            #   # readOnly: true
       volumes:
         - name: authelia-config
           configMap:
@@ -151,9 +158,9 @@ spec:
         - name: config
           configMap:
             name: authelia-admin-configfile
-        # - name: config
-        #   persistentVolumeClaim:
-        #     claimName: authelia-admin-config
+        - name: authelia-data
+          persistentVolumeClaim:
+            claimName: authelia
 ---
 apiVersion: v1
 kind: Service
