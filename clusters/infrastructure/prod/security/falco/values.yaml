@@ -171,8 +171,13 @@ falcosidekick:
       # --  Web UI ingress annotations
       annotations: 
         traefik.ingress.kubernetes.io/router.middlewares: authelia-chain-authelia-auth@kubernetescrd
-        # kubernetes.io/ingress.class: nginx
-        # kubernetes.io/tls-acme: "true"
+        gethomepage.dev/enabled: "true"
+        gethomepage.dev/name: "falco"
+        gethomepage.dev/description: "Falco is a cloud native runtime security tool for Linux operating systems."
+        gethomepage.dev/group: "Infrastructure"
+        gethomepage.dev/icon: "si-falco.svg"
+        gethomepage.dev/pod-selector: "app.kubernetes.io/name=falcosidekick"
+        gethomepage.dev/href: "https://falco.${CLUSTER_DOMAIN}"
       # --  Web UI ingress hosts configuration
       hosts:
         - host: falco.${CLUSTER_DOMAIN}
