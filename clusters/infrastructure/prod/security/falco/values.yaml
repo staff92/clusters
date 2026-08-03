@@ -5,15 +5,15 @@ driver:
   kind: modern_ebpf
 
 
-mounts:
-  volumes:
-    - name: k0s-containerd-sock
-      hostPath:
-        path: /run/k0s/containerd.sock
-        type: Socket
-  volumeMounts:
-    - name: k0s-containerd-sock
-      mountPath: /host/run/k0s/containerd.sock   
+# mounts:
+#   volumes:
+#     - name: k0s-containerd-sock
+#       hostPath:
+#         path: /run/k0s/containerd.sock
+#         type: Socket
+#   volumeMounts:
+#     - name: k0s-containerd-sock
+#       mountPath: /host/run/k0s/containerd.sock   
 
 # Enable the collectors used to enrich the events with metadata.
 # Check the values.yaml file for fine-grained options.
