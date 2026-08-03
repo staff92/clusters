@@ -29,7 +29,7 @@ data:
       # Name of the session cookie used by Authelia
       cookie_name: authelia_session
       # Minimum authentication level required (1=password, 2=2FA)
-      min_auth_level: 2
+      min_auth_level: 1
       # Optional: List of allowed users (if not set, all authenticated users are allowed)
       # allowed_users:
       #   - admin
