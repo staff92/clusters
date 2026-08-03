@@ -543,7 +543,7 @@ Custom Login UI (Dashboad > Slogan)
 ***HTML*** 
 
 ```
-<a href="https://ldap.${CLUSTER_DOMAIN}/reset-password/step1" target="_blank" rel="noopener noreferrer" class="custom-reset-link">Mot de passe oublié ?</a>
+<a href="https://auth.${CLUSTER_DOMAIN}/" target="_blank" rel="noopener noreferrer" class="custom-reset-link">Mot de passe oublié ?</a>
 ```
 
 Desktop application alaytics : **https://github.com/fredrikburmester/streamystats**
