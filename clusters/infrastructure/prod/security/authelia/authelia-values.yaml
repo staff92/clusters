@@ -2238,7 +2238,7 @@ configMap:
       # required: false
       # @schema
       # -- Disable both the HTML element and the API for change password functionality.
-      disable: true
+      disable: false
 
     # @schema
     # type: [integer, string]
