@@ -177,23 +177,44 @@ spec:
       protocol: TCP
       name: http
 ---
-apiVersion: networking.k8s.io/v1
-kind: Ingress
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
 metadata:
   name: authelia-admin
   namespace: authelia
-  annotations:
-    traefik.ingress.kubernetes.io/router.middlewares: authelia-chain-authelia-auth@kubernetescrd
 spec:
-  ingressClassName: traefik
-  rules:
-    - host: admin.${CLUSTER_DOMAIN}
-      http:
-        paths:
-          - path: /auth-admin
-            pathType: Prefix
-            backend:
-              service:
-                name: authelia-admin
-                port:
-                  number: 9093
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`auth.${CLUSTER_DOMAIN}`) && PathPrefix(`/auth-admin`)
+      kind: Rule
+      priority: 20
+      services:
+        - name: authelia-admin
+          port: 9093
+      middlewares:
+        - name: chain-authelia-auth
+          namespace: authelia
+  # tls:
+  #   certResolver: letsencrypt
+
+# apiVersion: networking.k8s.io/v1
+# kind: Ingress
+# metadata:
+#   name: authelia-admin
+#   namespace: authelia
+#   annotations:
+#     traefik.ingress.kubernetes.io/router.middlewares: authelia-chain-authelia-auth@kubernetescrd
+# spec:
+#   ingressClassName: traefik
+#   rules:
+#     - host: auth.${CLUSTER_DOMAIN}
+#       http:
+#         paths:
+#           - path: /auth-admin
+#             pathType: Prefix
+#             backend:
+#               service:
+#                 name: authelia-admin
+#                 port:
+#                   number: 9093
