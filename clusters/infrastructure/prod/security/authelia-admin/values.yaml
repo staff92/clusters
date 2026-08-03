@@ -142,7 +142,7 @@ spec:
               # readOnly: true
             - name: authelia-config
               mountPath: /config/configuration.yml
-              subPath: configuration.yml
+              subPath: configuration.yaml
               # readOnly: true
       volumes:
         - name: authelia-config
