@@ -139,11 +139,11 @@ spec:
         - name: config
           mountPath: /opt/authelia-admin/config.yml
           subPath: config.yml
-          readOnly: true
-        - name: config
+          # readOnly: true
+        - name: authelia-config
           mountPath: /config/configuration.yml
           subPath: configuration.yml
-          readOnly: true
+          # readOnly: true
       volumes:
         - name: authelia-config
           configMap:
