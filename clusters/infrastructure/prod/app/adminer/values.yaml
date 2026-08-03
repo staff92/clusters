@@ -852,7 +852,13 @@ ingress:
   ##
   annotations:
     traefik.ingress.kubernetes.io/router.middlewares: authelia-chain-authelia-auth@kubernetescrd
-
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/name: "adminer"
+    gethomepage.dev/description: "Adminer is a full-featured database management tool written in PHP."
+    gethomepage.dev/group: "Infrastructure"
+    gethomepage.dev/icon: "si-adminer.svg"
+    gethomepage.dev/pod-selector: "app.kubernetes.io/name=adminer"
+    gethomepage.dev/href: "https://db.${CLUSTER_DOMAIN}"
   ## @param ingress.tls Enable TLS configuration for the host defined at `ingress.hostname` parameter
   ## TLS certificates will be retrieved from a TLS secret with name: `{{- printf "%s-tls" .Values.ingress.hostname }}`
   ## You can:
