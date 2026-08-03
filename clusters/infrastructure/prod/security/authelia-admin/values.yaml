@@ -15,6 +15,44 @@ spec:
 apiVersion: v1
 kind: ConfigMap
 metadata:
+  name: authelia-admin-configfile
+  namespace: authelia
+data:
+  configuration.yml: |
+    # Logging level (DEBUG, INFO, WARN, ERROR). Default: WARN
+    # Can be overridden by AAD_LOGLEVEL environment variable
+    logging_level: WARN
+
+    authelia:
+      # Domain where Authelia is accessible
+      domain: auth.${CLUSTER_DOMAIN}
+      # Name of the session cookie used by Authelia
+      cookie_name: authelia_session
+      # Minimum authentication level required (1=password, 2=2FA)
+      min_auth_level: 2
+      # Optional: List of allowed users (if not set, all authenticated users are allowed)
+      # allowed_users:
+      #   - admin
+      #   - user2
+
+    # Directory service configuration
+    directory:
+      # Type of directory service (currently only lldap-graphql is supported)
+      type: lldap-graphql
+      # Configuration for LLDAP GraphQL backend
+      lldap-graphql:
+        endpoint: http://lldap-http.lldap:17170/api/graphql
+        user: admin
+        password: ${LDAP_ADMIN_PASSWORD}
+        ldap_host: lldap-ldap.lldap
+        ldap_port: 3890
+        # LDAP base DN (required for password changes)
+        ldap_base_dn: dc=example,dc=com
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
   name: authelia-admin-config
   namespace: authelia
 data:
@@ -104,8 +142,11 @@ spec:
           readOnly: true
       volumes:
         - name: config
-          persistentVolumeClaim:
-            claimName: authelia-admin-config
+          configMap:
+            name: authelia-admin-configfile
+        # - name: config
+        #   persistentVolumeClaim:
+        #     claimName: authelia-admin-config
 ---
 apiVersion: v1
 kind: Service
