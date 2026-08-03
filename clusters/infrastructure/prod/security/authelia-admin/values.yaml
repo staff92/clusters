@@ -18,7 +18,7 @@ metadata:
   name: authelia-admin-configfile
   namespace: authelia
 data:
-  configuration.yml: |
+  config.yml: |
     # Logging level (DEBUG, INFO, WARN, ERROR). Default: WARN
     # Can be overridden by AAD_LOGLEVEL environment variable
     logging_level: WARN
@@ -60,36 +60,36 @@ data:
   # Authelia Integration (MANDATORY)
   # ─────────────────────────────────────────────────────────
   AAD_AUTHELIA_DOMAIN: "auth.${CLUSTER_DOMAIN}"
-  # Path inside the container to Authelia's configuration.yml
-  AAD_AUTHELIA_CONFIG_PATH: "/config/configuration.yml"
-  AAD_AUTHELIA_COOKIE_NAME: "authelia_session"
-  AAD_AUTHELIA_MIN_AUTH_LEVEL: "2"
-  AAD_AUTHELIA_ALLOWED_USERS: ""
-  # ─────────────────────────────────────────────────────────
-  # Directory Service — LLDAP GraphQL (MANDATORY)
-  # ─────────────────────────────────────────────────────────
-  AAD_DIRECTORY_TYPE: "lldap-graphql"
-  AAD_DIRECTORY_LLDAP_GRAPHQL_ENDPOINT: "http://lldap-http.lldap:17170/api/graphql"
-  AAD_DIRECTORY_LLDAP_GRAPHQL_USER: "admin"
-  # REQUIRED — replace with your actual LLDAP admin password
-  AAD_DIRECTORY_LLDAP_GRAPHQL_PASSWORD: "${LDAP_ADMIN_PASSWORD}"
-  AAD_DIRECTORY_LLDAP_GRAPHQL_LDAP_HOST: "lldap-ldap.lldap"
-  AAD_DIRECTORY_LLDAP_GRAPHQL_LDAP_PORT: "3890"
-  # Required for password-change operations — replace with your LDAP base DN
-  AAD_DIRECTORY_LLDAP_GRAPHQL_LDAP_BASE_DN: "dc=example,dc=com"
-  # ─────────────────────────────────────────────────────────
-  # Security (MANDATORY)
-  # ─────────────────────────────────────────────────────────
-  # Trusted origins for CSRF protection — must match the public domain
+  # # Path inside the container to Authelia's configuration.yml
+  # # AAD_AUTHELIA_CONFIG_PATH: "/config/configuration.yml"
+  # AAD_AUTHELIA_COOKIE_NAME: "authelia_session"
+  # AAD_AUTHELIA_MIN_AUTH_LEVEL: "2"
+  # AAD_AUTHELIA_ALLOWED_USERS: ""
+  # # ─────────────────────────────────────────────────────────
+  # # Directory Service — LLDAP GraphQL (MANDATORY)
+  # # ─────────────────────────────────────────────────────────
+  # AAD_DIRECTORY_TYPE: "lldap-graphql"
+  # AAD_DIRECTORY_LLDAP_GRAPHQL_ENDPOINT: "http://lldap-http.lldap:17170/api/graphql"
+  # AAD_DIRECTORY_LLDAP_GRAPHQL_USER: "admin"
+  # # REQUIRED — replace with your actual LLDAP admin password
+  # AAD_DIRECTORY_LLDAP_GRAPHQL_PASSWORD: "${LDAP_ADMIN_PASSWORD}"
+  # AAD_DIRECTORY_LLDAP_GRAPHQL_LDAP_HOST: "lldap-ldap.lldap"
+  # AAD_DIRECTORY_LLDAP_GRAPHQL_LDAP_PORT: "3890"
+  # # Required for password-change operations — replace with your LDAP base DN
+  # AAD_DIRECTORY_LLDAP_GRAPHQL_LDAP_BASE_DN: "dc=example,dc=com"
+  # # ─────────────────────────────────────────────────────────
+  # # Security (MANDATORY)
+  # # ─────────────────────────────────────────────────────────
+  # # Trusted origins for CSRF protection — must match the public domain
   TRUSTED_ORIGINS: "https://auth.${CLUSTER_DOMAIN}"
-  # Set to "0" if using self-signed certificates (dev/staging only)
-  NODE_TLS_REJECT_UNAUTHORIZED: "0"
-  # ─────────────────────────────────────────────────────────
-  # Application
-  # ─────────────────────────────────────────────────────────
-  AAD_LOGLEVEL: "WARN"
-  PORT: "9093"
-  HOST: "0.0.0.0"
+  # # Set to "0" if using self-signed certificates (dev/staging only)
+  # NODE_TLS_REJECT_UNAUTHORIZED: "0"
+  # # ─────────────────────────────────────────────────────────
+  # # Application
+  # # ─────────────────────────────────────────────────────────
+  # AAD_LOGLEVEL: "WARN"
+  # PORT: "9093"
+  # HOST: "0.0.0.0"
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -137,10 +137,17 @@ spec:
               memory: 512Mi
       volumeMounts:
         - name: config
-          mountPath: /config/configuration.yml
+          mountPath: /opt/authelia-admin/config.yml
           subPath: config.yml
           readOnly: true
+        - name: config
+          mountPath: /config/configuration.yml
+          subPath: configuration.yml
+          readOnly: true
       volumes:
+        - name: authelia-config
+          configMap:
+            name: authelia
         - name: config
           configMap:
             name: authelia-admin-configfile
