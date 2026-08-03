@@ -17,25 +17,57 @@ mounts:
 
 # Enable the collectors used to enrich the events with metadata.
 # Check the values.yaml file for fine-grained options.
+# Collectors for data enrichment (scenario requirement)
 collectors:
+  # -- Enable/disable all the metadata collectors.
   enabled: true
-  engines:
-    cri:
-      enabled: true
-      sockets:
-        - /host/run/k0s/containerd.sock
-    containerd:
-      enabled: false
-    docker:
-      enabled: false
-    podman:
-      enabled: false
-    lxc:
-      enabled: false
-    libvirt_lxc:
-      enabled: false
-    bpm:
-      enabled: false
+
+  # -- This collector is designed to collect metadata from various container engines and provide a unified interface through the container plugin.
+  # When enabled, it will deploy the container plugin and use it to collect metadata from the container engines.
+  # Keep in mind that the old collectors (docker, containerd, crio, podman) will use the container plugin to collect metadata under the hood.
+  containerEngine:
+    # -- Enable Container Engine support.
+    enabled: true
+    # -- pluginRef is the OCI reference for the container plugin. It could be a full reference such as
+    # "ghcr.io/falcosecurity/plugins/plugin/container:0.7.1". Or just name + tag: container:0.7.1.
+    pluginRef: "ghcr.io/falcosecurity/plugins/plugin/container:0.7.1"
+    # -- labelMaxLen is the maximum length of the labels that can be used in the container plugin.
+    # container labels larger than this value won't be collected.
+    labelMaxLen: 100
+    # -- withSize specifies whether to enable container size inspection, which is inherently slow.
+    withSize: false
+    # -- hooks specify the hooks that will be used to collect metadata from the container engine.
+    # The available hooks are: create, start.
+    # Some fields might not be available in create hook, but we are guaranteed that it gets triggered before first process gets started.
+    hooks: ["create"]
+    # -- engines specify the container engines that will be used to collect metadata.
+    # See https://github.com/falcosecurity/plugins/blob/main/plugins/container/README.md#configuration
+    engines:
+      docker:
+        enabled: false
+        sockets: ["/var/run/docker.sock"]
+      podman:
+        enabled: false
+        sockets: ["/run/podman/podman.sock"]
+      containerd:
+        enabled: false
+        sockets: ["/run/host-containerd/containerd.sock"]
+      cri:
+        enabled: true
+        sockets:
+          [
+            "/host/run/k0s/containerd.sock",
+            # "/run/containerd/containerd.sock",
+            # "/run/crio/crio.sock",
+            # "/run/k3s/containerd/containerd.sock",
+            # "/run/host-containerd/containerd.sock",
+          ]
+      lxc:
+        enabled: false
+      libvirt_lxc:
+        enabled: false
+      bpm:
+        enabled: false
 
 # We set the controller to daemonset since we have the syscalls source enabled.
 # It will ensure that every node on our cluster will be monitored by Falco.
