@@ -8,7 +8,11 @@ driver:
 # Check the values.yaml file for fine-grained options.
 collectors:
   enabled: true
-
+  engines:
+    cri:
+      enabled: true
+      sockets:
+        - "/run/k0s/containerd.sock"
 # We set the controller to daemonset since we have the syscalls source enabled.
 # It will ensure that every node on our cluster will be monitored by Falco.
 # Please note that the api-server will use the "k8saudit-webhook" service to send
@@ -149,7 +153,7 @@ falcosidekick:
 
     ingress:
       # -- Whether to create the Web UI ingress
-      enabled: false
+      enabled: true
       # -- ingress class name
       ingressClassName: "traefik"
       # --  Web UI ingress annotations
@@ -335,4 +339,4 @@ falcosidekick:
       # -- html, text
       outputformat: "html"
       # -- minimum priority of event to use this output, order is `emergency\|alert\|critical\|error\|warning\|notice\|informational\|debug or ""`
-      minimumpriority: ""
+      minimumpriority: "critical"
