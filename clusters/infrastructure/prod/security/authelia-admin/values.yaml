@@ -1,16 +1,16 @@
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: authelia-admin-config
-  namespace: default
-spec:
-  storageClassName: openebs-hostpath
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 1Gi
+# ---
+# apiVersion: v1
+# kind: PersistentVolumeClaim
+# metadata:
+#   name: authelia-admin-config
+#   namespace: default
+# spec:
+#   storageClassName: openebs-hostpath
+#   accessModes:
+#     - ReadWriteOnce
+#   resources:
+#     requests:
+#       storage: 1Gi
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -70,7 +70,6 @@ spec:
     spec:
       containers:
         - name: authelia-admin
-          # Image confirmed: published on GHCR
           image: ghcr.io/asalimonov/authelia-admin:latest
           imagePullPolicy: IfNotPresent
           ports:

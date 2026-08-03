@@ -2986,6 +2986,10 @@ configMap:
       subject:
       - 'group:jelly_admin'
       policy: one_factor 
+    - domain: 'admin.${CLUSTER_DOMAIN}'
+      subject:
+      - 'group:jelly_admin'
+      policy: one_factor 
     - domain: 'sonarr.${CLUSTER_DOMAIN}'
       subject:
       - 'group:jelly_admin'

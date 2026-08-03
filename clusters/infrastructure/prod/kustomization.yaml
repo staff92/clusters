@@ -16,6 +16,7 @@ resources:
 #! SECURITY
   - security/ldap
   - security/authelia
+  - security/authelia-admin
   - security/vaultwarden
   - security/wg-portal
   - security/crowdsec
