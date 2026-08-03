@@ -195,26 +195,3 @@ spec:
       # middlewares:
       #   - name: chain-authelia-auth
       #     namespace: authelia
-  # tls:
-  #   certResolver: letsencrypt
-
-# apiVersion: networking.k8s.io/v1
-# kind: Ingress
-# metadata:
-#   name: authelia-admin
-#   namespace: authelia
-#   annotations:
-#     traefik.ingress.kubernetes.io/router.middlewares: authelia-chain-authelia-auth@kubernetescrd
-# spec:
-#   ingressClassName: traefik
-#   rules:
-#     - host: auth.${CLUSTER_DOMAIN}
-#       http:
-#         paths:
-#           - path: /auth-admin
-#             pathType: Prefix
-#             backend:
-#               service:
-#                 name: authelia-admin
-#                 port:
-#                   number: 9093

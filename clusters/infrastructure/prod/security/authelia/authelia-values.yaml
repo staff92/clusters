@@ -2226,7 +2226,8 @@ configMap:
       # @schema
       # -- External reset password url that redirects the user to an external reset portal. This disables the internal
       # reset functionality.
-      custom_url: 'https://ldap.${CLUSTER_DOMAIN}/reset-password/step1'
+      # custom_url: 
+      # 'https://ldap.${CLUSTER_DOMAIN}/reset-password/step1'
 
     # @schema
     # required: false
