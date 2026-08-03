@@ -56,7 +56,7 @@ collectors:
         enabled: true
         sockets:
           [
-            "/host/run/k0s/containerd.sock",
+            "/run/k0s/containerd.sock",
             # "/run/containerd/containerd.sock",
             # "/run/crio/crio.sock",
             # "/run/k3s/containerd/containerd.sock",
