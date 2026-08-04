@@ -1,5 +1,12 @@
 # helmforge/ntfy                  1.1.11          v2.25.0         ntfy self-hosted push notification service with...
 
+# default rate limit email 
+
+#! https://docs.ntfy.sh/config/#rate-limiting
+
+#! visitor-email-limit-burst is the initial bucket of emails each visitor has. This defaults to 16.
+#! visitor-email-limit-replenish is the rate at which the bucket is refilled (one email per x). Defaults to 1h.
+
 # SPDX-License-Identifier: Apache-2.0
 # =============================================================================
 # ntfy Helm Chart - Default Values
