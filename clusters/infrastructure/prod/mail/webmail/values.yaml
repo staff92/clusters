@@ -63,7 +63,7 @@ deployment:
     # -----------------------------------------------
     # --- Required Section ---------------------------
     # -----------------------------------------------
-    OVERRIDE_HOSTNAME: jingooh.fr       # You must OVERRIDE this!
+    OVERRIDE_HOSTNAME: test.fr       # You must OVERRIDE this!
 
     # -----------------------------------------------
     # --- General Section ---------------------------

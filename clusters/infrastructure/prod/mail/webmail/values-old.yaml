@@ -68,7 +68,7 @@ ingress:
     # nginx.ingress.kubernetes.io/proxy-body-size: 25m
   # Hosts configuration
   hosts:
-    - host: webmail.jingooh.fr
+    - host: webmail.test.fr
       paths:
         - path: /
           pathType: Prefix
