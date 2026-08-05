@@ -5,15 +5,23 @@ driver:
   kind: modern_ebpf
 
 
-# mounts:
-#   volumes:
-#     - name: k0s-containerd-sock
-#       hostPath:
-#         path: /run/k0s/containerd.sock
-#         type: Socket
-#   volumeMounts:
-#     - name: k0s-containerd-sock
-#       mountPath: /host/run/k0s/containerd.sock   
+customRules: 
+  # Although Falco comes with a nice default rule set for detecting weird
+  # behavior in containers, our users are going to customize the run-time
+  # security rule sets or policies for the specific container images and
+  # applications they run. This feature can be handled in this section.
+  #
+  # Example:
+  #
+  rules-default-disable.yaml: |-
+    - rule: Contact K8S API Server From Container
+      enabled: false
+    - rule: Terminal shell in container
+      enabled: false
+
+# - rule: Drop and execute new binary in container
+#   enabled: false
+
 
 # Enable the collectors used to enrich the events with metadata.
 # Check the values.yaml file for fine-grained options.
