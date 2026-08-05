@@ -209,7 +209,7 @@ falcosidekick:
 
     ingress:
       # -- Whether to create the Web UI ingress
-      enabled: true
+      enabled: false
       # -- ingress class name
       ingressClassName: "traefik"
       # --  Web UI ingress annotations
@@ -376,28 +376,36 @@ falcosidekick:
     extraEnv:
       - name: FALCOSIDEKICK_UI_DISABLEAUTH
         value: "true"
-    smtp:
-      # -- "host:port" address of SMTP server, if not empty, SMTP output is *enabled*
-      hostport: "maildev-smtp.maildev:1025"
-      # -- use TLS connection (true/false)
-      tls: false
-      # -- SASL Mechanisms : plain, oauthbearer, external, anonymous or "" (disable SASL)
-      authmechanism: "plain"
-      # -- user to access SMTP server
-      user: "test"
-      # -- password to access SMTP server
-      password: "test"
-      # -- OAuthBearer token for OAuthBearer Mechanism
-      token: ""
-      # -- identity string for Plain and External Mechanisms
-      identity: ""
-      # -- trace string for Anonymous Mechanism
-      trace: ""
-      # -- Sender address (mandatory if SMTP output is *enabled*)
-      from: "noreply@kubernetescrd"
-      # -- comma-separated list of Recipident addresses, can't be empty (mandatory if SMTP output is *enabled*)
-      to: "${LDAP_USER1_EMAIL}"
-      # -- html, text
-      outputformat: "html"
-      # -- minimum priority of event to use this output, order is `emergency\|alert\|critical\|error\|warning\|notice\|informational\|debug or ""`
+    webhook:
+      address: "http://ntfy-ntfy.ntfy/falco-alerts"
+      method: "POST"
+      CustomHeaders:
+        Title: "Falco Alert"
       minimumpriority: "critical"
+      checkcert: false
+
+    # smtp:
+    #   # -- "host:port" address of SMTP server, if not empty, SMTP output is *enabled*
+    #   hostport: "maildev-smtp.maildev:1025"
+    #   # -- use TLS connection (true/false)
+    #   tls: false
+    #   # -- SASL Mechanisms : plain, oauthbearer, external, anonymous or "" (disable SASL)
+    #   authmechanism: "plain"
+    #   # -- user to access SMTP server
+    #   user: "test"
+    #   # -- password to access SMTP server
+    #   password: "test"
+    #   # -- OAuthBearer token for OAuthBearer Mechanism
+    #   token: ""
+    #   # -- identity string for Plain and External Mechanisms
+    #   identity: ""
+    #   # -- trace string for Anonymous Mechanism
+    #   trace: ""
+    #   # -- Sender address (mandatory if SMTP output is *enabled*)
+    #   from: "noreply@kubernetescrd"
+    #   # -- comma-separated list of Recipident addresses, can't be empty (mandatory if SMTP output is *enabled*)
+    #   to: "${LDAP_USER1_EMAIL}"
+    #   # -- html, text
+    #   outputformat: "html"
+    #   # -- minimum priority of event to use this output, order is `emergency\|alert\|critical\|error\|warning\|notice\|informational\|debug or ""`
+    #   minimumpriority: "critical"
