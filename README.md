@@ -560,6 +560,8 @@ podman generate kube -s -f streamstats.yaml containerID 9fa072a94603 e503f6b29eb
 ⚠️ Disable auth => Tools > Options > WebUI > Bypass authentication for clients in whitelisted IP subnets checked : add 0.0.0.0/0 (all) > SAVE
 
 ⚠️ Change default download path => Tools > Options > Downloads > Change default download path => /media/downloads
+
+⚠️ Change default listening port => Tools > Options > Connection > Listening Port => 30000 (same pod service)
 ```
 
 ***CUSTOM UI***
