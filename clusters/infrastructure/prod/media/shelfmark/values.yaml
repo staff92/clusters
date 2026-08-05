@@ -15,7 +15,7 @@ spec:
   resources:
     requests:
       storage: 50Gi
-  # storageClassName: <ta-storage-class-si-besoin>
+  storageClassName: openebs-hostpath
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -28,7 +28,7 @@ spec:
   resources:
     requests:
       storage: 1Gi
-  # storageClassName: <ta-storage-class-si-besoin>
+  storageClassName: openebs-hostpath
 ---
 apiVersion: apps/v1
 kind: Deployment
