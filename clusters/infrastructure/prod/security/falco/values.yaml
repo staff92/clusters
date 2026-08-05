@@ -379,9 +379,10 @@ falcosidekick:
     webhook:
       address: "http://ntfy-ntfy.ntfy/falco-alerts"
       method: "POST"
-      customHeaders:
-        Title: "Falco Alert"
-        X-Email: "${LDAP_USER1_EMAIL}"
+      customHeaders: "Title:Falco Alert,X-Email:${LDAP_USER1_EMAIL}"
+      # customHeaders:
+      #   Title: "Falco Alert"
+      #   X-Email: "${LDAP_USER1_EMAIL}"
       minimumpriority: "critical"
       checkcert: false
 
