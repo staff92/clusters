@@ -32,6 +32,7 @@ resources:
   - media/servarr
   - media/sftpgo
   - media/tracearr
+  - media/shelfmark
   # # - media/seerrng
   # - media/musicseerr
 #! APPS

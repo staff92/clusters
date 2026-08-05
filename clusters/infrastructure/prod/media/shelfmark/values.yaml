@@ -1,0 +1,93 @@
+# # shelfmark.yaml
+# apiVersion: v1
+# kind: Namespace
+# metadata:
+#   name: shelfmark
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: shelfmark-books
+  namespace: media
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 50Gi
+  # storageClassName: <ta-storage-class-si-besoin>
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: shelfmark-config
+  namespace: media
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  # storageClassName: <ta-storage-class-si-besoin>
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shelfmark
+  namespace: media
+  labels:
+    app: shelfmark
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: shelfmark
+  template:
+    metadata:
+      labels:
+        app: shelfmark
+    spec:
+      containers:
+        - name: shelfmark
+          image: ghcr.io/calibrain/shelfmark:latest
+          env:
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+          ports:
+            - containerPort: 8084
+              name: http
+          volumeMounts:
+            - name: books
+              mountPath: /books
+            - name: config
+              mountPath: /config
+            # - name: downloads
+            #   mountPath: /path/to/downloads
+      volumes:
+        - name: books
+          persistentVolumeClaim:
+            claimName: shelfmark-books
+        - name: config
+          persistentVolumeClaim:
+            claimName: shelfmark-config
+        # - name: downloads
+        #   persistentVolumeClaim:
+        #     claimName: servarr-jellyfin-media
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: shelfmark
+  namespace: media
+spec:
+  selector:
+    app: shelfmark
+  ports:
+    - port: 8084
+      targetPort: 8084
+      protocol: TCP
+  type: ClusterIP
