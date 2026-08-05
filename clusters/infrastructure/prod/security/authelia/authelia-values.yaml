@@ -2947,12 +2947,12 @@ configMap:
       policy: one_factor 
     - domain: 'dozzle.${CLUSTER_DOMAIN}'
       policy: one_factor 
-    - domain: 'gatus.${CLUSTER_DOMAIN}'
-      policy: one_factor 
-    - domain: 'music.${CLUSTER_DOMAIN}'
-      policy: one_factor 
-      subject:
-      - 'group:jelly_admin'
+    # - domain: 'gatus.${CLUSTER_DOMAIN}'
+    #   policy: one_factor 
+    # - domain: 'music.${CLUSTER_DOMAIN}'
+    #   policy: one_factor 
+    #   subject:
+    #   - 'group:jelly_admin'
     - domain: 'sftp.${CLUSTER_DOMAIN}'
       subject:
       - 'group:jelly_admin'
@@ -3017,10 +3017,12 @@ configMap:
       - 'group:jelly_admin'
     - domain: 'jelly.${CLUSTER_DOMAIN}'
       policy: one_factor 
-    - domain: 'umami.${CLUSTER_DOMAIN}'
-      subject:
-      - 'group:analytics'
+    - domain: 'book.${CLUSTER_DOMAIN}'
       policy: one_factor 
+    # - domain: 'umami.${CLUSTER_DOMAIN}'
+    #   subject:
+    #   - 'group:analytics'
+    #   policy: one_factor 
     # - domain: 'traefik-manager.${CLUSTER_DOMAIN}'
     #   subject:
     #   - 'group:traefik'

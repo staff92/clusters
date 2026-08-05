@@ -91,3 +91,30 @@ spec:
       targetPort: 8084
       protocol: TCP
   type: ClusterIP
+
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: shelfmark
+  namespace: media
+  annotations:
+    gethomepage.dev/href: "https://book.${CLUSTER_DOMAIN}"
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/description: "Shelfmark is a self-hosted web interface for searching and requesting books and audiobooks across multiple sources."
+    gethomepage.dev/group: Media
+    gethomepage.dev/icon: "sh-shelfmark.png"
+    gethomepage.dev/name: shelfmark
+    gethomepage.dev/pod-selector: "app=shelfmark"
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`book.${CLUSTER_DOMAIN}`)
+      kind: Rule
+      middlewares:
+        - name: 'chain-authelia-auth'
+          namespace: 'authelia'
+      services:
+        - name: shelfmark
+          port: 8084
