@@ -381,6 +381,7 @@ falcosidekick:
       method: "POST"
       CustomHeaders:
         Title: "Falco Alert"
+        X-Email: "${LDAP_USER1_EMAIL}"
       minimumpriority: "critical"
       checkcert: false
 
