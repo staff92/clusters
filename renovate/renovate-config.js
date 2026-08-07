@@ -10,13 +10,14 @@ module.exports = {
 
   flux: {
     enabled: true,
-    fileMatch: ["clusters/clusters/infrastructure/prod/.+\\.ya?ml$"],
+    managerFilePatterns: [
+      "/clusters/clusters/infrastructure/prod/.+\\.ya?ml$/",
+    ],
   },
 
-  helmValues: {
-    // values.yaml & values-XXX.yaml 
-    fileMatch: [
-      "clusters/clusters/infrastructure/prod/.+values(-[a-zA-Z0-9]+)?\\.ya?ml$",
+  "helm-values": {
+    managerFilePatterns: [
+      "/clusters/clusters/infrastructure/prod/.+values(-[a-zA-Z0-9]+)?\\.ya?ml$/",
     ],
   },
 
@@ -42,7 +43,9 @@ module.exports = {
   customManagers: [
     {
       customType: "regex",
-      fileMatch: ["clusters/clusters/infrastructure/prod/.+\\.ya?ml$"],
+      managerFilePatterns: [
+        "/clusters/clusters/infrastructure/prod/.+\\.ya?ml$/",
+      ],
       matchStrings: [
         "image:\\s*['\"]?(?<depName>[a-z0-9][a-z0-9._\\-/]*(?:/[a-z0-9._\\-]+)*):(?<currentValue>[a-zA-Z0-9._\\-]+)['\"]?",
       ],
@@ -58,4 +61,3 @@ module.exports = {
     "**/flux-system/**",
   ],
 };
-
