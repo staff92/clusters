@@ -2,18 +2,22 @@ module.exports = {
   repositories: ["staff92/clusters"],
   gitAuthor: "Renovate Bot <renovate@gmail.com>",
   platform: "github",
-  schedule: ["before 6am on monday"],
+  schedule: ["at any time"],
   prCreation: "immediate",
   prConcurrentLimit: 10,
   prHourlyLimit: 0,
-  dependencyDashboard: true, 
-  
+  dependencyDashboard: true,
+
   flux: {
     enabled: true,
+    fileMatch: ["clusters/clusters/infrastructure/prod/.+\\.ya?ml$"],
   },
 
   helmValues: {
-    fileMatch: ["\\.ya?ml$"],
+    // values.yaml & values-XXX.yaml 
+    fileMatch: [
+      "clusters/clusters/infrastructure/prod/.+values(-[a-zA-Z0-9]+)?\\.ya?ml$",
+    ],
   },
 
   packageRules: [
@@ -29,11 +33,6 @@ module.exports = {
       automerge: false,
     },
     {
-      matchDatasources: ["helm"],
-      matchUpdateTypes: ["patch"],
-      automerge: false, 
-    },
-    {
       matchDatasources: ["docker"],
       matchCurrentValue: "/^(latest|main|master|dev)$/",
       enabled: false,
@@ -41,24 +40,13 @@ module.exports = {
   ],
 
   customManagers: [
-    // Images manifests Kubernetes
     {
       customType: "regex",
-      fileMatch: ["\\.ya?ml$"],
+      fileMatch: ["clusters/clusters/infrastructure/prod/.+\\.ya?ml$"],
       matchStrings: [
-        // Format: image: registry/name:tag
         "image:\\s*['\"]?(?<depName>[a-z0-9][a-z0-9._\\-/]*(?:/[a-z0-9._\\-]+)*):(?<currentValue>[a-zA-Z0-9._\\-]+)['\"]?",
       ],
       datasourceTemplate: "docker",
-    },
-    // HelmRelease chart version
-    {
-      customType: "regex",
-      fileMatch: ["\\.ya?ml$"],
-      matchStrings: [
-        "chart:\\s*\\n\\s+spec:\\s*\\n\\s+chart:\\s*(?<depName>[^\\n]+)\\s*\\n\\s+version:\\s*(?<currentValue>[^\\n]+)\\s*\\n\\s+sourceRef:",
-      ],
-      datasourceTemplate: "helm",
     },
   ],
 
@@ -67,5 +55,7 @@ module.exports = {
     "**/archive/**",
     "**/mail/**",
     "**/provisioning/**",
+    "**/flux-system/**",
   ],
 };
+
