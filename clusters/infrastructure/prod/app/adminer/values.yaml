@@ -104,7 +104,7 @@ diagnosticMode:
 image:
   registry: docker.io
   repository: adminer
-  tag: 5.4.2-standalone
+  tag: 5.5.1-standalone
   ## Specify a imagePullPolicy
   ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
   ## ref: https://kubernetes.io/docs/user-guide/images/#pre-pulling-images
