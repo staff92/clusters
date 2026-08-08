@@ -21,7 +21,7 @@ spec:
   interval: 1h
   chart:
     spec:
-      chart: immich-db
+      chart: cloudnative-pg
       version: '0.29.0'
       sourceRef:
         kind: HelmRepository
