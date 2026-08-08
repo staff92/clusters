@@ -33,7 +33,6 @@ resources:
   - media/sftpgo
   - media/tracearr
   - media/shelfmark
-  - media/immich
   # # - media/seerrng
   # - media/musicseerr
 #! APPS
@@ -43,4 +42,5 @@ resources:
   - app/sliver
   - app/gowitness
   - app/adminer
+  - app/immich
   #- app/sqliteweb
