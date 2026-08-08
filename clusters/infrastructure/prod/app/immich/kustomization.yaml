@@ -3,6 +3,7 @@ kind: Kustomization
 namespace: immich
 resources:
   - namespace.yaml
+  - pvc.yaml
   - secret.yaml
   - repo.yaml
   - release.yaml
