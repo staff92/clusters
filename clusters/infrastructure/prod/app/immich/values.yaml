@@ -64,7 +64,7 @@ valkey:
             pullPolicy: IfNotPresent
   persistence:
     data:
-      enabled: true
+      enabled: false
       type: emptyDir
       size: 1Gi
       accessMode: ReadWriteOnce
@@ -117,7 +117,7 @@ machine-learning:
             MPLCONFIGDIR: /cache/matplotlib-config
   persistence:
     cache:
-      enabled: true
+      enabled: false
       size: 10Gi
       accessMode: ReadWriteMany
       storageClass: openebs-hostpath
