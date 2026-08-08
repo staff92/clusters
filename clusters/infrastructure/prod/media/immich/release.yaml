@@ -1,0 +1,32 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: immich
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: immich
+  valuesFrom:
+    - kind: ConfigMap
+      name: immich-values
+      valuesKey: values.yaml
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: immich-db
+spec:
+  interval: 1h
+  chart:
+    spec:
+      chart: immich-db
+      version: '0.29.0'
+      sourceRef:
+        kind: HelmRepository
+        name: immich-db
+  valuesFrom:
+    - kind: ConfigMap
+      name: immich-db-values
+      valuesKey: immich-db-values.yaml
