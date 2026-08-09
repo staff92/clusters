@@ -36,7 +36,7 @@ resources:
   # # - media/seerrng
   # - media/musicseerr
 #! APPS
-  - app/gitea
+  # - app/gitea
   - app/homepage
   - app/semaphore
   # - app/sliver
