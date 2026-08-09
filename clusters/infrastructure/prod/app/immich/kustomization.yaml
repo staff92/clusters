@@ -14,5 +14,8 @@ configMapGenerator:
   - name: immich-db-values
     files:
       - immich-db-values.yaml
+  - name: immich-operator-db-values
+    files:
+      - immich-operator-db-values.yaml
 generatorOptions:
   disableNameSuffixHash: true
