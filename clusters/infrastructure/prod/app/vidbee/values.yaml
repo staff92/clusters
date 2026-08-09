@@ -176,7 +176,7 @@ spec:
             - name: VIDBEE_ALLOWED_HOSTS
               value: "vidbee.${CLUSTER_DOMAIN}"
             - name: VITE_API_URL
-              value: "http://api:3100"
+              value: "https://vidbee.${CLUSTER_DOMAIN}"
           ports:
             - name: http
               containerPort: 3000
@@ -203,6 +203,15 @@ spec:
   entryPoints:
     - websecure
   routes:
+    - match: Host(`vidbee.${CLUSTER_DOMAIN}`) && PathPrefix(`/rpc`)
+      kind: Rule
+      middlewares:
+        - name: 'chain-authelia-auth'
+          namespace: 'authelia'
+      services:
+        - name: api
+          port: 3100
+          scheme: http
     - match: Host(`vidbee.${CLUSTER_DOMAIN}`) && PathPrefix(`/`)
       kind: Rule
       middlewares:
