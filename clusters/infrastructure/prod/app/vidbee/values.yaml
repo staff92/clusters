@@ -86,6 +86,8 @@ spec:
               containerPort: 3100
               protocol: TCP
           env:
+            - name: VITE_ALLOWED_HOSTS
+              value: "vidbee.${CLUSTER_DOMAIN}"
             - name: VIDBEE_API_HOST
               value: "0.0.0.0"
             - name: VIDBEE_API_PORT
