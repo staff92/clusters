@@ -34,14 +34,36 @@ spec:
       containers:
         - name: spotdl
           image: spotdl/spotify-downloader
-          command: ["sleep", "infinity"]
+          #command: ["sleep", "infinity"]
+          command: ["uv", "run", "--project", "/app", "--no-dev", "--frozen", "--no-sync", "spotdl", "web"]
           env:
             - name: TZ
               value: "CEST"
           volumeMounts:
             - name: spotdl-music
               mountPath: /music
+          ports:
+            - name: http
+              containerPort: 8800
+              protocol: TCP
       volumes:
         - name: spotdl-music
           persistentVolumeClaim:
             claimName: spotdl-music-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: spotdl-web
+  namespace: media
+  labels:
+    app.kubernetes.io/name: spotdl
+spec:
+  type: ClusterIP
+  selector:
+    app.kubernetes.io/name: spotdl
+  ports:
+    - name: http
+      port: 8800
+      targetPort: http
+      protocol: TCP
