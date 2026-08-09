@@ -1,24 +1,54 @@
-type: postgresql
 mode: standalone
-version:
-  postgresql: "16"
+
+cluster:
+  instances: 3
+
+  storage:
+    size: 10Gi
+    storageClass: ""  # laisse vide pour utiliser le storageClass par défaut
+
+  initdb:
+    database: app
+    owner: app
+    # secret: {}  # optionnel, si tu veux fournir un secret existant pour le owner
+
+  monitoring:
+    enabled: false
+    instrumentation:
+      pgStatStatements: false
+
+resources:
+  requests:
+    cpu: 500m
+    memory: 512Mi
+  limits:
+    cpu: "1"
+    memory: 1Gi
+
 backups:
   enabled: false
-cluster:
-  instances: 1
-  superuserSecret: app
-  storage:
-    size: 8Gi
-    storageClass: openebs-hostpath
-  postgresql:
-    parameters:
-      max_connections: "100"
-      shared_buffers: "256MB"
-  initdb:
-    database: immich
-    owner: immich
-    postInitSQL:
-      - CREATE EXTENSION IF NOT EXISTS vectorchord;
+
+# type: postgresql
+# mode: standalone
+# version:
+#   postgresql: "16"
+# backups:
+#   enabled: false
+# cluster:
+#   instances: 1
+#   superuserSecret: app
+#   storage:
+#     size: 8Gi
+#     storageClass: openebs-hostpath
+#   postgresql:
+#     parameters:
+#       max_connections: "100"
+#       shared_buffers: "256MB"
+#   initdb:
+#     database: immich
+#     owner: immich
+#     postInitSQL:
+#       - CREATE EXTENSION IF NOT EXISTS vectorchord;
 # replica:
 #   # -- Defines the name of this cluster. It is used to determine if this is a primary or a replica cluster, comparing it with primary. Leave empty by default.
 #   self: ""
@@ -104,13 +134,13 @@ cluster:
 #         key: ""
 
 # -- Database management configuration.
-databases:
-  - name: app                      # -- Name of the database to be created.
-    ensure: present                # -- Ensure the PostgreSQL database is present or absent - defaults to "present".
-    owner: app                     # -- Owner of the database, defaults to the value of the `name` key.
-    template: template1            # -- Maps to the TEMPLATE parameter.
-    encoding: UTF8                 # -- Maps to the ENCODING parameter.
-    connectionLimit: -1  
+# databases:
+#   - name: app                      # -- Name of the database to be created.
+#     ensure: present                # -- Ensure the PostgreSQL database is present or absent - defaults to "present".
+#     owner: app                     # -- Owner of the database, defaults to the value of the `name` key.
+#     template: template1            # -- Maps to the TEMPLATE parameter.
+#     encoding: UTF8                 # -- Maps to the ENCODING parameter.
+#     connectionLimit: -1  
 
  # - name: app                      # -- Name of the database to be created.
  #   ensure: present                # -- Ensure the PostgreSQL database is present or absent - defaults to "present".
