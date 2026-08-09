@@ -66,8 +66,6 @@ valkey:
     data:
       enabled: true
       type: emptyDir
-      size: 1Gi
-      accessMode: ReadWriteOnce
       storageClass: openebs-hostpath
        # storageClass: your-class
       # Optional: to keep job queues persistent, replace `type: emptyDir` above with:
