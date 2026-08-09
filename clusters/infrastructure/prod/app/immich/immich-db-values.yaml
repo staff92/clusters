@@ -6,11 +6,14 @@ cluster:
   enablePDB: false
   primaryUpdateStrategy: unsupervised
 
+  env: []
+
   initdb:
     database: immich
     owner: immich
     secret:
-      name: immich-credentials # Name of the secret containing the initial credentials for the owner of the user database. If empty a new secret will be created from scratch
+      name: "" 
+      #immich-credentials # Name of the secret containing the initial credentials for the owner of the user database. If empty a new secret will be created from scratch
     options: []
     encoding: UTF8
     postInitSQL:

@@ -18,7 +18,6 @@ controllers:
           DB_HOSTNAME: immich-db-cluster-rw.immich.svc.cluster.local:5432
           DB_USERNAME: immich
           DB_DATABASE_NAME: immich
-          # DB_PASSWORD: app
           DB_PASSWORD:
             valueFrom:
               secretKeyRef:
