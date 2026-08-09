@@ -16,13 +16,14 @@ controllers:
           # Add the env vars to connect to your database here. see the example below
           #
           DB_HOSTNAME: cnpg-webhook-service.immich
-          DB_USERNAME: immich
-          DB_DATABASE_NAME: immich
-          DB_PASSWORD:
-            valueFrom:
-              secretKeyRef:
-                name: immich-credentials
-                key: SFTPGO_DEFAULT_ADMIN_PASSWORD
+          DB_USERNAME: app
+          DB_DATABASE_NAME: app
+          DB_PASSWORD: app
+          # DB_PASSWORD:
+          #   valueFrom:
+          #     secretKeyRef:
+          #       name: immich-credentials
+          #       key: SFTPGO_DEFAULT_ADMIN_PASSWORD
 
 immich:
   metrics:
