@@ -176,7 +176,7 @@ spec:
             - name: VIDBEE_ALLOWED_HOSTS
               value: "vidbee.${CLUSTER_DOMAIN}"
             - name: VITE_API_URL
-              value: "0.0.0.0"
+              value: "api"
           ports:
             - name: http
               containerPort: 3000
