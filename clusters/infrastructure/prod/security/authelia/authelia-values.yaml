@@ -3015,6 +3015,10 @@ configMap:
       policy: one_factor 
       subject:
       - 'group:jelly_admin'
+    - domain: 'vidbee.${CLUSTER_DOMAIN}'
+      policy: one_factor 
+      subject:
+      - 'group:jelly_admin'
     - domain: 'jelly.${CLUSTER_DOMAIN}'
       policy: one_factor 
     - domain: 'immich.${CLUSTER_DOMAIN}'

@@ -321,7 +321,6 @@ bootstrap:
   cleanup: true
   groups:
     - jelly_admin
-    - immich_admin
     - gitea_user
     - gitea_admin
     - vpn_user
@@ -352,7 +351,6 @@ bootstrap:
         - jelly_admin
         - lldap_admin
         - lldap_password_manager
-        - immich_admin
         - gitea_user
         - gitea_admin
         - vpn_user

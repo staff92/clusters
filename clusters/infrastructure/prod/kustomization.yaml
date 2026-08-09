@@ -39,8 +39,9 @@ resources:
   - app/gitea
   - app/homepage
   - app/semaphore
-  - app/sliver
-  - app/gowitness
+  # - app/sliver
+  # - app/gowitness
   - app/adminer
   - app/immich
+  # - app/vidbee
   #- app/sqliteweb
