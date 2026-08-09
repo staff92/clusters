@@ -1,9 +1,9 @@
-Downloads/vidbee-k8s.yamlapiVersion: v1
+---
+apiVersion: v1
 kind: Namespace
 metadata:
   name: vidbee
   labels:
-    app.kubernetes.io/part-of: vidbee
     goldilocks.fairwinds.com/enabled: "true"
 ---
 apiVersion: v1
