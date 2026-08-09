@@ -86,8 +86,6 @@ spec:
               containerPort: 3100
               protocol: TCP
           env:
-            - name: VITE_ALLOWED_HOSTS
-              value: "vidbee.${CLUSTER_DOMAIN}"
             - name: VIDBEE_API_HOST
               value: "0.0.0.0"
             - name: VIDBEE_API_PORT
@@ -174,9 +172,11 @@ spec:
         - name: web
           image: ghcr.io/nexmoe/vidbee-web:latest
           imagePullPolicy: Always
-          # env:
-          #   - name: VITE_API_URL
-          #     value: "0.0.0.0"
+          env:
+            - name: VIDBEE_ALLOWED_HOSTS
+              value: "vidbee.${CLUSTER_DOMAIN}"
+            - name: VITE_API_URL
+              value: "0.0.0.0"
           ports:
             - name: http
               containerPort: 3000
