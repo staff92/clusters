@@ -2,33 +2,25 @@ type: postgresql
 mode: standalone
 version:
   postgresql: "16"
+backups:
+  enabled: false
 cluster:
   instances: 1
+  superuserSecret: app
   storage:
     size: 8Gi
     storageClass: openebs-hostpath
   postgresql:
-    # -- PostgreSQL configuration options (postgresql.conf)
     parameters: {}
-      # max_connections: 300
-
-    # -- Quorum-based Synchronous Replication
     synchronous: {}
-     # method: any
-     # number: 1
-
-    # -- PostgreSQL Host Based Authentication rules (lines to be appended to the pg_hba.conf file)
     pg_hba: []
       # - host all all 10.244.0.0/16 md5
-
     # -- PostgreSQL User Name Maps rules (lines to be appended to the pg_ident.conf file)
     pg_ident: []
       # - mymap   /^(.*)@mydomain\.com$      \1
-
     # -- Lists of shared preload libraries to add to the default ones
     shared_preload_libraries: []
       # - pgaudit
-
     # -- PostgreSQL LDAP configuration (see https://cloudnative-pg.io/documentation/current/postgresql_conf/#ldap-configuration)
     ldap: {}
       # https://cloudnative-pg.io/documentation/current/postgresql_conf/#ldap-configuration
@@ -40,11 +32,6 @@ cluster:
           # name: 'ldapBindPassword'
           # key: 'data'
         # searchAttribute: 'uid'
-
-backups:
-  enabled: false
-
-
 replica:
   # -- Defines the name of this cluster. It is used to determine if this is a primary or a replica cluster, comparing it with primary. Leave empty by default.
   self: ""
