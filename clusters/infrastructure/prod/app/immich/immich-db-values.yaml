@@ -1,37 +1,59 @@
 mode: standalone
+type: postgresql
 
 cluster:
-  instances: 3
+  instances: 1
+  enablePDB: false
+  primaryUpdateStrategy: unsupervised
+
+  imageName: ghcr.io/tensorchord/cloudnative-vectorchord:16.6-0.4.3
+
+  initdb:
+    database: immich
+    owner: immich
 
   storage:
     size: 10Gi
-    storageClass: ""  # laisse vide pour utiliser le storageClass par défaut
 
-  initdb:
-    database: app
-    owner: app
-    # secret: {}  # optionnel, si tu veux fournir un secret existant pour le owner
+  postgresql:
+    shared_preload_libraries:
+      - vchord.so
 
-  monitoring:
-    enabled: false
-    instrumentation:
-      pgStatStatements: false
 
-  postgresql: {}
-    # parameters:
-    #   max_connections: "100"
-    #   shared_buffers: "256MB"
+# mode: standalone
 
-resources:
-  requests:
-    cpu: 500m
-    memory: 512Mi
-  limits:
-    cpu: "1"
-    memory: 1Gi
+# cluster:
+#   instances: 3
 
-backups:
-  enabled: false
+#   storage:
+#     size: 10Gi
+#     storageClass: ""  # laisse vide pour utiliser le storageClass par défaut
+
+#   initdb:
+#     database: app
+#     owner: app
+#     # secret: {}  # optionnel, si tu veux fournir un secret existant pour le owner
+
+#   monitoring:
+#     enabled: false
+#     instrumentation:
+#       pgStatStatements: false
+
+#   postgresql: {}
+#     # parameters:
+#     #   max_connections: "100"
+#     #   shared_buffers: "256MB"
+
+# resources:
+#   requests:
+#     cpu: 500m
+#     memory: 512Mi
+#   limits:
+#     cpu: "1"
+#     memory: 1Gi
+
+# backups:
+#   enabled: false
 
 # type: postgresql
 # mode: standalone
