@@ -43,5 +43,4 @@ resources:
   # - app/gowitness
   - app/adminer
   - app/immich
-  # - app/vidbee
-  #- app/sqliteweb
+  - app/vidbee
