@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: immich
+  namespace: immich
+  annotations:
+    traefik.ingress.kubernetes.io/router.middlewares: traefik-crowdsec-bouncer-appsec@kubernetescrd
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/name: "Immich"
+    gethomepage.dev/description: "Self-hosted photo and video management solution"
+    gethomepage.dev/group: "Media"
+    gethomepage.dev/icon: "immich.png"
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: immich.${CLUSTER_DOMAIN}
+      http:
+        paths:
+          # - path: "/"
+          #   service:
+          #     identifier: main
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: immich-server
+                port:
+                  number: 2283

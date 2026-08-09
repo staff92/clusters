@@ -87,15 +87,15 @@ server:
             pullPolicy: IfNotPresent
   ingress:
     main:
-      enabled: true
+      enabled: false
       annotations:
-        traefik.ingress.kubernetes.io/router.middlewares: authelia-chain-authelia-auth@kubernetescrd
+        #traefik.ingress.kubernetes.io/router.middlewares: authelia-chain-authelia-auth@kubernetescrd
         gethomepage.dev/enabled: "true"
         gethomepage.dev/name: "Immich"
         gethomepage.dev/description: "Self-hosted photo and video management solution"
         gethomepage.dev/group: "Infrastructure"
         gethomepage.dev/icon: "immich.png"
-      ingressClassName: "traefik"
+      # ingressClassName: "traefik"
       hosts:
         - host: immich.${CLUSTER_DOMAIN}
           paths:
