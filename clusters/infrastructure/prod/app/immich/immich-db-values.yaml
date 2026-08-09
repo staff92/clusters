@@ -17,10 +17,10 @@ cluster:
     instrumentation:
       pgStatStatements: false
 
-  postgresql:
-    parameters:
-      max_connections: "100"
-      shared_buffers: "256MB"
+  postgresql: {}
+    # parameters:
+    #   max_connections: "100"
+    #   shared_buffers: "256MB"
 
 resources:
   requests:
