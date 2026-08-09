@@ -15,15 +15,15 @@ controllers:
           # IMMICH_MACHINE_LEARNING_URL: '{{ printf "http://%s-machine-learning:3003" .Release.Name }}'
           # Add the env vars to connect to your database here. see the example below
           #
-          DB_HOSTNAME: cnpg-webhook-service.immich
-          DB_USERNAME: app
-          DB_DATABASE_NAME: app
-          DB_PASSWORD: app
-          # DB_PASSWORD:
-          #   valueFrom:
-          #     secretKeyRef:
-          #       name: immich-credentials
-          #       key: SFTPGO_DEFAULT_ADMIN_PASSWORD
+          DB_HOSTNAME: immich-db-cluster-rw.immich.svc.cluster.local:5432
+          DB_USERNAME: immich
+          DB_DATABASE_NAME: immich
+          # DB_PASSWORD: app
+          DB_PASSWORD:
+            valueFrom:
+              secretKeyRef:
+                name: immich-credentials
+                key: password
 
 immich:
   metrics:
