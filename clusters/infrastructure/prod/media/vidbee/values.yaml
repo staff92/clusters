@@ -203,7 +203,7 @@ metadata:
     gethomepage.dev/enabled: "true"
     gethomepage.dev/name: "Vidbee"
     gethomepage.dev/description: " Download videos from almost any ..."
-    gethomepage.dev/group: "media"
+    gethomepage.dev/group: "Media"
     gethomepage.dev/icon: "vidbee.png"
     gethomepage.dev/pod-selector: "app.kubernetes.io/name=web"
     gethomepage.dev/href: "https://vidbee.${CLUSTER_DOMAIN}"
