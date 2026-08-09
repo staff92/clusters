@@ -204,7 +204,7 @@ metadata:
     gethomepage.dev/name: "Vidbee"
     gethomepage.dev/description: " Download videos from almost any ..."
     gethomepage.dev/group: "Media"
-    gethomepage.dev/icon: "vidbee.png"
+    gethomepage.dev/icon: "sh-apple-music.png"
     gethomepage.dev/pod-selector: "app.kubernetes.io/name=web"
     gethomepage.dev/href: "https://vidbee.${CLUSTER_DOMAIN}"
 spec:
