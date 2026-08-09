@@ -87,11 +87,15 @@ server:
             pullPolicy: IfNotPresent
   ingress:
     main:
-      enabled: false
+      enabled: true
       annotations:
         traefik.ingress.kubernetes.io/router.middlewares: authelia-chain-authelia-auth@kubernetescrd
-        # # proxy-body-size is set to 0 to remove the body limit on file uploads
-        # nginx.ingress.kubernetes.io/proxy-body-size: "0"
+        gethomepage.dev/enabled: "true"
+        gethomepage.dev/name: "Immich"
+        gethomepage.dev/description: "Self-hosted photo and video management solution"
+        gethomepage.dev/group: "Infrastructure"
+        gethomepage.dev/icon: "immich.png"
+      ingressClassName: "traefik"
       hosts:
         - host: immich.${CLUSTER_DOMAIN}
           paths:

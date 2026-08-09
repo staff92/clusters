@@ -3017,6 +3017,8 @@ configMap:
       - 'group:jelly_admin'
     - domain: 'jelly.${CLUSTER_DOMAIN}'
       policy: one_factor 
+    - domain: 'immich.${CLUSTER_DOMAIN}'
+      policy: one_factor 
     - domain: 'book.${CLUSTER_DOMAIN}'
       policy: one_factor 
     # - domain: 'umami.${CLUSTER_DOMAIN}'
@@ -4437,6 +4439,28 @@ configMap:
       # @schema
       # -- List of registered clients for this provider.
       clients:
+      - client_id: 'immich'
+        client_name: 'immich'
+        client_secret: '${IMMICH_SSO_CLIENT_SECRET_HASH}'  # The digest of 'insecure_secret'.
+        public: false
+        authorization_policy: 'one_factor'
+        require_pkce: false
+        pkce_challenge_method: ''
+        redirect_uris:
+          - 'https://immich.${CLUSTER_DOMAIN}/auth/login'
+          - 'https://immich.${CLUSTER_DOMAIN}/user-settings'
+          - 'app.immich:///oauth-callback'
+        scopes:
+          - 'openid'
+          - 'profile'
+          - 'email'
+        response_types:
+          - 'code'
+        grant_types:
+          - 'authorization_code'
+        access_token_signed_response_alg: 'none'
+        userinfo_signed_response_alg: 'none'
+        token_endpoint_auth_method: 'client_secret_post'
       - client_id: 'vaultwarden'
         client_name: 'Vaultwarden'
         client_secret: '${VAULT_SSO_CLIENT_SECRET_HASH}' 
