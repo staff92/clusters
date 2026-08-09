@@ -1402,7 +1402,7 @@ radarr:
 ## @param lidarr.persistence.additionalMounts Additional volume mounts to add to the pod.
 ##
 lidarr:
-  enabled: false
+  enabled: true
   replicaCount: 1
 
   image:
