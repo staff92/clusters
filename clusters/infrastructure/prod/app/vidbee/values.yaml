@@ -203,6 +203,15 @@ spec:
   entryPoints:
     - websecure
   routes:
+    - match: Host(`vidbee.${CLUSTER_DOMAIN}`) && PathPrefix(`/images`)
+      kind: Rule
+      middlewares:
+        - name: 'chain-authelia-auth'
+          namespace: 'authelia'
+      services:
+        - name: api
+          port: 3100
+          scheme: http
     - match: Host(`vidbee.${CLUSTER_DOMAIN}`) && PathPrefix(`/events`)
       kind: Rule
       middlewares:
