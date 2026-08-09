@@ -1,21 +1,21 @@
-# # shelfmark.yaml
+# # # shelfmark.yaml
+# # apiVersion: v1
+# # kind: Namespace
+# # metadata:
+# #   name: shelfmark
+# ---
 # apiVersion: v1
-# kind: Namespace
+# kind: PersistentVolumeClaim
 # metadata:
-#   name: shelfmark
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: shelfmark-books
-  namespace: media
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 50Gi
-  storageClassName: openebs-hostpath
+#   name: shelfmark-books
+#   namespace: media
+# spec:
+#   accessModes:
+#     - ReadWriteOnce
+#   resources:
+#     requests:
+#       storage: 50Gi
+#   storageClassName: openebs-hostpath
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -70,7 +70,7 @@ spec:
       volumes:
         - name: books
           persistentVolumeClaim:
-            claimName: shelfmark-books
+            claimName: servarr-jellyfin-media
         - name: config
           persistentVolumeClaim:
             claimName: shelfmark-config
