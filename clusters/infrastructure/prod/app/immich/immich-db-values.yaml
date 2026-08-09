@@ -5,7 +5,7 @@ cluster:
   instances: 1
   enablePDB: false
   primaryUpdateStrategy: unsupervised
-
+  imageName: ghcr.io/tensorchord/cloudnative-vectorchord:15.18
   env: []
 
   initdb:
