@@ -33,6 +33,7 @@ resources:
   - media/sftpgo
   - media/tracearr
   - media/shelfmark
+  - media/vidbee
   # # - media/seerrng
   # - media/musicseerr
 #! APPS
@@ -43,4 +44,3 @@ resources:
   # - app/gowitness
   - app/adminer
   - app/immich
-  - app/vidbee
