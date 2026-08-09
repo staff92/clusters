@@ -1446,7 +1446,7 @@ lidarr:
     nodePort: ""
 
   ingress:
-    enabled: true
+    enabled: false
     className: "traefik"
     annotations:
       traefik.ingress.kubernetes.io/router.middlewares: authelia-chain-authelia-auth@kubernetescrd
