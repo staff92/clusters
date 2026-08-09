@@ -34,8 +34,8 @@ spec:
       containers:
         - name: spotdl
           image: spotdl/spotify-downloader
-          #command: ["sleep", "infinity"]
-          command: ["uv", "run", "--project", "/app", "--no-dev", "--frozen", "--no-sync", "spotdl", "web"]
+          # spotdl.${CLUSTER_DOMAIN}  command: ["sleep", "infinity"]
+          command: ["uv", "run", "--project", "/app", "--no-dev", "--frozen", "--no-sync", "spotdl", "web", "--host" ,"0.0.0.0", "--port", "8800", "--keep-alive", "--allowed-origins", "*"]
           env:
             - name: TZ
               value: "CEST"
