@@ -8,7 +8,7 @@ spec:
   chart:
     spec:
       chart: sm-operator
-      version: '1.1.0'
+      version: '2.0.3'
       sourceRef:
         kind: HelmRepository
         name: bitwarden
@@ -17,3 +17,4 @@ spec:
     - kind: ConfigMap
       name: sm-operator-values
       valuesKey: values.yaml
+# '1.1.0'
