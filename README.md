@@ -1093,3 +1093,55 @@ applicationprofiles
 
 sbomspdxv2p3
 ```
+
+
+## MESH
+
+helm repo add linkerd-edge https://helm.linkerd.io/edge
+helm install linkerd-crds linkerd-edge/linkerd-crds -n linkerd --create-namespace
+helm install linkerd-control-plane \
+  -n linkerd \
+  --set-file identityTrustAnchorsPEM=ca.crt \
+  --set-file identity.issuer.tls.crtPEM=issuer.crt \
+  --set-file identity.issuer.tls.keyPEM=issuer.key \
+  linkerd-edge/linkerd-control-plane
+
+## with flagger
+helm repo add linkerd https://helm.linkerd.io/stable
+helm install linkerd-crds linkerd/linkerd-crds -n linkerd --create-namespace
+# See https://linkerd.io/2/tasks/generate-certificates/ for how to generate the
+# certs referred below
+helm install linkerd-control-plane linkerd/linkerd-control-plane \
+  -n linkerd \
+  --set-file identityTrustAnchorsPEM=ca.crt \
+  --set-file identity.issuer.tls.crtPEM=issuer.crt \
+  --set-file identity.issuer.tls.keyPEM=issuer.key \
+
+helm install linkerd-viz linkerd/linkerd-viz -n linkerd-viz --create-namespace
+
+helm repo add l5d-smi https://linkerd.github.io/linkerd-smi
+helm install linkerd-smi l5d-smi/linkerd-smi -n linkerd-smi --create-namespace
+
+# Note that linkerdAuthPolicy.create=true is only required for Linkerd 2.12 and
+# later
+helm install flagger flagger/flagger \
+  --namespace flagger-system \
+  --set meshProvider=linkerd \
+  --set metricsServer=http://prometheus.linkerd-viz:9090 \
+  --set linkerdAuthPolicy.create=true
+
+
+```
+
+  linkerd check --pre                         # validate that Linkerd can be installed
+  linkerd install --crds | kubectl apply -f - # install the Linkerd CRDs
+  linkerd install | kubectl apply -f -        # install the control plane into the 'linkerd' namespace
+  linkerd check                               # validate everything worked!
+
+  You can also obtain observability features by installing the viz extension:
+
+  linkerd viz install | kubectl apply -f -  # install the viz extension into the 'linkerd-viz' namespace
+  linkerd viz check                         # validate the extension works!
+  linkerd viz dashboard                     # launch the dashboard
+
+```
