@@ -92,8 +92,8 @@ controller:
     additionalLabels: {}
 
     # controller.deployment.podAnnotations -- Extra annotations for the controller pod
-    podAnnotations: 
-      linkerd.io/inject: enabled
+    podAnnotations: {} 
+      #linkerd.io/inject: enabled
 
 dashboard:
   # dashboard.basePath -- Path on which the dashboard is served. Defaults to `/`
@@ -143,8 +143,8 @@ dashboard:
     extraVolumes: []
 
     # dashboard.deployment.podAnnotations -- Extra annotations for the dashboard pod
-    podAnnotations:
-      linkerd.io/inject: enabled
+    podAnnotations: {}
+      #linkerd.io/inject: enabled
 
   ingress:
     # dashboard.ingress.enabled -- Enables an ingress object for the dashboard.
