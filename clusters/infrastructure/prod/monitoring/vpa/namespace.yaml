@@ -5,4 +5,4 @@ metadata:
   name: vpa
   labels:
     goldilocks.fairwinds.com/enabled: "true"
-    linkerd.io/inject: enabled
+    # linkerd.io/inject: enabled
