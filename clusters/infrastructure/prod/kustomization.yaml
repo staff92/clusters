@@ -43,5 +43,5 @@ resources:
   - app/semaphore
   # - app/sliver
   # - app/gowitness
-  - app/adminer
+  # - app/adminer
   - app/immich
