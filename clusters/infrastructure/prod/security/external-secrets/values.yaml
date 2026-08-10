@@ -1,6 +1,6 @@
 settings:
   # How often the secrets synchronize in seconds.  Minimum value is 180.
-  bwSecretsManagerRefreshInterval: 300
+  bwSecretsManagerRefreshInterval: 600
   # Define Cloud-region to supply the server-URL if using a Bitwarden Cloud vault.  Set to either 'US' or 'EU'
   # If self-hosted, leave blank and set bwApiUrlOverride instead
   # https://bitwarden.com/help/server-geographies/

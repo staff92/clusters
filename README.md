@@ -79,7 +79,10 @@ spec.hosts[*].role <string> (required)
 Apply config 
 
 ```
+# upgrade 
 k0sctl apply --config cluster.yaml
+
+# check & backup
 k0sctl kubeconfig --config cluster.yaml > kubeconfig
 k0sctl backup --config cluster.yaml
 ```
