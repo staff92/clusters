@@ -96,7 +96,7 @@ flux bootstrap github \
   --owner=staff92 \
   --repository=clusters \
   --branch=main \
-  --path=clusters/my-cluster \
+  --path=clusters/my-test \
   --personal
 
 
