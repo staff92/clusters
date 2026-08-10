@@ -11,6 +11,7 @@ resources:
   - storage/juicefs
 #! LB
   - app/traefik
+  - app/flagger
 #! MAIL
   - mail/maildev
 #! SECURITY
