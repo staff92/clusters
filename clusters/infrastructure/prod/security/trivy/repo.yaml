@@ -7,7 +7,7 @@ spec:
   interval: 1h
   url: https://github.com/raoulx24/trivy-operator-dashboard
   ref:
-    branch: main
+    branch: master
   ignore: |
     /*
     !/deploy/helm/trivy-operator-dashboard
