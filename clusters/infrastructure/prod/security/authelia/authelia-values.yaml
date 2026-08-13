@@ -2967,6 +2967,14 @@ configMap:
       subject:
       - 'group:jelly_admin'
       policy: one_factor
+    - domain: 'polaris.${CLUSTER_DOMAIN}'
+      subject:
+      - 'group:jelly_admin'
+      policy: one_factor
+    - domain: 'trivy.${CLUSTER_DOMAIN}'
+      subject:
+      - 'group:jelly_admin'
+      policy: one_factor
     - domain: 'qbittorrent.${CLUSTER_DOMAIN}'
       subject:
       - 'group:jelly_admin'
