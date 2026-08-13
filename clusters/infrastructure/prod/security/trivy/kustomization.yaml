@@ -3,6 +3,7 @@ kind: Kustomization
 namespace: trivy
 resources:
   # - secret.yaml
+  - namespace.yaml
   - repo.yaml
   - release.yaml
   # - ingress.yaml
