@@ -11,7 +11,7 @@ configMapGenerator:
   - name: trivy-values
     files:
       - values.yaml
-  - name: dashboard-values
+  - name: trivy-operator-dashboard-values
     files:
       - dashboard-values.yaml
 generatorOptions:
