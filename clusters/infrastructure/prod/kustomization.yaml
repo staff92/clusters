@@ -23,7 +23,7 @@ resources:
   - security/crowdsec
   # - security/falco
   - security/polaris
-  # - security/trivy
+  - security/trivy
 #! MONITORING
   # - monitoring/gatus
   - monitoring/dozzle
