@@ -93,7 +93,7 @@ trivy:
   # The secret must be Opaque and just contain "TRIVY_USERNAME: your_user" and "TRIVY_PASSWORD: your_password" as k/v pairs.
   # NOTE: When this is set the previous parameters are ignored.
   #
-  # registryCredentialsExistingSecret: name-of-existing-secret
+  registryCredentialsExistingSecret: trivy-credentials
   # skipDBUpdate the flag to enable or disable Trivy DB downloads from GitHub
   #
   # You might want to enable this flag in test or CI/CD environments to avoid GitHub rate limiting issues.
