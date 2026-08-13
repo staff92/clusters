@@ -21,9 +21,9 @@ resources:
   - security/vaultwarden
   - security/wg-portal
   - security/crowdsec
-  - security/falco
+  # - security/falco
   - security/polaris
-  # - security/trivy
+  - security/trivy
 #! MONITORING
   # - monitoring/gatus
   - monitoring/dozzle
