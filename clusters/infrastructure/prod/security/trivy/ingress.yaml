@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    traefik.ingress.kubernetes.io/router.middlewares: traefik-crowdsec-bouncer-appsec@kubernetescrd
+    gethomepage.dev/description: Real-time monitoring for Plex, Jellyfin, and Emby.
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: Media
+    gethomepage.dev/icon: sh-tracearr.png
+    gethomepage.dev/name: tracearr
+    gethomepage.dev/pod-selector: app.kubernetes.io/name=tracearr
+  name: tracearr
+  namespace: media
+spec:
+  ingressClassName: traefik
+  rules:
+  - host: tracearr.${CLUSTER_DOMAIN}
+    http:
+      paths:
+      - backend:
+          service:
+            name: tracearr
+            port:
+              number: 3000
+        path: /
+        pathType: ImplementationSpecific
+status:
+  loadBalancer: {}

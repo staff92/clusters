@@ -11,7 +11,7 @@ resources:
   - storage/juicefs
 #! LB
   - app/traefik
-  - app/flagger
+  # - app/flagger
 #! MAIL
   - mail/maildev
 #! SECURITY
@@ -22,6 +22,8 @@ resources:
   - security/wg-portal
   - security/crowdsec
   - security/falco
+  - security/polaris
+  # - security/trivy
 #! MONITORING
   # - monitoring/gatus
   - monitoring/dozzle

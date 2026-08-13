@@ -1,0 +1,181 @@
+# app related params
+logging:
+  level: Information                                      # Debug, Information, Warning, Error
+
+kubernetes:
+  kubeConfigFileName: ""                                  # file name of the custom kube config file
+  kubeConfigPath: ""                                      # path where kub config file will be mounted
+  kubeConfigSecretName: ""                                # the secret that contains the kube config. the key is the file name
+  useDefaultContext: true                                 # if true, default context will be used and cache will be active
+  namespaceList: ""                                       # a list of namespaces, comma delimited
+  # trivyUseXyzReport true, false - if the reports are active in TOD or not
+  trivyUseClusterComplianceReport: true
+  trivyUseClusterInfraAssessmentReport: true
+  trivyUseClusterRbacAssessmentReport: true
+  trivyUseClusterSbomReport: true
+  trivyUseClusterVulnerabilityReport: true
+  trivyUseConfigAuditReport: true
+  trivyUseInfraAssessmentReport: true
+  trivyUseExposedSecretReport: true
+  trivyUseRbacAssessmentReport: true
+  trivyUseSbomReport: true
+  trivyUseVulnerabilityReport: true
+  
+
+fileRepository:
+  enabled: false                                          # true, false
+  # important: if enabled, you should also set affinity and user (now, trivy user id in TO is 10000)
+  # important: as of 2026-01-18, only the ones with Subpath not empty work
+  #   see https://github.com/raoulx24/trivy-operator-dashboard/issues/7
+  pvcName: "trivy-operator-pvc"                           # the pvc name of trivy operator
+  basePath: "/var/lib/trivy-operator"                     # where the pcv will be mounted and consumed by TOD
+  clusterComplianceReportCrSubpath: "cluster_compliance_report"
+  clusterInfraAssessmentReportCrSubpath: ""
+  clusterRbacAssessmentReportCrSubpath: ""
+  clusterSbomReportCrSubpath: "cluster_sbom_reports"
+  clusterVulnerabilityReportCrSubpath: "cluster_vulnerability_reports"
+  configAuditReportCrSubpath: ""
+  exposedSecretReportCrSubpath: "secret_reports"
+  infraAssessmentReportCrSubpath: ""
+  rbacAssessmentReportCrSubpath: ""
+  sbomReportCrSubpath: "sbom_reports"
+  vulnerabilityReportCrSubpath: "vulnerability_reports"
+
+history:
+  enabled: true
+  retention:
+    runIntervalInMinutes: 360
+    keepDays: 14
+    keepLast: 2
+  distributedCache:
+    connectionString: "localhost:6379,ssl=False,abortConnect=False"
+    retryOptions:
+      maxRetries: 5
+      initialDelay: "50ms"
+      maxDelay: "1s"
+    sidecar:
+      enabled: true
+      image:
+        name: valkey/valkey
+        tag: 7.2
+      pvc:
+        storageClassName: openebs-hostpath
+        accessModes: ReadWriteOnce
+        size: 10Gi
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        allowPrivilegeEscalation: false
+        readOnlyRootFilesystem: true
+        capabilities:
+          drop: ["ALL"]
+
+gitHub:
+  serverCheckForUpdates: true
+  checkForUpdatesIntervalInMinutes: 360
+
+openTelemetry:
+  enabled: false
+  otelEndpoint:
+  otelProtocol: grpc
+  consoleEnabled: false
+  aspNetCoreInstrumentationEnabled: true
+  runtimeInstrumentationEnabled: true
+  prometheusExporterPort:  # 8901
+
+# if needed extra environment values can be provided here
+extraEnvValues: []
+# - name: ENV1
+#   value: "value1"
+
+# other params
+replicaCount: 1
+
+image:
+  repository: ghcr.io/raoulx24/trivy-operator-dashboard
+  pullPolicy: Always
+  tag: "1.9.0"
+
+imagePullSecrets: []
+
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  create: true
+  annotations: {}
+  name: ""
+
+clusterRbac:
+  create: true
+
+podAnnotations: {}
+podLabels:
+  app.kubernetes.io/component: web
+  app.kubernetes.io/part-of: trivy-operator
+
+podSecurityContext:
+  fsGroup: 1000
+
+securityContext:
+  capabilities:
+    drop:
+    - ALL
+  readOnlyRootFilesystem: true
+  runAsNonRoot: true
+  runAsUser: 1000
+
+service:
+  type: ClusterIP
+  port: 8900
+
+# This block is for setting up the ingress for more information can be found here: https://kubernetes.io/docs/concepts/services-networking/ingress/
+ingress:
+  enabled: true
+  className: "traefik"
+  annotations:
+    traefik.ingress.kubernetes.io/router.middlewares: authelia-chain-authelia-auth@kubernetescrd
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  labels: {}
+  hosts:
+    - host: trivy.${CLUSTER_DOMAIN}
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+resources: {}
+  # advised values
+  # requests:
+  #   cpu: 100m
+  #   memory: 384Mi
+  # limits:
+  #   cpu: 1000m
+  #   memory: 384Mi
+
+startupProbe:
+  httpGet:
+    path: /healthz/ready
+    port: http
+  periodSeconds: 10
+  failureThreshold: 30
+livenessProbe:
+  httpGet:
+    path: /healthz/live
+    port: http
+  periodSeconds: 30
+readinessProbe:
+  httpGet:
+    path: /healthz/ready
+    port: http
+  periodSeconds: 30
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

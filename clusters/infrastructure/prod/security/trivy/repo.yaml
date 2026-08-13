@@ -1,0 +1,23 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: trivy-dashboard
+  namespace: trivy
+spec:
+  interval: 1h
+  url: https://github.com/raoulx24/trivy-operator-dashboard
+  ref:
+    branch: main
+  ignore: |
+    /*
+    !/deploy/helm/trivy-operator-dashboard
+
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: trivy
+  namespace: trivy
+spec:
+  interval: 1h
+  url: https://aquasecurity.github.io/helm-charts/
