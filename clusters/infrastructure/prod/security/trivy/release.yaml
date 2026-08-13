@@ -12,10 +12,10 @@ spec:
         kind: GitRepository
         name: trivy-dashboard
         namespace: trivy
-  valuesFrom:
-    - kind: ConfigMap
-      name: dashboard-values
-      valuesKey: dashboard-values.yaml
+  # valuesFrom:
+  #   - kind: ConfigMap
+  #     name: dashboard-values
+  #     valuesKey: dashboard-values.yaml
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
