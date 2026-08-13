@@ -1145,3 +1145,10 @@ helm install flagger flagger/flagger \
   linkerd viz dashboard                     # launch the dashboard
 
 ```
+
+
+apt update
+
+apt list --upgradable
+
+unattended-upgrade --dry-run --debug

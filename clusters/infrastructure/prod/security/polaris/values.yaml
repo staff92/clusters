@@ -111,7 +111,12 @@ dashboard:
     # dashboard.ingress.annotations -- Web ingress annotations
     annotations: 
       traefik.ingress.kubernetes.io/router.middlewares: authelia-chain-authelia-auth@kubernetescrd
-    # dashboard.ingress.tls -- Ingress TLS configuration
+      gethomepage.dev/enabled: "true"
+      gethomepage.dev/name: "polaris"
+      gethomepage.dev/description: "Validation of best practices in your kubernetes cluster"
+      gethomepage.dev/group: "Infrastructure"
+      gethomepage.dev/icon: "sh-polaris.png"
+      gethomepage.dev/pod-selector: "app.kubernetes.io/name=polaris"
     tls: []
     # dashboard.ingress.defaultBackendEnabled -- DefaultBackend is required by GKE container native load balancer, set to true for this use case
     defaultBackendEnabled: false
