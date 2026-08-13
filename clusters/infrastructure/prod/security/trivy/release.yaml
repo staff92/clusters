@@ -7,7 +7,7 @@ spec:
   interval: 1h
   chart:
     spec:
-      chart: /deploy/helm/trivy-operator-dashboard
+      chart: deploy/helm/trivy-operator-dashboard
       sourceRef:
         kind: GitRepository
         name: trivy-operator-dashboard
