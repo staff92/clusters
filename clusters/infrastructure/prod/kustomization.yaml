@@ -33,7 +33,7 @@ resources:
   - monitoring/ntfy
 #! MEDIA
   - media/servarr
-  - media/sftpgo
+  # - media/sftpgo
   - media/tracearr
   - media/shelfmark
   - media/vidbee
