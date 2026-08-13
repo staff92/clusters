@@ -10,7 +10,7 @@ spec:
       chart: /deploy/helm/trivy-operator-dashboard
       sourceRef:
         kind: GitRepository
-        name: trivy-dashboard
+        name: trivy-operator-dashboard
         namespace: trivy
   valuesFrom:
     - kind: ConfigMap
