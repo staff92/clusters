@@ -27,7 +27,7 @@ resources:
 #! MONITORING
   # - monitoring/gatus
   - monitoring/dozzle
-  - monitoring/vpa
+  # - monitoring/vpa
   # - monitoring/maintenant
   - monitoring/kubenav
   - monitoring/ntfy
