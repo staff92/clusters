@@ -22,7 +22,7 @@ resources:
   - security/wg-portal
   - security/crowdsec
   # - security/falco
-  - security/polaris
+  # - security/polaris
   # - security/trivy
 #! MONITORING
   # - monitoring/gatus
