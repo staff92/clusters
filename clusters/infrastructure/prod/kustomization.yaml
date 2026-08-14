@@ -36,7 +36,7 @@ resources:
   # - media/sftpgo
   - media/tracearr
   - media/shelfmark
-  - media/vidbee
+  # - media/vidbee
   # - media/spotdl
   # # - media/seerrng
   # - media/musicseerr
