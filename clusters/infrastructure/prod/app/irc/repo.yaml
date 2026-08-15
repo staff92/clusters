@@ -1,0 +1,10 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: thelounge
+spec:
+  interval: 1h
+  url: oci://oci.trueforge.org/truecharts/thelounge
+  ref:
+    tag: 17.8.1

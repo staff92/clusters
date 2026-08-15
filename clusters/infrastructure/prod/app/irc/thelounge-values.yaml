@@ -40,19 +40,6 @@ workload:
             THELOUNGE_HOME: "/config"
 
 
-ingress:
-  main:
-    enabled: true
-    className: "traefik"
-    annotations:
-      traefik.ingress.kubernetes.io/router.middlewares: traefik-crowdsec-bouncer-appsec@kubernetescrd
-    hosts:
-      - host: lounge.${CLUSTER_DOMAIN}
-        paths:
-          - path: /
-            pathType: Prefix
-
-
 # ingress:
 #   ingressname:
 #     integrations:

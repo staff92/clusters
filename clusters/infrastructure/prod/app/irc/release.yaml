@@ -1,0 +1,14 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: thelounge
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: thelounge
+  valuesFrom:
+    - kind: ConfigMap
+      name: thelounge-values
+      valuesKey: thelounge-values.yaml
