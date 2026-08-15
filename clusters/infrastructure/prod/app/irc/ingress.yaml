@@ -36,6 +36,7 @@ spec:
   routes:
     - match: Host(`thelounge.${CLUSTER_DOMAIN}`)
       kind: Rule
+      #! Error 403 on phone device
       # middlewares:
       #   - name: 'crowdsec-bouncer-appsec'
       #     namespace: 'traefik'
