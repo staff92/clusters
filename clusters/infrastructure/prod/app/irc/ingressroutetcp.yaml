@@ -1,0 +1,16 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRouteTCP
+metadata:
+  name: ngircd
+  namespace: ngircd
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: HostSNI(`irc.${CLUSTER_DOMAIN}`)
+      services:
+        - name: ngircd
+          port: 6667
+      middlewares:
+        - name: 'crowdsec-bouncer-appsec'
+          namespace: 'traefik'

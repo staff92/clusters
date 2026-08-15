@@ -1,0 +1,64 @@
+# yaml-language-server: $schema=./values.schema.json
+image:
+  repository: docker.io/thelounge/thelounge
+  pullPolicy: IfNotPresent
+  tag: 4.5.2@sha256:8806dd11965c8c07ef209ba884423cc611a37e8d6ee0e128dd55f427486122e0
+service:
+  main:
+    ports:
+      main:
+        port: 10061
+        targetPort: 9000
+
+persistence:
+  config:
+    enabled: true
+    mountPath: "/config"
+    storageClass: openebs-hostpath
+  configmap:
+    enabled: true
+    type: configmap
+    objectName: thelounge-config
+    expandObjectName: false
+    optional: false
+    # storageClass: openebs-hostpath
+    defaultMode: "0777"
+    mountPath: /config/config.js
+    subPath: config.js
+
+securityContext:
+  container:
+    runAsNonRoot: false
+    runAsUser: 0
+    runAsGroup: 0
+workload:
+  main:
+    podSpec:
+      containers:
+        main:
+          env:
+            THELOUNGE_HOME: "/config"
+
+
+ingress:
+  main:
+    enabled: true
+    className: "traefik"
+    annotations:
+      traefik.ingress.kubernetes.io/router.middlewares: traefik-crowdsec-bouncer-appsec@kubernetescrd
+    hosts:
+      - host: lounge.${CLUSTER_DOMAIN}
+        paths:
+          - path: /
+            pathType: Prefix
+
+# extraVolumes:
+#   - name: config-override
+#     configMap:
+#       name: thelounge-config
+
+# extraVolumeMounts:
+#   - name: config-override
+#     mountPath: /config/config.js
+#     subPath: config.js
+#     readOnly: true

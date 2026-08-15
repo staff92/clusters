@@ -3033,6 +3033,8 @@ configMap:
       policy: one_factor 
     - domain: 'book.${CLUSTER_DOMAIN}'
       policy: one_factor 
+    - domain: 'irc.${CLUSTER_DOMAIN}'
+      policy: one_factor 
     # - domain: 'umami.${CLUSTER_DOMAIN}'
     #   subject:
     #   - 'group:analytics'

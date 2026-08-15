@@ -1,0 +1,53 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: thelounge-config
+data:
+  config.js: |
+    "use strict";
+    module.exports = {
+        public: false,
+        host: undefined,
+        port: 9000,
+        reverseProxy: true,
+        maxHistory: 10000,
+        https: { enable: false, key: "", certificate: "", ca: "" },
+        theme: "default",
+        prefetch: false,
+        transports: ["polling", "websocket"],
+        leaveMessage: "",
+        defaults: {
+            name: "IRC",
+            host: "ngircd.ngircd.svc.cluster.local",
+            port: 6667,
+            password: "${IRC_GLOBAL_PASSWORD}",
+            tls: false,
+            rejectUnauthorized: false,
+            nick: "user%%",
+            username: "user",
+            realname: "",
+            join: "#general",
+            leaveMessage: "",
+        },
+        lockNetwork: true,
+        messageStorage: ["sqlite"],
+        storagePolicy: { enabled: false, maxAgeDays: 7, deletionPolicy: "statusOnly" },
+        useHexIp: false,
+        webirc: null,
+        identd: { enable: false, port: 113 },
+        oidentd: null,
+        ldap: {
+            enable: true,
+            url: "ldap://lldap-ldap.lldap.svc.cluster.local:3890",
+            tlsOptions: {},
+            primaryKey: "uid",
+            searchDN: {
+                rootDN: "uid=admin,ou=people,dc=example,dc=com",
+                rootPassword: "${LDAP_ADMIN_PASSWORD}",
+                filter: "(objectClass=person)",
+                base: "ou=people,dc=example,dc=com",
+                scope: "sub",
+            },
+        },
+        debug: { ircFramework: false, raw: false },
+    };
