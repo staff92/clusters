@@ -40,21 +40,21 @@ workload:
             THELOUNGE_HOME: "/config"
 
 
-ingress:
-  ingressname:
-    enabled: true
-    integrations:
-      traefik:
-        enabled: true
-        entrypoints:
-          - websecure
-        routes:
-          - match: Host(`lounge.${CLUSTER_DOMAIN}`)
-            kind: Rule
-        forceTLS: true
-        middlewares:
-          - name: crowdsec-bouncer-appsec
-            namespace: "traefik"
-        services:
-          - name: thelounge
-            port: 10061
+# ingress:
+#   ingressname:
+#     enabled: true
+#     integrations:
+#       traefik:
+#         enabled: true
+#         entrypoints:
+#           - websecure
+#         routes:
+#           - match: Host(`lounge.${CLUSTER_DOMAIN}`)
+#             kind: Rule
+#         forceTLS: true
+#         middlewares:
+#           - name: crowdsec-bouncer-appsec
+#             namespace: "traefik"
+#         services:
+#           - name: thelounge
+#             port: 10061
