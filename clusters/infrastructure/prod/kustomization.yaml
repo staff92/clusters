@@ -41,7 +41,7 @@ resources:
   # # - media/seerrng
   # - media/musicseerr
 #! APPS
-  - app/irc
+  # - app/irc
   # - app/gitea
   - app/homepage
   - app/semaphore
