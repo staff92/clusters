@@ -28,7 +28,7 @@ metadata:
     gethomepage.dev/description: "Welcome to The Lounge, a web-based IRC client for the modern world! ❤️"
     gethomepage.dev/group: "Infrastructure"
     gethomepage.dev/icon: "si-theconversation.svg"
-    gethomepage.dev/pod-selector: "app=thelounge"
+    gethomepage.dev/pod-selector: "app.kubernetes.io/name=thelounge"
     gethomepage.dev/href: "https://thelounge.${CLUSTER_DOMAIN}"
 spec:
   entryPoints:
