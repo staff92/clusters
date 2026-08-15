@@ -86,7 +86,7 @@ data:
 
             # Server name in the IRC network, must contain at least one dot
             # (".") and be unique in the IRC network. Required!
-            Name = ngircd.ngircd.svc.cluster.local
+            Name = ngircd.irc.svc.cluster.local
 
             # Information about the server and the administrator, used by the
             # ADMIN command. Not required by server but by RFC!

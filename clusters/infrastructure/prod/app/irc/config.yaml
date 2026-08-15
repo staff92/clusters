@@ -18,7 +18,7 @@ data:
         leaveMessage: "",
         defaults: {
             name: "IRC",
-            host: "ngircd.ngircd.svc.cluster.local",
+            host: "ngircd.irc.svc.cluster.local",
             port: 6667,
             password: "${IRC_GLOBAL_PASSWORD}",
             tls: false,
