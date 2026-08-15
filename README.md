@@ -1095,7 +1095,7 @@ sbomspdxv2p3
 ```
 
 
-## MESH
+# MESH
 
 helm repo add linkerd-edge https://helm.linkerd.io/edge
 helm install linkerd-crds linkerd-edge/linkerd-crds -n linkerd --create-namespace
@@ -1146,9 +1146,53 @@ helm install flagger flagger/flagger \
 
 ```
 
+# UPGRADE NODE
 
 apt update
+
+apt install unattended-upgrades 
 
 apt list --upgradable
 
 unattended-upgrade --dry-run --debug
+
+systemctl enable --now apt-daily.timer
+systemctl enable --now apt-daily-upgrade.timer
+
+6.12.88+deb13-amd64
+
+```
+/etc/apt/apt.conf.d/50unattended-upgrades
+
+// List of packages to not update
+Unattended-Upgrade::Package-Blacklist {
+        "grub*";
+//      "vim";
+//      "libc6";
+//      "libc6-dev";
+//      "libc6-i686";
+};
+// Automatically reboot *WITHOUT CONFIRMATION* if a
+// the file /var/run/reboot-required is found after the upgrade
+Unattended-Upgrade::Automatic-Reboot "false";
+
+
+
+/etc/apt/apt.conf.d/02periodic
+
+// Enable the update/upgrade script (0=disable)
+APT::Periodic::Enable "1";
+// Do "apt-get update" automatically every n-days (0=disable)
+APT::Periodic::Update-Package-Lists "1";
+// Do "apt-get upgrade --download-only" every n-days (0=disable)
+APT::Periodic::Download-Upgradeable-Packages "1";
+// Run the "unattended-upgrade" security upgrade script
+// every n-days (0=disabled)
+// Requires the package "unattended-upgrades" and will write
+// a log in /var/log/unattended-upgrades
+APT::Periodic::Unattended-Upgrade "1";
+// Do "apt-get autoclean" every n-days (0=disable)
+APT::Periodic::AutocleanInterval "7";
+// sleep for a random interval of time (default 30min)
+APT::Periodic::RandomSleep "1800";
+```

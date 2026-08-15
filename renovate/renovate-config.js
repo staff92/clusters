@@ -10,14 +10,15 @@ module.exports = {
 
   flux: {
     enabled: true,
-    managerFilePatterns: [
-      "/clusters/clusters/infrastructure/prod/.+\\.ya?ml$/",
+    fileMatch: [
+      "clusters/clusters/infrastructure/prod/.+\\.ya?ml$",
     ],
   },
 
   "helm-values": {
-    managerFilePatterns: [
-      "/clusters/clusters/infrastructure/prod/.+values(-[a-zA-Z0-9]+)?\\.ya?ml$/",
+    fileMatch: [
+      "clusters/clusters/infrastructure/prod/.*-values\\.ya?ml$",
+      "clusters/clusters/infrastructure/prod/.+values(-[a-zA-Z0-9]+)?\\.ya?ml$",
     ],
   },
 
@@ -34,6 +35,11 @@ module.exports = {
       automerge: false,
     },
     {
+      matchManagers: ["flux"],
+      groupName: "Flux HelmReleases",
+      automerge: false,
+    },
+    {
       matchDatasources: ["docker"],
       matchCurrentValue: "/^(latest|main|master|dev)$/",
       enabled: false,
@@ -43,8 +49,8 @@ module.exports = {
   customManagers: [
     {
       customType: "regex",
-      managerFilePatterns: [
-        "/clusters/clusters/infrastructure/prod/.+\\.ya?ml$/",
+      fileMatch: [
+        "clusters/clusters/infrastructure/prod/.+\\.ya?ml$",
       ],
       matchStrings: [
         "image:\\s*['\"]?(?<depName>[a-z0-9][a-z0-9._\\-/]*(?:/[a-z0-9._\\-]+)*):(?<currentValue>[a-zA-Z0-9._\\-]+)['\"]?",
