@@ -52,13 +52,21 @@ ingress:
           - path: /
             pathType: Prefix
 
-# extraVolumes:
-#   - name: config-override
-#     configMap:
-#       name: thelounge-config
 
-# extraVolumeMounts:
-#   - name: config-override
-#     mountPath: /config/config.js
-#     subPath: config.js
-#     readOnly: true
+ingress:
+  ingressname:
+    integrations:
+      traefik:
+        enabled: true
+        entrypoints:
+          - websecure
+        routes:
+          - match: Host(`lounge.${CLUSTER_DOMAIN}`)
+            kind: Rule
+        forceTLS: true
+        middlewares:
+          - name: crowdsec-bouncer-appsec
+            namespace: "traefik"
+        services:
+          - name: test
+            port: 8080

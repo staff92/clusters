@@ -113,7 +113,7 @@ data:
             ;MotdFile = /etc/ngircd/ngircd.motd
 
             # A simple Phrase (<256 chars) if you don't want to use a motd file.
-            MotdPhrase = "Hello world!"
+            MotdPhrase = "Hello ! Welcome on IRC ${CLUSTER_DOMAIN} domain"
 
             # The name of the IRC network to which this server belongs. This name
             # is optional, should only contain ASCII characters, and can't contain
