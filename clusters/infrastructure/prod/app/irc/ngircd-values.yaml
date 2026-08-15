@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: ngircd
+  name: irc
   labels:
     goldilocks.fairwinds.com/enabled: "true"
 ---
@@ -10,7 +10,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: ngircd
-  namespace: ngircd
+  namespace: irc
   labels:
     app: ngircd
 spec:
@@ -44,7 +44,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: ngircd
-  namespace: ngircd
+  namespace: irc
 spec:
   selector:
     app: ngircd
