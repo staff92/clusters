@@ -4,9 +4,9 @@ namespace: irc
 resources:
   - ngircd-values.yaml
   - repo.yaml
-  - thelounge-config.yaml
+  - config.yaml
   - release.yaml
-  - ingressroutetcp.yaml
+  - ingress.yaml
 configMapGenerator:
   - name: thelounge-values
     files:
