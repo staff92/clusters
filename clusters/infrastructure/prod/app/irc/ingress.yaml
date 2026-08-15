@@ -14,9 +14,8 @@ spec:
       middlewares:
         - name: 'crowdsec-bouncer-appsec'
           namespace: 'traefik'
-      tls:
-        enabled: true
-        certResolver: myresolver
+  tls:
+    certResolver: myresolver
 ---
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
