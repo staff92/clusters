@@ -626,7 +626,7 @@ agent:
     # -- Persistent volume for config folder. Stores local config (parsers, scenarios etc.)
     ## @param agent.persistentVolume.config.enabled [default: false] [object] Enable persistent volume for agent config
     config:
-      enabled: false
+      enabled: true
       ## @param agent.persistentVolume.config.accessModes [array] Access modes for the config PVC
       accessModes:
         - ReadWriteOnce
