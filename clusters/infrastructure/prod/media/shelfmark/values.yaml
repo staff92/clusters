@@ -3,19 +3,19 @@
 # # kind: Namespace
 # # metadata:
 # #   name: shelfmark
-# ---
-# apiVersion: v1
-# kind: PersistentVolumeClaim
-# metadata:
-#   name: shelfmark-books
-#   namespace: media
-# spec:
-#   accessModes:
-#     - ReadWriteOnce
-#   resources:
-#     requests:
-#       storage: 50Gi
-#   storageClassName: openebs-hostpath
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: shelfmark-books
+  namespace: media
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 50Gi
+  storageClassName: openebs-hostpath
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -64,18 +64,16 @@ spec:
             - mountPath: /media/downloads
               name: media
               subPath: downloads
-            # - name: books
-            #   mountPath: /books
+            - name: books
+              mountPath: /books
             - name: config
               mountPath: /config
             # - name: downloads
             #   mountPath: /path/to/downloads
       volumes:
-
-
-        # - name: books
-        #   persistentVolumeClaim:
-        #     claimName: shelfmark-books
+        - name: books
+          persistentVolumeClaim:
+            claimName: shelfmark-books
         - name: config
           persistentVolumeClaim:
             claimName: shelfmark-config
