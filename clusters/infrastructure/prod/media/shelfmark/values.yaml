@@ -61,22 +61,27 @@ spec:
             - containerPort: 8084
               name: http
           volumeMounts:
-            - name: books
-              mountPath: /books
+            - mountPath: /media/downloads
+              name: media
+              subPath: downloads
+            # - name: books
+            #   mountPath: /books
             - name: config
               mountPath: /config
             # - name: downloads
             #   mountPath: /path/to/downloads
       volumes:
-        - name: books
-          persistentVolumeClaim:
-            claimName: shelfmark-books
+
+
+        # - name: books
+        #   persistentVolumeClaim:
+        #     claimName: shelfmark-books
         - name: config
           persistentVolumeClaim:
             claimName: shelfmark-config
-        # - name: downloads
-        #   persistentVolumeClaim:
-        #     claimName: servarr-jellyfin-media
+        - name: media
+          persistentVolumeClaim:
+            claimName: servarr-jellyfin-media
 ---
 apiVersion: v1
 kind: Service
