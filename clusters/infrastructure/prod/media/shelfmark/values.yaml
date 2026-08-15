@@ -71,9 +71,9 @@ spec:
             # - name: downloads
             #   mountPath: /path/to/downloads
       volumes:
-        - name: books
-          persistentVolumeClaim:
-            claimName: shelfmark-books
+        # - name: books
+        #   persistentVolumeClaim:
+        #     claimName: shelfmark-books
         - name: config
           persistentVolumeClaim:
             claimName: shelfmark-config
