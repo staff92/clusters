@@ -11,4 +11,4 @@ spec:
   valuesFrom:
     - kind: ConfigMap
       name: thelounge-values
-      valuesKey: thelounge-values.yaml
+      valuesKey: values.yaml

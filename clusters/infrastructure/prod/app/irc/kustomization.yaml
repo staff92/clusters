@@ -10,4 +10,6 @@ resources:
 configMapGenerator:
   - name: thelounge-values
     files:
-      - thelounge-values.yaml
+      - values.yaml
+generatorOptions:
+  disableNameSuffixHash: true
