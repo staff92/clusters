@@ -60,13 +60,13 @@ metadata:
     name: p2p
     labels:
         app: p2p
-    annotations:
-        gethomepage.dev/enabled: "true"
-        gethomepage.dev/name: "Mirotalk"
-        gethomepage.dev/description: "Free browser based Real-time video calls.Simple, Secure, Fast."
-        gethomepage.dev/group: "Infrastructure"
-        gethomepage.dev/icon: "sh-mirotalk.png"
-        gethomepage.dev/pod-selector: "app=p2p"
+    # annotations:
+    #     gethomepage.dev/enabled: "true"
+    #     gethomepage.dev/name: "Mirotalk"
+    #     gethomepage.dev/description: "Free browser based Real-time video calls.Simple, Secure, Fast."
+    #     gethomepage.dev/group: "Infrastructure"
+    #     gethomepage.dev/icon: "sh-mirotalk.png"
+    #     gethomepage.dev/pod-selector: "app=p2p"
 spec:
     entryPoints:
         - websecure
