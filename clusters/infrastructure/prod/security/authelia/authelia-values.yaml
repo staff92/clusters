@@ -3035,6 +3035,8 @@ configMap:
       policy: one_factor 
     - domain: 'irc.${CLUSTER_DOMAIN}'
       policy: one_factor 
+    - domain: 'p2p.${CLUSTER_DOMAIN}'
+      policy: one_factor 
     # - domain: 'umami.${CLUSTER_DOMAIN}'
     #   subject:
     #   - 'group:analytics'
@@ -4530,6 +4532,26 @@ configMap:
         pkce_challenge_method: ''
         redirect_uris:
           - 'https://tracearr.${CLUSTER_DOMAIN}/api/auth/oidc/authelia/redirect'
+        scopes:
+          - 'openid'
+          - 'profile'
+          - 'email'
+        response_types:
+          - 'code'
+        grant_types:
+          - 'authorization_code'
+        access_token_signed_response_alg: 'none'
+        userinfo_signed_response_alg: 'none'
+        token_endpoint_auth_method: 'client_secret_basic'
+      - client_id: 'mirotalk'
+        client_name: 'mirotalk'
+        client_secret: '${MIROTALK_SSO_HASH_SECRET}' 
+        public: false
+        authorization_policy: 'one_factor'
+        require_pkce: false
+        pkce_challenge_method: ''
+        redirect_uris:
+          - 'https://p2p.${CLUSTER_DOMAIN}/auth/callback'
         scopes:
           - 'openid'
           - 'profile'

@@ -1,0 +1,260 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: p2p
+  labels:
+    goldilocks.fairwinds.com/enabled: "true"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    labels:
+        app: p2p
+    name: p2p
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: p2p
+    strategy: {}
+    template:
+        metadata:
+            labels:
+                app: p2p
+        spec:
+            containers:
+                - image: mirotalk/p2p:latest
+                  name: mirotalk
+                  ports:
+                      - containerPort: 3000
+                  volumeMounts:
+                      - name: p2p-env
+                        mountPath: /src/.env
+                        subPath: .env
+                  resources: {}
+            volumes:
+                - name: p2p-env
+                  configMap:
+                      name: p2p
+                      defaultMode: 0644
+            restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+    labels:
+        app: p2p
+    name: p2p
+spec:
+    ports:
+        - name: '3000'
+          port: 3000
+          targetPort: 3000
+    selector:
+        app: p2p
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+    name: p2p
+    labels:
+        app: p2p
+spec:
+    entryPoints:
+        - websecure
+    routes:
+        - match: "Host(`p2p.${CLUSTER_DOMAIN}`)"
+          kind: Rule
+          services:
+              - name: p2p
+                port: 3000
+    tls:
+        certResolver: myresolver
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: p2p
+data:
+  .env: |
+        # ====================================================
+        # MiroTalk P2P v.1.9.02 - Environment Configuration
+        # ====================================================
+
+        # App environment
+
+        NODE_ENV=production #development or production
+
+        # Signaling Server
+
+        HOST='https://p2p.${CLUSTER_DOMAIN}' # Default to http://localhost:port
+        PORT=3000
+
+        # Trust Proxy
+
+        TRUST_PROXY=true #true or false
+
+        # Time Zone corresponding to timezone identifiers from the IANA Time Zone Database es Europe/Rome default UTC
+
+        TZ=Europe/Paris
+
+        # Logs
+
+        LOGS_DEBUG=true # true or false
+        LOGS_COLORS=true # true or false
+        LOGS_JSON=false # true or false
+        LOGS_JSON_PRETTY=false # true or false
+
+        # Cors
+        # Origin: Allow specified origin es '["https://example.com", "https://subdomain.example.com", "http://localhost:3000"]' or
+        # all origins '*' if not specified as per default.
+        # Methods: Allow only GET and POST methods
+
+        CORS_ORIGIN='["https://auth.${CLUSTER_DOMAIN}", "https://p2p.${CLUSTER_DOMAIN}"]'
+        CORS_METHODS='["GET", "POST"]'
+
+        # Embed (iframe) restrictions via CSP frame-ancestors (also mirrored to X-Frame-Options when possible).
+        # Comma-separated list of origins allowed to embed MiroTalk P2P in an <iframe>.
+        # Special values:
+        #   empty   = header NOT set, embedding allowed anywhere (default)
+        #   'none'  = block ALL embedding
+        #   'self'  = allow same-origin embedding only
+        # Example: ALLOWED_EMBED_ORIGINS=https://yourdomain.com,https://*.partner.com
+        # NOTE: This affects the MiroTalk widget too — list every host that should be able to embed the room.
+
+        ALLOWED_EMBED_ORIGINS=
+
+        # IP whitelist
+        # Restricts access to the listed IPs. Disabled by default.
+        # If behind a reverse proxy, set TRUST_PROXY=true so the real client IP is used.
+        # Otherwise set IP_WHITELIST_ALLOW_UNTRUSTED_PROXY=true to allow startup and match only the direct socket IP.
+
+        IP_WHITELIST_ENABLED=false # true or false
+        IP_WHITELIST_ALLOWED='["127.0.0.1", "::1"]'
+        IP_WHITELIST_ALLOW_UNTRUSTED_PROXY=false # true or false — only set true if no reverse proxy is in front and TRUST_PROXY=false
+
+        # OIDC - OpenID Connect
+        # 1. Sign up for an account at https://auth0.com.
+        # 2. Navigate to https://manage.auth0.com/ to create a new application tailored to your specific requirements.
+        # For those seeking an open-source solution, check out: https://github.com/panva/node-oidc-provider
+
+        OIDC_ENABLED=true # true or false
+        OIDC_ALLOW_ROOMS_CREATION_FOR_AUTH_USERS=true # Allow all authenticated users via OIDC to create their own rooms
+        OIDC_BASE_URL_DYNAMIC=false # Derive OIDC baseURL from incoming Host header (true|false). Requires OIDC_ALLOWED_DYNAMIC_BASE_URLS
+        OIDC_ALLOWED_DYNAMIC_BASE_URLS= # Comma-separated allowlist of origins permitted when OIDC_BASE_URL_DYNAMIC=true (e.g. https://p2p.${CLUSTER_DOMAIN},https://meet.example.com)
+        OIDC_ISSUER_BASE_URL='https://auth.${CLUSTER_DOMAIN}'
+        OIDC_BASE_URL='https://p2p.${CLUSTER_DOMAIN}'
+        OIDC_CLIENT_ID='mirotalk'
+        OIDC_CLIENT_SECRET='${MIROTALK_SSO_SECRET}'
+        OIDC_AUTH_REQUIRED=true # set to true if authentication is required for all routes
+        OIDC_AUTH_LOGOUT=true # controls automatic logout from both your app and Auth0 when set to true
+        SESSION_SECRET='${MIROTALK_SESSION_SECRET}'
+
+        # Show active rooms
+        SHOW_ACTIVE_ROOMS=true # true or false
+
+        # Maximum participants per room
+        ROOM_MAX_PARTICIPANTS=15
+
+        # Host protection
+        # HOST_PROTECTED:
+        #		- When set to true, it requires a valid username and password from the HOST_USERS list to initialize or join a room.
+        #		- When OIDC_ENABLED is utilized alongside host protection, the authenticated user will be recognized as valid.# HOST_USER_AUTH: When set to true, it also requires a valid username and password for joining the room.
+        # HOST_USERS: This is the list of valid users along with their credentials.
+
+        HOST_PROTECTED=true # true or false
+        HOST_USER_AUTH=true # true or false
+        # HOST_USERS='[{"username": "admin", "password": "admin"},{"username": "guest", "password": "guest"}]'
+
+        HOST_MAX_LOGIN_ATTEMPTS=5 # Maximum login attempts before temporary block
+        HOST_MIN_LOGIN_BLOCK_TIME=15 # Block duration in minutes after max attempts exceeded
+
+        # JWT token config
+
+        JWT_KEY='${MIROTALK_JWT_KEY}'
+        JWT_EXP=1h
+
+        # Presenters list
+        # In our virtual room, the first participant to join will assume the role of the presenter.
+        # Additionally, we have the option to include more presenters and co-presenters, each identified by their username.
+
+        # PRESENTERS='["Miroslav Pejic", "miroslav.pejic.85@gmail.com"]'
+
+        # Ngrok
+        # 1. Goto https://ngrok.com
+        # 2. Get started for free
+        # 3. Copy YourNgrokAuthToken: https://dashboard.ngrok.com/get-started/your-authtoken
+
+        NGROK_ENABLED=false # true or false
+        NGROK_AUTH_TOKEN=YourNgrokAuthToken
+
+        # Stun
+        # About: https://bloggeek.me/webrtcglossary/stun/
+        # Check: https://webrtc.github.io/samples/src/content/peerconnection/trickle-ice/
+
+        STUN_SERVER_ENABLED=true # true or false
+        STUN_SERVER_URL=stun:stun.l.google.com:19302
+
+        # Turn
+        # About: https://bloggeek.me/webrtcglossary/turn/
+        # Recommended: https://github.com/coturn/coturn
+        # Installation: https://github.com/miroslavpejic85/mirotalk/blob/master/docs/coturn.md
+        # Free one: https://www.metered.ca/tools/openrelay/ (Please, create your own account)
+        # Check: https://webrtc.github.io/samples/src/content/peerconnection/trickle-ice/
+
+        TURN_SERVER_ENABLED=true # true or false
+        TURN_SERVER_URL=turn:a.relay.metered.ca:443
+        TURN_SERVER_USERNAME=e8dd65b92c62d3e36cafb807
+        TURN_SERVER_CREDENTIAL=uWdWNmkhvyqTEswO
+
+        # IP lookup
+        # Using GeoJS to get more info about peer by IP
+        # Doc: https://www.geojs.io/docs/v1/endpoints/geo/
+
+        IP_LOOKUP_ENABLED=true # true or false
+
+        # API
+        # The response will give you a entrypoint / Room URL for your meeting.
+        # curl -X POST "http://localhost:3000/api/v1/meeting" -H  "authorization: mirotalkp2p_default_secret" -H  "Content-Type: application/json"
+
+        API_KEY_SECRET='${MIROTALK_API_KEY_SECRET}'
+        API_DISABLED='["token", "meetings"]'
+
+        # Custom Noise Suppression
+        # Enable custom noise suppression using RNNoise. If disabled, the default WebRTC noise suppression will be used.
+
+        CUSTOM_NOISE_SUPPRESSION_ENABLED=true # true or false
+
+        # Survey URL
+        # Using to redirect the client after close the call (feedbacks, website...)
+
+        SURVEY_ENABLED=false # true or false
+        SURVEY_URL=https://www.questionpro.com/t/AUs7VZq00L
+
+        # Redirect URL on leave room
+        # Upon leaving the room, users who either opt out of providing feedback or if the survey is disabled
+        # will be redirected to a specified URL. If enabled false the default '/newrcall' URL will be used.
+
+        REDIRECT_ENABLED=true # true or false
+        REDIRECT_URL='https://p2p.${CLUSTER_DOMAIN}'
+
+        # Email configuration for notifications and alerts
+        # For testing, you can use Mailpit: run `npm run mailpit:up` or `npm run mailpit:down`
+        # For Gmail, refer to: https://support.google.com/mail/answer/185833?hl=en
+
+        EMAIL_ALERT=true # true or false
+        EMAIL_HOST=maildev-smtp.maildev
+        EMAIL_PORT=1025
+        EMAIL_USERNAME=test
+        EMAIL_PASSWORD=test
+        EMAIL_FROM=test@${CLUSTER_DOMAIN}
+        EMAIL_SEND_TO=test@${CLUSTER_DOMAIN}
+
+        # Stats
+        # Umami: https://github.com/umami-software/umami
+        # We use our Self-hosted Umami to track aggregated usage statistics in order to improve our service.
+
+        STATS_ENABLED=false # true or false
+        STATS_SCR=https://stats.${CLUSTER_DOMAIN}/script.js
+        STATS_ID=b3dc4db6-e6bd-468f-ab4d-58e93b23c6a8
