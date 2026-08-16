@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: p2p
+  name: mirotalk
   labels:
     goldilocks.fairwinds.com/enabled: "true"
 ---
@@ -165,6 +165,7 @@ data:
 
         HOST_PROTECTED=true # true or false
         HOST_USER_AUTH=false # true or false
+        HOST_USERS='[]'
         # HOST_USERS='[{"username": "admin", "password": "admin"},{"username": "guest", "password": "guest"}]'
 
         HOST_MAX_LOGIN_ATTEMPTS=5 # Maximum login attempts before temporary block
