@@ -35,7 +35,7 @@ controller:
 # Enable the ingress to expose Homepage to the network.
 ingress:
   main:
-    enabled: true
+    enabled: false
     labels: 
     annotations:
       traefik.ingress.kubernetes.io/router.middlewares: traefik-crowdsec-bouncer-appsec@kubernetescrd
