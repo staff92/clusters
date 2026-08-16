@@ -270,12 +270,12 @@ certificate:
 
 persistence:
   # -- Specifies whether an persistent volume should be created
-  enabled: false
+  enabled: true
   # -- Persistent Volume Claim annotations
   annotations: {}
   # -- Persistent Volume storage class.
   # If undefined (the default) cluster's default provisioner will be used.
-  storageClass: ""
+  storageClass: openebs-hostpath
   # -- Persistent Volume Access Mode
   accessMode: ReadWriteOnce
   # -- Persistent Volume size
