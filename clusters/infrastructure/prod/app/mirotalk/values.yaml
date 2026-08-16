@@ -164,7 +164,7 @@ data:
         # HOST_USERS: This is the list of valid users along with their credentials.
 
         HOST_PROTECTED=true # true or false
-        HOST_USER_AUTH=true # true or false
+        HOST_USER_AUTH=false # true or false
         # HOST_USERS='[{"username": "admin", "password": "admin"},{"username": "guest", "password": "guest"}]'
 
         HOST_MAX_LOGIN_ATTEMPTS=5 # Maximum login attempts before temporary block

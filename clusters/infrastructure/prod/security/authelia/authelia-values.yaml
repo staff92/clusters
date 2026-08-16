@@ -4551,6 +4551,7 @@ configMap:
         require_pkce: false
         pkce_challenge_method: ''
         redirect_uris:
+          #- 'https://p2p.${CLUSTER_DOMAIN}/api/auth/oidc/callback'
           - 'https://p2p.${CLUSTER_DOMAIN}/auth/callback'
         scopes:
           - 'openid'
