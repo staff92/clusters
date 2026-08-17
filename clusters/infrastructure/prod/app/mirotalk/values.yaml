@@ -48,26 +48,11 @@ metadata:
   name: p2p
 spec:
    ports:
-       - name: '3000'
-         port: 3000
-         targetPort: 3000
+    - name: p2p
+      port: 3000
+      targetPort: 3000
    selector:
-       app: p2p
----
-# service.yaml
-apiVersion: v1
-kind: Service
-metadata:
-  name: dozzle-service
-  namespace: dozzle
-spec:
-  type: ClusterIP
-  selector:
-    app: dozzle
-  ports:
-    - port: 8080
-      targetPort: 8080
-      protocol: TCP
+    app: p2p
 ---
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
@@ -86,14 +71,11 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`dozzle2.${CLUSTER_DOMAIN}`)
+    - match: "Host(`p2p.${CLUSTER_DOMAIN}`)"
       kind: Rule
-      middlewares:
-        - name: 'chain-authelia-auth'
-          namespace: 'authelia'
       services:
-        - name: dozzle-service
-          port: 8080
+        - name: p2p
+          port: 3000
 
 ---
 apiVersion: traefik.io/v1alpha1
