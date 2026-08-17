@@ -68,32 +68,32 @@ spec:
     - port: 8080
       targetPort: 8080
       protocol: TCP
-# ---
-# apiVersion: traefik.io/v1alpha1
-# kind: IngressRoute
-# metadata:
-#   name: dozzle-https
-#   namespace: dozzle
-#   annotations:
-#     gethomepage.dev/enabled: "true"
-#     gethomepage.dev/name: Mirotalk
-#     gethomepage.dev/description: 'Free browser based Real-time video calls.Simple, Secure, Fast.'
-#     gethomepage.dev/group: Infrastructure
-#     gethomepage.dev/icon: sh-mirotalk.png"
-#     gethomepage.dev/pod-selector: app=p2p
-#     gethomepage.dev/href: "https://dozzle.${CLUSTER_DOMAIN}"
-# spec:
-#   entryPoints:
-#     - websecure
-#   routes:
-#     - match: Host(`dozzle.${CLUSTER_DOMAIN}`)
-#       kind: Rule
-#       middlewares:
-#         - name: 'chain-authelia-auth'
-#           namespace: 'authelia'
-#       services:
-#         - name: dozzle-service
-#           port: 8080
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: dozzle-https-2
+  namespace: dozzle
+  annotations:
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/name: "Dozzle2"
+    gethomepage.dev/description: " It is a lightweight, web-based log viewer designed to simplify monitoring and debugging containerized applications"
+    gethomepage.dev/group: "Infrastructure"
+    gethomepage.dev/icon: "dozzle.png"
+    gethomepage.dev/pod-selector: "app=dozzle"
+    gethomepage.dev/href: "https://dozzle.${CLUSTER_DOMAIN}"
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`dozzle.${CLUSTER_DOMAIN}`)
+      kind: Rule
+      middlewares:
+        - name: 'chain-authelia-auth'
+          namespace: 'authelia'
+      services:
+        - name: dozzle-service
+          port: 8080
 
 ---
 apiVersion: traefik.io/v1alpha1
