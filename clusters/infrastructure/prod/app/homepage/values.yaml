@@ -35,15 +35,15 @@ controller:
 # Enable the ingress to expose Homepage to the network.
 ingress:
   main:
-    enabled: false
+    enabled: true
     labels: 
-    annotations:
-      traefik.ingress.kubernetes.io/router.middlewares: traefik-crowdsec-bouncer-appsec@kubernetescrd
-      gethomepage.dev/enabled: "true"
-      gethomepage.dev/name: "Homepage"
-      gethomepage.dev/description: "A modern, secure, highly customizable application dashboard."
-      gethomepage.dev/group: "Infrastructure"
-      gethomepage.dev/icon: "homepage.png"
+    # annotations:
+    #   traefik.ingress.kubernetes.io/router.middlewares: traefik-crowdsec-bouncer-appsec@kubernetescrd
+    #   gethomepage.dev/enabled: "true"
+    #   gethomepage.dev/name: "Homepage"
+    #   gethomepage.dev/description: "A modern, secure, highly customizable application dashboard."
+    #   gethomepage.dev/group: "Infrastructure"
+    #   gethomepage.dev/icon: "homepage.png"
     ingressClassName: "traefik"
     hosts:
       - host: "homepage.${CLUSTER_DOMAIN}"
