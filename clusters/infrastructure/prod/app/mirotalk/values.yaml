@@ -80,8 +80,8 @@ metadata:
     gethomepage.dev/description: " It is a lightweight, web-based log viewer designed to simplify monitoring and debugging containerized applications"
     gethomepage.dev/group: "Infrastructure"
     gethomepage.dev/icon: "dozzle.png"
-    gethomepage.dev/pod-selector: "app=dozzle"
-    gethomepage.dev/href: "https://dozzle.${CLUSTER_DOMAIN}"
+    gethomepage.dev/pod-selector: "app=p2p"
+    gethomepage.dev/href: "https://p2p.${CLUSTER_DOMAIN}"
 spec:
   entryPoints:
     - websecure
