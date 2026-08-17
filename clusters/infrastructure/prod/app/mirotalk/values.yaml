@@ -86,7 +86,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`dozzle.${CLUSTER_DOMAIN}`)
+    - match: Host(`dozzle2.${CLUSTER_DOMAIN}`)
       kind: Rule
       middlewares:
         - name: 'chain-authelia-auth'
