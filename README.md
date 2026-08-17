@@ -806,19 +806,21 @@ wg-portal Settings to create the Tunnel
 
 # Mode serveur | backend: Local WireGuard Backend
 
-172.20.0.1/24 0.0.0.0/0
-
-Point de teminaison vpn.${CLUSTER_DOMAIN}:51820
+172.20.0.1/24
 
 Port 51820
 
 MTU 1420
 
+#pairs
+
+Point de teminaison vpn.${CLUSTER_DOMAIN}:51820
+
+Reseau IP 10.11.12.0/24
+
 Adress IP 10.11.12.1/24 fdfd:d3ad:c0de:1234::1/64
 
 DNS 8.8.8.8 1.1.1.1
-
-Reseau IP 10.11.12.0/24
 
 IP autorisées 0.0.0.0/0 (important)
 
@@ -828,6 +830,11 @@ iptables -A FORWARD -i wg0 -j ACCEPT
 iptables -A FORWARD -o wg0 -j ACCEPT
 iptables -A FORWARD -i wg0 -o eno1 -j ACCEPT
 iptables -A FORWARD -i eno1 -o wg0 -j ACCEPT
+
+## Persistence
+sudo apt install iptables-persistent
+## COMMANDES
+sudo netfilter-persistent save
 ```
 
 # SFTP
