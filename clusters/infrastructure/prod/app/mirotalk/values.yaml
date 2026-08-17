@@ -58,13 +58,12 @@ apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
   name: dozzle-https-2
-  namespace: dozzle
   annotations:
     gethomepage.dev/enabled: "true"
     gethomepage.dev/name: "Dozzle2"
     gethomepage.dev/description: " It is a lightweight, web-based log viewer designed to simplify monitoring and debugging containerized applications"
     gethomepage.dev/group: "Infrastructure"
-    gethomepage.dev/icon: "dozzle.png"
+    gethomepage.dev/icon: "sh-mirotalk.png"
     gethomepage.dev/pod-selector: "app=p2p"
     gethomepage.dev/href: "https://p2p.${CLUSTER_DOMAIN}"
 spec:
