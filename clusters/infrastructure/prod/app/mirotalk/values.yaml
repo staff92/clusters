@@ -111,6 +111,7 @@ spec:
   routes:
     - match: "Host(`p2p.${CLUSTER_DOMAIN}`)"
       kind: Rule
+      priority: 1
       services:
         - name: p2p
           port: 3000
@@ -210,7 +211,7 @@ data:
         #		- When OIDC_ENABLED is utilized alongside host protection, the authenticated user will be recognized as valid.# HOST_USER_AUTH: When set to true, it also requires a valid username and password for joining the room.
         # HOST_USERS: This is the list of valid users along with their credentials.
 
-        HOST_PROTECTED=false # true or false
+        HOST_PROTECTED=true # true or false
         HOST_USER_AUTH=false # true or false
         HOST_USERS='[]'
         # HOST_USERS='[{"username": "admin", "password": "admin"},{"username": "guest", "password": "guest"}]'
