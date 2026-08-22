@@ -1,6 +1,6 @@
 global:
   # REQUIRED: URL users will access Mattermost at
-  siteUrl: "http://chat.${CLUSTER_DOMAIN}"
+  siteUrl: "https://chat.${CLUSTER_DOMAIN}"
   # OPTIONAL: Mattermost Enterprise license
   # Option 1: Provide license content directly
   mattermostLicense: ""
