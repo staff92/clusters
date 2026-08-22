@@ -260,14 +260,14 @@ config:
     #     - type: ntfy
     - name: seerr
       url: https://seerr.${CLUSTER_DOMAIN}
-      interval: 1h
+      interval: 2h
       conditions:
         - "[STATUS] == 200"
       alerts:
         - type: ntfy
     - name: jellyfin
       url: https://jelly.${CLUSTER_DOMAIN}
-      interval: 1h
+      interval: 2h
       conditions:
         - "[STATUS] == 200"
       alerts:
@@ -275,7 +275,7 @@ config:
     - name: authelia
       #url: http://127.0.0.1:9999
       url: https://auth.${CLUSTER_DOMAIN}
-      interval: 1h
+      interval: 2h
       conditions:
         - "[STATUS] == 200"
       alerts:
@@ -285,7 +285,7 @@ config:
       url: https://traefik.${CLUSTER_DOMAIN}
       interval: 1h
       conditions:
-        - "[STATUS] == 200"
+        - "[STATUS] == 401"
       alerts:
         - type: ntfy
     # - name: musicseerr
