@@ -253,8 +253,19 @@ data:
         EMAIL_PORT=1025
         EMAIL_USERNAME=test
         EMAIL_PASSWORD=test
-        EMAIL_FROM=test@${CLUSTER_DOMAIN}
-        EMAIL_SEND_TO=test@${CLUSTER_DOMAIN}
+        EMAIL_FROM=mirotalk@${CLUSTER_DOMAIN}
+        EMAIL_SEND_TO=${LDAP_USER1_EMAIL}
+
+
+        # MATTERMOST
+
+        MATTERMOST_ENABLED=true 
+        MATTERMOST_SERVER_URL=mattermost.mattermost:8065
+        # MATTERMOST_USERNAME=
+        # MATTERMOST_PASSWORD=
+        MATTERMOST_TOKEN=${MATTERMOST_TOKEN_P2P}
+        MATTERMOST_ROOM_TOKEN_EXPIRE=30m
+
 
         # Stats
         # Umami: https://github.com/umami-software/umami
