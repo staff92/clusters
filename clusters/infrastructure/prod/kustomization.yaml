@@ -25,7 +25,7 @@ resources:
   # - security/polaris
   # - security/trivy
 #! MONITORING
-  # - monitoring/gatus
+  - monitoring/gatus
   - monitoring/dozzle
   # - monitoring/vpa
   # - monitoring/maintenant
