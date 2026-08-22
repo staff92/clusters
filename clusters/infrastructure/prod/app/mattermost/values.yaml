@@ -176,16 +176,6 @@ mattermostApp:
   envFrom: []
   #! MM_GITLABSETTINGS_ENABLE or MM_OPENIDSETTINGS_ENABLE ??
   extraEnv:
-    - name: MM_EMAILSETTINGS_ENABLESIGNINWITHEMAIL
-      values: "false"
-    - name: MM_EMAILSETTINGS_ENABLESIGNINWITHUSERNAME
-      values: "false"
-    - name: MM_EMAILSETTINGS_ENABLESIGNUPWITHEMAIL
-      values: "false"
-    - name: MM_EMAILSETTINGS_REQUIREEMAILVERIFICATION
-      values: "false"
-    - name: MM_TEAMSETTINGS_ENABLEOPENSERVER
-      values: "false"
     - name: MM_TEAMSETTINGS_ENABLEUSERCREATION
       value: "true"
     - name: MM_GITLABSETTINGS_ENABLE
