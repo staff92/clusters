@@ -189,6 +189,8 @@ mattermostApp:
       value: "https://auth.${CLUSTER_DOMAIN}/.well-known/openid-configuration"
     - name: MM_GITLABSETTINGS_BUTTONTEXT
       value: "Log in with Authelia"
+    - name: MM_GITLABSETTINGS_BUTTONCOLOR
+      value: "#000000"
   extraPodAnnotations: {}
 
 serviceAccount:
