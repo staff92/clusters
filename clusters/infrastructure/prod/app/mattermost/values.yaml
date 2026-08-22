@@ -172,21 +172,21 @@ mattermostApp:
   ## See: https://docs.mattermost.com/administration/config-settings.html
   # extraEnv: []
   envFrom: []
-  #! MM_GITLABSETTINGS_ENABLE ??
+  #! MM_GITLABSETTINGS_ENABLE or MM_OPENIDSETTINGS_ENABLE ??
   extraEnv:
-    - name: MM_OPENIDSETTINGS_ENABLE
+    - name: MM_GITLABSETTINGS_ENABLE
       value: "true"
-    - name: MM_OPENIDSETTINGS_ID
+    - name: MM_GITLABSETTINGS_ID
       value: "mattermost"
-    - name: MM_OPENIDSETTINGS_SECRET
+    - name: MM_GITLABSETTINGS_SECRET
       secretKeyRef:
         name: mattermost-secrets
         key: mattermost-sso-client-secret
-    - name: MM_OPENIDSETTINGS_SCOPE
+    - name: MM_GITLABSETTINGS_SCOPE
       value: "openid profile email"
-    - name: MM_OPENIDSETTINGS_DISCOVERYENDPOINT
+    - name: MM_GITLABSETTINGS_DISCOVERYENDPOINT
       value: "https://auth.example.com/.well-known/openid-configuration"
-    - name: MM_OPENIDSETTINGS_BUTTONTEXT
+    - name: MM_GITLABSETTINGS_BUTTONTEXT
       value: "Log in with Authelia"
   extraPodAnnotations: {}
 
