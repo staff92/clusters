@@ -74,7 +74,8 @@ mattermostApp:
   image:
   # mattermost/mattermost-preview
   # mattermost/mattermost-enterprise-edition
-    repository: mattermost/mattermost-team-edition 
+    repository: mattermost/mattermost-enterprise-edition
+    #mattermost/mattermost-team-edition 
     # mattermost/mattermost-enterprise-edition
     tag: latest
     pullPolicy: IfNotPresent
