@@ -101,7 +101,7 @@ mattermostApp:
     metricsName: mattermost-app-metrics
 
   ingress:
-    enabled: true
+    enabled: false
     hosts:
       - chat.${CLUSTER_DOMAIN}
     tls: []
@@ -175,8 +175,10 @@ mattermostApp:
   envFrom: []
   #! MM_GITLABSETTINGS_ENABLE or MM_OPENIDSETTINGS_ENABLE ??
   extraEnv:
+    - name: MM_LDAPSETTINGS_ENABLE
+      values: "true"
     - name: MM_TEAMSETTINGS_ENABLEUSERCREATION
-      value: "false"
+      value: "true"
     - name: MM_GITLABSETTINGS_ENABLE
       value: "true"
     - name: MM_GITLABSETTINGS_ID
