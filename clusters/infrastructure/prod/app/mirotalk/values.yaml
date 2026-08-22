@@ -187,7 +187,7 @@ data:
         # 2. Navigate to https://manage.auth0.com/ to create a new application tailored to your specific requirements.
         # For those seeking an open-source solution, check out: https://github.com/panva/node-oidc-provider
 
-        OIDC_ENABLED=false
+        OIDC_ENABLED=true
         OIDC_ALLOW_ROOMS_CREATION_FOR_AUTH_USERS=true # Allow all authenticated users via OIDC to create their own rooms
         OIDC_BASE_URL_DYNAMIC=false # Derive OIDC baseURL from incoming Host header (true|false). Requires OIDC_ALLOWED_DYNAMIC_BASE_URLS
         OIDC_ALLOWED_DYNAMIC_BASE_URLS= # Comma-separated allowlist of origins permitted when OIDC_BASE_URL_DYNAMIC=true (e.g. https://p2p.${CLUSTER_DOMAIN},https://meet.example.com)
