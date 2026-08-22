@@ -281,8 +281,8 @@ config:
       alerts:
         - type: ntfy
     - name: traefik
-      url: http://127.0.0.1:9999
-      #url: https://traefik.${CLUSTER_DOMAIN}
+      #url: http://127.0.0.1:9999
+      url: https://traefik.${CLUSTER_DOMAIN}
       interval: 1h
       conditions:
         - "[STATUS] == 200"
