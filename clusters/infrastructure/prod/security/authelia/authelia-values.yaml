@@ -3027,6 +3027,8 @@ configMap:
       policy: one_factor 
       subject:
       - 'group:jelly_admin'
+    - domain: 'chat.${CLUSTER_DOMAIN}'
+      policy: one_factor 
     - domain: 'jelly.${CLUSTER_DOMAIN}'
       policy: one_factor 
     - domain: 'immich.${CLUSTER_DOMAIN}'
@@ -4210,6 +4212,11 @@ configMap:
       # -- The claims policies are policies which allow customizing the behavior of claims and the available claims for
       # a particular client.
       claims_policies:
+        mattermost:
+          custom_claims:
+            username:
+              name: 'username'
+              attribute: 'username'
         vaultwarden:
           id_token: ['vaultwarden_roles']
           custom_claims:
@@ -4249,6 +4256,9 @@ configMap:
       scopes:
         vaultwarden:
           claims: ['vaultwarden_roles']
+        mattermost:
+          claims:
+            - 'username'
       # scopes:
         # scope_name:
           # claims: []
@@ -4455,6 +4465,26 @@ configMap:
       # @schema
       # -- List of registered clients for this provider.
       clients:
+      - client_id: 'mattermost'
+        client_name: 'Mattermost'
+        client_secret: '${MATTERMOST_SSO_CLIENT_SECRET_HASH}'
+        public: false
+        authorization_policy: 'one_factor'
+        claims_policy: 'mattermost'
+        require_pkce: false
+        pkce_challenge_method: ''
+        redirect_uris:
+          - 'https://chat.${CLUSTER_DOMAIN}/signup/gitlab/complete'
+        scopes:
+          - 'openid'
+          - 'mattermost'
+        response_types:
+          - 'code'
+        grant_types:
+          - 'authorization_code'
+        access_token_signed_response_alg: 'none'
+        userinfo_signed_response_alg: 'none'
+        token_endpoint_auth_method: 'client_secret_post'
       - client_id: 'immich'
         client_name: 'immich'
         client_secret: '${IMMICH_SSO_CLIENT_SECRET_HASH}'  # The digest of 'insecure_secret'.

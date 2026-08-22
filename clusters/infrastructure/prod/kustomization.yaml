@@ -42,6 +42,7 @@ resources:
   # - media/musicseerr
 #! APPS
   - app/irc
+  - app/mattermost
   - app/mirotalk
   # - app/gitea
   - app/homepage

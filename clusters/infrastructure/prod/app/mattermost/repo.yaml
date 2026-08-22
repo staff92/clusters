@@ -1,0 +1,17 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: mattermost
+spec:
+  interval: 1h
+  url: https://helm.mattermost.com
+
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: postgresql
+spec:
+  interval: 1h
+  url: https://charts.bitnami.com/bitnami
