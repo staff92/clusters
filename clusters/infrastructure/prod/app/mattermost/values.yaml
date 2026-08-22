@@ -175,6 +175,8 @@ mattermostApp:
   envFrom: []
   #! MM_GITLABSETTINGS_ENABLE or MM_OPENIDSETTINGS_ENABLE ??
   extraEnv:
+    - name: MM_TEAMSETTINGS_ENABLEUSERCREATION
+      value: "false"
     - name: MM_GITLABSETTINGS_ENABLE
       value: "true"
     - name: MM_GITLABSETTINGS_ID
