@@ -4257,8 +4257,7 @@ configMap:
         vaultwarden:
           claims: ['vaultwarden_roles']
         mattermost:
-          claims:
-            - 'username'
+          claims: ['username']
       # scopes:
         # scope_name:
           # claims: []
@@ -4477,6 +4476,7 @@ configMap:
           - 'https://chat.${CLUSTER_DOMAIN}/signup/gitlab/complete'
         scopes:
           - 'openid'
+          - 'profile'
           - 'mattermost'
         response_types:
           - 'code'
