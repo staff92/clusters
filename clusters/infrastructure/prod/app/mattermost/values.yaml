@@ -180,9 +180,10 @@ mattermostApp:
     - name: MM_GITLABSETTINGS_ID
       value: "mattermost"
     - name: MM_GITLABSETTINGS_SECRET
-      secretKeyRef:
-        name: mattermost-secrets
-        key: mattermost-sso-client-secret
+      valueFrom:
+        secretKeyRef:
+          name: mattermost-secrets
+          key: mattermost-sso-client-secret
     - name: MM_GITLABSETTINGS_SCOPE
       value: "openid profile email"
     - name: MM_GITLABSETTINGS_DISCOVERYENDPOINT
