@@ -109,7 +109,14 @@ mattermostApp:
       # - secretName: mattermost-tls
       #   hosts:
       #     - chat.${CLUSTER_DOMAIN}
-    annotations: {}
+    annotations:
+      gethomepage.dev/enabled: "true"
+      gethomepage.dev/name: "Mattermost"
+      gethomepage.dev/description: "Mattermost is an open core, self-hosted collaboration platform that offers chat, workflow automation, voice calling, screen sharing, and AI integration."
+      gethomepage.dev/group: "Infrastructure"
+      gethomepage.dev/icon: "sh-mattermost.png"
+      gethomepage.dev/pod-selector: "app.kubernetes.io/component=server"
+      gethomepage.dev/href: "https://chat.${CLUSTER_DOMAIN}"
       # kubernetes.io/ingress.class: nginx
       # nginx.ingress.kubernetes.io/proxy-buffering: "on"
       # nginx.ingress.kubernetes.io/proxy-body-size: 50m
