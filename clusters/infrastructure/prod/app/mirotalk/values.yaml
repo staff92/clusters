@@ -261,11 +261,10 @@ data:
 
         MATTERMOST_ENABLED=true 
         MATTERMOST_SERVER_URL=chat.${CLUSTER_DOMAIN}
-        # MATTERMOST_USERNAME=
-        # MATTERMOST_PASSWORD=
+        MATTERMOST_USERNAME=${LDAP_USER1_ID}
+        MATTERMOST_PASSWORD=${LDAP_USER_PASSWORD_TEMP}
         MATTERMOST_TOKEN=${MATTERMOST_TOKEN_P2P}
         MATTERMOST_ROOM_TOKEN_EXPIRE=30m
-
 
         # Stats
         # Umami: https://github.com/umami-software/umami
