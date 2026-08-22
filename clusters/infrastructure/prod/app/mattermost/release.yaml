@@ -30,7 +30,7 @@ spec:
   valuesFrom:
     - kind: ConfigMap
       name: postgresql-values
-      valuesKey: values.yaml
+      valuesKey: postgresql-values.yaml
 
 # apiVersion: helm.toolkit.fluxcd.io/v2
 # kind: HelmRelease
