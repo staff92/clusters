@@ -292,7 +292,7 @@ data:
         # For testing, you can use Mailpit: run `npm run mailpit:up` or `npm run mailpit:down`
         # For Gmail, refer to: https://support.google.com/mail/answer/185833?hl=en
 
-        EMAIL_ALERT=true # true or false
+        EMAIL_ALERT=false # true or false
         EMAIL_HOST=maildev-smtp.maildev
         EMAIL_PORT=1025
         EMAIL_USERNAME=test
