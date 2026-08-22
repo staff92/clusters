@@ -195,7 +195,7 @@ data:
         OIDC_BASE_URL='https://p2p.${CLUSTER_DOMAIN}'
         OIDC_CLIENT_ID='mirotalk'
         OIDC_CLIENT_SECRET='${MIROTALK_SSO_SECRET}'
-        OIDC_AUTH_REQUIRED=true # set to true if authentication is required for all routes
+        OIDC_AUTH_REQUIRED=false # set to true if authentication is required for all routes
         OIDC_AUTH_LOGOUT=true # controls automatic logout from both your app and Auth0 when set to true
         SESSION_SECRET='${MIROTALK_SESSION_SECRET}'
 
