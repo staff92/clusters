@@ -9,9 +9,20 @@ spec:
 
 ---
 apiVersion: source.toolkit.fluxcd.io/v1
-kind: HelmRepository
+kind: OCIRepository
 metadata:
   name: postgresql
 spec:
   interval: 1h
-  url: https://charts.bitnami.com/bitnami
+  url: oci://registry-1.docker.io/bitnamicharts/postgresql
+  ref:
+    tag: 18.8.13
+
+# ---
+# apiVersion: source.toolkit.fluxcd.io/v1
+# kind: HelmRepository
+# metadata:
+#   name: postgresql
+# spec:
+#   interval: 1h
+#   url: https://charts.bitnami.com/bitnami
