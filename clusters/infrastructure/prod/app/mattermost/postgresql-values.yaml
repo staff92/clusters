@@ -1382,7 +1382,7 @@ backup:
     command:
       - /bin/bash
       - -c
-      - PGPASSWORD="${PGPASSWORD:-$(< "$PGPASSWORD_FILE")}" pg_dumpall --clean --if-exists --load-via-partition-root --quote-all-identifiers --no-password --file="${PGDUMP_DIR}/pg_dumpall-$(date '+%Y-%m-%d-%H-%M').pgdump"
+     #! fluxcd # - PGPASSWORD="$${PGPASSWORD:-$(< "$$PGPASSWORD_FILE")}" pg_dumpall --clean --if-exists --load-via-partition-root --quote-all-identifiers --no-password --file="$${PGDUMP_DIR}/pg_dumpall-$$(date '+%Y-%m-%d-%H-%M').pgdump"
     ## @param backup.cronjob.labels Set the cronjob labels
     labels: {}
     ## @param backup.cronjob.annotations Set the cronjob annotations
