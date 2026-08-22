@@ -74,8 +74,9 @@ mattermostApp:
   image:
   # mattermost/mattermost-preview
   # mattermost/mattermost-enterprise-edition
-    repository: mattermost/mattermost-enterprise-edition
-    tag: 11.7
+    repository: mattermost/mattermost-team-edition 
+    # mattermost/mattermost-enterprise-edition
+    tag: latest
     pullPolicy: IfNotPresent
   # Image pull secrets for private registries
   imagePullSecrets: []
@@ -185,7 +186,7 @@ mattermostApp:
     - name: MM_GITLABSETTINGS_SCOPE
       value: "openid profile email"
     - name: MM_GITLABSETTINGS_DISCOVERYENDPOINT
-      value: "https://auth.example.com/.well-known/openid-configuration"
+      value: "https://auth.${CLUSTER_DOMAIN}/.well-known/openid-configuration"
     - name: MM_GITLABSETTINGS_BUTTONTEXT
       value: "Log in with Authelia"
   extraPodAnnotations: {}
