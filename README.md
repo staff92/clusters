@@ -1203,3 +1203,17 @@ APT::Periodic::AutocleanInterval "7";
 // sleep for a random interval of time (default 30min)
 APT::Periodic::RandomSleep "1800";
 ```
+
+
+# MATTERMOST
+
+cli: mmctl 
+
+```
+RTC Server Address (UDP)    0.0.0.0
+RTC Server Address (TCP)    0.0.0.0
+RTC Server Port (UDP)       8445
+RTC Server Port (TCP)       8445
+ICE Host Override           PUBLIC_IP 
+```
+
