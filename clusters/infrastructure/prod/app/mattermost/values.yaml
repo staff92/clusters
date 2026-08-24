@@ -183,6 +183,8 @@ mattermostApp:
   envFrom: []
   #! MM_GITLABSETTINGS_ENABLE or MM_OPENIDSETTINGS_ENABLE ??
   extraEnv:
+    - name: MM_FILESETTINGS_MAXFILESIZE
+      value: "256000000"
     - name: MM_PLUGINSETTINGS_ENABLE
       value: "true"
     - name: MM_PLUGINSETTINGS_ENABLEUPLOADS
