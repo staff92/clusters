@@ -258,7 +258,7 @@ maildev:
       username: ""
   persistence:
     # -- Use a PVC to persist data
-    enabled: false
+    enabled: true
     # -- The desired access modes the volume should have.
     accessModes:
       - ReadWriteOnce
@@ -267,10 +267,10 @@ maildev:
     # To clean some old mails when persistence is enabled
     cron:
       # -- Enable the creation of a cronjob to periodically delete old emails
-      enabled: false
+      enabled: true
       config:
         # -- How old emails may be before they get deleted
-        daysToKeep: 15
+        daysToKeep: 30
         # -- The schedule on which the cronjob should run
         schedule: "0 1 * * *"
       image:
@@ -285,7 +285,7 @@ maildev:
     # -- Provide an existing PersistentVolumeClaim
     existingClaim: ""
     # -- Name of the StorageClass required by the claim.
-    storageClassName: ""
+    storageClassName: openebs-hostpath
     # -- Represents the minimum and maximum resources the volume should have.
     resources:
       requests:
