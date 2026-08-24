@@ -185,6 +185,8 @@ mattermostApp:
   extraEnv:
     - name: MM_PLUGINSETTINGS_ENABLE
       value: "true"
+    - name: MM_PLUGINSETTINGS_ENABLEUPLOADS
+      value: "true"
     - name: MM_PLUGINSETTINGS_PLUGINSTATES
       value: '{\"com.mattermost.calls\":{\"Enable\":true},\"com.mattermost.boards\":{\"Enable\":true}}'
     - name: MM_TEAMSETTINGS_ENABLEUSERCREATION
