@@ -221,8 +221,8 @@ mattermostApp:
       value: "test"
     - name: MM_EMAILSETTINGS_SMTPPASSWORD
       value: "test"
-    - name: MM_EMAILSETTINGS_CONNECTIONSECURITY
-      value: ""
+    # - name: MM_EMAILSETTINGS_CONNECTIONSECURITY
+    #   value: ""
     - name: MM_EMAILSETTINGS_SENDEMAILNOTIFICATIONS
       value: "true"
     - name: MM_EMAILSETTINGS_FEEDBACKEMAIL
