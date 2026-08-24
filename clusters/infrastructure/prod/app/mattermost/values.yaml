@@ -211,6 +211,8 @@ mattermostApp:
       value: "Log in with Authelia"
     - name: MM_GITLABSETTINGS_BUTTONCOLOR
       value: "#000000"
+    - name: MM_EMAILSETTINGS_ENABLESMTPAUTH
+      value: "true"
     - name: MM_EMAILSETTINGS_SMTPSERVER
       value: "maildev-smtp.maildev"
     - name: MM_EMAILSETTINGS_SMTPPORT
