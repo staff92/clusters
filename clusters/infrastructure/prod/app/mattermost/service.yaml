@@ -5,6 +5,7 @@ metadata:
   namespace: mattermost
 spec:
   type: NodePort
+  externalTrafficPolicy: Local
   selector:
     #app: mattermost
     app.kubernetes.io/name: mattermost
