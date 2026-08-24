@@ -212,7 +212,7 @@ mattermostApp:
     - name: MM_GITLABSETTINGS_BUTTONCOLOR
       value: "#000000"
     - name: MM_EMAILSETTINGS_ENABLESMTPAUTH
-      value: "true"
+      value: "false"
     - name: MM_EMAILSETTINGS_SMTPSERVER
       value: "maildev-smtp.maildev"
     - name: MM_EMAILSETTINGS_SMTPPORT
