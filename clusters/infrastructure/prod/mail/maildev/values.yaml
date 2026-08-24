@@ -267,7 +267,7 @@ maildev:
     # To clean some old mails when persistence is enabled
     cron:
       # -- Enable the creation of a cronjob to periodically delete old emails
-      enabled: true
+      enabled: false
       config:
         # -- How old emails may be before they get deleted
         daysToKeep: 30
