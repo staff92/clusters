@@ -214,13 +214,16 @@ mattermostApp:
     - name: MM_EMAILSETTINGS_ENABLESMTPAUTH
       value: "true"
     - name: MM_EMAILSETTINGS_SMTPSERVER
-      value: "maildev-smtp.maildev"
+      value: "${SMTP_HOST}"
     - name: MM_EMAILSETTINGS_SMTPPORT
-      value: "1025"
+      value: "587"
     - name: MM_EMAILSETTINGS_SMTPUSERNAME
-      value: "test"
+      value: "${LDAP_USER1_EMAIL}"
     - name: MM_EMAILSETTINGS_SMTPPASSWORD
-      value: "test"
+      valueFrom:
+        secretKeyRef:
+          name: mattermost-secrets
+          key: smtp-outgoing-password
     - name: MM_EMAILSETTINGS_CONNECTIONSECURITY
       value: "STARTTLS"
     - name: MM_EMAILSETTINGS_SENDEMAILNOTIFICATIONS

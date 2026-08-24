@@ -243,7 +243,7 @@ maildev:
         # -- SMTP port for outgoing mail
         port: 587
         # -- Use SMTP SSL for outgoing mail
-        ssl: false
+        ssl: true
         #ssl: true
         # -- SMTP user for outgoing mail
         username: "${LDAP_USER1_EMAIL}"
