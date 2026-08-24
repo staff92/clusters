@@ -1217,3 +1217,16 @@ RTC Server Port (TCP)       8445
 ICE Host Override           PUBLIC_IP 
 ```
 
+Integration > Slash command 
+
+```
+P2P Command
+Call with Mirotalk
+p2p
+https://p2p.${CLUSTER_DOMAIN}/mattermost
+POST 
+AutoComplete
+Call with Mirotalk
+```
+
+Add token to mirotalk App then /p2p in mattermost 
