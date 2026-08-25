@@ -181,10 +181,8 @@ mattermostApp:
         - -c
         - |
           set -e
-          curl -L -o /tmp/mattermost-plugin-boards-v9.4.0.tar.gz \
+          curl -L -o /plugins//mattermost-plugin-boards-v9.4.0.tar.gz \
             https://github.com/mattermost/mattermost-plugin-boards/releases/download/v9.4.0/mattermost-plugin-boards-v9.4.0.tar.gz
-          tar -xzf /tmp/mattermost-plugin-boards-v9.4.0.tar.gz -C /plugins/
-          rm /tmp/mattermost-plugin-boards-v9.4.0.tar.gz
       volumeMounts:
         - name: mattermost-plugins
           mountPath: /plugins
