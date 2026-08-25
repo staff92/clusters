@@ -203,8 +203,8 @@ mattermostApp:
     - name: MM_PLUGINSETTINGS_ENABLEUPLOADS
       value: "true"
     - name: MM_PLUGINSETTINGS_PLUGINSTATES
-      value: '{\"focalboard\":{\"Enable\":true}}'
-      #value: '{\"com.mattermost.calls\":{\"Enable\":true},\"focalboard\":{\"Enable\":true}}'
+      #value: '{\"focalboard\":{\"Enable\":true}}'
+      value: '{\"com.mattermost.calls\":{\"Enable\":false},\"focalboard\":{\"Enable\":true}}'
     - name: MM_TEAMSETTINGS_ENABLEUSERCREATION
       value: "true"
     - name: MM_GITLABSETTINGS_ENABLE
