@@ -14,8 +14,8 @@ configMapGenerator:
   - name: postgresql-values
     files:
       - postgresql-values.yaml
-  - name: push-values
-    files:
-      - push-values.yaml
+  # - name: push-values
+  #   files:
+  #     - push-values.yaml
 generatorOptions:
   disableNameSuffixHash: true

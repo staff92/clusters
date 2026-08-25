@@ -245,7 +245,8 @@ mattermostApp:
     - name: MM_EMAILSETTINGS_SENDPUSHNOTIFICATIONS
       value: "true"
     - name: MM_EMAILSETTINGS_PUSHNOTIFICATIONSERVER
-      value: "http://mattermost-push-proxy.mattermost.svc.cluster.local:8066"
+      value: "https://push.mattermost.com"
+      #value: "http://mattermost-push-proxy.mattermost.svc.cluster.local:8066"
   extraPodAnnotations: {}
 
 serviceAccount:
