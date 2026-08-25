@@ -173,17 +173,17 @@ mattermostApp:
     timeoutSeconds: 5
     # Optional: sleep (seconds) between attempts.
     intervalSeconds: 5
-  extraInitContainers:
-    - name: install-boards-plugin
-      image: curlimages/curl:latest
-      command:
-        - sh
-        - -c
-        - |
-          curl -L -o /plugins/mattermost-plugin-boards-v9.4.0.tar.gz https://github.com/mattermost/mattermost-plugin-boards/releases/download/v9.4.0/mattermost-plugin-boards-v9.4.0.tar.gz
-      volumeMounts:
-        - name: mattermost-plugins
-          mountPath: /plugins
+  # extraInitContainers:
+  #   - name: install-boards-plugin
+  #     image: curlimages/curl:latest
+  #     command:
+  #       - sh
+  #       - -c
+  #       - |
+  #         curl -L -o /plugins/mattermost-plugin-boards-v9.4.0.tar.gz https://github.com/mattermost/mattermost-plugin-boards/releases/download/v9.4.0/mattermost-plugin-boards-v9.4.0.tar.gz
+  #     volumeMounts:
+  #       - name: mattermost-plugins
+  #         mountPath: /plugins
   extraVolumes: []
   extraVolumeMounts: []
   ## Additional environment variables for advanced configuration
@@ -199,8 +199,9 @@ mattermostApp:
     - name: MM_PLUGINSETTINGS_ENABLEUPLOADS
       value: "true"
     - name: MM_PLUGINSETTINGS_PLUGINSTATES
-      #value: '{\"focalboard\":{\"Enable\":true}}'
-      value: '{\"com.mattermost.calls\":{\"Enable\":false},\"focalboard\":{\"Enable\":true}}'
+      value: |-
+        {"com.mattermost.calls":{"Enable":false},"focalboard":{"Enable":true}}
+      #value: '{\"com.mattermost.calls\":{\"Enable\":false},\"focalboard\":{\"Enable\":true}}'
     - name: MM_TEAMSETTINGS_ENABLEUSERCREATION
       value: "true"
     - name: MM_GITLABSETTINGS_ENABLE
