@@ -1,0 +1,157 @@
+replicaCount: 1
+image:
+  repository: mattermost/mattermost-push-proxy
+  pullPolicy: Always
+
+resources:
+  {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #  cpu: 100m
+  #  memory: 128Mi
+  # requests:
+  #  cpu: 100m
+  #  memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+service:
+  name: mattermost-push-proxy
+  type: ClusterIP
+  externalPort: 8066
+  internalPort: 8066
+
+  # The following configuration is relevant only when service.type is set to `LoadBalancer`, exposing ports HTTP (80) and HTTPS (443).
+  # This is particularly beneficial in situations where service.type is set to `LoadBalancer` instead of `ClusterIP` and/or using Ingress
+  enableHttp: false
+  enableHttps: false
+
+  annotations: {}
+
+ingress:
+  enabled: false
+  labels: {}
+  ingressClassName: traefik
+  annotations:
+    {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: push-proxy.${CLUSTER_DOMAIN}
+      paths:
+        - path: /
+          # -- pathType (e.g. ImplementationSpecific, Prefix, .. etc.)
+          # pathType: Prefix
+
+        # Example of a CustomService Path, using AWS Load Balancer controller to filter traffic reaching /metrics
+        # Directives `customService` & `customServiceSpec` in use
+        # - path: /metrics
+        #   pathType: Prefix
+        #   customService: true
+        #   customServiceSpec:
+        #     service:
+        #       name: response-403
+        #       port:
+        #         name: use-annotation
+
+  tls: []
+  #  - secretName: push-proxy-example-tls
+  #    hosts:
+  #      - push-proxy.example.local
+
+# You cannot specify both the authKey and privateCert methods.
+
+sendTimeoutSec: 30
+retryTimeoutSec: 8
+# To be phased out in favor of servicemonitors.monitoring.coreos.com
+enableMetrics: true
+
+metrics:
+  enabled: false
+  serviceMonitor:
+    # -- Additional labels that can be used so ServiceMonitor will be discovered by Prometheus
+    additionalLabels: {}
+    # -- Interval at which metrics should be scraped.
+    interval: "30s"
+    # -- The name of the label on the target service to use as the job name in Prometheus
+    jobLabel: ""
+    # -- MetricRelabelConfigs to apply to samples before ingestion
+    metricRelabelings: {}
+    # -- Namespace for the ServiceMonitor Resource (defaults to the Release Namespace)
+    namespace: ""
+    # -- The path used by Prometheus to scrape metrics
+    path: "/metrics"
+    # -- RelabelConfigs to apply to samples before scraping
+    relabelings: {}
+    # -- Timeout after which the scrape is ended
+    scrapeTimeout: ""
+
+applePushSettings:
+  authKey: ""
+  authKeyFile: "/mattermost-push-proxy/config/AuthKey_1234.p8"
+  authKeyFileName: "AuthKey_1234.p8"
+  authKeyID: ""
+  teamID: ""
+  apple:
+    privateCert: ""
+    privateCertPassword: ""
+    pushTopic: "com.mattermost.Mattermost"
+  apple_rn:
+    privateCert: ""
+    privateCertPassword: ""
+    pushTopic: "com.mattermost.react.native"
+  apple_rnbeta:
+    privateCert: ""
+    privateCertPassword: ""
+    pushTopic: ""
+androidPushSettings:
+  android:
+    # serviceFile: {
+    #   "type": "service_account",
+    #   "project_id": "",
+    #   "private_key_id": "",
+    #   "private_key": "",
+    #   "client_email": "",
+    #   "client_id": "",
+    #   "auth_uri": "",
+    #   "token_uri": "",
+    #   "auth_provider_x509_cert_url": "",
+    #   "client_x509_cert_url": "",
+    #   "universe_domain": "googleapis.com"
+    # }
+    serviceFile: {}
+    # When setting serviceFileLocation both serviceFile and serviceFileName needs to be set
+    serviceFileLocation: ""
+    serviceFileName: ""
+  android_rn:
+    # serviceFile: {
+    #   "type": "service_account",
+    #   "project_id": "",
+    #   "private_key_id": "",
+    #   "private_key": "",
+    #   "client_email": "",
+    #   "client_id": "",
+    #   "auth_uri": "",
+    #   "token_uri": "",
+    #   "auth_provider_x509_cert_url": "",
+    #   "client_x509_cert_url": "",
+    #   "universe_domain": "googleapis.com"
+    # }
+    serviceFile: {}
+    # When setting serviceFileLocation both serviceFile and serviceFileName needs to be set
+    serviceFileLocation: ""
+    serviceFileName: ""
+externalSecrets:
+  enabled: false
+  refreshInterval: 1h
+  secretStoreName: ""
+  secretStoreKind: ClusterSecretStore
+  # Data with base64 encoded format
+  data: {}
