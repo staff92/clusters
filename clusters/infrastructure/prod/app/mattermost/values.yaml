@@ -243,7 +243,7 @@ mattermostApp:
     - name: MM_EMAILSETTINGS_SKIPSERVERCERTIFICATEVERIFICATION
       value: "false"
     - name: MM_EMAILSETTINGS_SENDPUSHNOTIFICATIONS
-      values: "true"
+      value: "true"
     - name: MM_EMAILSETTINGS_PUSHNOTIFICATIONSERVER
       value: "http://mattermost-push-proxy.mattermost.svc.cluster.local:8066"
   extraPodAnnotations: {}
