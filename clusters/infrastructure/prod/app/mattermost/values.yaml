@@ -173,7 +173,7 @@ mattermostApp:
     timeoutSeconds: 5
     # Optional: sleep (seconds) between attempts.
     intervalSeconds: 5
-  # extraInitContainers:
+    extraInitContainers: []
   #   - name: install-boards-plugin
   #     image: curlimages/curl:latest
   #     command:
