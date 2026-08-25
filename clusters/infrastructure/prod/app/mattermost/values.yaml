@@ -173,8 +173,21 @@ mattermostApp:
     timeoutSeconds: 5
     # Optional: sleep (seconds) between attempts.
     intervalSeconds: 5
-
-  extraInitContainers: []
+  extraInitContainers:
+    - name: install-boards-plugin
+      image: curlimages/curl:latest
+      command:
+        - sh
+        - -c
+        - |
+          set -e
+          curl -L -o /tmp/mattermost-plugin-boards-v9.4.0.tar.gz \
+            https://github.com/mattermost/mattermost-plugin-boards/releases/download/v9.4.0/mattermost-plugin-boards-v9.4.0.tar.gz
+          tar -xzf /tmp/mattermost-plugin-boards-v9.4.0.tar.gz -C /plugins/
+          rm /tmp/mattermost-plugin-boards-v9.4.0.tar.gz
+      volumeMounts:
+        - name: mattermost-plugins
+          mountPath: /plugins
   extraVolumes: []
   extraVolumeMounts: []
   ## Additional environment variables for advanced configuration
@@ -190,7 +203,7 @@ mattermostApp:
     - name: MM_PLUGINSETTINGS_ENABLEUPLOADS
       value: "true"
     - name: MM_PLUGINSETTINGS_PLUGINSTATES
-      value: '{\"focalboard\":{\"Enable\":true}}' # mattermost-plugin-boards-v9.4.0.tar.gz 
+      value: '{\"focalboard\":{\"Enable\":true}}'
       #value: '{\"com.mattermost.calls\":{\"Enable\":true},\"focalboard\":{\"Enable\":true}}'
     - name: MM_TEAMSETTINGS_ENABLEUSERCREATION
       value: "true"
@@ -227,11 +240,11 @@ mattermostApp:
     - name: MM_EMAILSETTINGS_CONNECTIONSECURITY
       value: "STARTTLS"
     - name: MM_EMAILSETTINGS_SENDEMAILNOTIFICATIONS
-      value: "true"
+      value: "false"
     - name: MM_EMAILSETTINGS_FEEDBACKEMAIL
       value: mattermost@${CLUSTER_DOMAIN}
     - name: MM_EMAILSETTINGS_SKIPSERVERCERTIFICATEVERIFICATION
-      value: "true"
+      value: "false"
   extraPodAnnotations: {}
 
 serviceAccount:
