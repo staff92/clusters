@@ -25,8 +25,8 @@ config:
         client_id: wg-portal
         client_secret: ${VPN_SSO_SECRET}
         registration_enabled: true
-        use_pkce: true
-        pkce_method: S256
+        use_pkce: false
+        # pkce_method: S256
         extra_scopes:
           - email
           - profile

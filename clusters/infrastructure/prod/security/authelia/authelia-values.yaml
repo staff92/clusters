@@ -4602,9 +4602,9 @@ configMap:
         client_secret: '${VPN_SSO_CLIENT_SECRET_HASH}'  # The digest of 'insecure_secret'.
         public: false
         authorization_policy: 'one_factor'
-        require_pkce: true
-        #pkce_challenge_method: ''
-        pkce_challenge_method: 'S256'
+        require_pkce: false
+        pkce_challenge_method: ''
+        #pkce_challenge_method: 'S256'
         redirect_uris:
           - 'https://vpn.${CLUSTER_DOMAIN}/api/v0/auth/login/authelia/callback'
         scopes:
@@ -4616,7 +4616,7 @@ configMap:
           - 'code'
         grant_types:
           - 'authorization_code'
-        token_endpoint_auth_method: 'client_secret_basic'
+        token_endpoint_auth_method: 'client_secret_post'
 
       # clients:
         # -
