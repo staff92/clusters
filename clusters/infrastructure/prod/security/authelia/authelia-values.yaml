@@ -4603,6 +4603,7 @@ configMap:
         public: false
         authorization_policy: 'one_factor'
         require_pkce: true
+        #pkce_challenge_method: ''
         pkce_challenge_method: 'S256'
         redirect_uris:
           - 'https://vpn.${CLUSTER_DOMAIN}/api/v0/auth/login/authelia/callback'
@@ -4615,7 +4616,7 @@ configMap:
           - 'code'
         grant_types:
           - 'authorization_code'
-        token_endpoint_auth_method: 'client_secret_post'
+        token_endpoint_auth_method: 'client_secret_basic'
 
       # clients:
         # -
