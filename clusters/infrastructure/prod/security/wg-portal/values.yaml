@@ -24,6 +24,7 @@ config:
         base_url: https://auth.${CLUSTER_DOMAIN}
         client_id: wg-portal
         client_secret: ${VPN_SSO_SECRET}
+        registration_enabled: true
         extra_scopes:
           - email
           - profile
@@ -97,7 +98,7 @@ config:
   # `external_url` is required to enable ingress and certificate resources.
   web:
     external_url: https://vpn.${CLUSTER_DOMAIN}
-
+    request_logging: true
 # -- The number of old ReplicaSets to retain to allow rollback.
 # @default -- `10`
 revisionHistoryLimit: ""
