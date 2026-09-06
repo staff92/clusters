@@ -68,6 +68,24 @@ config:
     allow_peer_email: false
     templates_path: ""
   # -- (tpl/object) [Statistics configuration](https://wgportal.org/latest/documentation/configuration/overview/#statistics) options
+  oidc:
+    - provider_name: authelia
+      display_name: Log in with Authelia
+      base_url: https://auth.${CLUSTER_DOMAIN}
+      client_id: wg-portal
+      client_secret: ${VPN_SSO_SECRET}
+      extra_scopes:
+        - email
+        - profile
+        - groups
+      field_map:
+        user_identifier: preferred_username
+        email: email
+        firstname: given_name
+        lastname: family_name
+        user_groups: groups
+      admin_mapping:
+        admin_group_regex: ^vpn_admin$
   statistics:
     #listening_address: 127.0.0.1:8787
     collect_audit_data: false
