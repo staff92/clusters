@@ -39,31 +39,31 @@ config:
     webauthn:
       enabled: false
     hide_login_form: true
-    ldap:
-      - provider_name: "lldap"
-        url: "ldap://lldap-ldap.lldap.svc.cluster.local:3890"
-        start_tls: false
-        cert_validation: false
-        base_dn: "dc=example,dc=com"
-        bind_user: "uid=admin,ou=people,dc=example,dc=com"
-        bind_pass: "$${WG_PORTAL_AUTH__LDAP__0__BIND_PASS}"
-        field_map:
-          user_identifier: "uid"
-          email: "mail"
-          firstname: "givenName"
-          lastname: "sn"
-          memberof: "memberOf"
-        login_filter: |-
-          (&(objectClass=person)(uid={{ `{{login_identifier}}` }})(memberOf=cn=vpn_user,ou=groups,dc=example,dc=com))
-        #login_filter: "(&(objectClass=person)(uid={{login_identifier}})(memberOf=cn=vpn,ou=groups,dc=example,dc=com))"
-        interface_filter:
-          wg0: "(memberOf=cn=vpn_user,ou=groups,dc=example,dc=com)"
-        admin_group: "cn=vpn_admin,ou=groups,dc=example,dc=com"
-        sync_interval: "1h"
-        sync_filter: "(&(objectClass=person)(memberOf=cn=vpn_user,ou=groups,dc=example,dc=com))"
-        disable_missing: true
-        auto_re_enable: true
-        registration_enabled: true
+    # ldap:
+    #   - provider_name: "lldap"
+    #     url: "ldap://lldap-ldap.lldap.svc.cluster.local:3890"
+    #     start_tls: false
+    #     cert_validation: false
+    #     base_dn: "dc=example,dc=com"
+    #     bind_user: "uid=admin,ou=people,dc=example,dc=com"
+    #     bind_pass: "$${WG_PORTAL_AUTH__LDAP__0__BIND_PASS}"
+    #     field_map:
+    #       user_identifier: "uid"
+    #       email: "mail"
+    #       firstname: "givenName"
+    #       lastname: "sn"
+    #       memberof: "memberOf"
+    #     login_filter: |-
+    #       (&(objectClass=person)(uid={{ `{{login_identifier}}` }})(memberOf=cn=vpn_user,ou=groups,dc=example,dc=com))
+    #     #login_filter: "(&(objectClass=person)(uid={{login_identifier}})(memberOf=cn=vpn,ou=groups,dc=example,dc=com))"
+    #     interface_filter:
+    #       wg0: "(memberOf=cn=vpn_user,ou=groups,dc=example,dc=com)"
+    #     admin_group: "cn=vpn_admin,ou=groups,dc=example,dc=com"
+    #     sync_interval: "1h"
+    #     sync_filter: "(&(objectClass=person)(memberOf=cn=vpn_user,ou=groups,dc=example,dc=com))"
+    #     disable_missing: true
+    #     auto_re_enable: true
+    #     registration_enabled: true
   # -- (tpl/object) [Core configuration](https://wgportal.org/latest/documentation/configuration/overview/#core) options.<br>
   # If external admins in `auth` are defined and
   # there are no `admin_user` and `admin_password` defined here,
