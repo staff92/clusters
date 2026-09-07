@@ -117,7 +117,7 @@ replicas: 1
 #  `RollingUpdate` or `Recreate` for Deployment,
 #  `RollingUpdate` or `OnDelete` for StatefulSet
 strategy:
-  type: RollingUpdate
+  type: Recreate
 
 image:
   # -- Image repository
