@@ -4606,10 +4606,10 @@ configMap:
         pkce_challenge_method: ''
         #pkce_challenge_method: 'S256'
         redirect_uris:
-          - 'https://vpn.${CLUSTER_DOMAIN}/api/v0/auth/login/authelia/callback'
+          - https://vpn.${CLUSTER_DOMAIN}/api/v0/auth/login/authelia/callback
         scopes:
           - 'openid'
-          - 'email'
+          - 'mail'
           - 'profile'
           - 'groups'
         response_types:
