@@ -25,6 +25,26 @@ image:
       # CONFIG_AUTH_OIDC_ADMIN_GROUPS: '[admins]'
       # CONFIG_AUTH_OIDC_READ_ONLY_GROUPS: '[auditors]'
       # CONFIG_AUTH_OIDC_UNMATCHED_ROLE: deny
+
+    # spec:
+    #   containers:
+    #     - name: {{ .Chart.Name }}
+    #       image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+    #       env:
+    #         - name: CONFIG_AUTH_OIDC_CLIENT_SECRET_FILE
+    #           value: /run/secrets/oidc_client_secret
+    #       volumeMounts:
+    #         - name: oidc-secret
+    #           mountPath: /run/secrets
+    #           readOnly: true
+    #   volumes:
+    #     - name: oidc-secret
+    #       secret:
+    #         secretName: {{ include "mychart.fullname" . }}-oidc
+    #         items:
+    #           - key: oidc_client_secret
+    #             path: oidc_client_secret
+
 # @default -- See below
 env:
   - name: "CROWDSEC_URL"
