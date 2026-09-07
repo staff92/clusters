@@ -20,25 +20,25 @@ config:
   # -- (tpl/object) [Auth configuration](https://wgportal.org/latest/documentation/configuration/overview/#auth) options.
   auth:
     oidc:
-      - provider_name: authelia
-        display_name: Log in with Authelia
-        base_url: https://auth.${CLUSTER_DOMAIN}
-        client_id: wg-portal
-        client_secret: ${VPN_SSO_SECRET}
-        registration_enabled: true
-        log_user_info: true
-        log_sensitive_info: false
-        use_pkce: false
-        extra_scopes:
-          - mail
-          - profile
-          - groups
-        field_map:
-          user_identifier: mail
-          email: mail
-          firstname: first_name
-          lastname: last_name
-          user_groups: groups
+      # - provider_name: authelia
+      #   display_name: Log in with Authelia
+      #   base_url: https://auth.${CLUSTER_DOMAIN}
+      #   client_id: wg-portal
+      #   client_secret: ${VPN_SSO_SECRET}
+      #   registration_enabled: true
+      #   log_user_info: true
+      #   log_sensitive_info: false
+      #   use_pkce: false
+      #   extra_scopes:
+      #     - mail
+      #     - profile
+      #     - groups
+      #   field_map:
+      #     user_identifier: mail
+      #     email: mail
+      #     firstname: first_name
+      #     lastname: last_name
+      #     user_groups: groups
         # admin_mapping:
         #   admin_group_regex: ^vpn_admin$
     webauthn:
