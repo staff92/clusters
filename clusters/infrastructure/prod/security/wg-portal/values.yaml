@@ -19,7 +19,7 @@ config:
     log_level: trace
   # -- (tpl/object) [Auth configuration](https://wgportal.org/latest/documentation/configuration/overview/#auth) options.
   auth:
-    oidc:
+    # oidc:
       # - provider_name: authelia
       #   display_name: Log in with Authelia
       #   base_url: https://auth.${CLUSTER_DOMAIN}
