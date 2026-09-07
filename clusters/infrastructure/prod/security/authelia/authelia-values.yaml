@@ -4607,7 +4607,7 @@ configMap:
         pkce_challenge_method: 'S256'
         redirect_uris:
           #- https://vpn.${CLUSTER_DOMAIN}/api/v0/auth/login/authelia/callback
-          - 'https://wg-portal.${CLUSTER_DOMAIN}/api/v0/auth/login/authelia/callback'
+          - 'https://vpn.${CLUSTER_DOMAIN}/api/v0/auth/login/authelia/callback'
         scopes:
           - 'openid'
           - 'email'
@@ -4618,7 +4618,7 @@ configMap:
         grant_types:
           - 'authorization_code'
         token_endpoint_auth_method: 'client_secret_basic'
-        userinfo_signing_algorithm: none
+        # userinfo_signing_algorithm: none
       # clients:
         # -
           ## The ID is the OpenID Connect ClientID which is used to link an application to a configuration.
