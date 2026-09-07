@@ -38,8 +38,8 @@ config:
           firstname: first_name
           lastname: last_name
           user_groups: groups
-        admin_mapping:
-          admin_group_regex: ^vpn_admin$
+        # admin_mapping:
+        #   admin_group_regex: ^vpn_admin$
     webauthn:
       enabled: false
     hide_login_form: true
@@ -119,8 +119,8 @@ replicas: 1
 strategy:
   type: RollingUpdate
   rollingUpdate:
-      maxSurge: 1          # combien de pods EN PLUS peuvent être créés temporairement
-      maxUnavailable: 0    # combien de pods peuvent être indisponibles pendant la MAJ
+      maxSurge: 1         
+      maxUnavailable: 0    
 image:
   # -- Image repository
   repository: ghcr.io/h44z/wg-portal
