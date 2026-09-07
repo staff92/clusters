@@ -4602,9 +4602,8 @@ configMap:
         client_secret: '${VPN_SSO_CLIENT_SECRET_HASH}' 
         public: false
         authorization_policy: 'one_factor'
-        require_pkce: true
-        #pkce_challenge_method: ''
-        pkce_challenge_method: 'S256'
+        require_pkce: false
+        pkce_challenge_method: ''
         redirect_uris:
           #- https://vpn.${CLUSTER_DOMAIN}/api/v0/auth/login/authelia/callback
           - 'https://vpn.${CLUSTER_DOMAIN}/api/v0/auth/login/authelia/callback'
