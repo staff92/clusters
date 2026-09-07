@@ -33,7 +33,7 @@ config:
           - profile
           - groups
         field_map:
-          user_identifier: preferred_username
+          user_identifier: email
           email: email
           firstname: given_name
           lastname: family_name
