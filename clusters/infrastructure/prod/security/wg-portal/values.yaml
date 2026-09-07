@@ -117,8 +117,10 @@ replicas: 1
 #  `RollingUpdate` or `Recreate` for Deployment,
 #  `RollingUpdate` or `OnDelete` for StatefulSet
 strategy:
-  type: Recreate
-
+  type: RollingUpdate
+  rollingUpdate:
+      maxSurge: 1          # combien de pods EN PLUS peuvent être créés temporairement
+      maxUnavailable: 0    # combien de pods peuvent être indisponibles pendant la MAJ
 image:
   # -- Image repository
   repository: ghcr.io/h44z/wg-portal
