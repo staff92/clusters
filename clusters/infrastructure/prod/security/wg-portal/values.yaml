@@ -29,12 +29,12 @@ config:
         use_pkce: false
         # pkce_method: S256
         extra_scopes:
-          - email
+          - mail
           - profile
           - groups
         field_map:
-          user_identifier: email
-          email: email
+          user_identifier: mail
+          email: mail
           firstname: given_name
           lastname: family_name
           user_groups: groups
