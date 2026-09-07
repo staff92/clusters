@@ -4609,7 +4609,7 @@ configMap:
           - https://vpn.${CLUSTER_DOMAIN}/api/v0/auth/login/authelia/callback
         scopes:
           - 'openid'
-          - 'mail'
+          - 'email'
           - 'profile'
           - 'groups'
         response_types:
