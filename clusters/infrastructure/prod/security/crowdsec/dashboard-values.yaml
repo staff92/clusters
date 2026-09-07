@@ -14,7 +14,17 @@ image:
   # -- image tag
   tag: "latest"
 
-# -- See the following files for additional environment variables:
+# -- See the following files for additional environment variables: https://github.com/TheDuffman85/crowdsec-web-ui/blob/main/docker-compose.yml
+
+      # CONFIG_AUTH_OIDC_ISSUER_URL: https://idp.example.com/application/o/crowdsec/
+      # CONFIG_AUTH_OIDC_CLIENT_ID: crowdsec-web-ui
+      # CONFIG_AUTH_OIDC_CLIENT_SECRET: change-me
+      # CONFIG_AUTH_OIDC_CLIENT_SECRET_FILE: /run/secrets/oidc_client_secret
+      # CONFIG_AUTH_OIDC_SCOPE: openid profile email
+      # CONFIG_AUTH_OIDC_GROUPS_CLAIM: groups
+      # CONFIG_AUTH_OIDC_ADMIN_GROUPS: '[admins]'
+      # CONFIG_AUTH_OIDC_READ_ONLY_GROUPS: '[auditors]'
+      # CONFIG_AUTH_OIDC_UNMATCHED_ROLE: deny
 # @default -- See below
 env:
   - name: "CROWDSEC_URL"
