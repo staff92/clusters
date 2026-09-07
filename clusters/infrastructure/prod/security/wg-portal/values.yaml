@@ -35,14 +35,16 @@ config:
         field_map:
           user_identifier: mail
           email: mail
-          firstname: given_name
-          lastname: family_name
+          firstname: first_name
+          lastname: last_name
           user_groups: groups
         admin_mapping:
           admin_group_regex: ^vpn_admin$
     webauthn:
       enabled: false
     hide_login_form: true
+        # display_name: 'displayName'
+        # given_name: 'givenName'
     # ldap:
     #   - provider_name: "lldap"
     #     url: "ldap://lldap-ldap.lldap.svc.cluster.local:3890"
