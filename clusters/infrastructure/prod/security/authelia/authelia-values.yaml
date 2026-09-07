@@ -4599,14 +4599,15 @@ configMap:
         token_endpoint_auth_method: 'client_secret_basic'
       - client_id: 'wg-portal'
         client_name: 'WG-Portal'
-        client_secret: '${VPN_SSO_CLIENT_SECRET_HASH}'  # The digest of 'insecure_secret'.
+        client_secret: '${VPN_SSO_CLIENT_SECRET_HASH}' 
         public: false
         authorization_policy: 'one_factor'
-        require_pkce: false
-        pkce_challenge_method: ''
-        #pkce_challenge_method: 'S256'
+        require_pkce: true
+        #pkce_challenge_method: ''
+        pkce_challenge_method: 'S256'
         redirect_uris:
-          - https://vpn.${CLUSTER_DOMAIN}/api/v0/auth/login/authelia/callback
+          #- https://vpn.${CLUSTER_DOMAIN}/api/v0/auth/login/authelia/callback
+          - 'https://wg-portal.${CLUSTER_DOMAIN}/api/v0/auth/login/authelia/callback'
         scopes:
           - 'openid'
           - 'email'
@@ -4616,8 +4617,8 @@ configMap:
           - 'code'
         grant_types:
           - 'authorization_code'
-        token_endpoint_auth_method: 'client_secret_post'
-
+        token_endpoint_auth_method: 'client_secret_basic'
+        userinfo_signing_algorithm: none
       # clients:
         # -
           ## The ID is the OpenID Connect ClientID which is used to link an application to a configuration.
