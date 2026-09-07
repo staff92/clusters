@@ -16,7 +16,8 @@ extraDeploy: []
 config:
   # -- (tpl/object) [Advanced configuration](https://wgportal.org/latest/documentation/configuration/overview/#advanced) options.
   advanced: 
-    log_level: trace
+    log_level: info
+    #trace, debug, info, warn, error.
   # -- (tpl/object) [Auth configuration](https://wgportal.org/latest/documentation/configuration/overview/#auth) options.
   auth:
     # oidc:

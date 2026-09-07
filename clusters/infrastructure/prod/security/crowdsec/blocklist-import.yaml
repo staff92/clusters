@@ -1,0 +1,86 @@
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: crowdsec-blocklist-import-secret
+  namespace: crowdsec
+type: Opaque
+stringData:
+  CROWDSEC_LAPI_KEY: "REPLACE_WITH_REAL_BOUNCER_KEY"
+  CROWDSEC_MACHINE_PASSWORD: "REPLACE_WITH_REAL_SECURE_PASSWORD"
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: crowdsec-blocklist-import-data
+  namespace: crowdsec
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: openebs-hostpath  
+  resources:
+    requests:
+      storage: 500Mi
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: crowdsec-blocklist-import
+  namespace: crowdsec
+  labels:
+    app: crowdsec-blocklist-import
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: crowdsec-blocklist-import
+  template:
+    metadata:
+      labels:
+        app: crowdsec-blocklist-import
+    spec:
+      containers:
+        - name: crowdsec-blocklist-import
+          image: ghcr.io/wolffcatskyy/crowdsec-blocklist-import:latest
+          imagePullPolicy: Always
+          env:
+            - name: CROWDSEC_LAPI_URL
+              value: "http://crowdsec.crowdsec.svc.cluster.local:8080"
+            - name: CROWDSEC_MACHINE_ID
+              value: "blocklist-import"
+            - name: DECISION_DURATION
+              value: "24h"
+            - name: INTERVAL
+              value: "3600"
+            - name: CROWDSEC_HEARTBEAT_INTERVAL
+              value: "60"
+            - name: LOG_LEVEL
+              value: "INFO"
+            - name: CROWDSEC_LAPI_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: crowdsec-blocklist-import-secret
+                  key: CROWDSEC_LAPI_KEY
+            - name: CROWDSEC_MACHINE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: crowdsec-blocklist-import-secret
+                  key: CROWDSEC_MACHINE_PASSWORD
+          volumeMounts:
+            - name: data
+              mountPath: /data
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 200m
+              memory: 256Mi
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: crowdsec-blocklist-import-data
