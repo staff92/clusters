@@ -322,7 +322,7 @@ features:
     # (legacy-copy sweep, reap-on-shrink, reap-on-disable).
     # SECURITY TRADE-OFF: `create` cannot be scoped to a Secret name, so the
     # operator can write a Secret in any namespace it manages.
-    enabled: false
+    enabled: true
   kopiaUi:
     # -- Enable `spec.server` (the kopia web-UI) by granting the operator `secrets`
     # create+patch+delete. The server needs a generated-auth Secret, a mirror of
