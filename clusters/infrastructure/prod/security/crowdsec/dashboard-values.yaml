@@ -62,7 +62,8 @@ env:
   # - name: CROWDSEC_LOOKBACK_PERIOD
   #   value: "72h"
   - name: "CONFIG_AUTH_OIDC_ISSUER_URL"
-    value: "https://auth.${CLUSTER_DOMAIN}"
+    value: "http://authelia.authelia"
+    #value: "https://auth.${CLUSTER_DOMAIN}"
   - name: "CONFIG_AUTH_OIDC_CLIENT_ID"
     value: "crowdsec-web-ui"
   - name: "CONFIG_AUTH_OIDC_CLIENT_SECRET"
