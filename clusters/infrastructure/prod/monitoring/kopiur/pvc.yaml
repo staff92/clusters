@@ -7,7 +7,7 @@ spec:
   storageClassName: openebs-hostpath
   accessModes:
     - ReadWriteOnce
-  #! Impossible with local 
+  #! Impossible with local  => SFTP
     #- ReadWriteMany
   resources:
     requests:
