@@ -23,19 +23,40 @@ tracearr:
 
   env:
     - name: NODE_ENV
-      value: production
+      value: "production"
     - name: HOST
-      value: 0.0.0.0
+      value: "0.0.0.0"
     - name: PORT
-      value: 3000
+      value: "3000"
     - name: LOG_LEVEL
-      value: trace
+      value: "trace"
     - name: OIDC_ISSUER_URL
       value: https://auth.${CLUSTER_DOMAIN}
     - name: OIDC_CLIENT_ID
-      value: tracearr
+      value: "tracearr"
     - name: OIDC_CLIENT_SECRET
-      value: ${TRACEARR_SSO_SECRET}
+      value: "${TRACEARR_SSO_SECRET}"
+    - name: GZIP_ENABLED
+      value: "true"
+    - name: OIDC_PROVIDER_NAME
+      value: "Authelia"
+    - name: TRUST_PROXY
+      value: "true"
+
+    # - name: NODE_ENV
+    #   value: production
+    # - name: HOST
+    #   value: 0.0.0.0
+    # - name: PORT
+    #   value: 3000
+    # - name: LOG_LEVEL
+    #   value: trace
+    # - name: OIDC_ISSUER_URL
+    #   value: https://auth.${CLUSTER_DOMAIN}
+    # - name: OIDC_CLIENT_ID
+    #   value: tracearr
+    # - name: OIDC_CLIENT_SECRET
+    #   value: ${TRACEARR_SSO_SECRET}
     - name: GZIP_ENABLED
       value: true
     - name: OIDC_PROVIDER_NAME
