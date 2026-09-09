@@ -30,6 +30,7 @@ tracearr:
     TZ: UTC
     OIDC_ISSUER_URL: https://auth.${CLUSTER_DOMAIN}
     OIDC_CLIENT_ID: tracearr
+    OIDC_CLIENT_SECRET: ${TRACEARR_SSO_SECRET}
     GZIP_ENABLED: true
     OIDC_PROVIDER_NAME: Authelia 
     TRUST_PROXY: true
