@@ -4225,6 +4225,9 @@ configMap:
           id_token: ['vaultwarden_roles']
           custom_claims:
             vaultwarden_roles: {}
+        tracearr_policy:
+          id_token:
+            - preferred_username
         semaphore_claims_policy:
           id_token:
             - groups
@@ -4565,6 +4568,7 @@ configMap:
         authorization_policy: 'one_factor'
         require_pkce: false
         pkce_challenge_method: ''
+        claims_policy: 'tracearr_policy'
         redirect_uris:  
           - 'https://tracearr.${CLUSTER_DOMAIN}/api/v1/auth/oauth2/callback/oidc'
         scopes:
