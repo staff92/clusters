@@ -34,7 +34,7 @@ resources:
 #! MEDIA
   - media/servarr
   # - media/sftpgo
-  - media/tracearr
+  # - media/tracearr
   - media/shelfmark
   # - media/vidbee
   # - media/spotdl
