@@ -184,3 +184,4 @@ workload:
                 expandObjectName: false
                 name: '{{ printf "%s-%s" .Release.Name "rediscreds" }}'
                 key: url
+            CLAIM_CODE: "true"
