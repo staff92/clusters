@@ -5,7 +5,9 @@ resources:
   # - secret.yaml
   - namespace.yaml
   - repo.yaml
+  - pvc.yaml
   - release.yaml
+  - nas.yaml
   # - ingress.yaml
 configMapGenerator:
   - name: kopiur-values

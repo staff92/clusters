@@ -839,6 +839,18 @@ sudo netfilter-persistent save
 kubectl krew index add kopiur https://github.com/home-operations/kopiur.git
 kubectl krew install kopiur/kopiur
 kubectl kopiur status
+
+Backends
+
+s3
+azure
+gcs
+b2
+filesystem
+sftp
+webDav
+rclone
+gdrive
 ```
 
 # SFTP

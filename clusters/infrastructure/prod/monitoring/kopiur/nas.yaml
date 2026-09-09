@@ -1,0 +1,29 @@
+apiVersion: kopiur.home-operations.com/v1alpha1
+kind: Repository
+metadata:
+  name: nas-primary
+  namespace: apps
+spec:
+  backend:
+    filesystem:
+      path: /repo
+      volume:
+        pvc:
+          name: kopiur-repo-data
+  encryption:
+    passwordSecretRef:
+      name: nas-primary-creds
+      key: KOPIA_PASSWORD
+  server:
+    # Default (and recommended): operator-generated credentials.
+    auth:
+      generate:
+        username: kopia # optional; defaults to "kopia"
+    # Alternatives:
+    #   auth: { secretRef: { name: my-ui-creds, usernameKey: username, passwordKey: password } }
+    #   auth: { insecure: { acknowledgeInsecure: true } }   # NO auth — footgun
+    # readOnly: true   # no-mutation UI (browse + restore only) — see example 26
+    service:
+      type: ClusterIP # ClusterIP (default) | NodePort | LoadBalancer
+      port: 51515
+      annotations: {} 
