@@ -895,7 +895,7 @@ ports:
       insecure: false
     proxyProtocol:
       # -- Enable the Proxy Protocol header parsing for the entry point
-      trustedIPs: []
+      trustedIPs: ["10.0.0.0/8"]
       insecure: false
     # -- Set transport settings for the entrypoint; see also
     # https://doc.traefik.io/traefik/routing/entrypoints/#transport
@@ -978,7 +978,7 @@ ports:
       insecure: false
     proxyProtocol:
       # -- Enable the Proxy Protocol header parsing for the entry point
-      trustedIPs: []
+      trustedIPs: ["10.0.0.0/8"]
       insecure: false
     # -- See [upstream documentation](https://doc.traefik.io/traefik/routing/entrypoints/#transport)
     # @default -- nil
