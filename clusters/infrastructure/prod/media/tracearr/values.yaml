@@ -1,3 +1,15 @@
+global:
+  # -- Set additional global labels
+  labels: {}
+  # -- Set additional global annotations
+  annotations: {}
+  # -- Set a global namespace
+  diagnosticMode:
+    enabled: false
+  fallbackDefaults:
+    # -- Define a storageClassName that will be used for all PVCs
+    # Can be overruled per PVC
+    storageClass: openebs-hostpath
 # yaml-language-server: $schema=./values.schema.json
 image:
   repository: ghcr.io/connorgallopo/tracearr
