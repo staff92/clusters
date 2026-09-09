@@ -6,7 +6,9 @@ metadata:
 spec:
   storageClassName: openebs-hostpath
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
+  #! Impossible with local 
+    #- ReadWriteMany
   resources:
     requests:
       storage: 50Gi

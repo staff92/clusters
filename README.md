@@ -851,6 +851,10 @@ sftp
 webDav
 rclone
 gdrive
+
+to check params 
+
+kubectl get crd repositories.kopiur.home-operations.com -o json |  jq '.spec.versions[-1].schema.openAPIV3Schema.properties.spec.properties.backend'
 ```
 
 # SFTP
