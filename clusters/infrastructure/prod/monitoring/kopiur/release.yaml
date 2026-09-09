@@ -1,0 +1,82 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: kopiur
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: kopiur
+  valuesFrom:
+    - kind: ConfigMap
+      name: kopiur-values
+      valuesKey: values.yaml
+
+# apiVersion: helm.toolkit.fluxcd.io/v2
+# kind: HelmRelease
+# metadata:
+#   name: kopiur
+#   namespace: media
+# spec:
+#   interval: 1h
+#   chart:
+#     spec:
+#       chart: docker/helm/kopiur
+#       sourceRef:
+#         kind: GitRepository
+#         name: kopiur
+#         namespace: media
+
+# ---
+# apiVersion: helm.toolkit.fluxcd.io/v2
+# kind: HelmRelease
+# metadata:
+#   name: kopiur
+# spec:
+#   interval: 1h
+#   chartRef:
+#     kind: OCIRepository
+#     name: kopiur
+#   valuesFrom:
+#     - kind: ConfigMap
+#       name: kopiur-values
+#       valuesKey: values.yaml
+#   targetNamespace: media
+
+
+
+# ---
+# apiVersion: source.toolkit.fluxcd.io/v1
+# kind: HelmChart
+# metadata:
+#   name: podinfo
+#   namespace: default
+# spec:
+#   interval: 5m0s
+#   chart: podinfo
+#   reconcileStrategy: ChartVersion
+#   sourceRef:
+#     kind: HelmRepository
+#     name: podinfo
+#   version: '5.*'
+
+# ---
+# apiVersion: helm.toolkit.fluxcd.io/v2
+# kind: HelmRelease
+# metadata:
+#   name: kopiur
+# spec:
+#   interval: 1h
+#   chart:
+#     spec:
+#       chart: ./docker/helm/kopiur
+#       sourceRef:
+#         kind: GitRepository
+#         name: kopiur
+#         namespace: flux-system
+#       reconcileStrategy: Revision
+#   valuesFrom:
+#     - kind: ConfigMap
+#       name: kopiur-values
+#       valuesKey: values.yaml

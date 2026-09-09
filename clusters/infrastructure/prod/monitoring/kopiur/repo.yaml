@@ -1,0 +1,65 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: kopiur
+spec:
+  interval: 1h
+  layerSelector:
+    mediaType: "application/vnd.cncf.helm.chart.content.v1.tar+gzip"
+    operation: copy
+  url: oci://ghcr.io/home-operations/charts/kopiur
+  ref:
+    tag: 0.10.8
+
+# apiVersion: source.toolkit.fluxcd.io/v1
+# kind: GitRepository
+# metadata:
+#   name: tracearr
+#   namespace: media
+# spec:
+#   interval: 1h
+#   url: https://github.com/connorgallopo/Tracearr
+#   ref:
+#     branch: main
+#   ignore: |
+#     /*
+#     !/docker/helm/tracearr
+
+# apiVersion: source.toolkit.fluxcd.io/v1
+# kind: GitRepository
+# metadata:
+#   name: tracearr
+#   namespace: flux-system
+# spec:
+#   interval: 30m
+#   url: https://github.com/connorgallopo/Tracearr
+#   ref:
+#     branch: main
+# # ---
+# ---
+# apiVersion: source.toolkit.fluxcd.io/v1
+# kind: OCIRepository
+# metadata:
+#   name: tracearr
+#   namespace: media
+# spec:
+#   # type: oci
+#   interval: 1h
+#   url: oci://oci.trueforge.org/truecharts/tracearr
+#   ref:
+#     tag: 4.12.4
+#   # layerSelector:
+#   #   mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
+#   #   operation: copy
+
+# ---
+# apiVersion: source.toolkit.fluxcd.io/v1
+# kind: OCIRepository
+# metadata:
+#   name: homepage
+# spec:
+#   interval: 1h
+#   url: oci://ghcr.io/m0nsterrr/helm-charts/homepage
+#   ref:
+#     tag: 4.6.0

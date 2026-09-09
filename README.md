@@ -749,13 +749,8 @@ To change notif Users > {{ name.user }} > Edit Settings > Notifications
 
 ## TRACEARR
 
-
-Need to change manually : 
- - all pvc to add storageclassname => storageClassName: openebs-hostpath
- - change the image tag of tracearr => supervised-nightly-20260715
- - install plugin in jelly 
- - add & sync jelly
- - to allow users to use tracearr, need to set "owner" in timescaledb (table users)
+Need to change manually : ALTER TABLE users ALTER COLUMN username DROP NOT NULL; + add username manually 
+then login and sync jellyfin with an api key
 
 ## CLEANUPARR
 
@@ -835,6 +830,15 @@ iptables -A FORWARD -i eno1 -o wg0 -j ACCEPT
 sudo apt install iptables-persistent
 ## COMMANDES
 sudo netfilter-persistent save
+```
+
+# KOPIUR 
+
+
+```
+kubectl krew index add kopiur https://github.com/home-operations/kopiur.git
+kubectl krew install kopiur/kopiur
+kubectl kopiur status
 ```
 
 # SFTP

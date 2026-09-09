@@ -1,0 +1,612 @@
+# Default values for the kopiur chart.
+# This is a YAML-formatted file. Every key is documented inline.
+# See deploy/helm/kopiur/README.md for install modes and worked examples.
+#
+# COMPONENT MODEL (read this first): the controller is the chart's primary
+# component, so its knobs live at the ROOT (unprefixed) — `replicaCount`,
+# `resources`, `nodeSelector`, `podSecurityContext`, `image`, and so on all
+# configure the CONTROLLER. The two auxiliary components get their own named
+# blocks: `webhook:` (a full Deployment surface) and `mover:` (the per-Job
+# image only). So a root-level workload key applies to the controller ALONE —
+# the webhook has its own under `webhook:`, and the mover, a controller-stamped
+# Job, takes no workload/scheduling keys (only `mover.image`).
+
+# -- Override the chart name used in resource names (defaults to .Chart.Name = "kopiur").
+nameOverride: ""
+# -- Override the full release-qualified name (defaults to "<release>-kopiur").
+fullnameOverride: ""
+
+# =============================================================================
+# Global (chart-wide fallbacks + umbrella-injectable subset)
+# =============================================================================
+# kopiur has no subcharts, so `global` does not auto-propagate anywhere on its
+# own. Its two jobs: (a) kopiur's own templates read `global.*` as a shared
+# fallback for the controller (root) and the webhook, so you set a fleet-wide
+# default once instead of repeating it per component; (b) if kopiur is ever
+# wrapped in an umbrella chart, Helm merges the umbrella's `global` down and
+# kopiur inherits these for free. Merge rule: list-valued globals
+# (imagePullSecrets, tolerations, topologySpreadConstraints) are CONCATENATED
+# with the component value; map-valued globals (nodeSelector, affinity) are used
+# only when the component leaves its own value empty; commonLabels are added to
+# every rendered object.
+global:
+  # -- Concatenated with the top-level imagePullSecrets; reaches controller,
+  # webhook, and mover Jobs.
+  imagePullSecrets: []
+  # -- Scheduling defaults every kopiur pod inherits unless the component
+  # (root = controller, webhook.*) sets its own.
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+  topologySpreadConstraints: []
+  # -- Labels stamped on every rendered object (fleet-wide labelling).
+  commonLabels: {}
+
+# =============================================================================
+# Install scope
+# =============================================================================
+# -- "cluster" (default) or "namespaced".
+#   cluster    — RBAC is a ClusterRole/ClusterRoleBinding. The operator manages
+#     kopiur.home-operations.com resources cluster-wide AND reconciles
+#     ClusterRepository. This is the default because a namespace-scoped Role
+#     silently disables the ClusterRepository kind (a cluster-scoped resource is
+#     out of a Role's reach), turning kopiur into a shared-backup-tier operator
+#     that can't do shared backup tiers.
+#   namespaced — RBAC is a namespace-scoped Role/RoleBinding: the operator
+#     manages resources only in its own namespace and ClusterRepository is NOT
+#     reconciled. Choose this as the explicit least-privilege opt-down for a
+#     single-team install where the reduced blast radius is worth losing
+#     cluster-scoped repositories.
+installScope: cluster
+
+# =============================================================================
+# Controller image
+# =============================================================================
+# Three images ship with kopiur:
+#   * controller — the operator (reconcilers); exposes /metrics. Configured here.
+#   * webhook    — the axum admission server; see webhook.image below.
+#   * mover      — the per-Job image (one Job per Backup/Restore/Maintenance
+#                  run); see mover.image below.
+# When `digest` is set it wins over `tag` (tag defaults to .Chart.AppVersion).
+# Charts published to oci://ghcr.io/home-operations/charts ship all three
+# digests pinned to the release images (the in-repo defaults stay empty and
+# float on tags); on a published chart set digest: "" to make tag effective.
+image:
+  # -- Full controller image repository (registry + path).
+  repository: ghcr.io/home-operations/kopiur-controller
+  # -- Defaults to .Chart.AppVersion when empty.
+  tag: ""
+  # -- Pin by digest (e.g. "sha256:..."); takes precedence over tag.
+  digest: ""
+  # -- Image pull policy for the controller.
+  pullPolicy: IfNotPresent
+
+# -- Image pull secrets for the controller pod (concatenated with
+# global.imagePullSecrets; also reaches the webhook pod and mover Jobs).
+imagePullSecrets: []
+#  - name: my-registry-creds
+
+# =============================================================================
+# Controller runtime behavior
+# =============================================================================
+# -- Number of controller replicas. >1 enables HA via leader election; only the
+# elected leader reconciles, so deterministic jitter keeps schedules identical
+# across replicas and across failover. Pair >1 with podDisruptionBudget and
+# topologySpreadConstraints below to make it genuinely highly-available.
+replicaCount: 1
+# -- Enable leader election. Required when replicaCount > 1; harmless at 1.
+leaderElection:
+  enabled: true
+  # -- Leader-election protocol timings, in seconds. Leave unset to use the
+  # client-go defaults (lease 15 / renewDeadline 10 / renewPeriod 2 / retry 2).
+  # `renewDeadline` is a budget for a whole ROUND of renew attempts, not one
+  # attempt's timeout, and `renewPeriod + renewDeadline` must stay strictly
+  # under `leaseDuration` — the operator rejects any other combination at
+  # startup rather than risk two replicas both believing they lead. Widen these
+  # only if your control plane genuinely cannot answer a lease write inside the
+  # default window; prefer leaving `flowSchema` enabled instead.
+  timings: {}
+  #  leaseDurationSeconds: 15
+  #  renewDeadlineSeconds: 10
+  #  renewPeriodSeconds: 2
+  #  retryPeriodSeconds: 2
+
+  # -- API Priority and Fairness lane for the election Lease. Kubernetes' own
+  # `system-leader-election` FlowSchema covers only kube-system ServiceAccounts,
+  # so an operator in its own namespace has its lease renewals queued behind all
+  # other ServiceAccount traffic in `workload-low` — the congestion behind the
+  # controller restart storms in #319. This puts Kopiur's `leases` calls (and
+  # only those) into the built-in guaranteed `leader-election` priority level.
+  # Turn off if APF is disabled on the cluster or you cannot create
+  # cluster-scoped flowcontrol.apiserver.k8s.io objects.
+  flowSchema:
+    enabled: true
+    # -- Ordering against other FlowSchemas; lower wins. Must stay above the
+    # built-in `system-leader-election` (100) so kube's own controllers keep
+    # priority, and below `service-accounts` (9000) or this has no effect.
+    matchingPrecedence: 200
+# -- Tokio worker threads for the controller runtime. The controller is I/O-bound,
+# so a small pool is ample; the runtime default sizes to the host core count
+# (ignoring the cgroup CPU quota), over-allocating worker threads — each a stack
+# plus a malloc arena — on large nodes, inflating RSS for no throughput gain.
+# Raise only for a reconcile-heavy deployment.
+workerThreads: 2
+# -- Use the Kubernetes WatchList streaming-list API for the controller's
+# cluster-wide watches, lowering peak memory during the initial resync by
+# streaming pages instead of buffering them (the startup burst the resources
+# note below warns about). On by default: WatchList is GA in Kubernetes 1.34
+# (beta 1.32/1.33) and the chart's kubeVersion floor is 1.32. Set `false` if
+# your apiserver has the WatchList feature gate disabled — the watches degrade
+# to paged lists either way, but turning it off skips the feature probe.
+streamingLists: true
+# @schema
+# type: integer
+# minimum: 0
+# @schema
+# -- 0 = uncapped (default); set to bound concurrent snapshot-delete batch
+# Jobs across repositories (mass-deletion protection). Batching itself is the
+# primary protection — one Job per repository per accumulation window, not
+# one per Snapshot — so this cap is an opt-in backstop for a
+# resource-constrained cluster, not a load-bearing safety mechanism: a small
+# cap risks head-of-line-blocking every OTHER repository's deletions behind
+# one slow/failing one. It does NOT bound how many Snapshots one batch Job
+# deletes, nor does it gate whether a deletion is allowed at all — that's
+# deletionProtection.threshold on the Repository/ClusterRepository.
+maxConcurrentDeleteJobs: 0
+# @schema
+# type: integer
+# minimum: 0
+# @schema
+# -- 0 = uncapped (default); set to bound how many POOLED mover Jobs — backup
+# snapshots, restores, and the source side of either replication — may run at
+# once across ALL repositories. This is the cluster-operator BACKSTOP beneath
+# each repository's own spec.concurrency.maxConcurrentJobs, which stays the
+# primary knob: a run must satisfy both, and whichever cap it meets first
+# holds it. Set this when the node pool cannot host N movers no matter which
+# repositories they belong to; set the per-repository field when one BACKEND
+# is the thing that must not be saturated. Restores are ALWAYS admitted and
+# never queued (a recovery in progress must not wait behind routine backups),
+# though a running restore still occupies a slot and so displaces backups.
+# Maintenance, verification, pin and snapshot-delete Jobs are outside the pool
+# entirely. Leaving this at 0 costs nothing: with no cap set anywhere the
+# operator performs no extra API calls at all.
+maxConcurrentJobs: 0
+# @schema
+# type: integer
+# minimum: 0
+# maximum: 65535
+# @schema
+# -- Per-controller cap on concurrently running reconciles (the operator runs
+# 8 controllers, so the process-wide worst case is 8x this). Bounds API-server
+# load and file descriptors during re-list storms and API-server outages —
+# unbounded reconcile concurrency is what let an apiserver flap exhaust the
+# controller's fd table (EMFILE) within seconds. The default 8 clears a
+# few-hundred-object re-list in seconds while keeping slow reconciles (hooks,
+# in-process kopia ops) from starving a controller. 0 = unbounded (the
+# pre-fix behavior; not recommended).
+reconcileConcurrency: 8
+# -- Extra CLI args appended to the controller container.
+extraArgs: []
+# -- Extra environment variables for the controller container.
+extraEnv: []
+
+# =============================================================================
+# Controller workload & scheduling  (controller only — webhook has its own)
+# =============================================================================
+# -- Resource requests for the controller pod.
+# No limits by default. No CPU limit (CPU throttling on an operator only adds
+# reconcile latency; the request reserves a fair share). No memory limit either:
+# the controller's RSS can *burst* on startup/restart, not just steady state
+# (~120Mi) — on (re)start it reconciles every existing resource at once, spawning
+# concurrent in-process `kopia` subprocesses (whose RSS counts against this
+# container's cgroup) to list/connect a repository that may hold many snapshots.
+# A memory limit that doesn't cover that burst OOMKills the controller, which
+# then crash-loops (OOM -> restart -> re-reconcile burst -> OOM). Set a limit
+# only if you've measured your own ceiling. See crates/e2e/tests/lifecycle.rs.
+resources:
+  requests:
+    cpu: 50m
+    memory: 128Mi
+  # No limits are set by default. Uncomment and tune to your own measured
+  # ceiling if you want them (a memory limit below the startup burst OOM-loops
+  # the controller — see the note above):
+  # limits:
+  #   memory: 1Gi
+# -- Extra volumes on the controller pod. Use this to make a filesystem-backend
+# repository reachable in-process (hostPath/NFS/PVC) so the controller can run
+# short idempotent kopia ops directly. The e2e harness uses a hostPath here.
+extraVolumes: []
+# -- Extra volume mounts on the controller container (pairs with extraVolumes).
+extraVolumeMounts: []
+# -- Scheduling controls (fall back to global.* when left empty).
+nodeSelector: {}
+tolerations: []
+affinity: {}
+# -- Spread controller replicas across nodes/zones. Only meaningful with
+# replicaCount > 1; pairs with podDisruptionBudget so a drain can't collapse
+# both replicas onto one node and then evict them together.
+topologySpreadConstraints: []
+# -- Pod-level priority class.
+priorityClassName: ""
+# -- Extra pod labels / annotations.
+podLabels: {}
+podAnnotations: {}
+# -- PodDisruptionBudget for the controller. Keeps a voluntary disruption (node
+# drain, cluster upgrade) from taking the controller to zero replicas. Only
+# useful with replicaCount > 1.
+podDisruptionBudget:
+  enabled: false
+  minAvailable: 1
+
+# =============================================================================
+# Controller pod security (controller only)
+# =============================================================================
+# The controller may need a RELAXED context — e.g. runAsUser: 1000 + fsGroup to
+# read a filesystem/NFS-backed repository for in-process kopia ops (which is why
+# extraVolumes exists on it). The webhook is pure admission and keeps its own
+# locked-down context under webhook.* so relaxing the controller never loosens
+# the webhook. Non-root uid 65534 (nobody) by default — distroless:nonroot.
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 65534
+  runAsGroup: 65534
+  fsGroup: 65534
+  seccompProfile:
+    type: RuntimeDefault
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
+  capabilities:
+    drop:
+      - ALL
+
+# =============================================================================
+# Controller port & probes
+# =============================================================================
+metrics:
+  # -- The controller's single operational port. Rendered into KOPIUR_HTTP_ADDR
+  # as "[::]:<port>" (dual-stack wildcard), co-hosting /metrics, /healthz and
+  # /readyz. The metrics Service and the probes both target this port.
+  port: 8081
+# -- Liveness probe for the controller container. The whole probe is passed
+# through with `toYaml`, so you can retune timings/thresholds or swap the scheme
+# entirely; set to `{}` to drop the probe. `port: metrics` is the named
+# container port (metrics.port above).
+livenessProbe:
+  httpGet:
+    path: /healthz
+    port: metrics
+  initialDelaySeconds: 10
+  periodSeconds: 15
+# -- Readiness probe for the controller container (same passthrough as
+# livenessProbe; set to `{}` to drop it).
+readinessProbe:
+  httpGet:
+    path: /readyz
+    port: metrics
+  initialDelaySeconds: 5
+  periodSeconds: 10
+
+# =============================================================================
+# ServiceAccount
+# =============================================================================
+serviceAccount:
+  # -- Create the ServiceAccount. Disable to bring your own.
+  create: true
+  # -- Name to use; defaults to the chart fullname when empty.
+  name: ""
+  # -- Mount the ServiceAccount token into the controller/webhook pods.
+  automount: true
+  # -- Extra annotations (e.g. IRSA / Workload Identity role bindings).
+  annotations: {}
+
+# =============================================================================
+# Feature permissions
+# =============================================================================
+# A few opt-in features need the operator to WRITE Secrets in the namespaces it
+# manages, so each grants extra RBAC. All are OFF by default (least privilege):
+# the chart does not hand out cluster-wide `secrets` write until you turn on the
+# feature you use. The flag names match the CRD fields that trigger them.
+#
+# Symptom → fix: if you enable the feature in a CR but forget the flag here, the
+# resource's `.status` shows an actionable condition like
+#   "... (HTTP 403). ... Fix: set features.<name>.enabled: true ..."
+# Set the matching flag below and the operator heals on the next reconcile.
+# See docs/feature-permissions.md for the full mapping and security trade-offs.
+features:
+  credentialProjection:
+    # -- Enable `spec.credentialProjection` (copy a repository's credential
+    # Secret(s) into each mover Job's namespace) by granting the operator `secrets`
+    # create+patch+delete. The chief win is a shared ClusterRepository whose Secret
+    # is pinned to one namespace; the operator also cleans its copies up again
+    # (legacy-copy sweep, reap-on-shrink, reap-on-disable).
+    # SECURITY TRADE-OFF: `create` cannot be scoped to a Secret name, so the
+    # operator can write a Secret in any namespace it manages.
+    enabled: false
+  kopiaUi:
+    # -- Enable `spec.server` (the kopia web-UI) by granting the operator `secrets`
+    # create+patch+delete. The server needs a generated-auth Secret, a mirror of
+    # each of a ClusterRepository's credential Secrets in the server namespace, and
+    # deletion of all of them on teardown.
+    # SECURITY TRADE-OFF: grants unscoped create/delete on Secrets in any namespace
+    # the operator manages.
+    enabled: true
+
+# =============================================================================
+# Extra RBAC
+# =============================================================================
+rbac:
+  # -- Render an OPT-IN ClusterRole "<release>-browse" carrying exactly what a
+  # human needs to run the `kubectl kopiur ls/cat/download/browse` data-plane:
+  # read snapshots/repositories, create/delete the session Job + ConfigMap, and
+  # exec into the session pod. It deliberately grants NO access to Secrets —
+  # the session pod loads the repository credentials itself, so a browsing user
+  # never reads them (`--local` is the exception and additionally needs `get
+  # secrets`, granted separately). The chart only renders the ClusterRole; bind
+  # it to your users/groups with your own (Cluster)RoleBinding.
+  browseRole: false
+
+# =============================================================================
+# Logging (stdout / `kubectl logs`, always on)
+# =============================================================================
+# Controls the fmt logging that every component writes to stdout — the stream
+# `kubectl logs` shows. The controller passes RUST_LOG + KOPIUR_LOG_FORMAT
+# through to mover Jobs, so a mover honors the same level and format. This is a
+# chart-wide concern (all three components honor it), which is why it stays a
+# named top-level block rather than folding under the controller. Env var names
+# match crates/telemetry/src/env.rs. (For pushing logs/traces to a collector,
+# see observability.otlp below — a different, optional path.)
+logging:
+  # -- Log level / filter directive (RUST_LOG style: error|warn|info|debug|trace;
+  # per-target works too, e.g. "info,kopia=debug" to see kopia's own progress in
+  # mover logs).
+  level: info
+  # -- Console format: "text" (human-readable, default) or "json" (one structured
+  # object per line for Loki/ELK/Datadog). Unknown values degrade to text.
+  format: text
+
+# =============================================================================
+# OpenTelemetry (OTLP) — optional push of traces + logs (and a metrics push)
+# =============================================================================
+# Separate from `logging` above (the always-on stdout stream): observability.otlp
+# is the OPTIONAL push path. When enabled, the controller, webhook, and mover Jobs
+# export OTLP to the configured collector (the controller passes the same OTEL_*
+# env to movers). Metrics are ALSO always available via the Prometheus /metrics
+# pull endpoint; OTLP just adds a push path plus traces and logs. Env var names
+# match crates/telemetry/src/env.rs.
+observability:
+  otlp:
+    # -- Enable OTLP export (sets OTEL_EXPORTER_OTLP_ENDPOINT on all components).
+    enabled: false
+    # -- Collector gRPC endpoint. Required when enabled. Only gRPC is compiled in.
+    endpoint: "http://otel-collector.observability.svc:4317"
+    # -- OTEL_EXPORTER_OTLP_PROTOCOL (only "grpc" is supported by this build).
+    protocol: "grpc"
+    # -- OTEL_EXPORTER_OTLP_HEADERS, e.g. "authorization=Bearer xyz". Empty to omit.
+    headers: ""
+    # -- Fail-fast on telemetry misconfiguration instead of degrading to fmt+pull.
+    strict: false
+    # -- Extra raw env (e.g. OTEL_TRACES_SAMPLER) added to every component.
+    extraEnv: []
+
+# =============================================================================
+# Monitoring (Prometheus + Grafana)
+# =============================================================================
+# The controller-scrape ServiceMonitor, the alerting PrometheusRule, and the
+# Grafana dashboard(s), grouped under one umbrella. NOTE: the webhook's own
+# ServiceMonitor is NOT here — it lives at webhook.serviceMonitor because it is
+# an HTTPS scrape of the webhook's TLS port, a materially different scrape config
+# that moves with the webhook component, not this umbrella. The split is
+# deliberate.
+monitoring:
+  serviceMonitor:
+    # -- Create a Prometheus-Operator ServiceMonitor scraping the controller's
+    # /metrics (plain HTTP). Requires the ServiceMonitor CRD to exist.
+    enabled: false
+    # -- Scrape interval.
+    interval: 30s
+    # -- Scrape timeout.
+    scrapeTimeout: 10s
+    # -- Extra labels (e.g. to match your Prometheus serviceMonitorSelector).
+    labels: {}
+    # -- Relabelings / metricRelabelings passed through verbatim.
+    relabelings: []
+    metricRelabelings: []
+  prometheusRule:
+    # -- Create a Prometheus-Operator PrometheusRule with kopiur alerts.
+    enabled: false
+    # -- Extra labels (e.g. to match your Prometheus ruleSelector).
+    labels: {}
+    # -- Age (seconds) after which a SnapshotPolicy's last success is "stale".
+    backupStaleAfterSeconds: 172800 # 48h
+  # -- Grafana dashboard(s) for the kopiur fleet. The same JSON lives in
+  # deploy/dashboards/kopiur.json (the single source of truth, copied into the
+  # chart by `cargo xtask gen-all`) for manual import. By default it ships as a
+  # ConfigMap labeled for the Grafana sidecar to auto-discover; flip
+  # grafanaOperator.enabled to render a grafana-operator GrafanaDashboard CR from
+  # the very same JSON instead.
+  dashboards:
+    # -- Create the dashboard (a sidecar ConfigMap by default).
+    enabled: false
+    # -- Label the Grafana sidecar watches for (key: value). Adjust to your stack.
+    label: grafana_dashboard
+    labelValue: "1"
+    # -- Annotation setting the Grafana folder for the sidecar ConfigMap (optional).
+    folderAnnotation: ""
+    folder: ""
+    # -- Namespace for the dashboard object; defaults to the release namespace.
+    namespace: ""
+    # -- Extra annotations added to the dashboard object (ConfigMap or CR).
+    annotations: {}
+    # -- Extra labels added to the dashboard object (ConfigMap or CR).
+    labels: {}
+    grafanaOperator:
+      # -- Render a grafana-operator GrafanaDashboard CR instead of the sidecar ConfigMap.
+      enabled: false
+      # -- Allow a Grafana in any namespace to import this GrafanaDashboard.
+      allowCrossNamespaceImport: true
+      # -- Folder to create the dashboard in (Grafana folder name).
+      folder: ""
+      # -- How often grafana-operator re-checks the dashboard for updates.
+      resyncPeriod: "10m"
+      # -- spec.instanceSelector.matchLabels — selects which Grafana instance(s) load this dashboard.
+      matchLabels: {}
+
+# =============================================================================
+# Admission webhook  (its own Deployment + Service + configs)
+# =============================================================================
+# A separate Deployment + Service, not folded into the controller. Everything
+# the webhook workload needs lives here (its own image, port, scheduling,
+# security context, PDB, spread, scrape) — a root-level key never touches it.
+webhook:
+  # -- Deploy the webhook (Deployment + Service + Validating/Mutating configs).
+  # When false, validation falls back to the controller's defensive checks only.
+  enabled: true
+  replicaCount: 1
+  # Admission webhook image (same tag/digest rules as the controller `image`).
+  image:
+    # -- Full webhook image repository (registry + path).
+    repository: ghcr.io/home-operations/kopiur-webhook
+    # -- Defaults to .Chart.AppVersion when empty.
+    tag: ""
+    # -- Pin by digest (e.g. "sha256:..."); takes precedence over tag.
+    digest: ""
+    # -- Image pull policy for the webhook.
+    pullPolicy: IfNotPresent
+  # -- failurePolicy for both webhook configurations: Fail (fail-closed,
+  # recommended for a backup operator) or Ignore. Fail means a webhook outage
+  # blocks kopiur CR writes — see podDisruptionBudget below for why HA matters.
+  failurePolicy: Fail
+  # -- timeoutSeconds for admission requests (1..30).
+  timeoutSeconds: 10
+  # -- The webhook's container port. Rendered into KOPIUR_WEBHOOK_ADDR as
+  # "[::]:<port>" (dual-stack wildcard); the Service maps 443 -> this port.
+  port: 8443
+  # No limits by default (see the controller resources note). The webhook links
+  # the same OpenTelemetry/OTLP stack but does no kopia work, so it stays light;
+  # only the requests are set to reserve a fair share.
+  resources:
+    requests:
+      cpu: 25m
+      memory: 64Mi
+    # No limits are set by default. Uncomment and tune if you want them:
+    # limits:
+    #   memory: 512Mi
+  # -- Scheduling controls (fall back to global.* when left empty).
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+  # -- Spread webhook replicas across nodes/zones (pairs with podDisruptionBudget).
+  topologySpreadConstraints: []
+  priorityClassName: ""
+  podLabels: {}
+  podAnnotations: {}
+  # -- PodDisruptionBudget for the webhook — the most important one to enable in
+  # HA. With failurePolicy: Fail, a node drain that evicts the only webhook
+  # replica blocks every kopiur CR write until it reschedules; a PDB with
+  # replicaCount > 1 keeps one replica serving through the drain.
+  podDisruptionBudget:
+    enabled: false
+    minAvailable: 1
+  # -- Pod security context for the webhook pod. Kept at the most locked-down
+  # posture (the webhook is pure admission and never touches a repository), so
+  # relaxing the controller's context never loosens the webhook.
+  podSecurityContext:
+    runAsNonRoot: true
+    runAsUser: 65534
+    runAsGroup: 65534
+    fsGroup: 65534
+    seccompProfile:
+      type: RuntimeDefault
+  # -- Container security context for the webhook.
+  securityContext:
+    allowPrivilegeEscalation: false
+    readOnlyRootFilesystem: true
+    capabilities:
+      drop:
+        - ALL
+  # -- Extra environment variables for the webhook container (list of
+  # `{name, value}` / `{name, valueFrom}` entries), appended after the
+  # operator-managed env. Mirrors the root `extraEnv`.
+  extraEnv: []
+  # -- Liveness probe for the webhook container. Passed through with `toYaml`
+  # (retune timings/thresholds or swap the probe; `{}` drops it). The webhook
+  # only serves HTTPS, so `scheme: HTTPS` on the named `https` port.
+  livenessProbe:
+    httpGet:
+      path: /healthz
+      port: https
+      scheme: HTTPS
+    initialDelaySeconds: 5
+    periodSeconds: 15
+  # -- Readiness probe for the webhook container (same passthrough as
+  # livenessProbe; set to `{}` to drop it).
+  readinessProbe:
+    httpGet:
+      path: /readyz
+      port: https
+      scheme: HTTPS
+    initialDelaySeconds: 5
+    periodSeconds: 10
+  # The webhook serves /metrics on its TLS port (kopiur_webhook_admission_total).
+  # This ServiceMonitor stays on the webhook (not under monitoring:) because it
+  # is an HTTPS scrape of the webhook's own port — a different scrape config from
+  # the controller's plain-HTTP one.
+  serviceMonitor:
+    # -- Create a ServiceMonitor scraping the webhook's /metrics over HTTPS.
+    enabled: false
+    interval: 30s
+    scrapeTimeout: 10s
+    labels: {}
+    # -- The webhook serves a self-signed cert, so skip verification by default.
+    insecureSkipVerify: true
+  # TLS for the webhook server. The webhook ALWAYS serves TLS (k8s requires
+  # HTTPS for admission). How the serving cert is provisioned is chosen by
+  # tls.mode below.
+  tls:
+    # -- How the webhook serving certificate is provisioned and trusted. One of:
+    #   self         — the operator mints its own CA + serving cert, writes the
+    #                  Secret, and injects caBundle into the webhook
+    #                  configurations itself. No cert-manager, no manual steps,
+    #                  and the leaf is auto-rotated before expiry. (default)
+    #   cert-manager — cert-manager issues the serving cert and its ca-injector
+    #                  populates caBundle (requires cert-manager installed;
+    #                  configure certManager.issuerRef below).
+    #   manual       — you pre-create the tls.secretName Secret (kubernetes.io/tls)
+    #                  and set webhook.caBundle (base64 PEM) yourself.
+    mode: self
+    # -- Name of the Secret holding tls.crt / tls.key (and, in self mode, ca.crt).
+    # In self mode the operator creates and owns it; in cert-manager mode
+    # cert-manager writes it; in manual mode YOU create it before install.
+    secretName: kopiur-webhook-tls
+  certManager:
+    # -- Use an existing Issuer/ClusterIssuer instead of the self-signed Issuer
+    # this chart creates. Only used when tls.mode is cert-manager. Leave name
+    # empty to use the chart-managed self-signed Issuer.
+    issuerRef:
+      name: ""
+      kind: Issuer # Issuer | ClusterIssuer
+  # -- Base64-encoded PEM CA bundle injected into the webhook configurations.
+  # Only used when tls.mode is manual; required there so the API server trusts
+  # the serving cert. Ignored in self and cert-manager modes (caBundle is
+  # populated by the operator or cert-manager's ca-injector respectively).
+  caBundle: ""
+
+# =============================================================================
+# Mover (per-Job image)
+# =============================================================================
+# The mover has no Deployment — the controller stamps one Job per
+# Backup/Restore/Maintenance run, reading this image reference. Its security
+# context and scheduling are controller-stamped, not chart values, so only the
+# image is configurable here.
+mover:
+  image:
+    # -- Full mover image repository (registry + path).
+    repository: ghcr.io/home-operations/kopiur-mover
+    # -- Defaults to .Chart.AppVersion when empty.
+    tag: ""
+    # -- Pin the mover image by digest so a re-pulled tag can never change what
+    # runs in a data-protection Job. STRONGLY RECOMMENDED in production.
+    digest: ""
+    # -- Pull policy used on the mover Job pods.
+    pullPolicy: IfNotPresent
