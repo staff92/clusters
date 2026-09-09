@@ -21,7 +21,12 @@ cnpg:
     enabled: true
     user: tracearr
     database: tracearr
-
+    # Database cluster configuration
+    cluster:
+      # Number of instances
+      instances: 1
+      # set to true on single-node clusters to allow PVCs to be kept on instance restart
+      singleNode: true
 redis:
   enabled: true
   redisUsername: default
