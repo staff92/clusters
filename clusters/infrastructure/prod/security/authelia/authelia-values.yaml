@@ -4607,7 +4607,7 @@ configMap:
         require_pkce: false
         pkce_challenge_method: ''
         redirect_uris:
-          - https://crowdsec.${CLUSTER_DOMAIN}/api/auth/callback/oidc
+          - https://crowdsec.${CLUSTER_DOMAIN}/api/auth/oidc/callback
         scopes:
           - 'openid'
           - 'profile'
