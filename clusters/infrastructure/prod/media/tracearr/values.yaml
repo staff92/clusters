@@ -1,15 +1,15 @@
-# global:
-#   # -- Set additional global labels
-#   labels: {}
-#   # -- Set additional global annotations
-#   annotations: {}
-#   # -- Set a global namespace
-#   diagnosticMode:
-#     enabled: false
-#   fallbackDefaults:
-#     # -- Define a storageClassName that will be used for all PVCs
-#     # Can be overruled per PVC
-#     storageClass: openebs-hostpath
+global:
+  # -- Set additional global labels
+  labels: {}
+  # -- Set additional global annotations
+  annotations: {}
+  # -- Set a global namespace
+  diagnosticMode:
+    enabled: false
+  fallbackDefaults:
+    # -- Define a storageClassName that will be used for all PVCs
+    # Can be overruled per PVC
+    storageClass: openebs-hostpath
 
 
 
