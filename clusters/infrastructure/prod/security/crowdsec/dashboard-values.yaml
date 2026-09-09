@@ -61,6 +61,33 @@ env:
     value: "${CROWDSEC_LAPI_KEY}"
   # - name: CROWDSEC_LOOKBACK_PERIOD
   #   value: "72h"
+  - name: "CONFIG_AUTH_OIDC_ISSUER_URL"
+    value: "auth.${CLUSTER_DOMAIN}"
+  - name: "CONFIG_AUTH_OIDC_CLIENT_ID"
+    value: "crowdsec-web-ui"
+  - name: "CONFIG_AUTH_OIDC_CLIENT_SECRET"
+    value: "${VPN_SSO_SECRET}"
+  - name: "CONFIG_AUTH_OIDC_SCOPE"
+    value: "openid profile email"
+  - name: "CONFIG_AUTH_OIDC_GROUPS_CLAIM"
+    value: "groups"
+  - name: "CONFIG_AUTH_OIDC_ADMIN_GROUPS"
+    value: "[crowdsec_admin]"
+  - name: "CONFIG_AUTH_OIDC_READ_ONLY_GROUPS"
+    value: "[jelly_admin]"
+  - name: "CONFIG_AUTH_OIDC_UNMATCHED_ROLE"
+    value: "deny"
+      # CONFIG_AUTH_OIDC_ISSUER_URL: https://idp.example.com/application/o/crowdsec/
+      # CONFIG_AUTH_OIDC_CLIENT_ID: crowdsec-web-ui
+      # CONFIG_AUTH_OIDC_CLIENT_SECRET: change-me
+      # CONFIG_AUTH_OIDC_CLIENT_SECRET_FILE: /run/secrets/oidc_client_secret
+      # CONFIG_AUTH_OIDC_SCOPE: openid profile email
+      # CONFIG_AUTH_OIDC_GROUPS_CLAIM: groups
+      # CONFIG_AUTH_OIDC_ADMIN_GROUPS: '[admins]'
+      # CONFIG_AUTH_OIDC_READ_ONLY_GROUPS: '[auditors]'
+      # CONFIG_AUTH_OIDC_UNMATCHED_ROLE: deny
+
+
 
 envFrom: []
 #  - secretRef:

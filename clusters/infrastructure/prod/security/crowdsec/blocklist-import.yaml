@@ -53,7 +53,7 @@ spec:
             - name: CROWDSEC_MACHINE_ID
               value: "blocklist-import"
             - name: DECISION_DURATION
-              value: "24h"
+              value: "72h"
             - name: INTERVAL
               value: "3600"
             - name: CROWDSEC_HEARTBEAT_INTERVAL

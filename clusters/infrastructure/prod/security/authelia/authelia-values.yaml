@@ -3041,6 +3041,8 @@ configMap:
       policy: one_factor 
     - domain: 'vpn.${CLUSTER_DOMAIN}'
       policy: one_factor 
+    - domain: 'crowdsec.${CLUSTER_DOMAIN}'
+      policy: one_factor 
     # - domain: 'umami.${CLUSTER_DOMAIN}'
     #   subject:
     #   - 'group:analytics'
@@ -4597,26 +4599,51 @@ configMap:
         access_token_signed_response_alg: 'none'
         userinfo_signed_response_alg: 'none'
         token_endpoint_auth_method: 'client_secret_basic'
-      - client_id: 'wg-portal'
-        client_name: 'WG-Portal'
+      - client_id: 'crowdsec-web-ui'
+        client_name: 'CrowdSec Web UI'
         client_secret: '${VPN_SSO_CLIENT_SECRET_HASH}' 
         public: false
         authorization_policy: 'one_factor'
         require_pkce: false
         pkce_challenge_method: ''
         redirect_uris:
-          #- https://vpn.${CLUSTER_DOMAIN}/api/v0/auth/login/authelia/callback
-          - 'https://vpn.${CLUSTER_DOMAIN}/api/v0/auth/login/authelia/callback'
+          - https://crowdsec.${CLUSTER_DOMAIN}/api/auth/callback/oidc
         scopes:
           - 'openid'
-          - 'email'
           - 'profile'
-          - 'groups'
+          - 'email'
         response_types:
           - 'code'
         grant_types:
           - 'authorization_code'
-        token_endpoint_auth_method: 'client_secret_post'
+        access_token_signed_response_alg: 'none'
+        userinfo_signed_response_alg: 'none'
+        token_endpoint_auth_method: 'client_secret_basic'
+      # - client_id: 'wg-portal'
+      #   client_name: 'WG-Portal'
+      #   client_secret: '${VPN_SSO_CLIENT_SECRET_HASH}' 
+      #   public: false
+      #   authorization_policy: 'one_factor'
+      #   require_pkce: false
+      #   pkce_challenge_method: ''
+      #   redirect_uris:
+      #     #- https://vpn.${CLUSTER_DOMAIN}/api/v0/auth/login/authelia/callback
+      #     - 'https://vpn.${CLUSTER_DOMAIN}/api/v0/auth/login/authelia/callback'
+      #   scopes:
+      #     - 'openid'
+      #     - 'email'
+      #     - 'profile'
+      #     - 'groups'
+      #   response_types:
+      #     - 'code'
+      #   grant_types:
+      #     - 'authorization_code'
+      #   token_endpoint_auth_method: 'client_secret_post'
+
+
+
+
+
         # userinfo_signing_algorithm: none
       # clients:
         # -
