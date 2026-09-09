@@ -1,17 +1,32 @@
+---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: tracearr
-  namespace: media
 spec:
   interval: 1h
-  chart:
-    spec:
-      chart: docker/helm/tracearr
-      sourceRef:
-        kind: GitRepository
-        name: tracearr
-        namespace: media
+  chartRef:
+    kind: OCIRepository
+    name: tracearr
+  valuesFrom:
+    - kind: ConfigMap
+      name: tracearr-values
+      valuesKey: values.yaml
+
+# apiVersion: helm.toolkit.fluxcd.io/v2
+# kind: HelmRelease
+# metadata:
+#   name: tracearr
+#   namespace: media
+# spec:
+#   interval: 1h
+#   chart:
+#     spec:
+#       chart: docker/helm/tracearr
+#       sourceRef:
+#         kind: GitRepository
+#         name: tracearr
+#         namespace: media
 
 # ---
 # apiVersion: helm.toolkit.fluxcd.io/v2
@@ -63,5 +78,5 @@ spec:
 #       reconcileStrategy: Revision
 #   valuesFrom:
 #     - kind: ConfigMap
-#       name: sftp-values
+#       name: tracearr-values
 #       valuesKey: values.yaml
