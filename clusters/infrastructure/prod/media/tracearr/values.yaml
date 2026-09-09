@@ -13,109 +13,109 @@ global:
 
 
 
-# # -- Configure the ingresses for the chart here.
-# # Additional ingresses can be added by adding a dictionary key similar to the 'main' ingress.
-# # @default -- See below
-# ingress:
-#   main:
-#     # -- Enables or disables the ingress
-#     enabled: true
-#     # -- Make this the primary ingress (used in probes, notes, etc...).
-#     # If there is more than 1 ingress, make sure that only 1 ingress is marked as primary.
-#     primary: true
-#     # -- Ensure this ingress is always enabled.
-#     required: false
-#     # expandObjectName: false
-#     # -- Provide additional labels which may be required.
-#     labels: {}
-#     # -- Provide additional annotations which may be required.
-#     annotations: {}
-#     # -- Set the ingressClass that is used for this ingress.
-#     # Requires Kubernetes >=1.19
-#     ingressClassName: "traefik"
-#     # Defaults to primary service and primary port
-#     # targetSelector:
-#     #   # service: port
-#     #   main: main
-#     ## Configure the hosts for the ingress
-#     hosts: 
-#       - host: tracearr.${CLUSTER_DOMAIN}
-#         # Change httpd.web_root in the sftpgo configuration if you change the path
-#         paths:
-#           - path: /
-#             pathType: ImplementationSpecific
-#     #   - # -- Host address. Helm template can be passed.
-#     #     host: chart-example.local
-#     #     ## Configure the paths for the host
-#     #     paths:
-#     #       - # -- Path.  Helm template can be passed.
-#     #         path: /
-#     #         # -- Ignored if not kubeVersion >= 1.14-0
-#     #         pathType: Prefix
-#     #         # -- Overrides the service reference for this path, by default the selector is honored
-#     #         overrideService:
-#     #           # -- Overrides the service name reference for this path
-#     #           name:
-#     #           # -- Overrides the service port reference for this path
-#     #           port:
-#     # -- Configure TLS for the ingress. Both secretName and hosts can process a Helm template.
-#     # Gets ignored when clusterIssuer is filled
-#     tls: []
-#     #  - secretName: chart-example-tls
-#     #    certificateIssuer: ""
-#     #    hosts:
-#     #      - chart-example.local
-#     integrations:
-#       certManager:
-#         enabled: false
-#         certificateIssuer: ""
-#       traefik:
-#         enabled: true
-#         # Default to websecure
-#         entrypoints:
-#           - websecure
-#         # Ensures tls annotation is set
-#         forceTLS: true
-#         middlewares: []
-#         #   - name: my-middleware
-#         #     # Optional, by default will try to
-#         #     # "lookup" the namespace based on the name
-#         #     namespace: ""
-#       nginx:
-#         enabled: false
-#         themepark:
-#           enabled: false
-#           css: ""
-#         ipWhitelist: []
-#         auth:
-#           # empty to disable, options: "authentik" or "authelia"
-#           type: ""
-#           # Internal Domain name + port to reach the auth provider, excluding http(s)
-#           internalHost: ""
-#           # External (ingress) Domain name to reach the auth provider, excluding http(s)
-#           externalHost: ""
-#           # Optional: override default response headers
-#           responseHeaders: []
-#       homepage:
-#         enabled: true
-#         # Default: chart name
-#         name: "tracearr"
-#         # Default: chart description
-#         description: "Tracearr is a monitoring platform for Plex, Jellyfin, and Emby. "
-#         # Default: no group
-#         group: "Infrastructure"
-#         # Default: chart icon
-#         # icon: ""
-#         # widget:
-#         #   # Default: chartname
-#         #   type: ""
-#         #   # Default to ingress host 0
-#         #   url: ""
-#         #   custom:
-#         #     # somesetting: some value
-#         #   customkv:
-#         #     # - key: some key
-#         #     #   value: some value
+# -- Configure the ingresses for the chart here.
+# Additional ingresses can be added by adding a dictionary key similar to the 'main' ingress.
+# @default -- See below
+ingress:
+  main:
+    # -- Enables or disables the ingress
+    enabled: true
+    # -- Make this the primary ingress (used in probes, notes, etc...).
+    # If there is more than 1 ingress, make sure that only 1 ingress is marked as primary.
+    primary: true
+    # -- Ensure this ingress is always enabled.
+    required: false
+    # expandObjectName: false
+    # -- Provide additional labels which may be required.
+    labels: {}
+    # -- Provide additional annotations which may be required.
+    annotations: {}
+    # -- Set the ingressClass that is used for this ingress.
+    # Requires Kubernetes >=1.19
+    ingressClassName: "traefik"
+    # Defaults to primary service and primary port
+    # targetSelector:
+    #   # service: port
+    #   main: main
+    ## Configure the hosts for the ingress
+    hosts: 
+      - host: tracearr.${CLUSTER_DOMAIN}
+        # Change httpd.web_root in the sftpgo configuration if you change the path
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+    #   - # -- Host address. Helm template can be passed.
+    #     host: chart-example.local
+    #     ## Configure the paths for the host
+    #     paths:
+    #       - # -- Path.  Helm template can be passed.
+    #         path: /
+    #         # -- Ignored if not kubeVersion >= 1.14-0
+    #         pathType: Prefix
+    #         # -- Overrides the service reference for this path, by default the selector is honored
+    #         overrideService:
+    #           # -- Overrides the service name reference for this path
+    #           name:
+    #           # -- Overrides the service port reference for this path
+    #           port:
+    # -- Configure TLS for the ingress. Both secretName and hosts can process a Helm template.
+    # Gets ignored when clusterIssuer is filled
+    tls: []
+    #  - secretName: chart-example-tls
+    #    certificateIssuer: ""
+    #    hosts:
+    #      - chart-example.local
+    integrations:
+      certManager:
+        enabled: false
+        certificateIssuer: ""
+      traefik:
+        enabled: true
+        # Default to websecure
+        entrypoints:
+          - websecure
+        # Ensures tls annotation is set
+        forceTLS: true
+        middlewares: []
+        #   - name: my-middleware
+        #     # Optional, by default will try to
+        #     # "lookup" the namespace based on the name
+        #     namespace: ""
+      nginx:
+        enabled: false
+        themepark:
+          enabled: false
+          css: ""
+        ipWhitelist: []
+        auth:
+          # empty to disable, options: "authentik" or "authelia"
+          type: ""
+          # Internal Domain name + port to reach the auth provider, excluding http(s)
+          internalHost: ""
+          # External (ingress) Domain name to reach the auth provider, excluding http(s)
+          externalHost: ""
+          # Optional: override default response headers
+          responseHeaders: []
+      homepage:
+        enabled: true
+        # Default: chart name
+        name: "tracearr"
+        # Default: chart description
+        description: "Tracearr is a monitoring platform for Plex, Jellyfin, and Emby. "
+        # Default: no group
+        group: "Infrastructure"
+        # Default: chart icon
+        # icon: ""
+        # widget:
+        #   # Default: chartname
+        #   type: ""
+        #   # Default to ingress host 0
+        #   url: ""
+        #   custom:
+        #     # somesetting: some value
+        #   customkv:
+        #     # - key: some key
+        #     #   value: some value
 
 
 # yaml-language-server: $schema=./values.schema.json
