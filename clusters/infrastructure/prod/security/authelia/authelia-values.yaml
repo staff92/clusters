@@ -4565,8 +4565,8 @@ configMap:
         authorization_policy: 'one_factor'
         require_pkce: false
         pkce_challenge_method: ''
-        redirect_uris:
-          - 'https://tracearr.${CLUSTER_DOMAIN}/api/auth/oidc/authelia/redirect'
+        redirect_uris:  
+          - 'https://tracearr.${CLUSTER_DOMAIN}/api/v1/auth/oauth2/callback/oidc'
         scopes:
           - 'openid'
           - 'profile'
