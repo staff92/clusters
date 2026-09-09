@@ -25,7 +25,7 @@ tracearr:
     NODE_ENV: production
     HOST: "0.0.0.0"
     PORT: "3000"  # must match containerPort (3000)
-    LOG_LEVEL: info
+    LOG_LEVEL: trace
     CORS_ORIGIN: "*"
     TZ: UTC
     OIDC_ISSUER_URL: https://auth.${CLUSTER_DOMAIN}
