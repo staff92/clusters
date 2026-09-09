@@ -25,7 +25,7 @@ config:
       #   display_name: Log in with Authelia
       #   base_url: https://auth.${CLUSTER_DOMAIN}
       #   client_id: wg-portal
-      #   client_secret: ${VPN_SSO_SECRET}
+      #   client_secret: ${CROWDSEC_SSO_SECRET}
       #   registration_enabled: true
       #   log_user_info: true
       #   log_sensitive_info: false

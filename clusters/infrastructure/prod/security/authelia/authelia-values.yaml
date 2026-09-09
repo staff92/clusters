@@ -4601,7 +4601,7 @@ configMap:
         token_endpoint_auth_method: 'client_secret_basic'
       - client_id: 'crowdsec-web-ui'
         client_name: 'CrowdSec Web UI'
-        client_secret: '${VPN_SSO_CLIENT_SECRET_HASH}' 
+        client_secret: '${CROWDSEC_SSO_CLIENT_SECRET_HASH}' 
         public: false
         authorization_policy: 'one_factor'
         require_pkce: false
@@ -4622,7 +4622,7 @@ configMap:
         token_endpoint_auth_method: 'client_secret_post'
       # - client_id: 'wg-portal'
       #   client_name: 'WG-Portal'
-      #   client_secret: '${VPN_SSO_CLIENT_SECRET_HASH}' 
+      #   client_secret: '${CROWDSEC_SSO_CLIENT_SECRET_HASH}' 
       #   public: false
       #   authorization_policy: 'one_factor'
       #   require_pkce: false

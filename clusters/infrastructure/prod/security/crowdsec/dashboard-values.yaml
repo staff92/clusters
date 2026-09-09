@@ -67,7 +67,7 @@ env:
   - name: "CONFIG_AUTH_OIDC_CLIENT_ID"
     value: "crowdsec-web-ui"
   - name: "CONFIG_AUTH_OIDC_CLIENT_SECRET"
-    value: "${VPN_SSO_SECRET}"
+    value: "${CROWDSEC_SSO_SECRET}"
   - name: "CONFIG_AUTH_OIDC_SCOPE"
     value: "openid profile email groups"
   - name: "CONFIG_AUTH_OIDC_GROUPS_CLAIM"
@@ -75,7 +75,7 @@ env:
   - name: "CONFIG_AUTH_OIDC_ADMIN_GROUPS"
     value: "[crowdsec_admin]"
   - name: "CONFIG_AUTH_OIDC_READ_ONLY_GROUPS"
-    value: "[jelly_admin]"
+    value: "[crowdsec_user]"
   - name: "CONFIG_AUTH_OIDC_UNMATCHED_ROLE"
     value: "deny"
       # CONFIG_AUTH_OIDC_ISSUER_URL: https://idp.example.com/application/o/crowdsec/

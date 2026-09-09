@@ -325,6 +325,8 @@ bootstrap:
     - gitea_admin
     - vpn_user
     - vpn_admin
+    - crowdsec_admin
+    - crowdsec_user
     - sftp_user
     - test_group
     # - lldap_admin
@@ -355,6 +357,7 @@ bootstrap:
         - gitea_admin
         - vpn_user
         - vpn_admin
+        - crowdsec_admin
     - id: "${LDAP_USER2_ID}"
       email: "${LDAP_USER2_EMAIL}"
       passwordSecret: 
