@@ -22,18 +22,39 @@ tracearr:
       memory: 1Gi
 
   env:
-    NODE_ENV: production
-    HOST: "0.0.0.0"
-    PORT: "3000"  # must match containerPort (3000)
-    LOG_LEVEL: trace
-    CORS_ORIGIN: "*"
-    TZ: UTC
-    OIDC_ISSUER_URL: https://auth.${CLUSTER_DOMAIN}
-    OIDC_CLIENT_ID: tracearr
-    OIDC_CLIENT_SECRET: ${TRACEARR_SSO_SECRET}
-    GZIP_ENABLED: true
-    OIDC_PROVIDER_NAME: Authelia 
-    TRUST_PROXY: true
+    - name: "NODE_ENV"
+      value: "production"
+    - name: "HOST"
+      value: "0.0.0.0"
+    - name: "PORT"
+      value: "3000"
+    - name: "LOG_LEVEL"
+      value: "trace"
+    - name: "OIDC_ISSUER_URL"
+      value: "https://auth.${CLUSTER_DOMAIN}"
+    - name: "OIDC_CLIENT_ID"
+      value: "tracearr"
+    - name: "OIDC_CLIENT_SECRET"
+      value: ${TRACEARR_SSO_SECRET}
+    - name: "GZIP_ENABLED"
+      value: "true"
+    - name: "OIDC_PROVIDER_NAME"
+      value: "Authelia"
+    - name: "TRUST_PROXY"
+      value: "true"
+    # value: 
+    # NODE_ENV: production
+    # HOST: "0.0.0.0"
+    # PORT: "3000"  # must match containerPort (3000)
+    # LOG_LEVEL: trace
+    # CORS_ORIGIN: "*"
+    # TZ: UTC
+    # OIDC_ISSUER_URL: https://auth.${CLUSTER_DOMAIN}
+    # OIDC_CLIENT_ID: tracearr
+    # OIDC_CLIENT_SECRET: ${TRACEARR_SSO_SECRET}
+    # GZIP_ENABLED: true
+    # OIDC_PROVIDER_NAME: Authelia 
+    # TRUST_PROXY: true
     # DATABASE_POOL_MAX: "50"
     # POLLER_ENABLED: "true"
     # POLLER_INTERVAL: "15000"
