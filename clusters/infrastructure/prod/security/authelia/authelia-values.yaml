@@ -1763,6 +1763,9 @@ configMap:
       vaultwarden_roles:
         #expression: '"vaultwarden_admins" in groups ? ["admin"] : "vaultwarden_users" in groups ? ["user"] : [""]'
         expression: '"vaultwarden_admin" in groups ? ["admin"] : "vaultwarden_user" in groups ? ["user"] : []'
+      sftpgo_role:
+        expression: '"sftpgo_admin" in groups ? "admin" : "sftpgo_manager" in groups ? "manager" : "user"'
+
     # user_attributes:
       ## Boolean attribute example
       # is_admin:
@@ -2954,8 +2957,6 @@ configMap:
     #   subject:
     #   - 'group:jelly_admin'
     - domain: 'sftp.${CLUSTER_DOMAIN}'
-      subject:
-      - 'group:jelly_admin'
       policy: one_factor 
     - domain: 'bookshelf.${CLUSTER_DOMAIN}'
       policy: one_factor 
@@ -4216,6 +4217,10 @@ configMap:
       # -- The claims policies are policies which allow customizing the behavior of claims and the available claims for
       # a particular client.
       claims_policies:
+        sftpgo:
+          id_token: ['preferred_username', 'sftpgo_role']
+          custom_claims:
+            sftpgo_role: {}
         mattermost:
           custom_claims:
             username:
@@ -4265,6 +4270,9 @@ configMap:
           claims: ['vaultwarden_roles']
         mattermost:
           claims: ['username']
+        sftpgo:
+          claims:
+            - 'sftpgo_role'
       # scopes:
         # scope_name:
           # claims: []
@@ -4646,7 +4654,29 @@ configMap:
         access_token_signed_response_alg: 'none'
         userinfo_signed_response_alg: 'none'
         token_endpoint_auth_method: 'client_secret_post'
-
+      - client_id: 'sftpgo'
+        client_name: 'SFTPGo'
+        client_secret: '${SFTPGO_SSO_CLIENT_SECRET_HASH}' 
+        public: false
+        authorization_policy: 'one_factor'
+        claims_policy: 'sftpgo'
+        require_pkce: false
+        pkce_challenge_method: ''
+        redirect_uris:
+          - 'https://sftp.${CLUSTER_DOMAIN}/web/oidc/redirect'
+          - 'https://sftp.${CLUSTER_DOMAIN}/web/oauth2/redirect'
+        scopes:
+          - 'openid'
+          - 'profile'
+          - 'email'
+          - 'sftpgo'
+        response_types:
+          - 'code'
+        grant_types:
+          - 'authorization_code'
+        access_token_signed_response_alg: 'none'
+        userinfo_signed_response_alg: 'none'
+        token_endpoint_auth_method: 'client_secret_basic'
 
 
 

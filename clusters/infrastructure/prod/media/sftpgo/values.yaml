@@ -82,20 +82,20 @@ config:
 
 # -- Additional storage [volumes](https://kubernetes.io/docs/concepts/storage/volumes/).
 # See the [API reference](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#volumes-1) for details.
-volumes: 
-  - name: plugin-volume
-    emptyDir: {}
-  - name: jellyfin-media
-    persistentVolumeClaim:
-      claimName: "servarr-jellyfin-media"
+volumes: []
+  # - name: plugin-volume
+  #   emptyDir: {}
+  # - name: jellyfin-media
+  #   persistentVolumeClaim:
+  #     claimName: "servarr-jellyfin-media"
 
 # -- Additional [volume mounts](https://kubernetes.io/docs/tasks/configure-pod-container/configure-volume-storage/).
 # See the [API reference](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#volumes-1) for details.
-volumeMounts:
-  - name: plugin-volume
-    mountPath: /tmp
-  - name: jellyfin-media
-    mountPath: /srv/sftpgo/sftpgo/data
+volumeMounts: []
+  # - name: plugin-volume
+  #   mountPath: /tmp
+  # - name: jellyfin-media
+  #   mountPath: /srv/sftpgo/sftpgo/data
     #mountPath: /srv/sftpgo/data
 # -- Additional environment variables mounted from [secrets](https://kubernetes.io/docs/concepts/configuration/secret/#using-secrets-as-environment-variables) or [config maps](https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/#configure-all-key-value-pairs-in-a-configmap-as-container-environment-variables).
 # See the [API reference](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#environment-variables) for details.
@@ -104,6 +104,25 @@ envFrom: []
 # -- Additional environment variables passed directly to containers.
 # See the [API reference](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#environment-variables) for details.
 envVars:
+#! SSO
+  - name: SFTPGO_HTTPD__BINDINGS__0__OIDC__CLIENT_ID
+    value: "sftpgo"
+  - name: SFTPGO_HTTPD__BINDINGS__0__OIDC__CLIENT_SECRET
+    valueFrom:
+      secretKeyRef:
+        name: sftp-credentials
+        key: SFTPGO_SSO_SECRET
+  - name: SFTPGO_HTTPD__BINDINGS__0__OIDC__CONFIG_URL
+    value: "https://auth.${CLUSTER_DOMAIN}"
+  - name: SFTPGO_HTTPD__BINDINGS__0__OIDC__REDIRECT_BASE_URL
+    value: "https://sftp.${CLUSTER_DOMAIN}"
+  - name: SFTPGO_HTTPD__BINDINGS__0__OIDC__SCOPES
+    value: "openid,profile,email,sftpgo"
+  - name: SFTPGO_HTTPD__BINDINGS__0__OIDC__USERNAME_FIELD
+    value: "preferred_username"
+  - name: SFTPGO_HTTPD__BINDINGS__0__OIDC__ROLE_FIELD
+    value: "sftpgo_role"
+#! ADMIN
   - name: SFTPGO_DEFAULT_ADMIN_USERNAME
     value: "admin"
   - name: SFTPGO_DEFAULT_ADMIN_PASSWORD
@@ -111,33 +130,35 @@ envVars:
       secretKeyRef:
         name: sftp-credentials
         key: SFTPGO_DEFAULT_ADMIN_PASSWORD
-  - name: SFTPGO_PLUGIN_AUTH_LDAP_URL
-    value: ldap://lldap-ldap.lldap.svc.cluster.local:3890
-  - name: SFTPGO_PLUGIN_AUTH_LDAP_BASE_DN
-    value: "ou=people,dc=example,dc=com"
-  - name: SFTPGO_PLUGIN_AUTH_LDAP_BIND_DN
-    value: "uid=admin,ou=people,dc=example,dc=com"
-  - name: SFTPGO_PLUGIN_AUTH_LDAP_PASSWORD
-    valueFrom:
-      secretKeyRef:
-        name: sftp-credentials
-        key: SFTPGO_PLUGIN_AUTH_LDAP_PASSWORD
-  - name: SFTPGO_PLUGIN_AUTH_LDAP_SEARCH_QUERY
-    value: "(&(objectClass=inetOrgPerson)(user_id=%username%))"
-  - name: SFTPGO_PLUGINS__0__TYPE
-    value: auth
-  - name: SFTPGO_PLUGINS__0__AUTH_OPTIONS__SCOPE
-    value: "5"
-  - name: SFTPGO_PLUGINS__0__CMD
-    value: "/tmp/sftpgo-plugin-auth"
-  - name: SFTPGO_PLUGINS__0__ARGS
-    value: serve
-  - name: SFTPGO_PLUGINS__0__AUTO_MTLS
-    value: "1"
-  - name: SFTPGO_PLUGIN_AUTH_REQUIRE_GROUPS
-    value: "true"
-  - name: SFTPGO_PLUGIN_AUTH_MEMBERSHIP_GROUP_PREFIX
-    value: "jelly_admin"
+#! LDAP
+  # - name: SFTPGO_PLUGIN_AUTH_LDAP_URL
+  #   value: ldap://lldap-ldap.lldap.svc.cluster.local:3890
+  # - name: SFTPGO_PLUGIN_AUTH_LDAP_BASE_DN
+  #   value: "ou=people,dc=example,dc=com"
+  # - name: SFTPGO_PLUGIN_AUTH_LDAP_BIND_DN
+  #   value: "uid=admin,ou=people,dc=example,dc=com"
+  # - name: SFTPGO_PLUGIN_AUTH_LDAP_PASSWORD
+  #   valueFrom:
+  #     secretKeyRef:
+  #       name: sftp-credentials
+  #       key: SFTPGO_SSO_SECRET
+  # - name: SFTPGO_PLUGIN_AUTH_LDAP_SEARCH_QUERY
+  #   value: "(&(objectClass=inetOrgPerson)(user_id=%username%))"
+  # - name: SFTPGO_PLUGINS__0__TYPE
+  #   value: auth
+  # - name: SFTPGO_PLUGINS__0__AUTH_OPTIONS__SCOPE
+  #   value: "5"
+  # - name: SFTPGO_PLUGINS__0__CMD
+  #   value: "/tmp/sftpgo-plugin-auth"
+  # - name: SFTPGO_PLUGINS__0__ARGS
+  #   value: serve
+  # - name: SFTPGO_PLUGINS__0__AUTO_MTLS
+  #   value: "1"
+  # - name: SFTPGO_PLUGIN_AUTH_REQUIRE_GROUPS
+  #   value: "true"
+  # - name: SFTPGO_PLUGIN_AUTH_MEMBERSHIP_GROUP_PREFIX
+  #   value: "jelly_admin"
+
   # - name: SFTPGO_PLUGIN_AUTH_PRIMARY_GROUP_PREFIX
   #   value: "Ttest "
   # - name: SFTPGO_PLUGIN_AUTH_SECONDARY_GROUP_PREFIX
@@ -215,19 +236,19 @@ securityContext: {}
 
 # -- Add [init containers](https://kubernetes.io/docs/concepts/workloads/pods/init-containers/) to the pod.
 # initContainers: []
-initContainers:
-  - name: plugin-downloader
-    image: curlimages/curl:latest
-    #image: curlimages/curl:latest
-    command:
-      - /bin/sh
-      - -c
-      - |
-        curl -L -o /tmp/sftpgo-plugin-auth "https://github.com/sftpgo/sftpgo-plugin-auth/releases/download/v1.0.14/sftpgo-plugin-auth-linux-amd64"
-        chmod 777 /tmp/sftpgo-plugin-auth
-    volumeMounts:
-      - name: plugin-volume
-        mountPath: /tmp
+initContainers: []
+  # - name: plugin-downloader
+  #   image: curlimages/curl:latest
+  #   #image: curlimages/curl:latest
+  #   command:
+  #     - /bin/sh
+  #     - -c
+  #     - |
+  #       curl -L -o /tmp/sftpgo-plugin-auth "https://github.com/sftpgo/sftpgo-plugin-auth/releases/download/v1.0.14/sftpgo-plugin-auth-linux-amd64"
+  #       chmod 777 /tmp/sftpgo-plugin-auth
+  #   volumeMounts:
+  #     - name: plugin-volume
+  #       mountPath: /tmp
 
 
 # -- Additional [containers](https://kubernetes.io/docs/concepts/workloads/pods/#how-pods-manage-multiple-containers) to run in the same pod (e.g., sidecars).
@@ -475,26 +496,26 @@ topologySpreadConstraints: []
   #   matchLabelKeys:
   #     - pod-template-hash
 
-persistence:
-  enabled: false
+# persistence:
+#   enabled: false
   # pvc:
   #   existingClaim: "jellyfin-media-pvc"
 
-# persistence:
-#   # -- Enable persistent storage for the /var/lib/sftpgo directory, saving state of the default sqlite db.
-#   enabled: false
+persistence:
+  # -- Enable persistent storage for the /var/lib/sftpgo directory, saving state of the default sqlite db.
+  enabled: true
 
-#   # -- Annotations to be added to the PVC.
-#   annotations: {}
+  # -- Annotations to be added to the PVC.
+  annotations: {}
 
-#   # -- Create the pvc desired specificiation.
-#   pvc:
-#     accessModes:
-#       - ReadWriteOnce
-#     resources:
-#       requests:
-#         storage: 5Gi
-#     storageClassName: ""
+  # -- Create the pvc desired specificiation.
+  pvc:
+    accessModes:
+      - ReadWriteOnce
+    resources:
+      requests:
+        storage: 100Gi
+    storageClassName: "openebs-hostpath"
 
 # -- Prometheus PodMonitor configuration.
 # See the [Prometheus Operator documentation](https://prometheus-operator.dev/docs/operator/api/#monitoring.coreos.com/v1.PodMonitor) for details.

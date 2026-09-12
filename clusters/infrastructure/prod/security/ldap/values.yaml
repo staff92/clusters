@@ -329,6 +329,8 @@ bootstrap:
     - crowdsec_user
     - sftp_user
     - test_group
+    - sftpgo_admin
+    - sftpgo_manager
     # - lldap_admin
     # - lldap_password_manager
     
