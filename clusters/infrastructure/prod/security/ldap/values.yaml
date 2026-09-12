@@ -395,6 +395,17 @@ bootstrap:
       weserv_avatar: "false"
       groups:
         - jelly_admin
+    - id: "${LDAP_USER12_ID}"
+      email: "${LDAP_USER12_EMAIL}"
+      passwordSecret: 
+        name: lldap-credentials
+        key: userpasswordtemp
+      displayName: "${LDAP_USER12_FIRSTNAME} ${LDAP_USER12_LASTNAME}"
+      firstName: "${LDAP_USER12_FIRSTNAME}"
+      lastName: "${LDAP_USER12_LASTNAME}"
+      gravatar_avatar: "false"
+      weserv_avatar: "false"
+      groups: []
 
 
 #! https://artifacthub.io/packages/helm/djjudas21/lldap
