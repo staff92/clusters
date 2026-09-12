@@ -4218,7 +4218,7 @@ configMap:
       # a particular client.
       claims_policies:
         sftpgo:
-          id_token: ['preferred_username', 'sftpgo_role']
+          id_token: ['preferred_username', 'sftpgo_role', 'email']
           custom_claims:
             sftpgo_role: {}
         mattermost:
