@@ -124,7 +124,6 @@ envVars:
   - name: SFTPGO_HTTPD__BINDINGS__0__OIDC__SCOPES
     value: "openid,profile,email,sftpgo"
   - name: SFTPGO_HTTPD__BINDINGS__0__OIDC__USERNAME_FIELD
-    #value: "email"
     value: "preferred_username"
   - name: SFTPGO_HTTPD__BINDINGS__0__OIDC__ROLE_FIELD
     value: "sftpgo_role"

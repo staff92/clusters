@@ -859,7 +859,7 @@ kubectl get crd repositories.kopiur.home-operations.com -o json |  jq '.spec.ver
 
 # SFTP
 
-Connect to webadmin UI with admin credentials then add the group **sftp_user**
+Connect to webadmin UI with admin credentials then add the group **sftp_user** (depreciated => LDAP)
 
 Need first connection to create the user, then in admin panel Users > Actions > Edit then add : 
  - Public keys
@@ -876,6 +876,37 @@ put fichier.txt /chemin/
 get /chemin/fichier.txt .
 ls
 cd /dossier
+```
+
+SSO enable OK, go on Event Manager on Admin panel 
+
+```
+1/ Create Action :
+
+Name authelia
+Type: Identity Provider account check
+Mode: Create if doesn't exist
+User Template: 
+{
+  "username": "{{.Name}}",
+  "status": 1,
+  "home_dir": "/srv/sftpgo/data/{{.Name}}",
+  "permissions": {"/": ["*"]}
+}
+Admin Template:
+{
+  "username": "{{.Name}}",
+  "status": 1,
+  "permissions": ["*"]
+}
+
+2/ Create Rules : 
+
+Name: authelia
+Status Active
+Trigger Identity Providers logins
+Type any 
+Actions: authelia => Synchronous execution  
 ```
 
 # SEMAPHORE
