@@ -74,7 +74,7 @@ config:
   #     - enable_web_admin: true
   #       enable_web_client: true
   data_provider:
-    users_base_dir: "/srv/sftpgo/sftpgo/data"
+    users_base_dir: "/srv/sftpgo/data"
     create_default_admin: true
   # httpd:
   #   enable_web_client: false
