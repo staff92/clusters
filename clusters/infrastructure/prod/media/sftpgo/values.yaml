@@ -109,7 +109,7 @@ envVars:
 #     value: "debug"
 #! SSO
   - name: SFTPGO_HOOK__ENABLE_OIDC_UI
-    value: 1
+    value: "1"
   - name: SFTPGO_HTTPD__BINDINGS__0__OIDC__CLIENT_ID
     value: "sftpgo"
   - name: SFTPGO_HTTPD__BINDINGS__0__OIDC__CLIENT_SECRET
