@@ -128,6 +128,8 @@ envVars:
     value: "preferred_username"
   - name: SFTPGO_HTTPD__BINDINGS__0__OIDC__ROLE_FIELD
     value: "sftpgo_role"
+  - name: SFTPGO_HTTPD__BINDINGS__0__OIDC__DEBUG
+    value: "true"
 #! ADMIN
   - name: SFTPGO_DEFAULT_ADMIN_USERNAME
     value: "admin"
