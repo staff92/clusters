@@ -2,28 +2,48 @@ apiVersion: kopiur.home-operations.com/v1alpha1
 kind: Repository
 metadata:
   name: nas-primary
-  namespace: apps
+  namespace: kopiur
 spec:
   backend:
-    filesystem:
+    sftp:
+      host: sftp-sftpgo.media.svc.cluster.local
+      port: 22
       path: /repo
-      volume:
-        pvc:
-          name: kopiur-repo-data
+      username: kopiur
+      auth:
+        secretRef:
+          name: nas-primary-sftp-creds
   encryption:
     passwordSecretRef:
       name: nas-primary-creds
       key: KOPIA_PASSWORD
+  create:
+    enabled: true
+  # ── Turn on the web UI ────────────────────────────────────────────────────────
+  # Presence of `spec.server` is "on" (there is no `enabled` bool). The minimal
+  # form takes the safe defaults: operator-minted credentials into an owned
+  # Secret, a ClusterIP Service, port 51515.
   server:
-    # Default (and recommended): operator-generated credentials.
-    auth:
-      generate:
-        username: kopia # optional; defaults to "kopia"
+    auth: { insecure: {acknowledgeInsecure: true} }
+    # auth: 
+    #   secretRef: 
+    #     name: "nas-primary-sftp-creds"
+    #     passwordKey: "sftp_password"
+    #     usernameKey: "sftp_user"
+  # create:
+  #   enabled: true
+  # server:
+  #   # Default (and recommended): operator-generated credentials.
+  #   auth:
+  #     generate:
+  #       username: kopia # optional; defaults to "kopia"
     # Alternatives:
     #   auth: { secretRef: { name: my-ui-creds, usernameKey: username, passwordKey: password } }
     #   auth: { insecure: { acknowledgeInsecure: true } }   # NO auth — footgun
     # readOnly: true   # no-mutation UI (browse + restore only) — see example 26
-    service:
-      type: ClusterIP # ClusterIP (default) | NodePort | LoadBalancer
-      port: 51515
-      annotations: {} 
+    # service:
+    #   type: ClusterIP # ClusterIP (default) | NodePort | LoadBalancer
+    #   port: 51515
+    #   annotations: {} 
+
+

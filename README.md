@@ -855,6 +855,13 @@ gdrive
 to check params 
 
 kubectl get crd repositories.kopiur.home-operations.com -o json |  jq '.spec.versions[-1].schema.openAPIV3Schema.properties.spec.properties.backend'
+
+kubectl create secret generic nas-primary-sftp-creds \
+  --from-file=KOPIA_SFTP_KEY_DATA=/path/to/key \
+  --from-literal=KOPIA_SFTP_KNOWN_HOSTS="XXXX" \
+  --dry-run=client -o yaml | kubectl apply -f -
+
+
 ```
 
 # SFTP
