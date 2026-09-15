@@ -40,11 +40,11 @@ kopia:
 workload:
   main:
     podSpec:
-      volumes:
-        - name: host-pvcs
-          hostPath:
-            path: /var/openebs/local
-            type: Directory
+      # volumes:
+      #   - name: host-pvcs
+      #     hostPath:
+      #       path: /var/openebs/local
+      #       type: Directory
       containers:
         main:
           # envFrom:
@@ -53,7 +53,7 @@ workload:
           args:
             - --without-password
             - --allow-extremely-dangerous-unauthenticated-server-on-the-network
-            # - --disable-csrf-token-checks
+            - --disable-csrf-token-checks
             # - --server-username={{ .Values.kopia.server_username }}
             # - --server-password={{ .Values.kopia.server_password }}
             # - --insecure
@@ -64,10 +64,10 @@ workload:
               enabled: false
             startup:
               enabled: false
-          volumeMounts:
-            - name: host-pvcs
-              mountPath: /host-pvcs
-              readOnly: true
+          # volumeMounts:
+          #   - name: host-pvcs
+          #     mountPath: /host-pvcs
+          #     readOnly: true
 
 persistence:
   config:
