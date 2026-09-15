@@ -241,7 +241,7 @@ maildev:
         # -- SMTP password for outgoing mail
         password: ""
         # -- SMTP port for outgoing mail
-        port: 587
+        port: 465
         # -- Use SMTP SSL for outgoing mail
         ssl: true
         #ssl: true
