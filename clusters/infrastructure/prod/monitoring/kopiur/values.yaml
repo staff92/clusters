@@ -46,6 +46,7 @@ workload:
           #   - secretRef:
           #       name: "kopia-credentials"
           args:
+            - --without-password
             - --allow-extremely-dangerous-unauthenticated-server-on-the-network
             # - --disable-csrf-token-checks
             # - --server-username={{ .Values.kopia.server_username }}
