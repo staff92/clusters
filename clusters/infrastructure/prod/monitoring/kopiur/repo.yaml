@@ -8,9 +8,9 @@ spec:
   layerSelector:
     mediaType: "application/vnd.cncf.helm.chart.content.v1.tar+gzip"
     operation: copy
-  url: oci://ghcr.io/home-operations/charts/kopiur
+  url: oci://oci.trueforge.org/truecharts/kopia
   ref:
-    tag: 0.10.8
+    tag: 28.9.0
 
 # apiVersion: source.toolkit.fluxcd.io/v1
 # kind: GitRepository

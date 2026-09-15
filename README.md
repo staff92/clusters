@@ -860,7 +860,13 @@ kubectl create secret generic nas-primary-sftp-creds \
   --from-file=KOPIA_SFTP_KEY_DATA=/path/to/key \
   --from-literal=KOPIA_SFTP_KNOWN_HOSTS="XXXX" \
   --dry-run=client -o yaml | kubectl apply -f -
-
+  
+kopia repository create sftp \
+      --path=/kopia \
+      --host=sftp-sftpgo.media.svc.cluster.local \
+      --username=kopiur \
+      --known-hosts=/tmp/known_hosts \
+      --keyfile=/tmp/key
 
 ```
 

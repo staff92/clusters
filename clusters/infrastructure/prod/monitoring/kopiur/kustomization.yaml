@@ -6,7 +6,6 @@ resources:
   - namespace.yaml
   - repo.yaml
   - release.yaml
-  #- nas.yaml
   # - ingress.yaml
 configMapGenerator:
   - name: kopiur-values

@@ -2960,6 +2960,10 @@ configMap:
       policy: one_factor 
     - domain: 'bookshelf.${CLUSTER_DOMAIN}'
       policy: one_factor 
+    - domain: 'kopia.${CLUSTER_DOMAIN}'
+      subject:
+      - 'group:jelly_admin'
+      policy: one_factor
     - domain: 'lidarr.${CLUSTER_DOMAIN}'
       subject:
       - 'group:jelly_admin'
