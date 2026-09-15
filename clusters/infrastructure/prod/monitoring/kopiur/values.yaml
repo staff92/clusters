@@ -29,13 +29,13 @@ ingress:
             pathType: Prefix
 
 kopia:
-  insecure: true
+  # insecure: true
   user: "user"
   password: "secret"
   # user: "user"
   # password: "secret"
-  # server_username: "user"
-  # server_password: "password"
+  server_username: "user"
+  server_password: "secret"
 
 workload:
   main:
@@ -46,6 +46,7 @@ workload:
           #   - secretRef:
           #       name: "kopia-credentials"
           args:
+            - --insecure
             - --server-username={{ .Values.kopia.server_username }}
             - --server-password={{ .Values.kopia.server_password }}
             # - --insecure
@@ -67,12 +68,14 @@ persistence:
     enabled: true
     mountPath: "/config/cache"
     storageClass: "openebs-hostpath"
-    size: 50G
+    size: 10G
   logs:
     enabled: true
     mountPath: "/config/logs"
     storageClass: "openebs-hostpath"
+    size: 1G
   rclone:
     enabled: true
     mountPath: "/config/rclone"
     storageClass: "openebs-hostpath"
+    size: 20G
