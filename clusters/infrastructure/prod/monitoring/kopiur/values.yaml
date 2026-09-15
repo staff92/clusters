@@ -47,9 +47,8 @@ workload:
           #       name: "kopia-credentials"
           args:
             - --disable-csrf-token-checks
-            - --insecure
-            - --server-username=test
-            - --server-password=test
+            - --server-username={{ .Values.kopia.server_username }}
+            - --server-password={{ .Values.kopia.server_password }}
             # - --insecure
           probes:
             liveness:
