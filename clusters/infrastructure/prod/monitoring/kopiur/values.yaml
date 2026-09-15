@@ -29,6 +29,8 @@ ingress:
             pathType: Prefix
 
 kopia:
+  user: "user"
+  password: "secret"
   # user: "user"
   # password: "secret"
   # server_username: "user"
