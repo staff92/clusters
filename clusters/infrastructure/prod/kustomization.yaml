@@ -31,7 +31,7 @@ resources:
   # - monitoring/maintenant
   - monitoring/kubenav
   - monitoring/ntfy
-  # - monitoring/kopiur
+  - monitoring/kopiur
 #! MEDIA
   - media/servarr
   - media/sftpgo
