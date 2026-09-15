@@ -34,8 +34,8 @@ kopia:
   # password: "secret"
   # # user: "user"
   # # password: "secret"
-  # server_username: "user"
-  # server_password: "secret"
+  server_username: "user"
+  server_password: "secret"
 
 workload:
   main:
