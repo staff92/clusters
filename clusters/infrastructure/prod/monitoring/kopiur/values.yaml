@@ -42,9 +42,9 @@ workload:
     podSpec:
       containers:
         main:
-          envFrom:
-            - secretRef:
-                name: "kopia-credentials"
+          # envFrom:
+          #   - secretRef:
+          #       name: "kopia-credentials"
           args:
             - --allow-extremely-dangerous-unauthenticated-server-on-the-network
             # - --disable-csrf-token-checks
