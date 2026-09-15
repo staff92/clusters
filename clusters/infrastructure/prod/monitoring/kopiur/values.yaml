@@ -46,7 +46,7 @@ workload:
           #   - secretRef:
           #       name: "kopia-credentials"
           args:
-            - --insecure
+            # - --insecure
             - --server-username={{ .Values.kopia.server_username }}
             - --server-password={{ .Values.kopia.server_password }}
             # - --insecure
