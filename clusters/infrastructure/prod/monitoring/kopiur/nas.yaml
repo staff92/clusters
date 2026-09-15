@@ -15,7 +15,7 @@ spec:
           name: nas-primary-sftp-creds
   encryption:
     passwordSecretRef:
-      name: nas-primary-creds
+      name: kopiur-credentials
       key: KOPIA_PASSWORD
   create:
     enabled: true
