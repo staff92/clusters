@@ -42,13 +42,14 @@ workload:
     podSpec:
       containers:
         main:
-          # envFrom:
-          #   - secretRef:
-          #       name: "kopia-credentials"
+          envFrom:
+            - secretRef:
+                name: "kopia-credentials"
           args:
-            # - --insecure
-            - --server-username={{ .Values.kopia.server_username }}
-            - --server-password={{ .Values.kopia.server_password }}
+            - --disable-csrf-token-checks
+            - --insecure
+            - --server-username=test
+            - --server-password=test
             # - --insecure
           probes:
             liveness:
