@@ -29,6 +29,7 @@ ingress:
             pathType: Prefix
 
 kopia:
+  insecure: true
   user: "user"
   password: "secret"
   # user: "user"
@@ -45,7 +46,9 @@ workload:
           #   - secretRef:
           #       name: "kopia-credentials"
           args:
-            - --insecure
+            - --server-username={{ .Values.kopia.server_username }}
+            - --server-password={{ .Values.kopia.server_password }}
+            # - --insecure
           probes:
             liveness:
               enabled: false
