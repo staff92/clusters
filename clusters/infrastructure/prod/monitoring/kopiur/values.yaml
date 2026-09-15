@@ -85,8 +85,8 @@ persistence:
     mountPath: "/config/logs"
     storageClass: "openebs-hostpath"
     size: 1G
-  # rclone:
-  #   enabled: true
-  #   mountPath: "/config/rclone"
-  #   storageClass: "openebs-hostpath"
-  #   size: 20G
+  rclone:
+    enabled: true
+    mountPath: "/config/rclone"
+    storageClass: "openebs-hostpath"
+    size: 10G

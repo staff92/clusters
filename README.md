@@ -832,41 +832,14 @@ sudo apt install iptables-persistent
 sudo netfilter-persistent save
 ```
 
-# KOPIUR 
+# KOPIA
 
 
 ```
-kubectl krew index add kopiur https://github.com/home-operations/kopiur.git
-kubectl krew install kopiur/kopiur
-kubectl kopiur status
 
-Backends
+https://github.com/trueforge-org/truecharts/tree/master/charts/stable/kopia
 
-s3
-azure
-gcs
-b2
-filesystem
-sftp
-webDav
-rclone
-gdrive
-
-to check params 
-
-kubectl get crd repositories.kopiur.home-operations.com -o json |  jq '.spec.versions[-1].schema.openAPIV3Schema.properties.spec.properties.backend'
-
-kubectl create secret generic nas-primary-sftp-creds \
-  --from-file=KOPIA_SFTP_KEY_DATA=/path/to/key \
-  --from-literal=KOPIA_SFTP_KNOWN_HOSTS="XXXX" \
-  --dry-run=client -o yaml | kubectl apply -f -
-
-kopia repository create sftp \
-      --path=/kopia \
-      --host=sftp-sftpgo.media.svc.cluster.local \
-      --username=kopiur \
-      --known-hosts=/tmp/known_hosts \
-      --keyfile=/tmp/key
+sftp-sftpgo.media.svc.cluster.local
 
 Need to add sftp repository + encryption secret
 Need to add notification smtp 
