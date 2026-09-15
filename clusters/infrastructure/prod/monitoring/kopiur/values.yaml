@@ -30,12 +30,12 @@ ingress:
 
 kopia:
   # insecure: true
-  user: "user"
-  password: "secret"
   # user: "user"
   # password: "secret"
-  server_username: "user"
-  server_password: "secret"
+  # # user: "user"
+  # # password: "secret"
+  # server_username: "user"
+  # server_password: "secret"
 
 workload:
   main:
@@ -46,7 +46,7 @@ workload:
           #   - secretRef:
           #       name: "kopia-credentials"
           args:
-            - --disable-csrf-token-checks
+            # - --disable-csrf-token-checks
             - --server-username={{ .Values.kopia.server_username }}
             - --server-password={{ .Values.kopia.server_password }}
             # - --insecure
