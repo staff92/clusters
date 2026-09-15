@@ -41,9 +41,9 @@ workload:
     podSpec:
       containers:
         main:
-          envFrom:
-            - secretRef:
-                name: "kopia-credentials"
+          # envFrom:
+          #   - secretRef:
+          #       name: "kopia-credentials"
           args:
             - --insecure
           probes:
