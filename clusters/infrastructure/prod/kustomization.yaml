@@ -48,7 +48,6 @@ resources:
   # - app/gitea
   - app/homepage
   - app/semaphore
-  # - app/sliver
   # - app/gowitness
   # - app/adminer
   # - app/immich
