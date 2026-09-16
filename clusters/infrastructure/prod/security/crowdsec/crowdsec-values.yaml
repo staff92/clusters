@@ -408,7 +408,7 @@ lapi:
       ## @param lapi.persistentVolume.data.subPath [string] subPath to use within the volume
       subPath: ""
       ## @param lapi.persistentVolume.data.size [string] Requested size for the data PVC
-      size: 1Gi
+      size: 10Gi
     config:
       ## @param lapi.persistentVolume.config.enabled Enable persistent volume for the config folder (stores API credentials)
       enabled: true
@@ -563,7 +563,10 @@ agent:
       podName: traefik-*
       program: traefik
       poll_without_inotify: true
-
+    - namespace: authelia
+      podName: authelia-*
+      program: authelia
+      poll_without_inotify: true
     #- namespace: "" #ingress-nginx
     # -- to select pod logs to process
     #  podName: "" #ingress-nginx-controller-*
@@ -645,7 +648,7 @@ agent:
   ## @param agent.env Environment variables passed to the crowdsecurity/crowdsec container
   env:
     - name: COLLECTIONS
-      value: "crowdsecurity/traefik"
+      value: "crowdsecurity/traefik LePresidente/authelia"
     # by default we configure the docker-logs parser to be able to parse docker logs in k8s
     # by default we disable local API on the agent pod
     # - name: SCENARIOS
