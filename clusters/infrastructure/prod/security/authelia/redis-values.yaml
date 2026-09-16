@@ -112,7 +112,7 @@ ports:
 
 persistentVolumeClaim:
   # -- Create a new persistent volume claim object.
-  create: false
+  create: true
   # -- Mount path of the persistent volume claim object.
   mountPath: /data
   # -- Access mode of the persistent volume claim object.
@@ -122,7 +122,7 @@ persistentVolumeClaim:
   # -- Storage request size for the persistent volume claim object.
   size: 1Gi
   # -- Storage class name for the persistent volume claim object.
-  storageClassName: ''
+  storageClassName: 'openebs-hostpath'
   # -- Use an existing persistent volume claim object.
   existingPersistentVolumeClaim: ''
   # -- Additional annotations for the persistent volume claim object.
