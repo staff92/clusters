@@ -124,7 +124,7 @@ persistentVolumeClaim:
   # -- Storage class name for the persistent volume claim object.
   storageClassName: 'openebs-hostpath'
   # -- Use an existing persistent volume claim object.
-  existingPersistentVolumeClaim: ''
+  existingPersistentVolumeClaim: 'redis-storage-redis-0'
   # -- Additional annotations for the persistent volume claim object.
   annotations: {}
   # -- Additional labels for the persistent volume claim object.
