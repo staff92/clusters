@@ -38,13 +38,13 @@ spec:
           imagePullPolicy: Always
           env:
             - name: CROWDSEC_LAPI_URL
-              value: "http://crowdsec.crowdsec.svc.cluster.local:8080"
+              value: "http://crowdsec-service.crowdsec.svc.cluster.local:8080"
             - name: CROWDSEC_MACHINE_ID
               value: "blocklist-import"
             - name: DECISION_DURATION
               value: "72h"
             - name: INTERVAL
-              value: "3600"
+              value: "120"
             - name: CROWDSEC_HEARTBEAT_INTERVAL
               value: "300"
             - name: LOG_LEVEL
