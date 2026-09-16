@@ -199,7 +199,7 @@ ingress:
 # You can disable persistence if you select MariaDB or PostgreSQL.
 # @default -- see below
 persistence:
-  enabled: false
+  enabled: true
   size: 100Mi
   accessMode: ReadWriteOnce
   ## If defined, storageClassName: <storageClass>
@@ -208,7 +208,7 @@ persistence:
   ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
   ##   GKE, AWS & OpenStack)
   ##
-  # storageClass: "-"
+  storageClass: openebs-hostpath
 
 resources: {}
   # requests:
