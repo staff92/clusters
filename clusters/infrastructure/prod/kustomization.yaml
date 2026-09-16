@@ -20,7 +20,7 @@ resources:
   - security/authelia-admin
   - security/vaultwarden
   - security/wg-portal
-  # - security/crowdsec
+  - security/crowdsec
   # - security/falco
   # - security/polaris
   # - security/trivy
