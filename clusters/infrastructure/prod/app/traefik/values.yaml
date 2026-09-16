@@ -826,12 +826,12 @@ envFrom: []
 
 # @schema mergeProperties: true
 ports:
-  multiplayer:
-    port: 31337
-    expose:
-      default: true
-    exposedPort: 31337
-    protocol: TCP
+  # multiplayer:
+  #   port: 31337
+  #   expose:
+  #     default: true
+  #   exposedPort: 31337
+  #   protocol: TCP
   # @schema additionalProperties: false
   traefik:
     port: 8080
