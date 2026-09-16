@@ -44,7 +44,7 @@ spec:
             - name: DECISION_DURATION
               value: "72h"
             - name: INTERVAL
-              value: "120"
+              value: "3600"
             - name: CROWDSEC_HEARTBEAT_INTERVAL
               value: "300"
             - name: LOG_LEVEL
