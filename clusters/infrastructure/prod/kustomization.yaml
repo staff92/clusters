@@ -51,4 +51,4 @@ resources:
   # - app/sliver
   # - app/gowitness
   # - app/adminer
-  - app/immich
+  # - app/immich

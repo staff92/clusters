@@ -980,6 +980,8 @@ Remove all not running pods
 
 ```
 kubectl delete pods -A --field-selector=status.phase!=Running
+
+kubectl get rs --all-namespaces | awk '$4==0 && $3==0 {print $1, $2}' | while read ns rs; do kubectl delete rs $rs -n $ns; done
 ```
 
 Clean unused image on k0s podman 
