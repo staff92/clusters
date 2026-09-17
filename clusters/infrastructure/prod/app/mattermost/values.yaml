@@ -167,7 +167,7 @@ mattermostApp:
   dbReadinessCheck:
     enabled: false
     # Image used for the readiness probe.
-    image: postgres:16-alpine
+    image: postgres:18-alpine
     imagePullPolicy: IfNotPresent
     # Optional: timeout (seconds) for each pg_isready attempt.
     timeoutSeconds: 5
