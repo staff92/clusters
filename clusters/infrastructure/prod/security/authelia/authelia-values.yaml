@@ -4691,7 +4691,7 @@ configMap:
         require_pkce: false
         pkce_challenge_method: ''
         redirect_uris:
-          - 'https://ks.${CLUSTER_DOMAIN}'
+          - 'https://ks.${CLUSTER_DOMAIN}/api/oauth2/callback'
         scopes:
           - 'openid'
           - 'profile'
