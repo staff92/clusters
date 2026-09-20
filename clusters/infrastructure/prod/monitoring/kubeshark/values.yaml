@@ -160,10 +160,10 @@ tap:
       effect: NoExecute
     front: []
   auth:
-    enabled: true
+    enabled: false
     type: oidc
     rolesClaim: groups
-    defaultRole: kubeshark-admin
+    defaultRole: kubeshark-viewer
     groupMapping: 
       kubeshark-admin: kubeshark-admin
     roles: {}
@@ -191,7 +191,14 @@ tap:
     host: ks.${CLUSTER_DOMAIN}
     path: /
     tls: []
-    annotations: {}
+    annotations: 
+      traefik.ingress.kubernetes.io/router.middlewares: authelia-chain-authelia-auth@kubernetescrd
+      gethomepage.dev/enabled: "true"
+      gethomepage.dev/name: "Kubeshark"
+      gethomepage.dev/description: "Network Observability for the AI SRE"
+      gethomepage.dev/group: "Infrastructure"
+      gethomepage.dev/icon: "kubeshark.png"
+      gethomepage.dev/pod-selector: "app.kubernetes.io/instance=kubeshark"
   priorityClass: ""
   routing:
     front:

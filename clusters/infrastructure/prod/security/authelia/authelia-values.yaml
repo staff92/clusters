@@ -2962,6 +2962,8 @@ configMap:
       policy: one_factor 
     - domain: 'ks.${CLUSTER_DOMAIN}'
       policy: one_factor 
+      subject:
+      - 'group:jelly_admin'
     - domain: 'kopia.${CLUSTER_DOMAIN}'
       subject:
       - 'group:jelly_admin'
