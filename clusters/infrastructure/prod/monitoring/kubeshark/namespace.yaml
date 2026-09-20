@@ -1,0 +1,7 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: kubeshark
+  labels:
+    goldilocks.fairwinds.com/enabled: "true"

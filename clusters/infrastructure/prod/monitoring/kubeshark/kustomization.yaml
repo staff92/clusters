@@ -1,0 +1,14 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: kubeshark
+resources:
+  - namespace.yaml
+  - secret.yaml
+  - repo.yaml
+  - release.yaml
+configMapGenerator:
+  - name: kubeshark-values
+    files:
+      - values.yaml
+generatorOptions:
+  disableNameSuffixHash: true

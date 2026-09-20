@@ -513,8 +513,7 @@ noreply@jellyfin.org
 ${LDAP_USER2_EMAIL},${LDAP_USER1_EMAIL}
 add radarr/sonarr for upcoming
 
-tracearr 
-
+⚠️ Need tracearr 
 https://raw.githubusercontent.com/Tracearr/Media-Server-SSE/main/manifest.json
 ```
 
@@ -890,7 +889,7 @@ Admin Template:
   "permissions": ["*"]
 }
 
-2/ Create Rules : 
+2/ Create Rule : 
 
 Name: authelia
 Status Active

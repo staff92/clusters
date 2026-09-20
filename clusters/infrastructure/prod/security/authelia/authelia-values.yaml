@@ -2960,6 +2960,8 @@ configMap:
       policy: one_factor 
     - domain: 'bookshelf.${CLUSTER_DOMAIN}'
       policy: one_factor 
+    - domain: 'ks.${CLUSTER_DOMAIN}'
+      policy: one_factor 
     - domain: 'kopia.${CLUSTER_DOMAIN}'
       subject:
       - 'group:jelly_admin'
@@ -4681,7 +4683,27 @@ configMap:
         access_token_signed_response_alg: 'none'
         userinfo_signed_response_alg: 'none'
         token_endpoint_auth_method: 'client_secret_basic'
-
+      - client_id: 'kubeshark'
+        client_name: 'kubeshark'
+        client_secret: '${KUBESHARK_SSO_CLIENT_SECRET_HASH}'  # The digest of 'insecure_secret'.
+        public: false
+        authorization_policy: 'one_factor'
+        require_pkce: false
+        pkce_challenge_method: ''
+        redirect_uris:
+          - 'https://ks.${CLUSTER_DOMAIN}/api/oauth2/callback'
+        scopes:
+          - 'openid'
+          - 'profile'
+          - 'email'
+          - 'groups'
+        response_types:
+          - 'code'
+        grant_types:
+          - 'authorization_code'
+        access_token_signed_response_alg: 'none'
+        userinfo_signed_response_alg: 'none'
+        token_endpoint_auth_method: 'client_secret_basic'
 
 
 
