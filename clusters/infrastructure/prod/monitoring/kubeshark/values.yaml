@@ -172,7 +172,7 @@ tap:
       #     - snapshot:read
       #   namespaces: "payments,checkout"
     oidc:
-      issuer: https://auth.{CLUSTER_DOMAIN}
+      issuer: https://auth.${CLUSTER_DOMAIN}
       clientId: kubeshark
       clientSecret: ${KUBESHARK_SSO_SECRET}
       refreshTokenLifetime: "3960h" # 165 days
