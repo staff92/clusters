@@ -34,7 +34,7 @@ tap:
     - flux-system
   bpfOverride: ""
   capture:
-    #! greedy in CPU & RAM 
+    #! greedy in CPU & RAM => L7 (can be enable on the UI)
     dissection:
       enabled: false
       stopAfter: 5m
@@ -208,7 +208,8 @@ tap:
   dashboard:
     streamingType: connect-rpc
     completeStreamingEnabled: true
-    clusterWideMapEnabled: true
+    #! Enable L4 (only for small cluster)
+    clusterWideMapEnabled: false
     entriesLimit: "300000"
   telemetry:
     enabled: false
