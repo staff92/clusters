@@ -208,6 +208,7 @@ tap:
   resourceGuard:
     enabled: false
   watchdog:
+    enabled: false
   gitops:
     enabled: false
   sentry:
