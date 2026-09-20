@@ -208,7 +208,7 @@ tap:
   dashboard:
     streamingType: connect-rpc
     completeStreamingEnabled: true
-    clusterWideMapEnabled: false
+    clusterWideMapEnabled: true
     entriesLimit: "300000"
   telemetry:
     enabled: false
