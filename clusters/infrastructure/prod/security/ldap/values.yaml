@@ -331,6 +331,7 @@ bootstrap:
     - test_group
     - sftpgo_admin
     - sftpgo_manager
+    - kubeshark-admin
     # - lldap_admin
     # - lldap_password_manager
     
@@ -360,6 +361,7 @@ bootstrap:
         - vpn_user
         - vpn_admin
         - crowdsec_admin
+        - kubeshark-admin
     - id: "${LDAP_USER2_ID}"
       email: "${LDAP_USER2_EMAIL}"
       passwordSecret: 
