@@ -77,8 +77,8 @@ tap:
     name: kubeshark
     namespace: kubeshark
     helmChartPath: ""
-  persistentStorage: true
-  persistentStorageStatic: true
+  persistentStorage: false
+  persistentStorageStatic: false
   persistentStoragePvcVolumeMode: FileSystem
   efsFileSytemIdAndPath: ""
   secrets: []
