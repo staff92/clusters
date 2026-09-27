@@ -11,6 +11,7 @@ image:
   repository: ghcr.io/theduffman85/crowdsec-web-ui
   # -- image pull policy
   pullPolicy: IfNotPresent
+  imagePullPolicy: Always
   # -- image tag
   tag: "latest"
 
