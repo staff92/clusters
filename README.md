@@ -548,12 +548,6 @@ Custom Login UI (Dashboad > Slogan)
 <a href="https://auth.${CLUSTER_DOMAIN}/" target="_blank" rel="noopener noreferrer" class="custom-reset-link">Mot de passe oublié ?</a>
 ```
 
-Desktop application alaytics : **https://github.com/fredrikburmester/streamystats**
-
-
-podman generate kube -s -f streamstats.yaml containerID 9fa072a94603 e503f6b29eb6
-
-
 ## QBITTORRENT
 
 ```markdown
