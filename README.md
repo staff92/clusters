@@ -960,6 +960,19 @@ for semaphore
 
 # TIPS 
 
+
+force synch (pvc, ingress ...)
+
+```bash
+flux reconcile -n media helmrelease servarr --with-source --force
+```
+
+Pull all images on node (be carefull)
+
+```bash
+sudo k0s ctr images ls -q | while read img; do sudo k0s ctr images pull "$img"; done
+```
+
 Image distroless terminal
 
 ```bash
