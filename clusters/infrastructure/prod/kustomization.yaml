@@ -26,7 +26,7 @@ resources:
   # - security/trivy
 #! MONITORING
   - monitoring/gatus
-  - monitoring/dozzle
+  # - monitoring/dozzle
   # - monitoring/vpa
   # - monitoring/maintenant
   - monitoring/kubenav
