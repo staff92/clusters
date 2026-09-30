@@ -8,8 +8,10 @@ spec:
   chart:
     spec:
       chart: traefik
-      version: 39.0.9 
+      version: 41.6.0
+      # working ==> 39.0.9 
       #41.2.0 
+      # 41.6.0
       sourceRef:
         kind: HelmRepository
         name: traefik
