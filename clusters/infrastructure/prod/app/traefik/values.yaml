@@ -150,7 +150,7 @@ experimental:
     enabled: false
   # -- Enable experimental plugins
   plugins: 
-      crowdsec-bouncer:
+    crowdsec-bouncer:
       moduleName: github.com/maxlerebourg/crowdsec-bouncer-traefik-plugin
       version: v1.7.0-alpha
   # -- Enable experimental local plugins
