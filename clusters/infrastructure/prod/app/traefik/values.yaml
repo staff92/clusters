@@ -1202,7 +1202,7 @@ persistence:
   existingClaim: ""
   accessMode: ReadWriteOnce
   size: 128Mi
-  storageClass:  # @schema type:[string, null]
+  storageClass:  openebs-hostpath # @schema type:[string, null]
   volumeName: ""
   path: /data
   annotations: {}
