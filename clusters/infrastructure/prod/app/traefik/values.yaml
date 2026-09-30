@@ -938,7 +938,8 @@ ports:
     # means it's listening on all your interfaces and all your IPs. You may want
     # to set this value if you need traefik to listen on specific interface
     # only.
-    hostIP:  # @schema type:[string, null]
+    hostIP: 
+    #${LOADBALANCER_IP} # @schema type:[string, null]
 
     # Defines whether the port is exposed if service.type is LoadBalancer or
     # NodePort.
@@ -1062,7 +1063,7 @@ ports:
       sanitizePath:  # @schema type:[boolean, null]
       # -- Defines how request headers with non-alphanumeric characters in their names are handled (v3.7.12+).
       # See [upstream documentation](https://doc.traefik.io/traefik/reference/install-configuration/entrypoints/#aliasheadersstrategy)
-      aliasHeadersStrategy:  # @schema enum:[keep, delete, reject, null]; type:[string, null]
+      aliasHeadersStrategy: reject # @schema enum:[keep, delete, reject, null]; type:[string, null]
       # -- Defines how request headers with underscores in their names are handled (v3.7.6-v3.7.11).
       # Replaced by the aliasHeadersStrategy option for Traefik v3.7.12+.
       # See [upstream documentation](https://doc.traefik.io/traefik/reference/install-configuration/entrypoints/#underscoreheadersstrategy)
@@ -1165,13 +1166,14 @@ service:
     type: LoadBalancer
   # -- Can be used to create multiple Service.
   # See EXAMPLES.md for more details.
-  loadBalancerSourceRanges: []
+  loadBalancerSourceRanges:
+    - ${LOADBALANCER_IP}
   # - 192.168.0.1/32
   # - 172.16.0.0/16
   ## -- Class of the load balancer implementation
   # loadBalancerClass: service.k8s.aws/nlb
-  externalIPs: 
-    - ${LOADBALANCER_IP}
+  # externalIPs: 
+  #   - ${LOADBALANCER_IP}
   additionalServices: {}
 
 autoscaling:  # @schema additionalProperties: false
