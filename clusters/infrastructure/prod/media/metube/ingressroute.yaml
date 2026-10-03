@@ -11,7 +11,7 @@ metadata:
     gethomepage.dev/group: Media
     gethomepage.dev/icon: "sh-metube.png"
     gethomepage.dev/name: metube
-    gethomepage.dev/pod-selector: "app=metube"
+    gethomepage.dev/pod-selector: "app.kubernetes.io/name=metube"
 spec:
   entryPoints:
     - websecure
