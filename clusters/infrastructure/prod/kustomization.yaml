@@ -37,6 +37,7 @@ resources:
 #! MEDIA
   - media/servarr
   - media/metube
+  - media/wizarr
   # - media/sftpgo
   # - media/tracearr
   # - media/shelfmark
