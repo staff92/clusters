@@ -52,8 +52,8 @@ ingress:
     # -- Provide additional labels which may be required.
     labels: {}
     # -- Provide additional annotations which may be required.
-    annotations:
-      traefik.ingress.kubernetes.io/router.middlewares: authelia-chain-authelia-auth@kubernetescrd
+    annotations: {}
+      #traefik.ingress.kubernetes.io/router.middlewares: authelia-chain-authelia-auth@kubernetescrd
     # -- Set the ingressClass that is used for this ingress.
     # Requires Kubernetes >=1.19
     ingressClassName: "traefik"
@@ -100,7 +100,9 @@ ingress:
           - websecure
         # Ensures tls annotation is set
         forceTLS: true
-        middlewares: []
+        middlewares:
+          - name: chain-authelia-auth
+            namespace: authelia
         #   - name: my-middleware
         #     # Optional, by default will try to
         #     # "lookup" the namespace based on the name
@@ -127,7 +129,7 @@ ingress:
         # Default: chart description
         description: "MeTube is a self-hosted web UI for yt-dlp"
         # Default: no group
-        group: "Infrastructure"
+        group: "Media"
         # Default: chart icon
         # icon: ""
         # widget:
