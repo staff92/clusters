@@ -42,7 +42,7 @@ workload:
 ingress:
   main:
     # -- Enables or disables the ingress
-    enabled: false
+    enabled: true
     # -- Make this the primary ingress (used in probes, notes, etc...).
     # If there is more than 1 ingress, make sure that only 1 ingress is marked as primary.
     primary: true
@@ -52,8 +52,8 @@ ingress:
     # -- Provide additional labels which may be required.
     labels: {}
     # -- Provide additional annotations which may be required.
-    annotations: 
-      traefik.ingress.kubernetes.io/router.middlewares: authelia-chain-authelia-auth@kubernetescrd
+    annotations: {} 
+      # traefik.ingress.kubernetes.io/router.middlewares: authelia-chain-authelia-auth@kubernetescrd
     # -- Set the ingressClass that is used for this ingress.
     # Requires Kubernetes >=1.19
     ingressClassName: "traefik"
@@ -100,9 +100,10 @@ ingress:
           - websecure
         # Ensures tls annotation is set
         forceTLS: true
-        # middlewares: []
-          # - name: chain-authelia-auth
-          #   namespace: authelia
+        middlewares: 
+          - name: chain-authelia-auth
+            namespace: authelia
+            expandObjectName: false
         #   - name: my-middleware
         #     # Optional, by default will try to
         #     # "lookup" the namespace based on the name
