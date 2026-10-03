@@ -1,0 +1,26 @@
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: metube
+  namespace: media
+  annotations:
+    gethomepage.dev/href: "https://metube.${CLUSTER_DOMAIN}"
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/description: "MeTube is a self-hosted web UI for yt-dlp"
+    gethomepage.dev/group: Media
+    gethomepage.dev/icon: "sh-metube.png"
+    gethomepage.dev/name: metube
+    gethomepage.dev/pod-selector: "app=metube"
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`metube.${CLUSTER_DOMAIN}`)
+      kind: Rule
+      middlewares:
+        - name: 'chain-authelia-auth'
+          namespace: 'authelia'
+      services:
+        - name: metube
+          port: 10216
