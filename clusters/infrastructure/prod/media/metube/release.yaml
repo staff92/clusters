@@ -1,0 +1,82 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: metube
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: metube
+  valuesFrom:
+    - kind: ConfigMap
+      name: metube-values
+      valuesKey: values.yaml
+
+# apiVersion: helm.toolkit.fluxcd.io/v2
+# kind: HelmRelease
+# metadata:
+#   name: metube
+#   namespace: media
+# spec:
+#   interval: 1h
+#   chart:
+#     spec:
+#       chart: docker/helm/metube
+#       sourceRef:
+#         kind: GitRepository
+#         name: metube
+#         namespace: media
+
+# ---
+# apiVersion: helm.toolkit.fluxcd.io/v2
+# kind: HelmRelease
+# metadata:
+#   name: metube
+# spec:
+#   interval: 1h
+#   chartRef:
+#     kind: OCIRepository
+#     name: metube
+#   valuesFrom:
+#     - kind: ConfigMap
+#       name: metube-values
+#       valuesKey: values.yaml
+#   targetNamespace: media
+
+
+
+# ---
+# apiVersion: source.toolkit.fluxcd.io/v1
+# kind: HelmChart
+# metadata:
+#   name: podinfo
+#   namespace: default
+# spec:
+#   interval: 5m0s
+#   chart: podinfo
+#   reconcileStrategy: ChartVersion
+#   sourceRef:
+#     kind: HelmRepository
+#     name: podinfo
+#   version: '5.*'
+
+# ---
+# apiVersion: helm.toolkit.fluxcd.io/v2
+# kind: HelmRelease
+# metadata:
+#   name: metube
+# spec:
+#   interval: 1h
+#   chart:
+#     spec:
+#       chart: ./docker/helm/metube
+#       sourceRef:
+#         kind: GitRepository
+#         name: metube
+#         namespace: flux-system
+#       reconcileStrategy: Revision
+#   valuesFrom:
+#     - kind: ConfigMap
+#       name: metube-values
+#       valuesKey: values.yaml

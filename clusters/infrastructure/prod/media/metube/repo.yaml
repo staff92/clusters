@@ -1,0 +1,65 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: metube
+spec:
+  interval: 1h
+  layerSelector:
+    mediaType: "application/vnd.cncf.helm.chart.content.v1.tar+gzip"
+    operation: copy
+  url: oci://oci.trueforge.org/truecharts/metube
+  ref:
+    tag: 18.9.0
+
+# apiVersion: source.toolkit.fluxcd.io/v1
+# kind: GitRepository
+# metadata:
+#   name: metube
+#   namespace: media
+# spec:
+#   interval: 1h
+#   url: https://github.com/connorgallopo/metube
+#   ref:
+#     branch: main
+#   ignore: |
+#     /*
+#     !/docker/helm/metube
+
+# apiVersion: source.toolkit.fluxcd.io/v1
+# kind: GitRepository
+# metadata:
+#   name: metube
+#   namespace: flux-system
+# spec:
+#   interval: 30m
+#   url: https://github.com/connorgallopo/metube
+#   ref:
+#     branch: main
+# # ---
+# ---
+# apiVersion: source.toolkit.fluxcd.io/v1
+# kind: OCIRepository
+# metadata:
+#   name: metube
+#   namespace: media
+# spec:
+#   # type: oci
+#   interval: 1h
+#   url: oci://oci.trueforge.org/truecharts/metube
+#   ref:
+#     tag: 4.12.4
+#   # layerSelector:
+#   #   mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
+#   #   operation: copy
+
+# ---
+# apiVersion: source.toolkit.fluxcd.io/v1
+# kind: OCIRepository
+# metadata:
+#   name: homepage
+# spec:
+#   interval: 1h
+#   url: oci://ghcr.io/m0nsterrr/helm-charts/homepage
+#   ref:
+#     tag: 4.6.0

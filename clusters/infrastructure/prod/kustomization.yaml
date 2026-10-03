@@ -36,6 +36,7 @@ resources:
   # - monitoring/kubeshark
 #! MEDIA
   - media/servarr
+  - media/metube
   # - media/sftpgo
   # - media/tracearr
   # - media/shelfmark
