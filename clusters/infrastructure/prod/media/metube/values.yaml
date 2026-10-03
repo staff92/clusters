@@ -100,7 +100,7 @@ ingress:
           - websecure
         # Ensures tls annotation is set
         forceTLS: true
-        middlewares: []
+        # middlewares: []
           # - name: chain-authelia-auth
           #   namespace: authelia
         #   - name: my-middleware
