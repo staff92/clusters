@@ -149,7 +149,14 @@ serviceMonitor:
   # timeout: 60
   # interval: 60
 
-resources: {}
+resources:
+  requests:
+    cpu: 250m
+    memory: 512Mi
+  limits:
+    cpu: "1"
+    memory: 1Gi
+# resources: {}
 #  limits:
 #    cpu: 100m
 #    memory: 128Mi
@@ -263,7 +270,13 @@ ingress:
 
   # -- Stirling-pdf Ingress annotations
   annotations:
-    {}
+    gethomepage.dev/href: "https://pdf.${CLUSTER_DOMAIN}"
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/description: "Stirling PDF is a powerful, open-source PDF editing platform"
+    gethomepage.dev/group: Infrastructure
+    gethomepage.dev/icon: "sh-stirling-pdf.png"
+    gethomepage.dev/name: stirling-pdf
+    gethomepage.dev/pod-selector: "app.kubernetes.io/instance=stirling-pdf"
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
 
