@@ -166,7 +166,7 @@ resources:
 
 probes:
   liveness:
-    enabled: true
+    enabled: false
     initialDelaySeconds: 90
     periodSeconds: 15
     timeoutSeconds: 5
@@ -177,7 +177,7 @@ probes:
     # path: /
     # port: 8080
   readiness:
-    enabled: true
+    enabled: false
     initialDelaySeconds: 60
     periodSeconds: 10
     timeoutSeconds: 5
