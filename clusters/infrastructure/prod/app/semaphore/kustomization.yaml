@@ -18,13 +18,19 @@ patches:
   - target:
       kind: Deployment
       name: semaphore
-    patch: |
-      - op: add
-        path: /metadata/labels/sablier.enable
-        value: "true"
-      - op: add
-        path: /spec/template/metadata/labels/sablier.enable
-        value: "true"
+    patch: |-
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: semaphore
+        labels:
+          sablier.enable: "true"
+      spec:
+        template:
+          metadata:
+            labels:
+              sablier.enable: "true"
+
 
 
 
