@@ -10,7 +10,13 @@ replicaCount: 1
 #   # -- Deployment strategy. RollingUpdate for RWX or Recreate for RWO
 #   type: RollingUpdate
 strategy:
-  type: RollingUpdate
+  type: ""
+
+spec:
+  install:
+    disableSchemaValidation: true
+  upgrade:
+    disableSchemaValidation: true
 
 image:
   repository: ghcr.io/wizarrrr/wizarr
