@@ -43,7 +43,7 @@ metadata:
 spec:
   plugin:
     sablier:
-      sablierUrl: http://sablier:10000
+      sablierUrl: http://sablier-sablier:10000
       group: my-app-group
       sessionDuration: 1m
       keepAliveInterval: 30s

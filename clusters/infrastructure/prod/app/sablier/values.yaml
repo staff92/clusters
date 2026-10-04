@@ -28,6 +28,8 @@ logLevel: "info"
 # (see the Configuration section above)
 config: 
   provider:
+   auto-stop-on-startup: false
+   auto-warm-externally-started: true
     kubernetes:
       qps: 64
       burst: 128
@@ -39,12 +41,11 @@ config:
     level: debug
   strategy:
     dynamic:
-      custom-themes-path: /etc/sablier/themes
       show-details-by-default: true
       default-theme: hacker-terminal
       default-refresh-frequency: 5s
-    blocking:
-      default-timeout: 1m
+    # blocking:
+    #   default-timeout: 1m
 
 #{}
 #  provider:
