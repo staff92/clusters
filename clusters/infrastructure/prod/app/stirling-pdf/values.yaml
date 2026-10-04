@@ -167,22 +167,44 @@ resources:
 probes:
   liveness:
     enabled: true
-    initialDelaySeconds: 5
-    periodSeconds: 10
-    timeoutSeconds: 1
+    initialDelaySeconds: 90
+    periodSeconds: 15
+    timeoutSeconds: 5
     successThreshold: 1
-    failureThreshold: 3
+    failureThreshold: 5
   livenessHttpGetConfig:
     scheme: HTTP
+    path: /
+    port: 8080
   readiness:
     enabled: true
-    initialDelaySeconds: 5
+    initialDelaySeconds: 60
     periodSeconds: 10
-    timeoutSeconds: 1
+    timeoutSeconds: 5
     successThreshold: 1
-    failureThreshold: 3
+    failureThreshold: 5
   readinessHttpGetConfig:
     scheme: HTTP
+    path: /
+    port: 8080
+  # liveness:
+  #   enabled: true
+  #   initialDelaySeconds: 5
+  #   periodSeconds: 10
+  #   timeoutSeconds: 1
+  #   successThreshold: 1
+  #   failureThreshold: 3
+  # livenessHttpGetConfig:
+  #   scheme: HTTP
+  # readiness:
+  #   enabled: true
+  #   initialDelaySeconds: 5
+  #   periodSeconds: 10
+  #   timeoutSeconds: 1
+  #   successThreshold: 1
+  #   failureThreshold: 3
+  # readinessHttpGetConfig:
+  #   scheme: HTTP
 
 serviceAccount:
   create: true
