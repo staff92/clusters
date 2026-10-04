@@ -33,7 +33,7 @@ envs:
   - name: SYSTEM_DEFAULTLOCALE
     value: "en-GB"
   - name: SECURITY_ENABLELOGIN
-    value: "false"
+    value: "true"
   - name: DISABLE_ADDITIONAL_FEATURES
     value: "false"
   - name: FAT_DOCKER
@@ -311,6 +311,7 @@ ingress:
     #   tls: false
     - name: pdf.${CLUSTER_DOMAIN}
       path: /
+      tls: true
     #
     #   ## Set this to true in order to enable TLS on the ingress record
     #   tls: true
