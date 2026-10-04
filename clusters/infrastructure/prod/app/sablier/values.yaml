@@ -26,7 +26,17 @@ logLevel: "info"
 
 # -- Sablier's configuration file, mounted at `/etc/sablier/sablier.yml`
 # (see the Configuration section above)
-config: {}
+config: 
+  provider:
+    kubernetes:
+      qps: 64
+      burst: 128
+      delimiter: "."
+      ready-on-first-replica: true
+  sessions:
+    default-duration: 1m
+
+#{}
 #  provider:
 #    # auto-warm-externally-started needs auto-stop-on-startup: false, which
 #    # otherwise scales those instances to zero before the warm watcher sees them
