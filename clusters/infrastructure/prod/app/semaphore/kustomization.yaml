@@ -13,3 +13,25 @@ configMapGenerator:
       - values.yaml
 generatorOptions:
   disableNameSuffixHash: true
+
+patches:
+  - target:
+      kind: Deployment
+      name: semaphore
+    patch: |
+      - op: add
+        path: /metadata/labels/sablier.enable
+        value: "true"
+
+
+
+
+# - op: add
+#   path: /metadata/annotations
+#   value:
+#     sablier.group: "team-a,team-b"
+#     sablier.running-hours: "09:00-18:00"
+#     sablier.running-days: "Mon,Tue,Wed,Thu,Fri"
+# - op: add
+#   path: /spec/template/metadata/labels/sablier.enable
+#   value: "true"
