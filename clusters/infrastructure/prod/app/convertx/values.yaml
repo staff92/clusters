@@ -1,0 +1,132 @@
+# namespace.yaml
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: convertx
+
+---
+# pvc.yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: convertx-data
+  namespace: convertx
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+  storageClassName: openebs-hostpath
+
+# ---
+# # secret.yaml
+# apiVersion: v1
+# kind: Secret
+# metadata:
+#   name: convertx-secret
+#   namespace: convertx
+# type: Opaque
+# stringData:
+#   JWT_SECRET: "change-this-to-a-random-secret-string"
+
+---
+# deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: convertx
+  namespace: convertx
+  labels:
+    app: convertx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: convertx
+  template:
+    metadata:
+      labels:
+        app: convertx
+    spec:
+      containers:
+        - name: convertx
+          image: ghcr.io/c4illin/convertx:latest
+          ports:
+            - containerPort: 3000
+          env:
+            - name: JWT_SECRET
+              value: ${CONVERTX_JWT_TOKEN}
+              # valueFrom:
+              #   secretKeyRef:
+              #     name: convertx-secret
+              #     key: JWT_SECRET
+            - name: ACCOUNT_REGISTRATION
+              value: "false"
+            - name: HTTP_ALLOWED
+              value: "true"
+            - name: ALLOW_UNAUTHENTICATED
+              value: "true"
+            - name: AUTO_DELETE_EVERY_N_HOURS
+              value: "0"
+            - name: TZ
+              value: "Europe/Paris"
+            - name: UNAUTHENTICATED_USER_SHARING
+              value: "true"
+          volumeMounts:
+            - name: data
+              mountPath: /app/data
+          resources:
+            requests:
+              cpu: "250m"
+              memory: "256Mi"
+            limits:
+              cpu: "1000m"
+              memory: "1Gi"
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: convertx-data
+
+---
+# service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: convertx
+  namespace: convertx
+spec:
+  selector:
+    app: convertx
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000
+  type: ClusterIP
+
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: convertx
+  namespace: convertx
+  annotations:
+    gethomepage.dev/href: "https://convertx.${CLUSTER_DOMAIN}"
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/description: "A self-hosted online file converter. Supports over a thousand different formats."
+    gethomepage.dev/group: Infrastructure
+    gethomepage.dev/icon: "sh-convertx.png"
+    gethomepage.dev/name: convertx
+    gethomepage.dev/pod-selector: "app=convertx"
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`convertx.${CLUSTER_DOMAIN}`)
+      kind: Rule
+      middlewares:
+        - name: 'chain-authelia-auth'
+          namespace: 'authelia'
+      services:
+        - name: convertx
+          port: 80

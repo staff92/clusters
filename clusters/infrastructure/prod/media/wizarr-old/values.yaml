@@ -9,8 +9,9 @@ replicaCount: 1
 # strategy:
 #   # -- Deployment strategy. RollingUpdate for RWX or Recreate for RWO
 #   type: RollingUpdate
-strategy:
-  type: ""
+# strategy: {}
+  # RollingUpdate:
+  # type: ""
 
 spec:
   install:
