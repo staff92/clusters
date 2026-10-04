@@ -22,7 +22,9 @@ patches:
       - op: add
         path: /metadata/labels/sablier.enable
         value: "true"
-
+      - op: add
+        path: /spec/template/metadata/labels/sablier.enable
+        value: "true"
 
 
 
