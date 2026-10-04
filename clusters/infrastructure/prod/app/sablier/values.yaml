@@ -28,8 +28,8 @@ logLevel: "info"
 # (see the Configuration section above)
 config: 
   provider:
-   auto-stop-on-startup: false
-   auto-warm-externally-started: true
+    auto-stop-on-startup: false
+    auto-warm-externally-started: true
     kubernetes:
       qps: 64
       burst: 128
