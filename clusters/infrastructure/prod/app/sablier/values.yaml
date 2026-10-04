@@ -75,7 +75,7 @@ extraVolumeMounts: []
 # -- Sablier's RBAC Configuration
 rbac:
   # -- Enable CNPG integration necessary rights
-  cnpg: false
+  cnpg: true
   # -- Enable OT-CONTAINER-KIT Redis operator necessary rights
   otkRedis: false
 
