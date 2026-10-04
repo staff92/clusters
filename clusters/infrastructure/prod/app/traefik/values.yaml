@@ -153,6 +153,9 @@ experimental:
     crowdsec-bouncer:
       moduleName: github.com/maxlerebourg/crowdsec-bouncer-traefik-plugin
       version: v1.7.0-alpha
+    sablier:
+      moduleName: "github.com/sablierapp/sablier-traefik-plugin"
+      version: "v1.3.1"
   # -- Enable experimental local plugins
   localPlugins: {}
   # -- Enable OTLP logging experimental feature.

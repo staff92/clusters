@@ -34,6 +34,30 @@ spec:
       crowdsecAppsecUnreachableBlock: true
       crowdsecAppsecBodyLimit: 10485760
 
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: sablier
+  namespace: traefik
+spec:
+  plugin:
+    sablier:
+      sablierUrl: http://sablier:10000
+      group: my-app-group
+      sessionDuration: 1m
+      keepAliveInterval: 30s
+      failOpen: true
+      ignoreUserAgent:
+        - curl
+        - "(?i)uptimerobot"
+      dynamic:
+        displayName: My Services
+        showDetails: true
+        theme: hacker-terminal
+        refreshFrequency: 5s
+
+
 # apiVersion: traefik.io/v1alpha1
 # kind: Middleware
 # metadata:

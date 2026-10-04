@@ -1,0 +1,115 @@
+# -- Annotations for all deployed Deployments
+deploymentAnnotations: {}
+
+# -- Labels for all deployed Deployments
+deploymentLabels: {}
+
+# -- Annotations for all deployed pods
+podAnnotations: {}
+
+# -- Labels for all deployed pods
+podLabels: {}
+
+# -- Deployment strategy for all deployed Deployments
+deploymentStrategy:
+  type: RollingUpdate
+  rollingUpdate:
+    maxSurge: 25%
+    maxUnavailable: 25%
+
+# -- Sablier's replicas
+replicas: 1
+
+# -- Sablier log level, rendered as `logging.level` into the config file.
+# A `logging.level` set under `config` takes precedence.
+logLevel: "info"
+
+# -- Sablier's configuration file, mounted at `/etc/sablier/sablier.yml`
+# (see the Configuration section above)
+config: {}
+#  provider:
+#    # auto-warm-externally-started needs auto-stop-on-startup: false, which
+#    # otherwise scales those instances to zero before the warm watcher sees them
+#    auto-stop-on-startup: false
+#    auto-warm-externally-started: true
+#    kubernetes:
+#      qps: 64
+#      burst: 128
+#      delimiter: "."
+#      ready-on-first-replica: true
+#  sessions:
+#    default-duration: 5m
+#  webhooks:
+#    endpoints:
+#      - url: https://uptime.example.com/api/push/xxxxxxxx
+#        events:
+#          - started
+#          - stopped
+
+# -- Extra CLI arguments appended to the sablier container args
+# (e.g. - --server.metrics.enabled=true to expose Prometheus /metrics)
+extraArgs: []
+
+# -- Extra environment variables for the sablier container
+# (e.g. TZ to control the local time used by `sablier.running-hours` windows)
+extraEnv: []
+
+# -- Extra volumes for the sablier pod
+# (e.g. a configMap volume with custom themes for --strategy.dynamic.custom-themes-path)
+extraVolumes: []
+
+# -- Extra volume mounts for the sablier container
+# (e.g. to mount custom themes loaded via --strategy.dynamic.custom-themes-path)
+extraVolumeMounts: []
+
+# -- Sablier's RBAC Configuration
+rbac:
+  # -- Enable CNPG integration necessary rights
+  cnpg: false
+  # -- Enable OT-CONTAINER-KIT Redis operator necessary rights
+  otkRedis: false
+
+image:
+  # -- Sablier image repository
+  repository: "sablierapp/sablier"
+
+  # -- Sablier image tag
+  # (default) appVersion
+  tag: ""
+
+# -- Sablier imagePullPolicy
+imagePullPolicy: IfNotPresent
+
+# -- Sablier readinessProbe
+readinessProbe:
+  httpGet:
+    path: /health
+    port: 10000
+  initialDelaySeconds: 5
+  periodSeconds: 5
+  timeoutSeconds: 1
+  successThreshold: 1
+  failureThreshold: 3
+
+# -- Sablier livenessProbe
+livenessProbe:
+  httpGet:
+    path: /health
+    port: 10000
+  initialDelaySeconds: 5
+  periodSeconds: 5
+  timeoutSeconds: 1
+  successThreshold: 1
+  failureThreshold: 3
+
+# -- PriorityClass name for all deployed pods
+priorityClassName: ""
+
+# -- Resource limits and requests for sablier
+resources: {}
+# requests:
+#   memory: "64Mi"
+#   cpu: "250m"
+# limits:
+#   memory: "128Mi"
+#   cpu: "500m"

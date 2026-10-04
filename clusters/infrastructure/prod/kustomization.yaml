@@ -12,6 +12,7 @@ resources:
 #! LB
   - app/traefik
   - app/metallb
+  - app/sablier
   # - app/flagger
 #! MAIL
   - mail/maildev

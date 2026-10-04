@@ -1,0 +1,8 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: sablier
+spec:
+  interval: 1h
+  url: https://sablierapp.github.io/helm-charts
