@@ -6,9 +6,9 @@
 # -- Number of replicas to run. >1 requires RWX persistence
 replicaCount: 1
 
-strategy: {}
+strategy:
   # -- Deployment strategy. RollingUpdate for RWX or Recreate for RWO
- # type: RollingUpdate
+  type: RollingUpdate
 
 image:
   repository: ghcr.io/wizarrrr/wizarr
