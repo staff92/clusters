@@ -174,8 +174,8 @@ probes:
     failureThreshold: 5
   livenessHttpGetConfig:
     scheme: HTTP
-    path: /
-    port: 8080
+    # path: /
+    # port: 8080
   readiness:
     enabled: true
     initialDelaySeconds: 60
@@ -185,8 +185,8 @@ probes:
     failureThreshold: 5
   readinessHttpGetConfig:
     scheme: HTTP
-    path: /
-    port: 8080
+    # path: /
+    # port: 8080
   # liveness:
   #   enabled: true
   #   initialDelaySeconds: 5
