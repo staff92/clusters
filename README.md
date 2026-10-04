@@ -1282,3 +1282,8 @@ Call with Mirotalk
 ```
 
 Add token to mirotalk App then /p2p in mattermost 
+
+
+
+    sablier.enable: "true"
+    sablier.group: my-app-group
