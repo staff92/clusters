@@ -38,24 +38,186 @@ spec:
 apiVersion: traefik.io/v1alpha1
 kind: Middleware
 metadata:
-  name: sablier
+  name: sablier-sftpgo
   namespace: traefik
 spec:
   plugin:
     sablier:
       sablierUrl: http://sablier-sablier:10000
-      group: my-app-group
-      sessionDuration: 1m
-      keepAliveInterval: 30s
+      group: sftpgo
+      sessionDuration: 30m
+      keepAliveInterval: 5m
       failOpen: true
       ignoreUserAgent:
         - curl
         - "(?i)uptimerobot"
       dynamic:
-        displayName: My Services
+        displayName: SFTP Server
         showDetails: true
-        theme: hacker-terminal
+        theme: ghost
         refreshFrequency: 15s
+
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: sablier-mattermost
+  namespace: traefik
+spec:
+  plugin:
+    sablier:
+      sablierUrl: http://sablier-sablier:10000
+      group: mattermost
+      sessionDuration: 30m
+      keepAliveInterval: 5m
+      failOpen: true
+      ignoreUserAgent:
+        - curl
+        - "(?i)uptimerobot"
+      dynamic:
+        displayName: Mattermost & Mirotalk
+        showDetails: true
+        theme: ghost
+        refreshFrequency: 15s
+
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: sablier-crowdsec
+  namespace: traefik
+spec:
+  plugin:
+    sablier:
+      sablierUrl: http://sablier-sablier:10000
+      group: crowdsec
+      sessionDuration: 30m
+      keepAliveInterval: 5m
+      failOpen: true
+      ignoreUserAgent:
+        - curl
+        - "(?i)uptimerobot"
+      dynamic:
+        displayName: Crowdsec dashboard
+        showDetails: true
+        theme: ghost
+        refreshFrequency: 15s
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: sablier-semaphore
+  namespace: traefik
+spec:
+  plugin:
+    sablier:
+      sablierUrl: http://sablier-sablier:10000
+      group: semaphore
+      sessionDuration: 30m
+      keepAliveInterval: 5m
+      failOpen: true
+      ignoreUserAgent:
+        - curl
+        - "(?i)uptimerobot"
+      dynamic:
+        displayName: Semaphore UI
+        showDetails: true
+        theme: ghost
+        refreshFrequency: 15s
+
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: sablier-convertx
+  namespace: traefik
+spec:
+  plugin:
+    sablier:
+      sablierUrl: http://sablier-sablier:10000
+      group: convertx
+      sessionDuration: 30m
+      keepAliveInterval: 5m
+      failOpen: true
+      ignoreUserAgent:
+        - curl
+        - "(?i)uptimerobot"
+      dynamic:
+        displayName: Convertx
+        showDetails: true
+        theme: ghost
+        refreshFrequency: 15s
+
+
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: sablier-stirling-pdf
+  namespace: traefik
+spec:
+  plugin:
+    sablier:
+      sablierUrl: http://sablier-sablier:10000
+      group: stirling-pdf
+      sessionDuration: 30m
+      keepAliveInterval: 5m
+      failOpen: true
+      ignoreUserAgent:
+        - curl
+        - "(?i)uptimerobot"
+      dynamic:
+        displayName: Stirling-PDF
+        showDetails: true
+        theme: ghost
+        refreshFrequency: 15s
+
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: sablier-metube
+  namespace: traefik
+spec:
+  plugin:
+    sablier:
+      sablierUrl: http://sablier-sablier:10000
+      group: metube
+      sessionDuration: 30m
+      keepAliveInterval: 5m
+      failOpen: true
+      ignoreUserAgent:
+        - curl
+        - "(?i)uptimerobot"
+      dynamic:
+        displayName: MeTube
+        showDetails: true
+        theme: ghost
+        refreshFrequency: 15s
+
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: sablier-seerr
+  namespace: traefik
+spec:
+  plugin:
+    sablier:
+      sablierUrl: http://sablier-sablier:10000
+      group: seerr
+      sessionDuration: 30m
+      keepAliveInterval: 5m
+      failOpen: true
+      ignoreUserAgent:
+        - curl
+        - "(?i)uptimerobot"
+      dynamic:
+        displayName: seerr
+        showDetails: true
+        theme: ghost
+        refreshFrequency: 15s
+
 
 
 # apiVersion: traefik.io/v1alpha1

@@ -17,12 +17,12 @@ spec:
         patches:
           - target:
               kind: Deployment
-              name: sftpgo
+              name: sftp-sftpgo
             patch: |
               apiVersion: apps/v1
               kind: Deployment
               metadata:
-                name: dashboard-crowdsec-web-ui
+                name: sftp-sftpgo
                 labels:
                   sablier.enable: "true"
-                  sablier.group: my-app-group
+                  sablier.group: sftpgo

@@ -29,6 +29,6 @@ spec:
                 name: semaphore
                 labels:
                   sablier.enable: "true"
-                  sablier.group: my-app-group
+                  sablier.group: semaphore
 
 #  sablier.group: my-app-group

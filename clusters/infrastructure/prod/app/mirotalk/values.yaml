@@ -11,7 +11,7 @@ kind: Deployment
 metadata:
   labels:
     sablier.enable: "true"
-    sablier.group: my-app-group
+    sablier.group: mattermost
     app: p2p
   name: p2p
 spec:

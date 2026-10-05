@@ -47,4 +47,4 @@ spec:
                 name: dashboard-crowdsec-web-ui
                 labels:
                   sablier.enable: "true"
-                  sablier.group: my-app-group
+                  sablier.group: crowdsec
