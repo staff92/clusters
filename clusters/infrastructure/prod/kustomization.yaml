@@ -56,5 +56,5 @@ resources:
   # - app/gowitness
   # - app/adminer
   # - app/immich
-  - app/stirling-pdf
-  - app/convertx
+  # - app/stirling-pdf
+  # - app/convertx

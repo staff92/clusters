@@ -136,7 +136,8 @@ ingress:
         group: "Media"
         # Default: chart icon
         # icon: ""
-        # widget:
+        widget:
+          enabled: false
         #   # Default: chartname
         #   type: ""
         #   # Default to ingress host 0
