@@ -8,7 +8,8 @@ deploymentLabels: {}
 podAnnotations: {}
 
 # -- Labels for all deployed pods
-podLabels: {}
+podLabels:
+  app.kubernetes.io/name: sablier
 
 # -- Deployment strategy for all deployed Deployments
 deploymentStrategy:

@@ -205,7 +205,7 @@ config:
             href: https://sablierapp.dev
             icon: sh-sablier.png
             namespace: traefik
-            pod-selector: app=sablier-sablier
+            app: sablier
             showStats: true
             description: "Scale your workloads to zero, on demand"
         - Traefik:
