@@ -37,13 +37,14 @@ config:
       ready-on-first-replica: true
   sessions:
     default-duration: 1m
+    expiration-interval: 20s
   logging:
-    level: debug
+    level: release
   strategy:
     dynamic:
       show-details-by-default: true
       default-theme: hacker-terminal
-      default-refresh-frequency: 5s
+      default-refresh-frequency: 15s
     # blocking:
     #   default-timeout: 1m
 

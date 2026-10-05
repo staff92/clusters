@@ -1286,4 +1286,11 @@ Add token to mirotalk App then /p2p in mattermost
 
 
     sablier.enable: "true"
-    sablier.group: my-app-group
+    sablier.group: "my-app-group"
+    sablier.idle.replicas: "1"
+
+    sablier.idle.replicas: 1
+    sablier.idle.memory: 64m
+    sablier.idle.cpu: 0.1
+    sablier.active.memory: 512m
+    sablier.active.cpu: 2.0

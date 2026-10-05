@@ -201,6 +201,10 @@ config:
             icon: si-flux.svg
             description: "This stack is full InfraAsCode with k0s & fluxCD ! Check the code :)"
       - Infrastructure:
+        - Sablier:
+            href: https://sablierapp.dev
+            icon: sh-sablier.png
+            description: "Scale your workloads to zero, on demand"
         - Traefik:
             href: https://traefik.${CLUSTER_DOMAIN}
             icon: traefik.png

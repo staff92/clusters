@@ -55,7 +55,7 @@ spec:
         displayName: My Services
         showDetails: true
         theme: hacker-terminal
-        refreshFrequency: 5s
+        refreshFrequency: 15s
 
 
 # apiVersion: traefik.io/v1alpha1
