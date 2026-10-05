@@ -329,7 +329,7 @@ providers:
     # -- Allows IngressRoute to reference resources in namespace other than theirs
     allowCrossNamespace: true
     # -- Allows to reference ExternalName services in IngressRoute
-    allowExternalNameServices: false
+    allowExternalNameServices: true
     # -- Allows to return 503 when there are no endpoints available
     allowEmptyServices: true
     # -- List of namespaces from which IngressRoute, IngressRouteTCP, IngressRouteUDP, and TraefikService are allowed to declare cross-provider references. Requires traefik v3.7.1+.
