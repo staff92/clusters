@@ -104,6 +104,9 @@ ingress:
           - name: chain-authelia-auth
             namespace: authelia
             expandObjectName: false
+          - name: 'sablier-metube'
+            namespace: 'traefik'
+            expandObjectName: false
         #   - name: my-middleware
         #     # Optional, by default will try to
         #     # "lookup" the namespace based on the name

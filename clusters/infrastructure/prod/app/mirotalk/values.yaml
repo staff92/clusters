@@ -78,9 +78,11 @@ spec:
       services:
         - name: p2p
           port: 3000
-      # middlewares:
-      #   - name: 'chain-authelia-auth'
-      #     namespace: 'authelia'
+      middlewares:
+        - name: crowdsec-bouncer-appsec
+          namespace: 'traefik'
+        - name: 'sablier-mattermost'
+          namespace: 'traefik'
 
 ---
 apiVersion: v1

@@ -292,6 +292,7 @@ ingress:
 
   # -- Stirling-pdf Ingress annotations
   annotations:
+    traefik.ingress.kubernetes.io/router.middlewares: traefik-crowdsec-bouncer-appsec@kubernetescrd,traefik-sablier-stirling-pdf@kubernetescrd
     gethomepage.dev/href: "https://pdf.${CLUSTER_DOMAIN}"
     gethomepage.dev/enabled: "true"
     gethomepage.dev/description: "Stirling PDF is a powerful, open-source PDF editing platform"

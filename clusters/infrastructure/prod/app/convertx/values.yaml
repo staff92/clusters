@@ -129,6 +129,8 @@ spec:
       middlewares:
         - name: 'chain-authelia-auth'
           namespace: 'authelia'
+        - name: 'sablier-convertx'
+          namespace: 'traefik'
       services:
         - name: convertx
           port: 80

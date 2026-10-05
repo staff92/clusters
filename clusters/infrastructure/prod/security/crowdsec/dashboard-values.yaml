@@ -106,7 +106,7 @@ ingress:
     ingressClassName: "traefik"
     enabled: true
     annotations:
-      #traefik.ingress.kubernetes.io/router.middlewares: traefik-crowdsec-bouncer-appsec@kubernetescrd
+      traefik.ingress.kubernetes.io/router.middlewares: traefik-crowdsec-bouncer-appsec@kubernetescrd,traefik-sablier-crowdsec@kubernetescrd
       gethomepage.dev/enabled: "true"
       gethomepage.dev/name: "crowdsec"
       gethomepage.dev/description: " Curated Threat Intelligence"
