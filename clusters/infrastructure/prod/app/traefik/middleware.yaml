@@ -38,6 +38,29 @@ spec:
 apiVersion: traefik.io/v1alpha1
 kind: Middleware
 metadata:
+  name: sablier-lidarr
+  namespace: traefik
+spec:
+  plugin:
+    sablier:
+      sablierUrl: http://sablier-sablier:10000
+      group: lidarr
+      sessionDuration: 30m
+      keepAliveInterval: 5m
+      failOpen: true
+      ignoreUserAgent:
+        - curl
+        - "(?i)uptimerobot"
+      dynamic:
+        displayName: Lidarr
+        showDetails: true
+        theme: ghost
+        refreshFrequency: 15s
+
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
   name: sablier-sftpgo
   namespace: traefik
 spec:

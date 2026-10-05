@@ -1449,7 +1449,7 @@ lidarr:
     enabled: true
     className: "traefik"
     annotations:
-      traefik.ingress.kubernetes.io/router.middlewares: authelia-chain-authelia-auth@kubernetescrd
+      traefik.ingress.kubernetes.io/router.middlewares: authelia-chain-authelia-auth@kubernetescrd,traefik-sablier-lidarr@kubernetescrd
       gethomepage.dev/enabled: "true"
       gethomepage.dev/name: "Lidarr"
       gethomepage.dev/description: "Lidarr is a music collection manager for Usenet and BitTorrent users"
