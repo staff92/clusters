@@ -16,6 +16,24 @@ spec:
     - kind: ConfigMap
       name: servarr-values
       valuesKey: values.yaml
+  postRenderers:
+    - kustomize:
+        patches:
+          - target:
+              kind: Deployment
+              name: servarr-seerr
+            patch: |
+              apiVersion: apps/v1
+              kind: Deployment
+              metadata:
+                name: servarr-seerr
+                labels:
+                  sablier.enable: "true"
+                  sablier.group: my-app-group
+
+
+
+
   # targetNamespace: longhorn
   # createTargetNamespace: true 
   # install:

@@ -10,6 +10,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
+    sablier.enable: "true"
+    sablier.group: my-app-group
     app: p2p
   name: p2p
 spec:

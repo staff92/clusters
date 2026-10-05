@@ -16,6 +16,20 @@ spec:
     - kind: ConfigMap
       name: mattermost-values
       valuesKey: values.yaml
+  postRenderers:
+    - kustomize:
+        patches:
+          - target:
+              kind: Deployment
+              name: mattermost
+            patch: |
+              apiVersion: apps/v1
+              kind: Deployment
+              metadata:
+                name: mattermost
+                labels:
+                  sablier.enable: "true"
+                  sablier.group: my-app-group
 
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2

@@ -39,7 +39,7 @@ resources:
   - media/servarr
   - media/metube
   # - media/wizarr
-  # - media/sftpgo
+  - media/sftpgo
   # - media/tracearr
   # - media/shelfmark
   # - media/vidbee

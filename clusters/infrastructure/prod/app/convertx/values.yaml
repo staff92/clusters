@@ -39,6 +39,8 @@ metadata:
   namespace: convertx
   labels:
     app: convertx
+    sablier.enable: "true"
+    sablier.group: my-app-group
 spec:
   replicas: 1
   selector:

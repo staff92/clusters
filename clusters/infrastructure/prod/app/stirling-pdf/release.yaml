@@ -16,3 +16,17 @@ spec:
     - kind: ConfigMap
       name: stirling-pdf-values
       valuesKey: values.yaml
+  postRenderers:
+    - kustomize:
+        patches:
+          - target:
+              kind: Deployment
+              name: stirling-pdf-stirling-pdf-chart
+            patch: |
+              apiVersion: apps/v1
+              kind: Deployment
+              metadata:
+                name: stirling-pdf-stirling-pdf-chart
+                labels:
+                  sablier.enable: "true"
+                  sablier.group: my-app-group
