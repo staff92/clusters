@@ -16,3 +16,19 @@ spec:
     - kind: ConfigMap
       name: semaphore-values
       valuesKey: values.yaml
+  postRenderers:
+    - kustomize:
+        patches:
+          - target:
+              kind: Deployment
+              name: semaphore
+            patch: |
+              apiVersion: apps/v1
+              kind: Deployment
+              metadata:
+                name: semaphore
+                labels:
+                  sablier.enable: "true"
+                  sablier.group: my-app-group
+
+#  sablier.group: my-app-group
