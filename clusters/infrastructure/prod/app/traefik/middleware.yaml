@@ -80,28 +80,28 @@ spec:
         theme: ghost
         refreshFrequency: 15s
 
----
-apiVersion: traefik.io/v1alpha1
-kind: Middleware
-metadata:
-  name: sablier-mattermost
-  namespace: traefik
-spec:
-  plugin:
-    sablier:
-      sablierUrl: http://sablier-sablier:10000
-      group: mattermost
-      sessionDuration: 30m
-      keepAliveInterval: 5m
-      failOpen: true
-      ignoreUserAgent:
-        - curl
-        - "(?i)uptimerobot"
-      dynamic:
-        displayName: Mattermost & Mirotalk
-        showDetails: true
-        theme: ghost
-        refreshFrequency: 15s
+# ---
+# apiVersion: traefik.io/v1alpha1
+# kind: Middleware
+# metadata:
+#   name: sablier-mattermost
+#   namespace: traefik
+# spec:
+#   plugin:
+#     sablier:
+#       sablierUrl: http://sablier-sablier:10000
+#       group: mattermost
+#       sessionDuration: 30m
+#       keepAliveInterval: 5m
+#       failOpen: true
+#       ignoreUserAgent:
+#         - curl
+#         - "(?i)uptimerobot"
+#       dynamic:
+#         displayName: Mattermost & Mirotalk
+#         showDetails: true
+#         theme: ghost
+#         refreshFrequency: 15s
 
 ---
 apiVersion: traefik.io/v1alpha1

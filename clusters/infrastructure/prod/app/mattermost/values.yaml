@@ -110,7 +110,8 @@ mattermostApp:
       #   hosts:
       #     - chat.${CLUSTER_DOMAIN}
     annotations:
-      traefik.ingress.kubernetes.io/router.middlewares: traefik-crowdsec-bouncer-appsec@kubernetescrd,traefik-sablier-mattermost@kubernetescrd
+      traefik.ingress.kubernetes.io/router.middlewares: traefik-crowdsec-bouncer-appsec@kubernetescrd
+      #traefik-sablier-mattermost@kubernetescrd
       gethomepage.dev/enabled: "true"
       gethomepage.dev/name: "Mattermost"
       gethomepage.dev/description: "Mattermost is an open core, self-hosted collaboration platform that offers chat, workflow automation, voice calling, screen sharing, and AI integration."

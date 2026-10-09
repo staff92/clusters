@@ -367,7 +367,8 @@ dashboard:
       gethomepage.dev/description: "A High-Performance, Cloud-Native, Distributed File System"
       gethomepage.dev/group: "Infrastructure"
       gethomepage.dev/icon: "kubernetes.png"
-      gethomepage.dev/pod-selector: "app.kubernetes.io/name=juicefs-csi-driver"
+      gethomepage.dev/pod-selector: "app.kubernetes.io/name=juicefs-mount"
+      #gethomepage.dev/pod-selector: "app.kubernetes.io/name=juicefs-csi-driver"
     hosts:
     - host: "juice.${CLUSTER_DOMAIN}"
       paths:

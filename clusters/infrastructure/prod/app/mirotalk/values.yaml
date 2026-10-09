@@ -81,8 +81,8 @@ spec:
       middlewares:
         - name: crowdsec-bouncer-appsec
           namespace: 'traefik'
-        - name: 'sablier-mattermost'
-          namespace: 'traefik'
+        # - name: 'sablier-mattermost'
+        #   namespace: 'traefik'
 
 ---
 apiVersion: v1
