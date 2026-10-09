@@ -1051,10 +1051,15 @@ cscli parsers inspect crowdsecurity/public-dns-allowlist
 #! test 
 echo '{"ClientHost":"9.9.9.9","RequestPath":"/wp-login.php","RequestMethod":"GET","DownstreamStatus":404,"RequestHost":"test.domain","time":"2026-07-20T02:35:00Z"}' | cscli explain --type traefik -f -
 
-# Add machine blocklist-import
-cscli machines add blocklist-import --password "XXXXX" --force
+# Add machine + bouncer blocklist-import
 
-cscli machines add blocklist-import --password 'XXXXX' -f -
+cscli bouncers add blocklist-import
+
+cscli machines add blocklist-import --password "XXXXX" --force ==> BE CAREFULL modify /etc/crowdsec/local_api_credentials.yaml
+
+cscli machines add blocklist-import --password 'XXXXX' -f - ==> OK 
+
+cscli machines add <login> --password '<password>' -f /dev/null
 ```
 
 Ingress 

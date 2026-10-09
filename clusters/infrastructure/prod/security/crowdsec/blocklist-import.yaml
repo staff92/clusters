@@ -50,7 +50,7 @@ spec:
             - name: LOG_LEVEL
               value: "INFO"
             - name: CROWDSEC_LAPI_KEY
-              value: "${CROWDSEC_LAPI_KEY}"    
+              value: "${CROWDSEC_BLOCKLIST_BOUNCER_KEY}"    
             - name: CROWDSEC_MACHINE_PASSWORD
               valueFrom:
                 secretKeyRef:
