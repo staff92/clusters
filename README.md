@@ -1053,6 +1053,8 @@ echo '{"ClientHost":"9.9.9.9","RequestPath":"/wp-login.php","RequestMethod":"GET
 
 # Add machine blocklist-import
 cscli machines add blocklist-import --password "XXXXX" --force
+
+cscli machines add blocklist-import --password 'XXXXX' -f -
 ```
 
 Ingress 
