@@ -265,6 +265,13 @@ config:
   #      - "[STATUS] == 200"
       #alerts:
         #- type: ntfy
+    - name: mattermost
+      url: https://chat.${CLUSTER_DOMAIN}
+      interval: 1h
+      conditions:
+        - "[STATUS] == 200"
+      alerts:
+        - type: ntfy
     - name: jellyfin
       url: https://jelly.${CLUSTER_DOMAIN}
       interval: 1h
