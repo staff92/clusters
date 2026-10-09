@@ -51,7 +51,7 @@ spec:
                 name: servarr-lidarr  
                 labels:
                   sablier.enable: "true"
-                  sablier.group: seerr
+                  sablier.group: lidarr
 
 
   # targetNamespace: longhorn
