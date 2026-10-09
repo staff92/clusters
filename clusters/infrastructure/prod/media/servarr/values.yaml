@@ -1129,7 +1129,7 @@ bazarr:
     enabled: true
     className: "traefik"
     annotations:
-      traefik.ingress.kubernetes.io/router.middlewares: authelia-chain-authelia-auth@kubernetescrd
+      traefik.ingress.kubernetes.io/router.middlewares: authelia-chain-authelia-auth@kubernetescrd,traefik-sablier-bazarr@kubernetescrd
       gethomepage.dev/enabled: "true"
       gethomepage.dev/name: "Bazarr"
       gethomepage.dev/description: "Bazarr is a companion application to Sonarr and Radarr that manages and downloads subtitles"
