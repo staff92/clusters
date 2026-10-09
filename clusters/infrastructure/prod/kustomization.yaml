@@ -58,3 +58,4 @@ resources:
   # - app/immich
   # - app/stirling-pdf
   # - app/convertx
+  - app/whoami
