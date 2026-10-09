@@ -994,13 +994,13 @@ ports:
           permanent: true
     forwardedHeaders:
       # -- Trust forwarded headers information (X-Forwarded-*).
-      trustedIPs:  ["10.0.0.0/8"]
+      trustedIPs:  []
       insecure: false
       # -- Disable appending RemoteAddr to X-Forwarded-For header (v3.7+).
       notAppendXForwardedFor: false
     proxyProtocol:
       # -- Enable the Proxy Protocol header parsing for the entry point
-      trustedIPs: ["10.0.0.0/8"]
+      trustedIPs: []
       insecure: false
     # -- Set transport settings for the entrypoint
     # @default -- nil
@@ -1087,13 +1087,13 @@ ports:
       advertisedPort:  # @schema type:[integer, null]; minimum:0
     forwardedHeaders:
         # -- Trust forwarded headers information (X-Forwarded-*).
-      trustedIPs: ["10.0.0.0/8"]
+      trustedIPs: []
       insecure: false
       # -- Disable appending RemoteAddr to X-Forwarded-For header (v3.7+).
       notAppendXForwardedFor: false
     proxyProtocol:
       # -- Enable the Proxy Protocol header parsing for the entry point
-      trustedIPs: ["10.0.0.0/8"]
+      trustedIPs: []
       insecure: false
     # -- Set transport settings for the entrypoint
     # @default -- nil
@@ -1170,8 +1170,8 @@ service:
     externalTrafficPolicy: Local
   # -- Can be used to create multiple Service.
   # See EXAMPLES.md for more details.
-  loadBalancerSourceRanges:
-    - ${LOADBALANCER_IP}
+  # loadBalancerSourceRanges:
+  #   - ${LOADBALANCER_IP}
   # - 192.168.0.1/32
   # - 172.16.0.0/16
   ## -- Class of the load balancer implementation
