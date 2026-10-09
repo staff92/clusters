@@ -1167,6 +1167,7 @@ service:
   # Cannot contain selector or ports entries.
   spec:
     type: LoadBalancer
+    externalTrafficPolicy: Local
   # -- Can be used to create multiple Service.
   # See EXAMPLES.md for more details.
   loadBalancerSourceRanges:
