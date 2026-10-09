@@ -30,8 +30,28 @@ spec:
                 labels:
                   sablier.enable: "true"
                   sablier.group: seerr
-
-
+          - target:
+              kind: Deployment
+              name: servarr-bazarr     
+            patch: |
+              apiVersion: apps/v1
+              kind: Deployment
+              metadata:
+                name: servarr-bazarr     
+                labels:
+                  sablier.enable: "true"
+                  sablier.group: bazarr     
+          - target:
+              kind: Deployment
+              name: servarr-lidarr  
+            patch: |
+              apiVersion: apps/v1
+              kind: Deployment
+              metadata:
+                name: servarr-lidarr  
+                labels:
+                  sablier.enable: "true"
+                  sablier.group: seerr
 
 
   # targetNamespace: longhorn
