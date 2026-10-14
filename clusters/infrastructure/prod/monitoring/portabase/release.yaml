@@ -1,0 +1,28 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: portabase
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: portabase
+  valuesFrom:
+    - kind: ConfigMap
+      name: portabase-values
+      valuesKey: values.yaml
+  # postRenderers:
+  #   - kustomize:
+  #       patches:
+  #         - target:
+  #             kind: Deployment
+  #             name: portabase-portabasego
+  #           patch: |
+  #             apiVersion: apps/v1
+  #             kind: Deployment
+  #             metadata:
+  #               name: portabase-portabasego
+  #               labels:
+  #                 sablier.enable: "true"
+  #                 sablier.group: portabasego

@@ -1,0 +1,10 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: portabase
+spec:
+  interval: 1h
+  url: oci://ghcr.io/portabase/charts/portabase
+  ref:
+    tag: 1.32.0
