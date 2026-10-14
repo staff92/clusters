@@ -29,8 +29,8 @@ resources:
 timezone: Europe/Paris
 
 project:
-  #url: https://kopia.${CLUSTER_DOMAIN}
-  url: http://localhost:8887
+  url: https://kopia.${CLUSTER_DOMAIN}
+  #url: http://localhost:8887
  
   secret: ''
   behindProxy: true
