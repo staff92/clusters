@@ -12,3 +12,21 @@ configMapGenerator:
       - values.yaml
 generatorOptions:
   disableNameSuffixHash: true
+patches:
+  - target:
+      kind: Deployment
+      name: portabase
+    patch: |-
+      - op: add
+        path: /spec/template/spec/containers/0/env/-
+        value:
+          name: TELEMETRY
+          value: "false"
+
+
+          
+# - op: add
+#   path: /spec/template/spec/containers/0/env/-
+#   value:
+#     name: SMTP_PASSWORD
+#     value: "false"
