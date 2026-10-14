@@ -29,10 +29,11 @@ resources:
 timezone: Europe/Paris
 
 project:
+  #url: https://kopia.${CLUSTER_DOMAIN}
   url: http://localhost:8887
  
   secret: ''
-  behindProxy: false
+  behindProxy: true
 
 # Existing Secret containing PROJECT_SECRET and optional DATABASE_URL, SMTP_USER,
 # SMTP_PASSWORD and authentication credentials. When set, leave the corresponding
