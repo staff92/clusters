@@ -65,6 +65,7 @@ smtp:
   # user: ""
   # password: ""
   from: "portabase@noreply.com"
+  to: "${LDAP_USER1_EMAIL}"
   secure: false
 
 # Provider names must use lowercase letters, digits and underscores.
