@@ -2,16 +2,16 @@
 # kind: Namespace
 # metadata:
 #   name: portabase
-# ---
-# apiVersion: v1
-# kind: Secret
-# metadata:
-#   name: portabase-agent
-#   namespace: portabase
-# type: Opaque
-# stringData:
-#   AGENT_ID: "CHANGE_ME"
-#   EDGE_KEY: "CHANGE_ME"
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: portabase-agent
+  namespace: portabase
+type: Opaque
+stringData:
+  AGENT_ID: "${PORTABASE_AGENT_ID}"
+  EDGE_KEY: "${PORTABASE_EDGE_KEY}"
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -62,8 +62,8 @@ spec:
           envFrom:
             - configMapRef:
                 name: portabase-agent
-            # - secretRef:
-            #     name: portabase-agent
+            - secretRef:
+                name: portabase-agent
           # env:
           #   - name: MA_VARIABLE
           #     value: "valeur"
