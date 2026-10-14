@@ -3,7 +3,7 @@ apiVersion: traefik.io/v1alpha1
 kind: Middleware
 metadata:
   name: ip-whitelist
-  namespace: sliver
+  namespace: traefik
 spec:
   ipAllowList:
     sourceRange:
