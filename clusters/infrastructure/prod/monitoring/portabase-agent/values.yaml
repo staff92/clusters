@@ -62,8 +62,8 @@ spec:
           envFrom:
             - configMapRef:
                 name: portabase-agent
-            - secretRef:
-                name: portabase-agent
+            # - secretRef:
+            #     name: portabase-agent
           # env:
           #   - name: MA_VARIABLE
           #     value: "valeur"
