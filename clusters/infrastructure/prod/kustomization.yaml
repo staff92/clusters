@@ -33,8 +33,8 @@ resources:
   # - monitoring/maintenant
   - monitoring/kubenav
   - monitoring/ntfy
-  - monitoring/portabase
-  - monitoring/portabase-agent
+  #- monitoring/portabase
+  #- monitoring/portabase-agent
   # - monitoring/kopiur
   # - monitoring/kubeshark
 #! MEDIA
