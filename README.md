@@ -913,33 +913,6 @@ Link database with agent on dashboard
 
 Create backup / retention / policy 
 
-```
-{
-    "databases": [
-        {
-            "name": "prod",
-            "database": "postgresql",
-            "type": "postgresql",
-            "host": "localhost",
-            "port": 5432,
-            "username": "admin_prod",
-            "password": "super_secure_password",
-            "generated_id": "550e8400-e29b-41d4-a716-446655440000"
-        },
-        {
-            "name": "dev",
-            "database": "mysql",
-            "type": "mysql",
-            "host": "192.168.1.50",
-            "port": 3306,
-            "username": "root",
-            "password": "dev_password",
-            "generated_id": "123e4567-e89b-12d3-a456-426614174000"
-        }
-    ]
-}
-```
-
 # BITWARDEN SECRETS 
 
 | app | Secret Key | Bitwarden Secret name | command |
