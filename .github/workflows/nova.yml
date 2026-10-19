@@ -1,46 +1,46 @@
-name: Nova Kubernetes Audit 
+# name: Nova Kubernetes Audit 
 
-on:
-  # push:
-  #   branches: [main]
-  # pull_request:
-  # schedule:
-  #   - cron: "0 7 * * 1"   
-  workflow_dispatch:
+# on:
+#   # push:
+#   #   branches: [main]
+#   # pull_request:
+#   # schedule:
+#   #   - cron: "0 7 * * 1"   
+#   workflow_dispatch:
 
-permissions:
-  contents: read
+# permissions:
+#   contents: read
 
-env:
-  NOVA_VERSION: "3.12.2"      #  https://github.com/FairwindsOps/nova/releases
-  POLARIS_VERSION: "10.2.5"    # àhttps://github.com/FairwindsOps/polaris/releases
+# env:
+#   NOVA_VERSION: "3.12.2"      #  https://github.com/FairwindsOps/nova/releases
+#   POLARIS_VERSION: "10.2.5"    # àhttps://github.com/FairwindsOps/polaris/releases
 
-jobs:
-  nova:
-    name: Nova - Helm & containers outdated
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+# jobs:
+#   nova:
+#     name: Nova - Helm & containers outdated
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Checkout
+#         uses: actions/checkout@v4
 
-      - name: Install Nova
-        run: |
-          curl -sSL "https://github.com/FairwindsOps/nova/releases/download/v${NOVA_VERSION}/nova_${NOVA_VERSION}_linux_amd64.tar.gz" -o nova.tar.gz
-          tar -xzf nova.tar.gz nova
-          sudo mv nova /usr/local/bin/nova
-          nova version
+#       - name: Install Nova
+#         run: |
+#           curl -sSL "https://github.com/FairwindsOps/nova/releases/download/v${NOVA_VERSION}/nova_${NOVA_VERSION}_linux_amd64.tar.gz" -o nova.tar.gz
+#           tar -xzf nova.tar.gz nova
+#           sudo mv nova /usr/local/bin/nova
+#           nova version
 
-      - name: Configure kubeconfig
-        env:
-          KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
-        run: |
-          mkdir -p ~/.kube
-          echo "$KUBE_CONFIG" | base64 -d > ~/.kube/config
-          chmod 600 ~/.kube/config
+#       - name: Configure kubeconfig
+#         env:
+#           KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
+#         run: |
+#           mkdir -p ~/.kube
+#           echo "$KUBE_CONFIG" | base64 -d > ~/.kube/config
+#           chmod 600 ~/.kube/config
 
-      - name: Run Nova
-        run: |
-          nova --format=table find --helm --containers | tee nova-report.txt
+#       - name: Run Nova
+#         run: |
+#           nova --format=table find --helm --containers | tee nova-report.txt
 
       # - name: Upload Nova report
       #   if: always()
