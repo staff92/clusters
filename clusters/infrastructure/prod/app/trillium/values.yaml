@@ -106,8 +106,9 @@ service:
 persistence:
   data:
     enabled: true
-    storageClass: openebs-hostpath
-    type: persistentVolumeClaim
+    #storageClass: openebs-hostpath
+    type: openebs-hostpath 
+    #persistentVolumeClaim
     ## Trilium uses SQLite, so the volume must not be shared between nodes.
     accessMode: ReadWriteOnce
     size: 20Gi
