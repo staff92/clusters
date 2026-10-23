@@ -3,6 +3,7 @@ kind: Kustomization
 namespace: trillium
 resources:
   # - secret.yaml
+  - namespace.yaml
   - repo.yaml
   - release.yaml
   #- ingressroute.yaml
