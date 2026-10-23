@@ -21,7 +21,7 @@ controllers:
         command:
           - sh
           - -c
-          - chown -R "${PUID}:${PGID}" /home/node/trilium-data
+          - chown -R "$${PUID}:$${PGID}" /home/node/trilium-data
         env:
           PUID: "{{ .Values.permissions.uid }}"
           PGID: "{{ .Values.permissions.gid }}"
