@@ -55,7 +55,7 @@ resources:
   # - app/gitea
   - app/homepage
   - app/semaphore
-  - app/trillium
+  # - app/trillium
   # - app/gowitness
   # - app/adminer
   # - app/immich
