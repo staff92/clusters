@@ -1,0 +1,15 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: trillium
+resources:
+  # - secret.yaml
+  - repo.yaml
+  - release.yaml
+  #- ingressroute.yaml
+  # - ingress.yaml
+configMapGenerator:
+  - name: trillium-values
+    files:
+      - values.yaml
+generatorOptions:
+  disableNameSuffixHash: true

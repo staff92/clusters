@@ -1,0 +1,97 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: trillium
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: trillium
+  valuesFrom:
+    - kind: ConfigMap
+      name: trillium-values
+      valuesKey: values.yaml
+  # postRenderers:
+  #   - kustomize:
+  #       patches:
+  #         - target:
+  #             kind: Deployment
+  #             name: trillium
+  #           patch: |
+  #             apiVersion: apps/v1
+  #             kind: Deployment
+  #             metadata:
+  #               name: trillium
+  #               labels:
+  #                 sablier.enable: "true"
+  #                 sablier.group: trillium
+
+
+# apiVersion: helm.toolkit.fluxcd.io/v2
+# kind: HelmRelease
+# metadata:
+#   name: trillium
+#   namespace: media
+# spec:
+#   interval: 1h
+#   chart:
+#     spec:
+#       chart: docker/helm/trillium
+#       sourceRef:
+#         kind: GitRepository
+#         name: trillium
+#         namespace: media
+
+# ---
+# apiVersion: helm.toolkit.fluxcd.io/v2
+# kind: HelmRelease
+# metadata:
+#   name: trillium
+# spec:
+#   interval: 1h
+#   chartRef:
+#     kind: OCIRepository
+#     name: trillium
+#   valuesFrom:
+#     - kind: ConfigMap
+#       name: trillium-values
+#       valuesKey: values.yaml
+#   targetNamespace: media
+
+
+
+# ---
+# apiVersion: source.toolkit.fluxcd.io/v1
+# kind: HelmChart
+# metadata:
+#   name: podinfo
+#   namespace: default
+# spec:
+#   interval: 5m0s
+#   chart: podinfo
+#   reconcileStrategy: ChartVersion
+#   sourceRef:
+#     kind: HelmRepository
+#     name: podinfo
+#   version: '5.*'
+
+# ---
+# apiVersion: helm.toolkit.fluxcd.io/v2
+# kind: HelmRelease
+# metadata:
+#   name: trillium
+# spec:
+#   interval: 1h
+#   chart:
+#     spec:
+#       chart: ./docker/helm/trillium
+#       sourceRef:
+#         kind: GitRepository
+#         name: trillium
+#         namespace: flux-system
+#       reconcileStrategy: Revision
+#   valuesFrom:
+#     - kind: ConfigMap
+#       name: trillium-values
+#       valuesKey: values.yaml

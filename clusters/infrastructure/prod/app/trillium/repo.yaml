@@ -1,0 +1,10 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: trillium
+spec:
+  interval: 1h
+  url: oci://ghcr.io/triliumnext/helm-charts/trilium
+  ref:
+    tag: 2.0.0
