@@ -55,7 +55,7 @@ resources:
   # - app/gitea
   - app/homepage
   - app/semaphore
-  # - app/davical
+  - app/davical
   # - app/trillium
   # - app/gowitness
   # - app/adminer
