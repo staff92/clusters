@@ -35,6 +35,7 @@ spec:
       labels:
         app: rustical
     spec:
+      enableServiceLinks: false
       containers:
         - name: rustical
           image: ghcr.io/lennart-k/rustical:latest
