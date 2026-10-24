@@ -56,6 +56,7 @@ resources:
   - app/homepage
   - app/semaphore
   - app/rustical
+  - app/icloudpd
   # - app/davical
   # - app/trillium
   # - app/gowitness

@@ -1,0 +1,10 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: icloudpd
+spec:
+  interval: 1h
+  url: oci://oci.trueforge.org/truecharts/icloudpd
+  ref:
+    tag: 9.9.0
