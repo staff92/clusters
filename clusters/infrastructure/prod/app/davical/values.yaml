@@ -11,11 +11,11 @@ metadata:
 data:
   POSTGRES_DB: davical
   BASE_URL: https://call.${CLUSTER_DOMAIN}   
-  SMTP_HOST: maildev-smtp.maildev
-  SMTP_PORT: "1025"
-  SMTP_FROM: dav@${CLUSTER_DOMAIN}
-  SMTP_USERNAME: test
-  SMTP_PASSWORD: test
+  # SMTP_HOST: maildev-smtp.maildev
+  # SMTP_PORT: "1025"
+  # SMTP_FROM: dav@${CLUSTER_DOMAIN}
+  # SMTP_USERNAME: test
+  # SMTP_PASSWORD: test
 ---
 apiVersion: v1
 kind: Service

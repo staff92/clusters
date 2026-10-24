@@ -3008,8 +3008,8 @@ configMap:
       policy: one_factor
     - domain: 'gold.${CLUSTER_DOMAIN}'
       policy: one_factor 
-    # - domain: 'call.${CLUSTER_DOMAIN}'
-    #   policy: one_factor 
+    - domain: 'call.${CLUSTER_DOMAIN}'
+      policy: one_factor 
     - domain: 'radarr.${CLUSTER_DOMAIN}'
       subject:
       - 'group:jelly_admin'
@@ -4740,6 +4740,25 @@ configMap:
         access_token_signed_response_alg: 'none'
         userinfo_signed_response_alg: 'none'
         token_endpoint_auth_method: 'client_secret_post'
+      - client_id: 'rustical'
+        client_name: 'RustiCal'
+        client_secret: '${RUSTICAL_OIDC__CLIENT_SECRET_HASH}'  
+        public: false
+        authorization_policy: 'one_factor'      
+        require_pkce: true
+        pkce_challenge_method: 'S256'
+        redirect_uris:
+          - 'https://call.${CLUSTER_DOMAIN}/frontend/login/oidc/callback'
+        scopes:
+          - 'openid'
+          - 'profile'
+          - 'groups'
+        response_types:
+          - 'code'
+        grant_types:
+          - 'authorization_code'
+        token_endpoint_auth_method: 'client_secret_basic'
+
       # - client_id: 'trillium'
       #   client_name: 'Trillium Notes'
       #   client_secret: '${TRILLIUM_SSO_HASH_SECRET}' 

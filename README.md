@@ -1301,6 +1301,7 @@ Add token to mirotalk App then /p2p in mattermost
 
 
 # SABLIER 
+
     sablier.enable: "true"
     sablier.group: "my-app-group"
     sablier.idle.replicas: "1"
@@ -1314,11 +1315,15 @@ Add token to mirotalk App then /p2p in mattermost
 
 # DAVICAL
 
-kubectl exec davical -- /davical-admin db init
-kubectl exec davical -- /davical-admin db upgrade 
-kubectl exec davical -- /davical-admin user create toto
-kubectl exec davical -- /davical-admin user modify toto -email test@toto.com
-kubectl exec davical -- /davical-admin user modify toto -admin 
-kubectl exec davical -- /davical-admin user show toto
-kubectl exec davical -- /davical-admin user --help
-kubectl exec davical -- /davical-admin user list
+```bash 
+# NO PATH IN ENV => BIN 
+/davical-admin db init
+/davical-admin db upgrade 
+/davical-admin user create toto
+/davical-admin user modify toto -email test@toto.com
+/davical-admin user modify toto -admin 
+/davical-admin user show toto
+/davical-admin user --help
+/davical-admin user list
+/davical-admin user passwd 
+```bash 
