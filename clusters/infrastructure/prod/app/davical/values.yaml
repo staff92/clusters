@@ -1,0 +1,167 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: davical
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: davical-config
+  namespace: davical
+data:
+  POSTGRES_DB: davical
+  BASE_URL: https://call.${CLUSTER_DOMAIN}   
+  SMTP_HOST: maildev-smtp.maildev
+  SMTP_PORT: "1025"
+  SMTP_FROM: dav@${CLUSTER_DOMAIN}
+  SMTP_USERNAME: test
+  SMTP_PASSWORD: test
+  POSTGRES_USER: davical
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: davical-db
+  namespace: davical
+spec:
+  clusterIP: None
+  selector:
+    app: davical-db
+  ports:
+    - port: 5432
+      targetPort: 5432
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: davical-db
+  namespace: davical
+spec:
+  serviceName: davical-db
+  replicas: 1
+  selector:
+    matchLabels:
+      app: davical-db
+  template:
+    metadata:
+      labels:
+        app: davical-db
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:16-alpine
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: davical-secrets
+                  key: POSTGRES_USER
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: davical-secrets
+                  key: POSTGRES_PASSWORD
+            - name: POSTGRES_DB
+              valueFrom:
+                configMapKeyRef:
+                  name: davical-config
+                  key: POSTGRES_DB
+            - name: PGDATA
+              value: /var/lib/postgresql/data/pgdata
+          readinessProbe:
+            exec:
+              command: ["pg_isready", "-U", "davical"]
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 5
+          volumeMounts:
+            - name: davical-data
+              mountPath: /var/lib/postgresql/data
+  volumeClaimTemplates:
+    - metadata:
+        name: davical-data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: openebs-hostpath
+        resources:
+          requests:
+            storage: 5Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: davical
+  namespace: davical
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: davical
+  template:
+    metadata:
+      labels:
+        app: davical
+    spec:
+      initContainers:
+        - name: wait-for-db
+          image: postgres:16-alpine
+          command: ["sh", "-c", "until pg_isready -h davical-db -U davical; do sleep 2; done"]
+      containers:
+        - name: davical
+          image: registry.gitlab.com/davical-project/davical-go:latest
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: davical-config
+            - secretRef:
+                name: davical-secrets
+          readinessProbe:
+            tcpSocket:
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 10
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: davical
+  namespace: davical
+spec:
+  type: ClusterIP
+  selector:
+    app: davical
+  ports:
+    - port: 8080
+      targetPort: 8080
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: davical
+  namespace: davical
+  annotations: {}
+    # gethomepage.dev/href: "https://convertx.${CLUSTER_DOMAIN}"
+    # gethomepage.dev/enabled: "true"
+    # gethomepage.dev/description: "A self-hosted online file converter. Supports over a thousand different formats."
+    # gethomepage.dev/group: Infrastructure
+    # gethomepage.dev/icon: "sh-convertx.png"
+    # gethomepage.dev/name: convertx
+    # gethomepage.dev/pod-selector: "app=convertx"
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`call.${CLUSTER_DOMAIN}`)
+      kind: Rule
+      # middlewares:
+      #   - name: 'chain-authelia-auth'
+      #     namespace: 'authelia'
+        # - name: 'sablier-convertx'
+        #   namespace: 'traefik'
+      services:
+        - name: davical
+          port: 8080
