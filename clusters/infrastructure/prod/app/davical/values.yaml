@@ -16,7 +16,6 @@ data:
   SMTP_FROM: dav@${CLUSTER_DOMAIN}
   SMTP_USERNAME: test
   SMTP_PASSWORD: test
-  POSTGRES_USER: davical
 ---
 apiVersion: v1
 kind: Service
