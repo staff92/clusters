@@ -102,6 +102,14 @@ kind: IngressRoute
 metadata:
   name: rustical
   namespace: rustical
+  annotations:
+    gethomepage.dev/href: "https://call.${CLUSTER_DOMAIN}"
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/description: "Calendar and Contacts server (CalDAV/CardDAV)"
+    gethomepage.dev/group: Infrastructure
+    gethomepage.dev/icon: "sh-davical.png"
+    gethomepage.dev/name: rustical
+    gethomepage.dev/pod-selector: "app=rustical"
 spec:
   entryPoints:
     - websecure
