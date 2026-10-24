@@ -1313,7 +1313,7 @@ Add token to mirotalk App then /p2p in mattermost
     sablier.active.cpu: 2.0
 
 
-# DAVICAL
+# DAVICAL / RUSTICAL
 
 ```bash 
 # NO PATH IN ENV => BIN 
