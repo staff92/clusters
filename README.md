@@ -402,6 +402,8 @@ bash mail/welcome_mail.sh ${LDAP_USER2_EMAIL} [...] toto@gmail.com
 
 Full stack mail (postfix + dovecot + roundcube)
 
+check https://artifacthub.io/packages/helm/docker-postfix/mail
+
 **Find the DKIM key in pod logs** 
 
 | Sub domain | Type | Value |
@@ -418,6 +420,8 @@ Webmail : https://github.com/encircle360-oss/helm-charts/tree/main/charts/roundc
 helm webmail : https://artifacthub.io/packages/helm/encircle360-oss/roundcube
 
 https://github.com/docker-mailserver/docker-mailserver-helm/blob/master/charts/docker-mailserver/values.yaml
+
+https://artifacthub.io/packages/helm/docker-postfix/mail
 
 
 setup dovecot-master add admin@${CLUSTER_DOMAIN}
