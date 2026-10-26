@@ -1,0 +1,10 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: doc
+spec:
+  interval: 1h
+  url: oci://oci.trueforge.org/truecharts/hedgedoc
+  ref:
+    tag: 17.0.4

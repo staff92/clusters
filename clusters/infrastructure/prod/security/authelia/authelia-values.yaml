@@ -3062,6 +3062,8 @@ configMap:
       policy: one_factor 
     - domain: 'crowdsec.${CLUSTER_DOMAIN}'
       policy: one_factor 
+    - domain: 'doc.${CLUSTER_DOMAIN}'
+      policy: one_factor 
     # - domain: 'umami.${CLUSTER_DOMAIN}'
     #   subject:
     #   - 'group:analytics'
@@ -4758,6 +4760,29 @@ configMap:
         grant_types:
           - 'authorization_code'
         token_endpoint_auth_method: 'client_secret_basic'
+      - client_id: 'hedgedoc'
+        client_name: 'HedgeDoc'
+        client_secret: ${HEDGEDOC_OIDC__CLIENT_SECRET_HASH}' 
+        public: false
+        authorization_policy: one_factor
+        scopes:
+          - openid
+          - email
+          - profile
+        redirect_uris:
+          - https://doc.${CLUSTER_DOMAIN}/auth/oauth2/callback
+        grant_types:
+          - refresh_token
+          - authorization_code
+        response_types:
+          - code
+        response_modes:
+          - form_post
+          - query
+          - fragment
+        token_endpoint_auth_method: 'client_secret_post'
+
+
 
       # - client_id: 'trillium'
       #   client_name: 'Trillium Notes'

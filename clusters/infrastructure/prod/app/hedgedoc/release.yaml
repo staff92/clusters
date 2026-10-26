@@ -1,0 +1,14 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: doc
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: doc
+  valuesFrom:
+    - kind: ConfigMap
+      name: doc-values
+      valuesKey: values.yaml

@@ -1326,4 +1326,16 @@ Add token to mirotalk App then /p2p in mattermost
 /davical-admin user --help
 /davical-admin user list
 /davical-admin user passwd 
+```
+
+
+
+# hedgedoc
+
 ```bash 
+
+# DOC
+# https://github.com/trueforge-org/truecharts/tree/master/charts/stable/hedgedoc
+# https://quay.io/hedgedoc/hedgedoc
+
+```
