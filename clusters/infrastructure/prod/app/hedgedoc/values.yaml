@@ -33,16 +33,17 @@ workload:
             CMD_DB_DIALECT: "postgres"
             CMD_DB_USERNAME: "{{ .Values.cnpg.main.user }}"
             CMD_DB_DATABASE: "{{ .Values.cnpg.main.database }}"
+            CMD_DB_HOST: "postgresql"
             CMD_SESSION_SECRET:
               secretKeyRef:
                 name: hedgedoc-credentials
                 key: CMD_SESSION_SECRET
                 expandObjectName: false
-            CMD_DB_HOST:
-              secretKeyRef:
-                name: hedgedoc-credentials
-                key: host
-                expandObjectName: false
+            # CMD_DB_HOST:
+            #   secretKeyRef:
+            #     name: hedgedoc-credentials
+            #     key: host
+            #     expandObjectName: false
             CMD_DB_PASSWORD:
               secretKeyRef:
                 name: hedgedoc-credentials
