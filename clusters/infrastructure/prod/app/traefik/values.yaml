@@ -1076,7 +1076,7 @@ ports:
         # @default -- true
         enabled: true
         options: ""
-        certResolver: ""
+        certResolver: "myresolver"
         domains: []
     http3:
       # -- Enable HTTP/3 on the entrypoint. It also enables the http3 experimental feature.

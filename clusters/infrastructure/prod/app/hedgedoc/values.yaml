@@ -225,8 +225,8 @@ ingress:
     #           port:
     # -- Configure TLS for the ingress. Both secretName and hosts can process a Helm template.
     # Gets ignored when clusterIssuer is filled
-    tls: 
-      - myresolver
+    tls: []
+      # - myresolver
     #  - secretName: chart-example-tls
     #    certificateIssuer: ""
     #    hosts:
