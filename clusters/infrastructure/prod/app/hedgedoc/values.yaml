@@ -31,8 +31,10 @@ workload:
             CMD_PORT: "{{ .Values.service.main.ports.main.port }}"
             CMD_DB_PORT: "5432"
             CMD_DB_DIALECT: "postgres"
-            CMD_DB_USERNAME: "{{ .Values.cnpg.main.user }}"
-            CMD_DB_DATABASE: "{{ .Values.cnpg.main.database }}"
+            CMD_DB_USERNAME: postgresql
+            #"{{ .Values.cnpg.main.user }}"
+            CMD_DB_DATABASE: hedgedoc
+            #"{{ .Values.cnpg.main.database }}"
             CMD_DB_HOST: "postgresql"
             CMD_SESSION_SECRET:
               secretKeyRef:
