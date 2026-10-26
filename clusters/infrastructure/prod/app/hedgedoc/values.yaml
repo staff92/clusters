@@ -36,6 +36,7 @@ workload:
               secretKeyRef:
                 name: hedgedoc-credentials
                 key: CMD_SESSION_SECRET
+                expandObjectName: false
             CMD_DB_HOST:
               secretKeyRef:
                 name: cnpg-main-urls
@@ -64,6 +65,7 @@ workload:
               secretKeyRef:
                 name: hedgedoc-credentials
                 key: CMD_OAUTH2_CLIENT_SECRET
+                expandObjectName: false
             CMD_OAUTH2_SCOPE: openid email profile
             CMD_OAUTH2_USER_PROFILE_USERNAME_ATTR: sub
             CMD_OAUTH2_USER_PROFILE_DISPLAY_NAME_ATTR: name
