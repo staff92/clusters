@@ -18,7 +18,7 @@ persistence:
 cnpg:
   main:
     enabled: false
-    user: hedgedoc
+    user: postgresql
     database: hedgedoc
 
 workload:
@@ -47,7 +47,7 @@ workload:
             CMD_DB_PASSWORD:
               secretKeyRef:
                 name: hedgedoc-credentials
-                key: user-password
+                key: postgres-password
                 expandObjectName: false
             # User Defined
             CMD_FORBIDDEN_NOTE_IDS: "robots.txt, favicon.ico, api, build, css, docs, fonts, js, uploads, vendor, views"
