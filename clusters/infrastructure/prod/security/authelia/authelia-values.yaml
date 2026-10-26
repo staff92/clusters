@@ -4762,7 +4762,7 @@ configMap:
         token_endpoint_auth_method: 'client_secret_basic'
       - client_id: 'hedgedoc'
         client_name: 'HedgeDoc'
-        client_secret: ${HEDGEDOC_OIDC__CLIENT_SECRET_HASH}' 
+        client_secret: '${HEDGEDOC_OIDC__CLIENT_SECRET_HASH}' 
         public: false
         authorization_policy: one_factor
         scopes:
