@@ -3,6 +3,7 @@ kind: Kustomization
 namespace: traefik
 resources:
   - namespace.yaml
+  - secret.yaml
   - repo.yaml
   #! If first setup => remove middleware (umami not ready)
   - middleware.yaml

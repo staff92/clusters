@@ -928,7 +928,9 @@ additionalArguments: []
 env: []
 
 # -- Environment variables to be passed to Traefik's binary from configMaps or secrets
-envFrom: []
+envFrom:
+  - secretRef:
+      name: dns-credentials
 
 # @schema mergeProperties: true
 ports:
@@ -1226,10 +1228,15 @@ certificatesResolvers:
       # enabled: true
       email: "${LDAP_USER1_EMAIL}"
       storage: "/data/acme.json"       
-      httpChallenge:
-        # Entry point to use during the ACME HTTP-01 challenge.
-        entryPoint: "web"
-      tlsChallenge: {}
+      dnsChallenge:
+        provider: scaleway
+        resolvers:
+          - "1.1.1.1:53"
+          - "8.8.8.8:53"
+      # httpChallenge:
+      #   # Entry point to use during the ACME HTTP-01 challenge.
+      #   entryPoint: "web"
+      # tlsChallenge: {}
 # -- If hostNetwork is true, runs traefik in the host network namespace
 # To prevent unschedulable pods due to port collisions, if hostNetwork=true
 # and replicas>1, a pod anti-affinity is recommended and will be set if the
