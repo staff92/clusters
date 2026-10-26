@@ -10,5 +10,8 @@ configMapGenerator:
   - name: doc-values
     files:
       - values.yaml
+  - name: postgresql-values
+    files:
+      - postgresql-values.yaml
 generatorOptions:
   disableNameSuffixHash: true

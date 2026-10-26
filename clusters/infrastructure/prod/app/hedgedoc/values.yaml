@@ -16,7 +16,7 @@ persistence:
     mountPath: "/hedgedoc/public/uploads"
 cnpg:
   main:
-    enabled: true
+    enabled: false
     user: hedgedoc
     database: hedgedoc
 
@@ -39,12 +39,14 @@ workload:
                 expandObjectName: false
             CMD_DB_HOST:
               secretKeyRef:
-                name: cnpg-main-urls
+                name: hedgedoc-credentials
                 key: host
+                expandObjectName: false
             CMD_DB_PASSWORD:
               secretKeyRef:
-                name: cnpg-main-user
-                key: password
+                name: hedgedoc-credentials
+                key: user-password
+                expandObjectName: false
             # User Defined
             CMD_FORBIDDEN_NOTE_IDS: "robots.txt, favicon.ico, api, build, css, docs, fonts, js, uploads, vendor, views"
             CMD_IMAGE_UPLOAD_TYPE: "filesystem"

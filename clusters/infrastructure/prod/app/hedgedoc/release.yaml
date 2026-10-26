@@ -12,3 +12,17 @@ spec:
     - kind: ConfigMap
       name: doc-values
       valuesKey: values.yaml
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: postgresql
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: postgresql
+  valuesFrom:
+    - kind: ConfigMap
+      name: postgresql-values
+      valuesKey: postgresql-values.yaml
