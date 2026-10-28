@@ -6,6 +6,7 @@ resources:
   - secret.yaml
   - repo.yaml
   - release.yaml
+  - ingressroute.yaml
 configMapGenerator:
   - name: doc-values
     files:

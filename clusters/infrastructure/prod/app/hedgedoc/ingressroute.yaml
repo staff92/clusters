@@ -1,0 +1,25 @@
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: doc
+  namespace: media
+  annotations:
+    gethomepage.dev/href: "https://doc.${CLUSTER_DOMAIN}"
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/description: "HedgeDoc is an open-source, web-based, self-hosted, collaborative markdown editor."
+    gethomepage.dev/group: Media
+    gethomepage.dev/icon: "si-hedgedoc.png"
+    gethomepage.dev/name: doc
+    gethomepage.dev/pod-selector: "app.kubernetes.io/name=doc"
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`doc.${CLUSTER_DOMAIN}`)
+      kind: Rule
+      services:
+        - name: doc-hedgedoc
+          port: 10132
+  tls:
+    certResolver: myresolver
