@@ -12,6 +12,22 @@ spec:
     - kind: ConfigMap
       name: doc-values
       valuesKey: values.yaml
+  postRenderers:
+    - kustomize:
+        patches:
+          - target:
+              kind: Deployment
+              name: doc-hedgedoc
+            patch: |
+              apiVersion: apps/v1
+              kind: Deployment
+              metadata:
+                name: doc-hedgedoc
+                labels:
+                  sablier.enable: "true"
+                  sablier.group: doc
+
+
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease

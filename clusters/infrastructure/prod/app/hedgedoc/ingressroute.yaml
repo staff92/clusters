@@ -8,7 +8,7 @@ metadata:
     gethomepage.dev/href: "https://doc.${CLUSTER_DOMAIN}"
     gethomepage.dev/enabled: "true"
     gethomepage.dev/description: "HedgeDoc is an open-source, web-based, self-hosted, collaborative markdown editor."
-    gethomepage.dev/group: Media
+    gethomepage.dev/group: Infrastructure
     gethomepage.dev/icon: "si-hedgedoc.png"
     gethomepage.dev/name: doc
     gethomepage.dev/pod-selector: "app.kubernetes.io/name=doc"
