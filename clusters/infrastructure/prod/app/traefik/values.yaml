@@ -1233,10 +1233,10 @@ certificatesResolvers:
         resolvers:
           - "1.1.1.1:53"
           - "8.8.8.8:53"
-      httpChallenge: {}
-        # Entry point to use during the ACME HTTP-01 challenge.
-        # entryPoint: "web"
-      tlsChallenge: {}
+      # httpChallenge: {}
+      #   # Entry point to use during the ACME HTTP-01 challenge.
+      #   # entryPoint: "web"
+      # tlsChallenge: {}
 # -- If hostNetwork is true, runs traefik in the host network namespace
 # To prevent unschedulable pods due to port collisions, if hostNetwork=true
 # and replicas>1, a pod anti-affinity is recommended and will be set if the
