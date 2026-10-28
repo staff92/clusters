@@ -1228,11 +1228,11 @@ certificatesResolvers:
       # enabled: true
       email: "${LDAP_USER1_EMAIL}"
       storage: "/data/acme.json"       
-      # dnsChallenge:
-      #   provider: scaleway
-      #   resolvers:
-      #     - "1.1.1.1:53"
-      #     - "8.8.8.8:53"
+      dnsChallenge:
+        provider: scaleway
+        resolvers:
+          - "1.1.1.1:53"
+          - "8.8.8.8:53"
       httpChallenge:
         # Entry point to use during the ACME HTTP-01 challenge.
         entryPoint: "web"
