@@ -1233,9 +1233,9 @@ certificatesResolvers:
         resolvers:
           - "1.1.1.1:53"
           - "8.8.8.8:53"
-      httpChallenge:
+      httpChallenge: {}
         # Entry point to use during the ACME HTTP-01 challenge.
-        entryPoint: "web"
+        # entryPoint: "web"
       tlsChallenge: {}
 # -- If hostNetwork is true, runs traefik in the host network namespace
 # To prevent unschedulable pods due to port collisions, if hostNetwork=true
