@@ -59,7 +59,9 @@ workload:
             CMD_ALLOW_GRAVATAR: true
             CMD_DOMAIN: "doc.${CLUSTER_DOMAIN}"
             CMD_ALLOW_ANONYMOUS: false
+            CMD_ALLOW_ANONYMOUS_EDITS: false
             CMD_REQUIRE_FREEURL_AUTHENTICATION: true
+            CMD_ENABLE_UPLOADS: registered
             CMD_EMAIL: false
             CMD_ALLOW_EMAIL_REGISTER: false
             #! OAUTH

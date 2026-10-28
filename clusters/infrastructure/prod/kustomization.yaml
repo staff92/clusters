@@ -55,8 +55,8 @@ resources:
   # - app/gitea
   - app/homepage
   - app/semaphore
-  - app/rustical
-  - app/hedgedoc
+  # - app/rustical
+  # - app/hedgedoc
   # - app/icloudpd
   # - app/davical
   # - app/trillium
