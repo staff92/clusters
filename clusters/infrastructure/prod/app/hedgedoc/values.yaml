@@ -57,7 +57,7 @@ workload:
             CMD_SOURCE_URL: ""
             CMD_TOOBUSY_LAG: 70
             CMD_ALLOW_GRAVATAR: true
-            CMD_DOMAIN: false
+            CMD_DOMAIN: "doc.${CLUSTER_DOMAIN}"
             CMD_ALLOW_ANONYMOUS: false
             CMD_REQUIRE_FREEURL_AUTHENTICATION: true
             CMD_EMAIL: false
