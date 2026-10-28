@@ -56,7 +56,7 @@ resources:
   - app/homepage
   - app/semaphore
   # - app/rustical
-  # - app/hedgedoc
+  - app/hedgedoc
   # - app/icloudpd
   # - app/davical
   # - app/trillium
