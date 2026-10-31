@@ -1,0 +1,15 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: clamav
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: clamav
+  valuesFrom:
+    - kind: ConfigMap
+      name: clamav-values
+      valuesKey: values.yaml
+

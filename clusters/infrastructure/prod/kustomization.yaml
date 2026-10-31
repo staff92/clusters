@@ -23,6 +23,7 @@ resources:
   - security/vaultwarden
   - security/wg-portal
   - security/crowdsec
+  - security/clamav
   # - security/falco
   # - security/polaris
   # - security/trivy

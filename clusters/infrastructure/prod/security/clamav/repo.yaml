@@ -1,0 +1,10 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: clamav
+spec:
+  interval: 1h
+  url: oci://registry.gitlab.com/xrow-public/helm-clamav/charts/clamav
+  ref:
+    tag: 1.10.41
