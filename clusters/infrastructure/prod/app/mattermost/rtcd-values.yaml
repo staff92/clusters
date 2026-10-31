@@ -97,7 +97,7 @@ service:
   RTCport: 8443
 
 ingress:
-  enabled: true
+  enabled: false
   ingressclassname: traefik
   annotations:
     # nginx.ingress.kubernetes.io/proxy-read-timeout: "86400"
