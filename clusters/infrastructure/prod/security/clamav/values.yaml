@@ -47,8 +47,12 @@ clamd:
 # The full signature database needs about 1.5 GiB resident, and briefly twice
 # that while clamd reloads it. Keep the limit at 3Gi or more for real use.
 resources:
-  requests: { cpu: 100m, memory: 1536Mi }
-  limits: { cpu: "2", memory: 3Gi }
+  requests:
+    memory: 2Gi
+    cpu: 200m
+  limits:
+    memory: 3Gi
+    cpu: "2"  
 
 service:
   type: ClusterIP
