@@ -7,7 +7,7 @@ spec:
   interval: 5m
   chart:
     spec:
-      chart: robusta
+      chart: botkube
       version: 'v1.14.0'
       sourceRef:
         kind: HelmRepository
