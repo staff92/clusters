@@ -72,7 +72,7 @@ securityContext:
   runAsNonRoot: false
   seccompProfile:
     type: RuntimeDefault
-  allowPrivilegeEscalation: false
+  allowPrivilegeEscalation: true
   capabilities:
     drop:
       - "ALL"
