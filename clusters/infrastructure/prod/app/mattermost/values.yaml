@@ -194,6 +194,8 @@ mattermostApp:
   envFrom: []
   #! MM_GITLABSETTINGS_ENABLE or MM_OPENIDSETTINGS_ENABLE ??
   extraEnv:
+    - name: MM_CALLS_RTCD_SERVICE_URL
+      value: "http://mattermost-rtcd.mattermost.svc.cluster.local:8045"
     - name: MM_FILESETTINGS_MAXFILESIZE
       value: "256000000"
     - name: MM_PLUGINSETTINGS_ENABLE
