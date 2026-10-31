@@ -1275,11 +1275,12 @@ APT::Periodic::RandomSleep "1800";
 
 # MATTERMOST
 
-## Plugins
 
 ```
 mmctl --local plugin list 
 mmctl --local plugin enable antivirus    
+
+clamav-clamav.clamav:3310
 ```
 
 cli: mmctl 
