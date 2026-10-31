@@ -50,14 +50,14 @@ configuration:
   # Only needed if deploymentType is set to "deployment"
   replicas: 1
 
-  environmentVariables: {}
+  environmentVariables: 
     # All env vars that exist for RTCD: https://github.com/mattermost/rtcd/blob/master/docs/env_config.md
-    # RTCD_API_SECURITY_ALLOWSELFREGISTRATION: "\"true\""
-    # RTCD_RTC_ICESERVERS: "'[{\"urls\":[\"stun:stun.global.calls.mattermost.com:3478\"]}]'"
-    # RTCD_LOGGER_CONSOLELEVEL: "\"DEBUG\""
-    # RTCD_LOGGER_ENABLEFILE: "\"false\""
-    # RTCD_RTC_ICEPORTUDP: "\"8443\""
-    # RTCD_RTC_ICEPORTTCP: "\"8443\""
+    RTCD_API_SECURITY_ALLOWSELFREGISTRATION: "\"true\""
+    RTCD_RTC_ICESERVERS: "'[{\"urls\":[\"stun:stun.global.calls.mattermost.com:3478\"]}]'"
+    RTCD_LOGGER_CONSOLELEVEL: "\"DEBUG\""
+    RTCD_LOGGER_ENABLEFILE: "\"false\""
+    RTCD_RTC_ICEPORTUDP: "\"8443\""
+    RTCD_RTC_ICEPORTTCP: "\"8443\""
 
   maxUnavailable: 1     # Only used when updateStrategy is set to "RollingUpdate"
   updateStrategy: RollingUpdate
