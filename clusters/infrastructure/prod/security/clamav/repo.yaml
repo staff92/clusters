@@ -5,6 +5,6 @@ metadata:
   name: clamav
 spec:
   interval: 1h
-  url: oci://registry.gitlab.com/xrow-public/helm-clamav/charts/clamav
+  url: oci://ghcr.io/quenchworks/charts/clamav
   ref:
-    tag: 1.10.41
+    tag: 0.0.4

@@ -1,150 +1,101 @@
-# Default values for clamav.
-# This is a YAML-formatted file.
-# Declare variables to be passed into your templates.
-
-global:
-  timezone: "Etc/UTC"
-replicaCount: 1
+# The digest below is the contract with the image factory. CI rewrites it from the
+# image-published dispatch after every green image build. It is never a tag.
 image:
-  registry: docker.io
-  repository: clamav/clamav
-  pullPolicy: Always
-  tag: latest
-imagePullSecrets: []
-nameOverride: ""
-fullnameOverride: ""
-settings:
-  # Report files that exceed scan limits as infected.
-  alertExceedsMax: no
-  # Enable ClamAV debug logging.
-  debug: no
-  # Write ClamAV logs to this destination.
-  logFile: /dev/null
-  # Maximum number of queued client connections.
-  maxConnectionQueueLength: 200
-  # Maximum size of a single file to scan.
-  maxFileSize: 100M
-  # Maximum amount of data to scan in one request.
-  maxScanSize: 400M
-  # Maximum number of concurrent scan threads.
-  maxThreads: 10
-  # Maximum time in seconds to wait for client data.
-  readTimeout: 120
-  # Maximum size accepted by the INSTREAM command.
-  streamMaxLength: 1000M
-cronjob:
-  image:
-    registry: registry.gitlab.com
-    repository: xrow-public/helm-clamav/kubectl
-    pullPolicy: IfNotPresent
-    tag: 1.10.41
-  imagePullSecrets: []
-  schedule: ""
-  suspend: false
-test:
-  image:
-    registry: registry.gitlab.com
-    repository: xrow-public/helm-clamav/test
-    pullPolicy: IfNotPresent
-    tag: 1.10.41
-serviceAccount:
-  # Specifies whether a service account should be created
-  create: true
-  # Automatically mount a ServiceAccount's API credentials?
-  automount: true
-  # Annotations to add to the service account
-  annotations: {}
-  # The name of the service account to use.
-  # If not set and create is true, a name is generated using the fullname template
-  name: ""
-podLabels: {}
-podAnnotations: {}
-podSecurityContext: {}
-# fsGroup: 2000
+  repository: ghcr.io/quenchworks/images/clamav
+  digest: "sha256:bc71125deab00dfcf685ce8f3d2ee305468d9290a282dab72358cd508bd233f0"
+  pullPolicy: IfNotPresent
 
-## Container Security Context
-## ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container
-## @param provisioning.containerSecurityContext.enabled Enable container Security Context
-## @param provisioning.containerSecurityContext.runAsUser User ID for the container
-## @param provisioning.containerSecurityContext.runAsNonRoot Avoid running as root User
-##
-securityContext:
-  runAsNonRoot: false
-  seccompProfile:
-    type: RuntimeDefault
-  allowPrivilegeEscalation: true
-  capabilities:
-    drop:
-      - "ALL"
+nameOverride: ""
+
+# Each replica keeps its own signature database and downloads it on start.
+replicaCount: 1
+
+# freshclam: an init container fills the database before clamd starts (clamd
+# will not boot without one), and a sidecar refreshes it `checks` times a day.
+# clamd picks the new files up on its next self-check.
+freshclam:
+  enabled: true
+  checks: 12
+  # database.clamav.net is a CDN that rate-limits heavy users and whole cloud
+  # ranges. With several clusters, run a private mirror and set it here.
+  mirror: database.clamav.net
+  privateMirror: ""
+  resources:
+    requests: { cpu: 10m, memory: 64Mi }
+    limits: { cpu: 500m, memory: 512Mi }
+
+# Extra signature files placed in the database directory, as {filename: content}.
+# Any ClamAV format works (.hdb hashes, .ndb patterns, .yar rules and so on).
+# With freshclam disabled, these are the whole database, which suits air-gapped
+# clusters and tests:
+#   customSignatures:
+#     local.hdb: |
+#       44d88612fea8a8f36de82e1278abb02f:68:Local.EICAR
+customSignatures: {}
+
+# clamd tuning.
+clamd:
+  maxThreads: 10
+  # Largest stream clamd accepts over INSTREAM. Clients get "size limit
+  # exceeded" above it.
+  streamMaxLength: 100M
+  # How often clamd checks the database for updates, in seconds.
+  selfCheck: 600
+  # Raw clamd.conf lines appended to the generated file.
+  extraConfig: ""
+
+# The full signature database needs about 1.5 GiB resident, and briefly twice
+# that while clamd reloads it. Keep the limit at 3Gi or more for real use.
+resources:
+  requests: { cpu: 100m, memory: 1536Mi }
+  limits: { cpu: "2", memory: 3Gi }
+
 service:
   type: ClusterIP
   port: 3310
-  # nodePort: 30000
-resources:
-  requests:
-    cpu: 50m
-    memory: 1024Mi
-  # We usually recommend not to specify default resources and to leave this as a conscious
-  # choice for the user. This also increases chances charts run on environments with little
-  # resources, such as Minikube. If you do want to specify resources, uncomment the following
-  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-  # limits:
-  #   cpu: 100m
-  #   memory: 128Mi
-  # requests:
-  #   cpu: 100m
-  #   memory: 128Mi
-livenessProbe:
-  exec:
-    command:
-      - /bin/bash
-      - -c
-      - |
-        echo 'PING' | nc 127.0.0.1 3310 | grep -i PONG
-readinessProbe:
-  exec:
-    command:
-      - /bin/bash
-      - -c
-      - |
-        echo 'PING' | nc 127.0.0.1 3310 | grep -i PONG
-startupProbe:
-  failureThreshold: 30
-  periodSeconds: 10
-  exec:
-    command:
-      - /bin/bash
-      - -c
-      - |
-        echo 'PING' | nc 127.0.0.1 3310 | grep -i PONG
-podDisruptionBudget:
-  enabled: false
-  maxUnavailable: 1
-#  minAvailable: 1
-#  unhealthyPodEvictionPolicy: "AlwaysAllow"
 
-autoscaling:
-  enabled: false
-  minReplicas: 1
-  maxReplicas: 100
-  targetCPUUtilizationPercentage: 80
-  # targetMemoryUtilizationPercentage: 80
-  behavior: {}
-# Additional volumes on the output Deployment definition.
-volumes: []
-# - name: foo
-#   secret:
-#     secretName: mysecret
-#     optional: false
-
-# Additional volumeMounts on the output Deployment definition.
-volumeMounts: []
-# - name: foo
-#   mountPath: "/etc/foo"
-#   readOnly: true
-
-nodeSelector:
-  kubernetes.io/os: linux
-tolerations: []
+# --- Common production knobs, wired through quench-common (all optional) ---
+podLabels: {}
+podAnnotations: {}
+nodeSelector: {}
 affinity: {}
+tolerations: []
 topologySpreadConstraints: []
+priorityClassName: ""
+schedulerName: ""
+terminationGracePeriodSeconds: 30
+updateStrategy: {}
+extraEnvVars: []
+extraEnvVarsCM: ""
+extraEnvVarsSecret: ""
+extraVolumes: []
+extraVolumeMounts: []
+initContainers: []
+sidecars: []
+lifecycleHooks: {}
+podSecurityContext: {}
+containerSecurityContext: {}
+livenessProbe: {}
+readinessProbe: {}
+customLivenessProbe: {}
+customReadinessProbe: {}
+customStartupProbe: {}
+
+serviceAccount:
+  create: true
+  name: ""
+  annotations: {}
+
+rbac:
+  create: false
+
+# Apps that scan uploads are usually in other namespaces, so the clamd port is
+# open to every namespace by default. Set allowExternal=false to limit it to
+# the release namespace.
+networkPolicy:
+  enabled: true
+  allowExternal: true
+
+podDisruptionBudget:
+  enabled: true
+  minAvailable: 1
