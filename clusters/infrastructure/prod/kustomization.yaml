@@ -38,6 +38,7 @@ resources:
   #- monitoring/portabase-agent
   # - monitoring/kopiur
   # - monitoring/kubeshark
+  - monitoring/botkube
 #! MEDIA
   - media/servarr
   - media/metube
