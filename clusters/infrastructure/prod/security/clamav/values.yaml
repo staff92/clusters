@@ -49,9 +49,9 @@ clamd:
 resources:
   requests:
     memory: 2Gi
-    cpu: 200m
+    cpu: "1"
   limits:
-    memory: 3Gi
+    memory: 4Gi
     cpu: "2"  
 
 service:
