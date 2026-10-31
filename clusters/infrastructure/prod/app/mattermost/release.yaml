@@ -82,4 +82,4 @@ spec:
   valuesFrom:
     - kind: ConfigMap
       name: rtcd-values
-      valuesKey: values.yaml
+      valuesKey: rtcd-values.yaml
