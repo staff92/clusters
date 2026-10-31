@@ -69,7 +69,7 @@ podSecurityContext: {}
 ## @param provisioning.containerSecurityContext.runAsNonRoot Avoid running as root User
 ##
 securityContext:
-  runAsNonRoot: true
+  runAsNonRoot: false
   seccompProfile:
     type: RuntimeDefault
   allowPrivilegeEscalation: false
