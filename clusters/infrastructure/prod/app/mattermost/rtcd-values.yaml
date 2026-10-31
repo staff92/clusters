@@ -111,8 +111,8 @@ ingress:
     - host: rtcd.${CLUSTER_DOMAIN}
       paths:
         - "/"
-  tls:
-    certResolver: myresolver
+  # tls:
+  #   certResolver: myresolver
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
