@@ -14,9 +14,9 @@ spec:
       protocol: UDP
       port: 8443
       targetPort: 8443
-      nodePort: 30443   
+      nodePort: 8443   
     - name: calls-tcp
       protocol: TCP
       port: 8443
       targetPort: 8443
-      nodePort: 30443
+      nodePort: 8443
