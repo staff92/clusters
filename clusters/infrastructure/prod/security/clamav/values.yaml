@@ -6,8 +6,8 @@ global:
   timezone: "Etc/UTC"
 replicaCount: 1
 image:
-  registry: registry.gitlab.com
-  repository: xrow-public/helm-clamav/clamav
+  registry: docker.io
+  repository: clamav/clamav
   pullPolicy: Always
   tag: latest
 imagePullSecrets: []
