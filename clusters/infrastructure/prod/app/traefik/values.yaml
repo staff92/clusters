@@ -158,7 +158,7 @@ experimental:
       version: "v1.3.0"
     tailscale-access:
       moduleName: "github.com/hhftechnology/tailscale-access"
-      version: "v2.0.0"
+      version: "v2"
   # -- Enable experimental local plugins
   localPlugins: {}
   # -- Enable OTLP logging experimental feature.
