@@ -81,7 +81,7 @@ kubeconfig:
 actions:
   'describe-created-resource':
     # -- If true, enables the action.
-    enabled: false
+    enabled: true
     # -- Action display name posted in the channels bound to the same source bindings.
     displayName: "Describe created resource"
     # -- Command to execute when the action is triggered. You can use Go template (https://pkg.go.dev/text/template) together with all helper functions defined by Slim-Sprig library (https://go-task.github.io/slim-sprig).
@@ -100,7 +100,7 @@ actions:
         - k8s-default-tools
   'show-logs-on-error':
     # -- If true, enables the action.
-    enabled: false
+    enabled: true
 
     # -- Action display name posted in the channels bound to the same source bindings.
     displayName: "Show logs on error"
@@ -466,7 +466,7 @@ executors:
     ## Plugin name syntax: <repo>/<plugin>[@<version>]. If version is not provided, the latest version from repository is used.
     botkube/kubectl:
       displayName: "Kubectl"
-      enabled: false
+      enabled: true
       # -- Custom kubectl configuration.
       # @default -- See the `values.yaml` file for full object including optional properties related to interactive builder.
       config:
