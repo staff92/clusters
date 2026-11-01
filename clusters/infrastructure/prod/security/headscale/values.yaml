@@ -89,8 +89,8 @@ headscale:
     search_domains: []
 
     # -- Extra DNS records
-    extra_records: []
-      # - { name: "prometheus.myvpn.example.com", type: "A", value: "100.64.0.3" }
+    extra_records:
+      - { name: "semaphore.${CLUSTER_DOMAIN}", type: "A", value: "100.64.0.1" }
 
 # This section builds out the service account more information can be found here: https://kubernetes.io/docs/concepts/security/service-accounts/
 serviceAccount:
