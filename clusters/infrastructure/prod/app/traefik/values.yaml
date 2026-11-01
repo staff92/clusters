@@ -157,8 +157,8 @@ experimental:
       moduleName: "github.com/sablierapp/sablier-traefik-plugin"
       version: "v1.3.0"
     tailscale-access:
-      moduleName: "github.com/hhftechnology/tailscale-access"
-      version: "v2"
+      moduleName: "github.com/hhftechnology/tailscale-access/v2"
+      version: "v2.0.0"
   # -- Enable experimental local plugins
   localPlugins: {}
   # -- Enable OTLP logging experimental feature.
