@@ -1,0 +1,26 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: headplane
+  namespace: headscale
+rules:
+  - apiGroups: [""]
+    resources: ["pods"]
+    verbs: ["get", "list"]
+  - apiGroups: [""]
+    resources: ["pods/exec"]
+    verbs: ["create"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: headplane
+  namespace: headscale
+subjects:
+  - kind: ServiceAccount
+    name: headplane
+    namespace: headscale
+roleRef:
+  kind: Role
+  name: headplane
+  apiGroup: rbac.authorization.k8s.io
