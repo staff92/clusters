@@ -135,6 +135,8 @@ ingress:
     gethomepage.dev/group: "Infrastructure"
     gethomepage.dev/icon: "semaphore.png"
     gethomepage.dev/pod-selector: "app.kubernetes.io/name=semaphore"
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure-vpn
+    traefik.ingress.kubernetes.io/router.tls: "true"
   # -- Additional labels for the ingress
   labels: {}
 
