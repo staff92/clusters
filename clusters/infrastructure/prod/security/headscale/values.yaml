@@ -185,8 +185,8 @@ ingress:
   hosts:
     - host: scale.${CLUSTER_DOMAIN}
       paths: ["/"]
-  tls: 
-    - myresolver
+  tls: []
+    # - myresolver
   #  - secretName: chart-example-tls
   #    hosts:
   #      - chart-example.local
