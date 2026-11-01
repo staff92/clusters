@@ -4732,6 +4732,7 @@ configMap:
         pkce_challenge_method: 'S256'
         redirect_uris:
           - 'https://scale.${CLUSTER_DOMAIN}/oidc/callback'
+          - 'https://scale.${CLUSTER_DOMAIN}/admin/oidc/callback'
         scopes:
           - 'openid'
           - 'email'
