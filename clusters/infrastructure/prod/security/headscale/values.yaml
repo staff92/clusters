@@ -70,7 +70,7 @@ headscale:
   # -- MagicDNS
   # ref: https://headscale.net/stable/ref/dns/
   dns:
-    magic_dns: false
+    magic_dns: true
     override_local_dns: false
 
     nameservers:
@@ -84,7 +84,7 @@ headscale:
         #   - 100.64.0.2
         #   - 100.64.0.3
 
-    base_domain: tailscale.cluster.local
+    base_domain: net.internal
 
     # -- Set custom DNS search domains
     search_domains: []

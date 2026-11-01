@@ -1331,6 +1331,8 @@ headscale users list
 
 Add user in headscale then headplane
 
+First connection user on headplane make him owner (admin) but you can connect to with the headscale api key 
+
 ```
 tailscale up --login-server https://scale.${CLUSTER_DOMAIN}
 Auto create user with SSO + Enroll or not the device 
