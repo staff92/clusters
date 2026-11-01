@@ -33,7 +33,16 @@ service:
 ingress:
   enabled: true
   className: "traefik"
-  annotations: {}
+  annotations:
+    #traefik.ingress.kubernetes.io/router.middlewares: traefik-ip-whitelist-vpn@kubernetescrd,traefik-sablier-semaphore@kubernetescrd
+    traefik.ingress.kubernetes.io/router.middlewares: traefik-crowdsec-bouncer-appsec@kubernetescrd
+    #traefik.ingress.kubernetes.io/router.middlewares: traefik-botblocker@kubernetescrd
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/name: "Headscale"
+    gethomepage.dev/description: "Headscale aims to implement a self-hosted, open source alternative to the Tailscale control server."
+    gethomepage.dev/group: "Infrastructure"
+    gethomepage.dev/icon: "sh-headscale.png"
+    gethomepage.dev/pod-selector: "app.kubernetes.io/component=ui"
   hosts:
     - host: scale.${CLUSTER_DOMAIN}
       paths:
