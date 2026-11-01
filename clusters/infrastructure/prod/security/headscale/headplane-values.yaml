@@ -19,7 +19,7 @@ strategy:
 
 serviceAccount:
   create: true
-  automountServiceAccountToken: false
+  automountServiceAccountToken: true
   annotations: {}
   name: ""
 
