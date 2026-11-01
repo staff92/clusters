@@ -68,12 +68,28 @@ deployment:
   #     - name: dsdsocket
   #       mountPath: /socket
   # -- Additional volumes available for use with initContainers and additionalContainers
-  additionalVolumes: []
+  additionalVolumes: 
+    - name: plugins
+      emptyDir: {}
+
+  #[]
   # - name: dsdsocket
   #   hostPath:
   #     path: /var/run/statsd-exporter
   # -- Additional initContainers (e.g. for setting file permission as shown below)
-  initContainers: []
+  initContainers: 
+    - name: fetch-tailscale-plugin
+      image: alpine/git:latest
+      command:
+        - sh
+        - -c
+        - |
+          git clone --depth 1 https://github.com/hhftechnology/tailscale-access.git \
+            /plugins-local/src/github.com/hhftechnology/tailscale-access
+      volumeMounts:
+        - name: plugins
+          mountPath: /plugins-local
+  #[]
   # The "volume-permissions" init container is required if you run into permission issues.
   # Related issue: https://github.com/traefik/traefik-helm-chart/issues/396
   # - name: volume-permissions
@@ -156,11 +172,16 @@ experimental:
     sablier:
       moduleName: "github.com/sablierapp/sablier-traefik-plugin"
       version: "v1.3.0"
-    tailscale-access:
-      moduleName: "github.com/hhftechnology/tailscale-access/v2"
-      version: "v2.0.0"
+    # tailscale-access:
+    #   moduleName: "github.com/hhftechnology/tailscale-access"
+    #   version: "v2.0.0"
   # -- Enable experimental local plugins
-  localPlugins: {}
+  localPlugins: 
+    tailscale-access:
+      moduleName: github.com/hhftechnology/tailscale-access
+      mountPath: /plugins-local/src/github.com/hhftechnology/tailscale-access
+      volumeName: plugins  
+  #{}
   # -- Enable OTLP logging experimental feature.
   otlpLogs: false
   # -- Enable Knative provider experimental feature.
@@ -548,7 +569,10 @@ volumes: []
 #   type: configMap
 
 # -- Additional volumeMounts to add to the Traefik container
-additionalVolumeMounts: []
+additionalVolumeMounts: 
+  - name: plugins
+    mountPath: /plugins-local
+#[]
 # -- For instance when using a logshipper for access logs
 # - name: traefik-logs
 #   mountPath: /var/log/traefik
