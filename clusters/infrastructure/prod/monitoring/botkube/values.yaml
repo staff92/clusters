@@ -199,6 +199,7 @@ sources:
             - mattermost
             - vault
             - authelia
+            - sm-operator-system
             # - ".*"
           # -- Exclude contains a list of Namespaces to be ignored even if allowed by Include.
           # It can also contain regex expressions:
