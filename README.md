@@ -1331,6 +1331,8 @@ headscale users list
 
 Add user in headscale then headplane
 
+tailscale serve --bg --http=80 localhost:8080 => probe for the middleware plugin
+
 First connection user on headplane make him owner (admin) but you can connect to with the headscale api key 
 
 ```
