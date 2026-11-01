@@ -70,9 +70,7 @@ deployment:
   # -- Additional volumes available for use with initContainers and additionalContainers
   additionalVolumes: 
     - name: plugin-src
-      hostPath:
-        path: /opt/traefik-plugins/tailscale-access
-        type: DirectoryOrCreate
+      emptyDir: {}    
 
   #[]
   # - name: dsdsocket
@@ -183,7 +181,8 @@ experimental:
       moduleName: github.com/hhftechnology/tailscale-access
       mountPath: /plugins-local/src/github.com/hhftechnology/tailscale-access
       type: localPath
-      hostPath: /opt/traefik-plugins/tailscale-access
+      volumeName: plugin-src 
+      #hostPath: /opt/traefik-plugins/tailscale-access
   #{}
   # -- Enable OTLP logging experimental feature.
   otlpLogs: false
