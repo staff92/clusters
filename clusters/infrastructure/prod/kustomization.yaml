@@ -24,7 +24,7 @@ resources:
   - security/wg-portal
   - security/crowdsec
   - security/clamav
-  # - security/headscale
+  - security/headscale
   # - security/falco
   # - security/polaris
   # - security/trivy
