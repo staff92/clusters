@@ -153,15 +153,7 @@ sources:
       config:
         namespaces:
           include:
-#            - ".*"
-            - media
-            # - lldap
-            - traefik
-            - crowdsec
-            - mattermost
-            - vault
-            # - crowdsec
-            - authelia
+            - ".*"
         # -- Describes configuration for various recommendation insights.
         recommendations:
           # -- Recommendations for Pod Kubernetes resource.
@@ -200,7 +192,14 @@ sources:
           # It can also contain regex expressions:
           #  `- ".*"` - to specify all Namespaces.
           include:
-            - ".*"
+            - media
+            - lldap
+            - traefik
+            - crowdsec
+            - mattermost
+            - vault
+            - authelia
+            # - ".*"
           # -- Exclude contains a list of Namespaces to be ignored even if allowed by Include.
           # It can also contain regex expressions:
           #  `- "test-.*"` - to specif all Namespaces with `test-` prefix.
