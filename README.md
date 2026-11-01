@@ -1329,6 +1329,14 @@ docker run --rm ghcr.io/juanfont/headscale:latest generate private-key
 headscale apikeys create
 headscale users list 
 
+Add user in headscale then headplane
+
+```
+tailscale up --login-server https://scale.${CLUSTER_DOMAIN}
+Auto create user with SSO + Enroll or not the device 
+then go on headplane to link headscale user to an headplane user with default role member (no access to machines or users)
+```
+
 
 # DAVICAL / RUSTICAL
 

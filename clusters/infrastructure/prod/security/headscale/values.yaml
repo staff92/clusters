@@ -43,7 +43,8 @@ headscale:
     pkce:
       enabled: true
       method: 'S256'
-
+    allowed_groups: 
+      - jelly_admin
 
   derp:
     urls:
