@@ -558,7 +558,7 @@ communications:
       # -- If true, enables Mattermost bot.
       enabled: true
       # -- User in Mattermost which belongs the specified Personal Access token.
-      botName: 'Botkube'
+      botName: 'botkube'
       # -- The URL (including http/https schema) where Mattermost is running. e.g https://example.com:9243
       url: http://mattermost.mattermost.svc.cluster.local:8065 
       #'MATTERMOST_SERVER_URL'
