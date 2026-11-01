@@ -20,7 +20,7 @@ fullnameOverride: ""
 headscale:
   secrets:
     # console command: headscale generate private-key
-    noise: ""
+    noise: "${HEADSCALE_PRIVATE_KEY}"
     derp: ""
 
   # -- OpenID Connect
