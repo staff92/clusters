@@ -69,8 +69,10 @@ deployment:
   #       mountPath: /socket
   # -- Additional volumes available for use with initContainers and additionalContainers
   additionalVolumes: 
-    - name: plugins
-      emptyDir: {}
+    - name: plugin-src
+      hostPath:
+        path: /opt/traefik-plugins/tailscale-access
+        type: DirectoryOrCreate
 
   #[]
   # - name: dsdsocket
@@ -84,11 +86,11 @@ deployment:
         - sh
         - -c
         - |
-          git clone --depth 1 https://github.com/hhftechnology/tailscale-access.git \
-            /plugins-local/src/github.com/hhftechnology/tailscale-access
+          rm -rf /dest/* /dest/.[!.]* 2>/dev/null
+          git clone --depth 1 https://github.com/hhftechnology/tailscale-access.git /dest
       volumeMounts:
-        - name: plugins
-          mountPath: /plugins-local
+        - name: plugin-src
+          mountPath: /dest
   #[]
   # The "volume-permissions" init container is required if you run into permission issues.
   # Related issue: https://github.com/traefik/traefik-helm-chart/issues/396
@@ -180,7 +182,8 @@ experimental:
     tailscale-access:
       moduleName: github.com/hhftechnology/tailscale-access
       mountPath: /plugins-local/src/github.com/hhftechnology/tailscale-access
-      volumeName: plugins  
+      type: localPath
+      hostPath: /opt/traefik-plugins/tailscale-access
   #{}
   # -- Enable OTLP logging experimental feature.
   otlpLogs: false
