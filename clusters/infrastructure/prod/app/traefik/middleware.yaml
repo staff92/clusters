@@ -296,7 +296,7 @@ metadata:
 spec:
   plugin:
     tailscale-access:
-      testDomain: "${HEADSCALE_PRIVATE_PROBE}.net.internal"  # REQUIRED: Your Tailscale domain
+      testDomain: "http://${HEADSCALE_PRIVATE_PROBE}.net.internal"  # REQUIRED: Your Tailscale domain
       # Session Management
       sessionTimeout: "24h"             # Duration (e.g., "1h", "30m", "24h")
       # Security
