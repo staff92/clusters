@@ -72,7 +72,7 @@ config:
   oidc:
     enabled: true
     issuer: "https://auth.${CLUSTER_DOMAIN}"
-    clientId: "headscale"
+    clientId: "headplane"
     scope: "openid email profile groups"
     usePkce: true
     # Valid: admin, auditor, it_admin, member, network_admin, viewer
