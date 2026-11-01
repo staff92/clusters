@@ -176,13 +176,12 @@ experimental:
     #   moduleName: "github.com/hhftechnology/tailscale-access"
     #   version: "v2.0.0"
   # -- Enable experimental local plugins
-  localPlugins: 
-    tailscale-access:
-      moduleName: github.com/hhftechnology/tailscale-access
-      mountPath: /plugins-local/src/github.com/hhftechnology/tailscale-access
-      type: localPath
-      volumeName: plugin-src 
-      #hostPath: /opt/traefik-plugins/tailscale-access
+  localPlugins: {}
+    # tailscale-access:
+    #   moduleName: github.com/hhftechnology/tailscale-access
+    #   mountPath: /plugins-local/src/github.com/hhftechnology/tailscale-access
+    #   type: localPath
+    #   volumeName: plugin-src 
   #{}
   # -- Enable OTLP logging experimental feature.
   otlpLogs: false
