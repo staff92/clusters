@@ -116,7 +116,7 @@ ingress:
 
   # -- Host definition for ingress
   hosts:
-    - host: semaphore.priv.${CLUSTER_DOMAIN}
+    - host: semaphore.${CLUSTER_DOMAIN}
       paths:
         - path: /
           pathType: Prefix
