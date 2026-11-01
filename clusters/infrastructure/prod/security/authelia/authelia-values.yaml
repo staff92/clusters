@@ -4749,8 +4749,8 @@ configMap:
         client_secret: '${HEADPLANE_SSO_SECRET_HASH}'
         public: false
         authorization_policy: 'one_factor'
-        require_pkce: true
-        pkce_challenge_method: 'S256'
+        require_pkce: false
+        pkce_challenge_method: ''
         redirect_uris:
           - 'https://scale.${CLUSTER_DOMAIN}/admin/oidc/callback'
         scopes:
@@ -4764,7 +4764,7 @@ configMap:
           - 'authorization_code'
         access_token_signed_response_alg: 'none'
         userinfo_signed_response_alg: 'none'
-        token_endpoint_auth_method: 'client_secret_basic'
+        token_endpoint_auth_method: 'client_secret_post'
 
 
       # - client_id: 'kubeshark'
