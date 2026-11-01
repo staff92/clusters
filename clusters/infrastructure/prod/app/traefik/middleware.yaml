@@ -363,3 +363,32 @@ spec:
 #   ipAllowList:
 #     sourceRange:
 #       - "${LOADBALANCER_IP}/32"
+
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: probe-cors
+  namespace: traefik
+spec:
+  headers:
+    accessControlAllowOriginList:
+      - "https://semaphore.${CLUSTER_DOMAIN}"
+    accessControlAllowMethods: ["GET", "OPTIONS"]
+    accessControlAllowHeaders: ["*"]
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: tailscale-probe
+  namespace: traefik
+spec:
+  entryPoints: [web]
+  routes:
+    - match: Host(`${HEADSCALE_PRIVATE_PROBE}.net.internal`)
+      kind: Rule
+      middlewares:
+        - name: probe-cors
+      services:
+        - name: whoami
+          port: 80
