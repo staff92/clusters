@@ -4,11 +4,15 @@ namespace: headscale
 resources:
   - namespace.yaml
   - repo.yaml
+  - secret.yaml
   - release.yaml
   # - secret.yaml
 configMapGenerator:
   - name: headscale-values
     files:
       - values.yaml
+  - name: headplane-values
+    files:
+      - headplane-values.yaml
 generatorOptions:
   disableNameSuffixHash: true

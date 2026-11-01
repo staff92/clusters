@@ -6,3 +6,12 @@ metadata:
 spec:
   interval: 1h
   url: https://helm-charts.sinextra.dev
+
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: headplane
+spec:
+  interval: 1h
+  url: https://kgrubb.github.io/headplane-helm-chart

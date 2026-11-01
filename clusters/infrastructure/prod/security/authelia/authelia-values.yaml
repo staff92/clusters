@@ -3054,6 +3054,8 @@ configMap:
       policy: one_factor 
     - domain: 'book.${CLUSTER_DOMAIN}'
       policy: one_factor 
+    - domain: 'scale.${CLUSTER_DOMAIN}'
+      policy: one_factor 
     - domain: 'irc.${CLUSTER_DOMAIN}'
       policy: one_factor 
     - domain: 'p2p.${CLUSTER_DOMAIN}'

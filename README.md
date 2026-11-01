@@ -1321,6 +1321,15 @@ Add token to mirotalk App then /p2p in mattermost
     sablier.active.cpu: 2.0
 
 
+# HEADSCALE 
+
+
+docker run --rm ghcr.io/juanfont/headscale:latest generate private-key 
+
+headscale apikeys create
+headscale users list 
+
+
 # DAVICAL / RUSTICAL
 
 ```bash 

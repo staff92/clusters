@@ -1,0 +1,162 @@
+# Prefer pinned tags (kube-linter blocks :latest).
+image:
+  repository: ghcr.io/tale/headplane
+  # renovate: datasource=docker depName=ghcr.io/tale/headplane
+  tag: "0.8.2"
+  digest: ""
+  pullPolicy: IfNotPresent
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: headplane
+
+
+replicaCount: 1
+
+# Recreate avoids Multi-Attach on RWO volumes during upgrades.
+strategy:
+  type: Recreate
+
+serviceAccount:
+  create: true
+  automountServiceAccountToken: false
+  annotations: {}
+  name: ""
+
+service:
+  type: ClusterIP
+  port: 3000
+  externalTrafficPolicy: ""
+  annotations: {}
+
+# PathPrefix /admin on the Headscale host is the usual layout.
+ingress:
+  enabled: true
+  className: "traefik"
+  annotations: {}
+  hosts:
+    - host: scale.${CLUSTER_DOMAIN}
+      paths:
+        - path: /admin
+          pathType: Prefix
+  tls: []
+
+# Non-secret Headplane config. Secret paths always point at the mounted secret.
+config:
+  server:
+    host: "0.0.0.0"
+    port: 3000
+    # Public URL without the /admin prefix.
+    baseUrl: "https://scale.${CLUSTER_DOMAIN}"
+    cookieSecure: true
+    cookieMaxAge: 86400
+    dataPath: "/var/lib/headplane"
+  headscale:
+    url: "http://headscale:80"
+    publicUrl: "https://scale.${CLUSTER_DOMAIN}"
+    configPath: "/etc/headscale/config.yaml"
+  integration:
+    agent:
+      enabled: false
+      # Optional. false = OS routing for Headscale (see headplane agent docs).
+      # tailscaleNetns: false
+    docker:
+      enabled: false
+    kubernetes:
+      enabled: true
+      # Required by Headplane schema even when disabled.
+      validateManifest: true
+      podName: "headscale"
+    proc:
+      enabled: false
+  oidc:
+    enabled: true
+    issuer: "https://auth.${CLUSTER_DOMAIN}"
+    clientId: "headplane"
+    scope: "openid email profile"
+    usePkce: true
+    # Valid: admin, auditor, it_admin, member, network_admin, viewer
+    defaultRole: "member"
+
+# existingSecret keys: cookieSecret (32 chars), apiKey, clientSecret (if OIDC).
+# Inline values are for smoke tests only and mutually exclusive with existingSecret.
+secrets:
+  existingSecret: "headplane-credentials"
+  cookieSecretKey: cookieSecret
+  apiKeyKey: apiKey
+  clientSecretKey: clientSecret
+  cookieSecret: ""
+  apiKey: ""
+  clientSecret: ""
+
+# Optional Headscale config ConfigMap for read-only UI display.
+headscaleConfig:
+  existingConfigMap: ""
+  key: config.yaml
+
+persistence:
+  enabled: true
+  existingClaim: ""
+  accessMode: ReadWriteOnce
+  storageClass: "openebs-hostpath"
+  size: 1Gi
+  annotations: {}
+
+resources: {}
+
+podAnnotations: {}
+podLabels: {}
+
+# Matches gcr.io/distroless/nodejs nonroot.
+podSecurityContext:
+  seccompProfile:
+    type: RuntimeDefault
+  fsGroup: 65532
+  fsGroupChangePolicy: OnRootMismatch
+
+containerSecurityContext:
+  allowPrivilegeEscalation: false
+  runAsNonRoot: true
+  runAsUser: 65532
+  runAsGroup: 65532
+  readOnlyRootFilesystem: true
+  capabilities:
+    drop:
+      - ALL
+
+extraEnv: {}
+extraVolumes: []
+extraVolumeMounts: []
+
+nodeSelector: {}
+tolerations: []
+affinity: {}
+
+# /admin/healthz also checks Headscale. Keep liveness on /admin so Headscale
+# outages do not restart the UI pod.
+startupProbe:
+  httpGet:
+    path: /admin/healthz
+    port: http
+  initialDelaySeconds: 5
+  periodSeconds: 5
+  timeoutSeconds: 5
+  failureThreshold: 30
+
+livenessProbe:
+  httpGet:
+    path: /admin
+    port: http
+  initialDelaySeconds: 15
+  periodSeconds: 20
+  timeoutSeconds: 5
+  failureThreshold: 6
+
+readinessProbe:
+  httpGet:
+    path: /admin/healthz
+    port: http
+  initialDelaySeconds: 5
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 3
