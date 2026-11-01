@@ -295,7 +295,7 @@ metadata:
   namespace: traefik
 spec:
   plugin:
-    tailscale-connectivity:
+    tailscale-access:
       testDomain: "net.internal"  # REQUIRED: Your Tailscale domain
       # Session Management
       sessionTimeout: "24h"             # Duration (e.g., "1h", "30m", "24h")
