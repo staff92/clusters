@@ -68,27 +68,27 @@ deployment:
   #     - name: dsdsocket
   #       mountPath: /socket
   # -- Additional volumes available for use with initContainers and additionalContainers
-  additionalVolumes: 
-    - name: plugin-src
-      emptyDir: {}    
+  additionalVolumes: []
+    # - name: plugin-src
+    #   emptyDir: {}    
 
   #[]
   # - name: dsdsocket
   #   hostPath:
   #     path: /var/run/statsd-exporter
   # -- Additional initContainers (e.g. for setting file permission as shown below)
-  initContainers: 
-    - name: fetch-tailscale-plugin
-      image: alpine/git:latest
-      command:
-        - sh
-        - -c
-        - |
-          rm -rf /dest/* /dest/.[!.]* 2>/dev/null
-          git clone --depth 1 https://github.com/hhftechnology/tailscale-access.git /dest
-      volumeMounts:
-        - name: plugin-src
-          mountPath: /dest
+  initContainers: []
+    # - name: fetch-tailscale-plugin
+    #   image: alpine/git:latest
+    #   command:
+    #     - sh
+    #     - -c
+    #     - |
+    #       rm -rf /dest/* /dest/.[!.]* 2>/dev/null
+    #       git clone --depth 1 https://github.com/hhftechnology/tailscale-access.git /dest
+    #   volumeMounts:
+    #     - name: plugin-src
+    #       mountPath: /dest
   #[]
   # The "volume-permissions" init container is required if you run into permission issues.
   # Related issue: https://github.com/traefik/traefik-helm-chart/issues/396
@@ -570,9 +570,9 @@ volumes: []
 #   type: configMap
 
 # -- Additional volumeMounts to add to the Traefik container
-additionalVolumeMounts: 
-  - name: plugins
-    mountPath: /plugins-local
+additionalVolumeMounts: []
+  # - name: plugins
+  #   mountPath: /plugins-local
 #[]
 # -- For instance when using a logshipper for access logs
 # - name: traefik-logs
