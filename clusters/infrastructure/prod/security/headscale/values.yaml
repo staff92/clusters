@@ -65,10 +65,7 @@ headscale:
 
   # -- Headscale policy
   # ref: https://headscale.net/stable/ref/policy/
-  policy: {
-    mode: database,
-  }
-
+  policy: ""
   # -- MagicDNS
   # ref: https://headscale.net/stable/ref/dns/
   dns:
