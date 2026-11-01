@@ -4721,19 +4721,19 @@ configMap:
         access_token_signed_response_alg: 'none'
         userinfo_signed_response_alg: 'none'
         token_endpoint_auth_method: 'client_secret_basic'
-      - client_id: 'kubeshark'
-        client_name: 'kubeshark'
-        client_secret: '${KUBESHARK_SSO_CLIENT_SECRET_HASH}'  # The digest of 'insecure_secret'.
+      - client_id: 'headscale'
+        client_name: 'Headscale'
+        client_secret: '${HEADSCALE_SSO_SECRET_HASH}'
         public: false
         authorization_policy: 'one_factor'
-        require_pkce: false
-        pkce_challenge_method: ''
+        require_pkce: true
+        pkce_challenge_method: 'S256'
         redirect_uris:
-          - 'https://ks.${CLUSTER_DOMAIN}/api/oauth2/callback'
+          - 'https://scale.${CLUSTER_DOMAIN}/oidc/callback'
         scopes:
           - 'openid'
-          - 'profile'
           - 'email'
+          - 'profile'
           - 'groups'
         response_types:
           - 'code'
@@ -4741,46 +4741,70 @@ configMap:
           - 'authorization_code'
         access_token_signed_response_alg: 'none'
         userinfo_signed_response_alg: 'none'
-        token_endpoint_auth_method: 'client_secret_post'
-      - client_id: 'rustical'
-        client_name: 'RustiCal'
-        client_secret: '${RUSTICAL_OIDC__CLIENT_SECRET_HASH}'  
-        public: false
-        authorization_policy: 'one_factor'      
-        require_pkce: true
-        pkce_challenge_method: 'S256'
-        redirect_uris:
-          - 'https://call.${CLUSTER_DOMAIN}/frontend/login/oidc/callback'
-        scopes:
-          - 'openid'
-          - 'profile'
-          - 'groups'
-        response_types:
-          - 'code'
-        grant_types:
-          - 'authorization_code'
         token_endpoint_auth_method: 'client_secret_basic'
-      - client_id: 'hedgedoc'
-        client_name: 'HedgeDoc'
-        client_secret: '${HEDGEDOC_OIDC__CLIENT_SECRET_HASH}' 
-        public: false
-        authorization_policy: one_factor
-        scopes:
-          - openid
-          - email
-          - profile
-        redirect_uris:
-          - https://doc.${CLUSTER_DOMAIN}/auth/oauth2/callback
-        grant_types:
-          - refresh_token
-          - authorization_code
-        response_types:
-          - code
-        response_modes:
-          - form_post
-          - query
-          - fragment
-        token_endpoint_auth_method: 'client_secret_post'
+
+
+
+      # - client_id: 'kubeshark'
+      #   client_name: 'kubeshark'
+      #   client_secret: '${KUBESHARK_SSO_CLIENT_SECRET_HASH}'  # The digest of 'insecure_secret'.
+      #   public: false
+      #   authorization_policy: 'one_factor'
+      #   require_pkce: false
+      #   pkce_challenge_method: ''
+      #   redirect_uris:
+      #     - 'https://ks.${CLUSTER_DOMAIN}/api/oauth2/callback'
+      #   scopes:
+      #     - 'openid'
+      #     - 'profile'
+      #     - 'email'
+      #     - 'groups'
+      #   response_types:
+      #     - 'code'
+      #   grant_types:
+      #     - 'authorization_code'
+      #   access_token_signed_response_alg: 'none'
+      #   userinfo_signed_response_alg: 'none'
+      #   token_endpoint_auth_method: 'client_secret_post'
+      # - client_id: 'rustical'
+      #   client_name: 'RustiCal'
+      #   client_secret: '${RUSTICAL_OIDC__CLIENT_SECRET_HASH}'  
+      #   public: false
+      #   authorization_policy: 'one_factor'      
+      #   require_pkce: true
+      #   pkce_challenge_method: 'S256'
+      #   redirect_uris:
+      #     - 'https://call.${CLUSTER_DOMAIN}/frontend/login/oidc/callback'
+      #   scopes:
+      #     - 'openid'
+      #     - 'profile'
+      #     - 'groups'
+      #   response_types:
+      #     - 'code'
+      #   grant_types:
+      #     - 'authorization_code'
+      #   token_endpoint_auth_method: 'client_secret_basic'
+      # - client_id: 'hedgedoc'
+      #   client_name: 'HedgeDoc'
+      #   client_secret: '${HEDGEDOC_OIDC__CLIENT_SECRET_HASH}' 
+      #   public: false
+      #   authorization_policy: one_factor
+      #   scopes:
+      #     - openid
+      #     - email
+      #     - profile
+      #   redirect_uris:
+      #     - https://doc.${CLUSTER_DOMAIN}/auth/oauth2/callback
+      #   grant_types:
+      #     - refresh_token
+      #     - authorization_code
+      #   response_types:
+      #     - code
+      #   response_modes:
+      #     - form_post
+      #     - query
+      #     - fragment
+      #   token_endpoint_auth_method: 'client_secret_post'
 
 
 
