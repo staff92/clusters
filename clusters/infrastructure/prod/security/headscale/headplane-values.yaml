@@ -19,7 +19,7 @@ strategy:
 
 serviceAccount:
   create: true
-  automountServiceAccountToken: false
+  automountServiceAccountToken: true
   annotations: {}
   name: ""
 
@@ -76,7 +76,7 @@ config:
     scope: "openid email profile groups"
     usePkce: true
     # Valid: admin, auditor, it_admin, member, network_admin, viewer
-    # defaultRole: "member"
+    defaultRole: "member"
 
 # existingSecret keys: cookieSecret (32 chars), apiKey, clientSecret (if OIDC).
 # Inline values are for smoke tests only and mutually exclusive with existingSecret.
