@@ -1335,8 +1335,6 @@ headscale nodes list-routes
 
 Add user in headscale then headplane
 
-tailscale serve --bg --http=80 localhost:8080 => probe for the middleware plugin
-
 First connection user on headplane make him owner (admin) but you can connect to with the headscale api key 
 
 ```
@@ -1350,6 +1348,13 @@ Exit node
 ```
 tailscale set --advertise-exit-node
 Go on UI then machine settings => Allow exit node
+```
+
+Test 
+
+```
+tailscale serve --bg --http=80 localhost:8080 => probe for the middleware plugin
+tailscale serve --http=80 off
 ```
 
 # DAVICAL / RUSTICAL

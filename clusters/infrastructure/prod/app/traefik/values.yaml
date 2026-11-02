@@ -68,27 +68,27 @@ deployment:
   #     - name: dsdsocket
   #       mountPath: /socket
   # -- Additional volumes available for use with initContainers and additionalContainers
-  additionalVolumes: 
-    - name: plugin-src
-      emptyDir: {}    
+  additionalVolumes: []
+    # - name: plugin-src
+    #   emptyDir: {}    
 
   #[]
   # - name: dsdsocket
   #   hostPath:
   #     path: /var/run/statsd-exporter
   # -- Additional initContainers (e.g. for setting file permission as shown below)
-  initContainers:
-    - name: fetch-tailscale-plugin
-      image: alpine/git:latest
-      command:
-        - sh
-        - -c
-        - |
-          rm -rf /dest/* /dest/.[!.]* 2>/dev/null
-          git clone --depth 1 https://github.com/hhftechnology/tailscale-access.git /dest
-      volumeMounts:
-        - name: plugin-src
-          mountPath: /dest
+  initContainers: []
+    # - name: fetch-tailscale-plugin
+    #   image: alpine/git:latest
+    #   command:
+    #     - sh
+    #     - -c
+    #     - |
+    #       rm -rf /dest/* /dest/.[!.]* 2>/dev/null
+    #       git clone --depth 1 https://github.com/hhftechnology/tailscale-access.git /dest
+    #   volumeMounts:
+    #     - name: plugin-src
+    #       mountPath: /dest
   #[]
   # The "volume-permissions" init container is required if you run into permission issues.
   # Related issue: https://github.com/traefik/traefik-helm-chart/issues/396
@@ -176,12 +176,12 @@ experimental:
     #   moduleName: "github.com/hhftechnology/tailscale-access"
     #   version: "v2.0.0"
   # -- Enable experimental local plugins
-  localPlugins: 
-    tailscale-access:
-      moduleName: github.com/hhftechnology/tailscale-access
-      mountPath: /plugins-local/src/github.com/hhftechnology/tailscale-access
-      type: localPath
-      volumeName: plugin-src 
+  localPlugins: {}
+    # tailscale-access:
+    #   moduleName: github.com/hhftechnology/tailscale-access
+    #   mountPath: /plugins-local/src/github.com/hhftechnology/tailscale-access
+    #   type: localPath
+    #   volumeName: plugin-src 
   #{}
   # -- Enable OTLP logging experimental feature.
   otlpLogs: false
