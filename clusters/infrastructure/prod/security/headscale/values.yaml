@@ -70,12 +70,12 @@ headscale:
   # ref: https://headscale.net/stable/ref/dns/
   dns:
     magic_dns: true
-    override_local_dns: true
+    override_local_dns: false
 
     nameservers:
-      global:
-        - 1.1.1.1
-        - 8.8.8.8
+      global: []
+        # - 1.1.1.1
+        # - 8.8.8.8
         # - 2606:4700:4700::1111
         # - 2606:4700:4700::1001
       split: {}
