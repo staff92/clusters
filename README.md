@@ -1326,8 +1326,12 @@ Add token to mirotalk App then /p2p in mattermost
 
 docker run --rm ghcr.io/juanfont/headscale:latest generate private-key 
 
+```
 headscale apikeys create
 headscale users list 
+headscale nodes list 
+headscale nodes list-routes
+```
 
 Add user in headscale then headplane
 
