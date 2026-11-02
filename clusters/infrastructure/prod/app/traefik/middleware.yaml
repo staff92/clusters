@@ -296,16 +296,16 @@ metadata:
 spec:
   plugin:
     tailscale-access:
-      testDomain: "whois.net.internal"  # REQUIRED: Your Tailscale domain
+      testDomain: "http://whois.net.internal"  # REQUIRED: Your Tailscale domain
       # Session Management
       sessionTimeout: "24h"             # Duration (e.g., "1h", "30m", "24h")
       # Security
-      secureOnly: true                  # HTTPS-only cookies
-      cookieDomain: ".${CLUSTER_DOMAIN}"      # Cookie domain restriction
+      secureOnly: false                  # HTTPS-only cookies
+      cookieDomain: ".net.internal"      # Cookie domain restriction
       requireUserAgent: true            # Require User-Agent header
       # Development
       allowLocalhost: true              # Localhost bypass
-      enableDebugLogging: false         # Debug output
+      enableDebugLogging: true         # Debug output
       # Customization
       customErrorMessage: "Custom error message"
       successMessage: "Custom success message"
