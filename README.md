@@ -1341,6 +1341,12 @@ Auto create user with SSO + Enroll or not the device
 then go on headplane to link headscale user to an headplane user with default role member (no access to machines or users)
 ```
 
+Exit node
+
+```
+tailscale set --advertise-exit-node
+Go on UI then machine settings => Allow exit node
+```
 
 # DAVICAL / RUSTICAL
 
