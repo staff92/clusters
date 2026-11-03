@@ -362,4 +362,5 @@ metadata:
 spec:
   ipAllowList:
     sourceRange:
-      - "${LOADBALANCER_IP}/32"
+      - "100.64.0.0/28"
+      #- "${LOADBALANCER_IP}/32"
