@@ -35,7 +35,8 @@ ingress:
   className: "traefik"
   annotations:
     #traefik.ingress.kubernetes.io/router.middlewares: traefik-ip-whitelist-vpn@kubernetescrd,traefik-sablier-semaphore@kubernetescrd
-    traefik.ingress.kubernetes.io/router.middlewares: traefik-crowdsec-bouncer-appsec@kubernetescrd
+    traefik.ingress.kubernetes.io/router.middlewares: traefik-vpn-whitelist-ip@kubernetescrd,traefik-sablier-headplane@kubernetescrd
+    #traefik.ingress.kubernetes.io/router.middlewares: traefik-crowdsec-bouncer-appsec@kubernetescrd
     #traefik.ingress.kubernetes.io/router.middlewares: traefik-botblocker@kubernetescrd
     gethomepage.dev/enabled: "true"
     gethomepage.dev/name: "Headscale"

@@ -36,3 +36,17 @@ spec:
     - kind: ConfigMap
       name: headplane-values
       valuesKey: headplane-values.yaml
+  postRenderers:
+    - kustomize:
+        patches:
+          - target:
+              kind: Deployment
+              name: headplane
+            patch: |
+              apiVersion: apps/v1
+              kind: Deployment
+              metadata:
+                name: headplane
+                labels:
+                  sablier.enable: "true"
+                  sablier.group: headplane

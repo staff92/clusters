@@ -284,8 +284,10 @@ ingressRoute:
     entryPoints: ["websecure"]
     # -- Additional ingressRoute middlewares (e.g. for authentication)
     middlewares: 
-      - name: 'chain-authelia-auth' # name of your middleware, as defined in your middleware.yml
-        namespace: 'authelia'
+      # - name: 'chain-authelia-auth' # name of your middleware, as defined in your middleware.yml
+      #   namespace: 'authelia'
+      - name: 'vpn-whitelist-ip' # name of your middleware, as defined in your middleware.yml
+        namespace: 'traefik'
     # -- TLS options (e.g. secret containing certificate)
     tls: {}
   healthcheck:
