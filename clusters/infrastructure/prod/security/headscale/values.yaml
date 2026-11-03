@@ -91,6 +91,10 @@ headscale:
     # -- Extra DNS records
     extra_records:
       - { name: "whois.net.internal", type: "A", value: "100.64.0.1" }
+      - { name: "priv.net.internal", type: "A", value: "100.64.0.4" }
+      - { name: "who.priv.net.internal", type: "A", value: "100.64.0.4" }
+      - { name: "pub..net.internal", type: "A", value: "100.64.0.5" }
+      - { name: "who.pub..net.internal", type: "A", value: "100.64.0.5" }
 
 # This section builds out the service account more information can be found here: https://kubernetes.io/docs/concepts/security/service-accounts/
 serviceAccount:
