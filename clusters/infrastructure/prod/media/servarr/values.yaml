@@ -319,7 +319,8 @@ sonarr:
     enabled: true
     className: "traefik"
     annotations: 
-      traefik.ingress.kubernetes.io/router.middlewares: authelia-chain-authelia-auth@kubernetescrd
+      traefik.ingress.kubernetes.io/router.middlewares: traefik-vpn-whitelist-ip@kubernetescrd 
+      #traefik.ingress.kubernetes.io/router.middlewares: authelia-chain-authelia-auth@kubernetescrd
       gethomepage.dev/enabled: "true"
       gethomepage.dev/name: "Sonarr"
       gethomepage.dev/description: "Sonarr is an internet PVR for Usenet and Torrents. Use for tv-shows"
@@ -504,7 +505,8 @@ qbittorrent:
     enabled: true
     className: "traefik"
     annotations: 
-      traefik.ingress.kubernetes.io/router.middlewares: authelia-chain-authelia-auth@kubernetescrd
+      traefik.ingress.kubernetes.io/router.middlewares: traefik-vpn-whitelist-ip@kubernetescrd 
+      # traefik.ingress.kubernetes.io/router.middlewares: authelia-chain-authelia-auth@kubernetescrd
       gethomepage.dev/enabled: "true"
       gethomepage.dev/name: "Qbittorrent"
       gethomepage.dev/description: "The qBittorrent project aims to provide an open-source software alternative to µTorrent"
@@ -708,8 +710,9 @@ prowlarr:
     enabled: true
     className: "traefik"
     annotations:
+      traefik.ingress.kubernetes.io/router.middlewares: traefik-vpn-whitelist-ip@kubernetescrd 
       #traefik.ingress.kubernetes.io/router.middlewares: authelia-chain-authelia-auth@kubernetescrd
-      traefik.ingress.kubernetes.io/router.middlewares: authelia-chain-authelia-auth@kubernetescrd
+      #traefik.ingress.kubernetes.io/router.middlewares: authelia-chain-authelia-auth@kubernetescrd
       gethomepage.dev/enabled: "true"
       gethomepage.dev/name: "Prowlarr"
       gethomepage.dev/description: "Prowlarr is an indexer manager/proxy built on the popular *arr base stack to integrate with your various PVR apps"
@@ -988,7 +991,8 @@ seerr:
     enabled: true
     className: "traefik"
     annotations: 
-      traefik.ingress.kubernetes.io/router.middlewares: traefik-crowdsec-bouncer-appsec@kubernetescrd,traefik-sablier-seerr@kubernetescrd
+      #traefik.ingress.kubernetes.io/router.middlewares: traefik-vpn-whitelist-ip@kubernetescrd,traefik-sablier-seerr@kubernetescrd
+      traefik.ingress.kubernetes.io/router.middlewares: traefik-crowdsec-bouncer-appsec@kubernetescrd
       gethomepage.dev/enabled: "true"
       gethomepage.dev/name: "Seerr"
       gethomepage.dev/description: "Seerr is a free and open source software application for managing requests for your media library."
@@ -1129,7 +1133,7 @@ bazarr:
     enabled: true
     className: "traefik"
     annotations:
-      traefik.ingress.kubernetes.io/router.middlewares: authelia-chain-authelia-auth@kubernetescrd,traefik-sablier-bazarr@kubernetescrd
+      traefik.ingress.kubernetes.io/router.middlewares: traefik-vpn-whitelist-ip@kubernetescrd,traefik-sablier-bazarr@kubernetescrd
       gethomepage.dev/enabled: "true"
       gethomepage.dev/name: "Bazarr"
       gethomepage.dev/description: "Bazarr is a companion application to Sonarr and Radarr that manages and downloads subtitles"
@@ -1287,7 +1291,8 @@ radarr:
     enabled: true
     className: "traefik"
     annotations:
-      traefik.ingress.kubernetes.io/router.middlewares: authelia-chain-authelia-auth@kubernetescrd
+      traefik.ingress.kubernetes.io/router.middlewares: traefik-vpn-whitelist-ip@kubernetescrd
+      #traefik.ingress.kubernetes.io/router.middlewares: authelia-chain-authelia-auth@kubernetescrd
       gethomepage.dev/enabled: "true"
       gethomepage.dev/name: "Radarr"
       gethomepage.dev/description: "Radarr is a movie collection manager for Usenet and BitTorrent users"
@@ -1449,7 +1454,8 @@ lidarr:
     enabled: true
     className: "traefik"
     annotations:
-      traefik.ingress.kubernetes.io/router.middlewares: authelia-chain-authelia-auth@kubernetescrd,traefik-sablier-lidarr@kubernetescrd
+      traefik.ingress.kubernetes.io/router.middlewares: traefik-vpn-whitelist-ip@kubernetescrd,traefik-sablier-lidarr@kubernetescrd
+      #traefik.ingress.kubernetes.io/router.middlewares: authelia-chain-authelia-auth@kubernetescrd,traefik-sablier-lidarr@kubernetescrd
       gethomepage.dev/enabled: "true"
       gethomepage.dev/name: "Lidarr"
       gethomepage.dev/description: "Lidarr is a music collection manager for Usenet and BitTorrent users"
@@ -1616,7 +1622,7 @@ cleanuparr:
     nodePort: ""
 
   ingress:
-    enabled: true
+    enabled: false
     className: "traefik"
     annotations:
       traefik.ingress.kubernetes.io/router.middlewares: authelia-chain-authelia-auth@kubernetescrd

@@ -19,8 +19,8 @@ spec:
     - match: Host(`metube.${CLUSTER_DOMAIN}`)
       kind: Rule
       middlewares:
-        - name: 'chain-authelia-auth'
-          namespace: 'authelia'
+        - name: vpn-whitelist-ip
+          namespace: traefik
       services:
         - name: metube
           port: 10216
