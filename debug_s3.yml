@@ -1,0 +1,64 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: s3-test-creds
+stringData:
+  AWS_ACCESS_KEY_ID: "admin"
+  AWS_SECRET_ACCESS_KEY: "secret"
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: s3-test
+spec:
+  backoffLimit: 0
+  ttlSecondsAfterFinished: 600
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: aws
+          image: amazon/aws-cli:latest
+          envFrom:
+            - secretRef:
+                name: s3-test-creds
+          env:
+            - name: AWS_DEFAULT_REGION
+              value: us-east-1
+            - name: AWS_EC2_METADATA_DISABLED
+              value: "true"
+            - name: ENDPOINT
+              value: "http://100.64.0.2:8333"
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              set -ex
+              B=test-$(date +%s)
+              aws --endpoint-url $ENDPOINT s3 ls
+              aws --endpoint-url $ENDPOINT s3 mb s3://$B
+              echo "hello s3" | aws --endpoint-url $ENDPOINT s3 cp - s3://$B/hello.txt
+              aws --endpoint-url $ENDPOINT s3 cp s3://$B/hello.txt -
+              echo "S3 OK"
+
+
+
+
+  # aws --endpoint-url $ENDPOINT s3 rb s3://$B --force
+
+
+
+
+    # Master UI:       http://172.17.0.2:9333
+    # Volume Server:   http://172.17.0.2:9340
+    # Filer UI:        http://172.17.0.2:8888
+    # WebDAV:          http://172.17.0.2:7333
+    # S3 Endpoint:     http://172.17.0.2:8333
+    # Iceberg Catalog: http://172.17.0.2:8181
+    # Lance Namespace: http://172.17.0.2:9101
+    # Admin UI:        http://127.0.0.1:12535
+
+
+
+# docker run --rm --name seaweed --network host \
+#   -v ./toto:/data \
+#   chrislusf/seaweedfs

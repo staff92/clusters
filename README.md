@@ -1355,6 +1355,7 @@ Test
 ```
 tailscale serve --bg --http=80 localhost:8080 => probe for the middleware plugin
 tailscale serve --http=80 off
+tailscale dns status
 ```
 
 # DAVICAL / RUSTICAL
