@@ -35,6 +35,12 @@ spec:
       crowdsecAppsecBodyLimit: 10485760
       forwardedHeadersTrustedIPs: []
       clientTrustedIPs: []
+      #captchaProvider: turnstile
+      #captchaSiteKey: <site-key>
+      #captchaSecretKey: <secret-key>
+      #captchaGracePeriodSeconds: 1800
+      #captchaHTMLFilePath: /captcha.html
+
 ---
 apiVersion: traefik.io/v1alpha1
 kind: Middleware
