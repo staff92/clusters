@@ -268,6 +268,7 @@ ingressRoute:
       gethomepage.dev/group: "Infrastructure"
       gethomepage.dev/icon: "traefik.png"
       gethomepage.dev/app: "traefik"
+      gethomepage.dev/href: "https://traefik.${CLUSTER_DOMAIN}/dashboard/"
     # matchRule: Host(`traefik.${CLUSTER_DOMAIN}`) 
     # -- Additional ingressRoute labels (e.g. for filtering IngressRoute by custom labels)
     labels: {}
