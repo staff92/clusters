@@ -86,7 +86,8 @@ headscale:
     base_domain: net.internal
 
     # -- Set custom DNS search domains
-    search_domains: []
+    search_domains: 
+      - "*.net.internal"
 
     # -- Extra DNS records
     extra_records:

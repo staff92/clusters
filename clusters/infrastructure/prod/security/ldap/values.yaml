@@ -410,6 +410,18 @@ bootstrap:
       gravatar_avatar: "false"
       weserv_avatar: "false"
       groups: []
+    - id: "${LDAP_USER13_ID}"
+      email: "${LDAP_USER13_EMAIL}"
+      passwordSecret: 
+        name: lldap-credentials
+        key: userpasswordtemp
+      displayName: "${LDAP_USER13_FIRSTNAME} ${LDAP_USER13_LASTNAME}"
+      firstName: "${LDAP_USER13_FIRSTNAME}"
+      lastName: "${LDAP_USER13_LASTNAME}"
+      gravatar_avatar: "false"
+      weserv_avatar: "false"
+      groups: []
+
 
 
 #! https://artifacthub.io/packages/helm/djjudas21/lldap
