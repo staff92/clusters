@@ -208,13 +208,13 @@ config:
             app: sablier
             showStats: true
             description: "Scale your workloads to zero, on demand"
-        - Traefik:
-            href: https://traefik.${CLUSTER_DOMAIN}
-            icon: traefik.png
-            namespace: traefik
-            app: traefik
-            showStats: true
-            description: "Traefik is an open-source Application Proxy and the core of the Traefik Hub Runtime Platform."
+        # - Traefik:
+        #     href: https://traefik.${CLUSTER_DOMAIN}
+        #     icon: traefik.png
+        #     namespace: traefik
+        #     app: traefik
+        #     showStats: true
+        #     description: "Traefik is an open-source Application Proxy and the core of the Traefik Hub Runtime Platform."
         - Vault:
             href: https://pwd.${CLUSTER_DOMAIN}
             icon: vaultwarden.png
