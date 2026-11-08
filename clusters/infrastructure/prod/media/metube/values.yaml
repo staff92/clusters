@@ -101,8 +101,8 @@ ingress:
         # Ensures tls annotation is set
         forceTLS: true
         middlewares: 
-          - name: chain-authelia-auth
-            namespace: authelia
+          - name: vpn-whitelist-ip
+            namespace: traefik
             expandObjectName: false
           - name: 'sablier-metube'
             namespace: 'traefik'
