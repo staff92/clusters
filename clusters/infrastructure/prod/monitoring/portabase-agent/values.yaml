@@ -1,7 +1,7 @@
-# apiVersion: v1
-# kind: Namespace
-# metadata:
-#   name: portabase
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: portabase
 ---
 apiVersion: v1
 kind: Secret
