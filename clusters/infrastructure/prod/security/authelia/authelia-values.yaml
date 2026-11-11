@@ -3938,7 +3938,7 @@ configMap:
         # required: false
         # @schema
         # -- The value of a generated secret when using the ~ secret_name.
-        value: ''
+        #value: ''
 
         # @schema
         # required: false
