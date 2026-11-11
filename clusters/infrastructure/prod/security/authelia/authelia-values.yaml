@@ -3925,7 +3925,7 @@ configMap:
         # required: false
         # @schema
         # -- Disables this secret and leaves configuring it entirely up to you.
-        disabled: true
+        disabled: false
 
         # @schema
         # required: false
