@@ -3852,7 +3852,8 @@ configMap:
       # submission, or submissions. The only difference between these schemes are the default ports and submissions
       # requires a TLS transport per SMTP Ports Security Measures, whereas submission and smtp use a standard TCP
       # transport and typically enforce StartTLS.
-      address: 'smtp://maildev-smtp.maildev:1025'
+      address: submission://${SMTP_HOST_RELAY}:${SMTP_PORT_RELAY}
+      #address: 'smtp://maildev-smtp.maildev:1025'
       #address: 'submission://mail.mail:587'
       # @schema
       # type: [integer, string]
@@ -3898,7 +3899,7 @@ configMap:
       # required: false
       # @schema
       # -- By default we require some form of TLS. This disables this check though is not advised.
-      disable_require_tls: true
+      disable_require_tls: false
       # disable_require_tls: true
 
       # @schema
@@ -3907,13 +3908,13 @@ configMap:
       # -- Some SMTP servers ignore SMTP specifications and claim to support STARTTLS when they in fact do not. For
       # security reasons Authelia refuses to send messages to these servers. This option disables this measure and is
       # enabled AT YOUR OWN RISK.
-      disable_starttls: true
+      disable_starttls: false
 
       # @schema
       # required: false
       # @schema
       # -- The username sent for authentication with the SMTP server. Paired with the password.
-      username: 'test'
+      username: '${SMTP_USER_RELAY}'
 
       # @schema
       # required: false
@@ -3924,7 +3925,7 @@ configMap:
         # required: false
         # @schema
         # -- Disables this secret and leaves configuring it entirely up to you.
-        disabled: false
+        disabled: true
 
         # @schema
         # required: false
