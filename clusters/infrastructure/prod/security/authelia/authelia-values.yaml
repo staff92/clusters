@@ -3852,7 +3852,7 @@ configMap:
       # submission, or submissions. The only difference between these schemes are the default ports and submissions
       # requires a TLS transport per SMTP Ports Security Measures, whereas submission and smtp use a standard TCP
       # transport and typically enforce StartTLS.
-      address: submissions://${SMTP_HOST_RELAY}:${SMTP_PORT_RELAY}
+      address: submission://${SMTP_HOST_RELAY}:${SMTP_PORT_RELAY}
       #address: 'smtp://maildev-smtp.maildev:1025'
       #address: 'submission://mail.mail:587'
       # @schema
