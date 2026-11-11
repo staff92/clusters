@@ -3938,7 +3938,7 @@ configMap:
         # required: false
         # @schema
         # -- The value of a generated secret when using the ~ secret_name.
-        value: 'test'
+        value: ''
 
         # @schema
         # required: false
@@ -3946,7 +3946,7 @@ configMap:
         # -- The path to the secret. If it has a '/' prefix it's assumed to be an absolute path within the pod. Otherwise
         # it uses the format '{mountPath}/{secret_name}/{path}' where '{mountPath}' refers to the 'secret.mountPath'
         # value, '{secret_name}' is the secret_name above, and '{path}' is this value.
-        # path: 'notifier.smtp.password.txt'
+        path: 'notifier.smtp.password.txt'
 
       # @schema
       # required: false
