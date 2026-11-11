@@ -23,7 +23,7 @@ resources:
   - security/vaultwarden
   # - security/wg-portal
   - security/crowdsec
-  - security/clamav
+  # - security/clamav
   - security/headscale
   # - security/falco
   # - security/polaris
@@ -36,13 +36,13 @@ resources:
   - monitoring/kubenav
   - monitoring/ntfy
   #- monitoring/portabase
-  - monitoring/portabase-agent
+  # - monitoring/portabase-agent
   # - monitoring/kopiur
   # - monitoring/kubeshark
-  - monitoring/botkube
+  # - monitoring/botkube
 #! MEDIA
   - media/servarr
-  - media/metube
+  # - media/metube
   # - media/wizarr
   - media/sftpgo
   # - media/tracearr

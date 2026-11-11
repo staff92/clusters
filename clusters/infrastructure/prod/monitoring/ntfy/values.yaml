@@ -58,11 +58,11 @@ ntfy:
   # -- @default -- `[]`
   extraEnv:
     - name: NTFY_SMTP_SENDER_ADDR
-      value: ${SMTP_HOST}:587
+      value: ${SMTP_HOST_RELAY}:${SMTP_PORT_RELAY}
     - name: NTFY_SMTP_SENDER_FROM
       value: noreply@${CLUSTER_DOMAIN}
     - name: NTFY_SMTP_SENDER_USER
-      value: ${LDAP_USER1_EMAIL}
+      value: ${SMTP_USER_RELAY}
     - name: NTFY_SMTP_SENDER_PASS
       valueFrom:
         secretKeyRef:
