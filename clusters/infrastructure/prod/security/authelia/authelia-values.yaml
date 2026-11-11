@@ -3852,8 +3852,8 @@ configMap:
       # submission, or submissions. The only difference between these schemes are the default ports and submissions
       # requires a TLS transport per SMTP Ports Security Measures, whereas submission and smtp use a standard TCP
       # transport and typically enforce StartTLS.
-      address: smtp://${SMTP_HOST_RELAY}:${SMTP_PORT_RELAY}
-      #address: 'smtp://maildev-smtp.maildev:1025'
+      #address: smtp://${SMTP_HOST_RELAY}:${SMTP_PORT_RELAY}
+      address: 'smtp://maildev-smtp.maildev:1025'
       #address: 'submission://mail.mail:587'
       # @schema
       # type: [integer, string]
@@ -3899,7 +3899,7 @@ configMap:
       # required: false
       # @schema
       # -- By default we require some form of TLS. This disables this check though is not advised.
-      disable_require_tls: false
+      disable_require_tls: true
       # disable_require_tls: true
 
       # @schema
@@ -3908,13 +3908,14 @@ configMap:
       # -- Some SMTP servers ignore SMTP specifications and claim to support STARTTLS when they in fact do not. For
       # security reasons Authelia refuses to send messages to these servers. This option disables this measure and is
       # enabled AT YOUR OWN RISK.
-      disable_starttls: false
+      disable_starttls: true
 
       # @schema
       # required: false
       # @schema
       # -- The username sent for authentication with the SMTP server. Paired with the password.
-      username: '${SMTP_USER_RELAY}'
+      username: test
+      #username: '${SMTP_USER_RELAY}'
 
       # @schema
       # required: false
@@ -3938,7 +3939,7 @@ configMap:
         # required: false
         # @schema
         # -- The value of a generated secret when using the ~ secret_name.
-        #value: ''
+        value: 'test'
 
         # @schema
         # required: false
@@ -3946,7 +3947,7 @@ configMap:
         # -- The path to the secret. If it has a '/' prefix it's assumed to be an absolute path within the pod. Otherwise
         # it uses the format '{mountPath}/{secret_name}/{path}' where '{mountPath}' refers to the 'secret.mountPath'
         # value, '{secret_name}' is the secret_name above, and '{path}' is this value.
-        path: 'notifier.smtp.password.txt'
+        #path: 'notifier.smtp.password.txt'
 
       # @schema
       # required: false
