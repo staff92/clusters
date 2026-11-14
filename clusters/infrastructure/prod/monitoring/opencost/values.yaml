@@ -686,7 +686,7 @@ opencost:
       repository: opencost/opencost-ui
       # -- UI container image tag
       # @default -- `""` (use appVersion in Chart.yaml)
-      tag: "1.121.3@sha256:99ee2db766a074fcbc321bbddfae1851c159339f463a3c32a9ba87727576a3ed"
+      tag: "1.121.3@sha256:65dca449aef1fd8fdacca5988ffdbdea015663d3f710a4c3f3af30abb3630fe1"
       # -- UI container image pull policy
       pullPolicy: IfNotPresent
       # -- Override the full image name for development purposes
