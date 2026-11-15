@@ -40,11 +40,12 @@ workload:
                 secretKeyRef:
                   name: freshrss-credentials
                   key: OIDC_CLIENT_CRYPTO_KEY
+                  expandObjectName: false
             OIDC_CLIENT_SECRET:
                 secretKeyRef:
                   name: freshrss-credentials
                   key: OIDC_CLIENT_SECRET
-
+                  expandObjectName: false
 
 
 
