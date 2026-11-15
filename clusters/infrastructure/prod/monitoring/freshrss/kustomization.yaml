@@ -6,7 +6,7 @@ resources:
   - secret.yaml
   - repo.yaml
   - release.yaml
-  #- ingressroute.yaml
+  - ingressroute.yaml
   # - ingress.yaml
 configMapGenerator:
   - name: freshrss-values
