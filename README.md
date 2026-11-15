@@ -955,6 +955,8 @@ To create new authelia OIDC secrets
 
 ```
 docker run --rm authelia/authelia:latest authelia crypto hash generate pbkdf2 --password "XXXXXX"
+
+docker run --rm authelia/authelia:latest authelia crypto hash generate pbkdf2 --variant sha512 --random --random.length 72
 ```
 
 for semaphore

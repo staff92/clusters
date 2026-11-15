@@ -192,6 +192,6 @@ spec:
       services:
         - name: authelia-admin
           port: 9093
-      # middlewares:
-      #   - name: chain-authelia-auth
-      #     namespace: authelia
+      middlewares:
+        - name: vpn-whitelist-ip
+          namespace: traefik
