@@ -20,7 +20,8 @@ persistence:
   config:
     enabled: true
     mountPath: /config
-
+    storageClass: openebs-hostpath
+    size: 800Mi
 
 workload:
   main:
