@@ -107,28 +107,16 @@ kind: IngressRoute
 metadata:
   name: autothrottle
   namespace: media
-  # annotations:
+  annotations:
     #traefik.ingress.kubernetes.io/router.middlewares: authelia-chain-authelia-auth@kubernetescrd
-
-  #   gethomepage.dev/href: "https://auto.${CLUSTER_DOMAIN}"
-  #   gethomepage.dev/enabled: "true"
-  #   gethomepage.dev/description: "Intelligently throttles download clients while a media server has active playback."
-  #   gethomepage.dev/group: Media
-  #   gethomepage.dev/icon: "sh-apple-music.png"
-  #   #gethomepage.dev/app: autothrottle # optional, may be needed if app.kubernetes.io/name != ingress metadata.name
-  #   gethomepage.dev/name: autothrottle
-  #   gethomepage.dev/pod-selector: "app=autothrottle"
-
-  # annotations:
-  #   # traefik.ingress.kubernetes.io/router.entrypoints: websecure
-  #   # traefik.ingress.kubernetes.io/router.tls: "true"
-  #   # traefik.ingress.kubernetes.io/router.middlewares: authelia-chain-authelia-auth@kubernetescrd
-  #   gethomepage.dev/enabled: "true"
-  #   gethomepage.dev/name: "autothrottle"
-  #   gethomepage.dev/description: "Self-hosted music request and discovery project built supporting Jellyfin "
-  #   gethomepage.dev/group: "Media"
-  #   gethomepage.dev/icon: "sh-apple-music.png"
-  #   gethomepage.dev/pod-selector: "app.kubernetes.io/name=autothrottle"
+    gethomepage.dev/href: "https://auto.${CLUSTER_DOMAIN}"
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/description: "Intelligently throttles download clients while a media server has active playback."
+    gethomepage.dev/group: Media
+    gethomepage.dev/icon: "sh-jellyfin.png"
+    #gethomepage.dev/app: autothrottle # optional, may be needed if app.kubernetes.io/name != ingress metadata.name
+    gethomepage.dev/name: autothrottle
+    gethomepage.dev/pod-selector: "app=autothrottle"
 spec:
   entryPoints:
     - websecure
@@ -136,8 +124,8 @@ spec:
     - match: Host(`auto.${CLUSTER_DOMAIN}`)
       kind: Rule
       middlewares:
-        - name: 'forwardauth-authelia'
-          namespace: 'authelia'
+        - name: 'vpn-whitelist-ip'
+          namespace: 'traefik'
       services:
         - name: autothrottle
           port: 7676
