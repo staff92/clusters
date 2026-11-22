@@ -2948,6 +2948,8 @@ configMap:
     rules: 
     - domain: 'traefik.${CLUSTER_DOMAIN}'
       policy: one_factor 
+    - domain: 'auto.${CLUSTER_DOMAIN}'
+      policy: one_factor 
     - domain: 'freshrss.${CLUSTER_DOMAIN}'
       policy: one_factor 
     - domain: 'dozzle.${CLUSTER_DOMAIN}'

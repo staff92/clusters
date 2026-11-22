@@ -35,7 +35,7 @@ resources:
   # - monitoring/maintenant
   - monitoring/kubenav
   - monitoring/ntfy
-  - monitoring/freshrss
+  # - monitoring/freshrss
   #- monitoring/portabase
   # - monitoring/portabase-agent
   # - monitoring/kopiur
@@ -43,6 +43,7 @@ resources:
   # - monitoring/botkube
 #! MEDIA
   - media/servarr
+  - media/autothrottle
   # - media/metube
   # - media/wizarr
   # - media/sftpgo
