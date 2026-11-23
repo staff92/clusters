@@ -87,6 +87,8 @@ spec:
           volumeMounts:
             - name: config
               mountPath: /config
+            - name: media
+              mountPath: /mnt/media
             # - name: media
             #   mountPath: /mnt/media
             #   subPath: media/movies
