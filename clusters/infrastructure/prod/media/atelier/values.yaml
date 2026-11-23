@@ -147,7 +147,7 @@ metadata:
     gethomepage.dev/group: Media
     gethomepage.dev/icon: "sh-jellyfin.png"
     #gethomepage.dev/app: autothrottle # optional, may be needed if app.kubernetes.io/name != ingress metadata.name
-    gethomepage.dev/name: atelier411
+    gethomepage.dev/name: 411atelier
     gethomepage.dev/pod-selector: "app=atelier411"
 spec:
   entryPoints:
