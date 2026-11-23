@@ -48,8 +48,8 @@ data:
   TZ: "Europe/Paris"
   ATELIER411_VERSION: "latest"
   ATELIER411_INSTALL: "manuel"
-  MEDIA_PATH: "/srv/media"
-  SHARE_PATH: "/srv/share"
+  # MEDIA_PATH: "/srv/media"
+  # SHARE_PATH: "/srv/share"
   PORT: "8181"
   BIND_ADDRESS: "0.0.0.0"
 ---
@@ -87,12 +87,12 @@ spec:
           volumeMounts:
             - name: config
               mountPath: /config
-            - name: media
-              mountPath: /mnt/media
-              subPath: media/movies
-            - name: media
-              mountPath: /mnt/donnees
-              subPath: media/downloads
+            # - name: media
+            #   mountPath: /mnt/media
+            #   subPath: media/movies
+            # - name: media
+            #   mountPath: /mnt/donnees
+            #   subPath: media/downloads
           readinessProbe:
             tcpSocket:
               port: http
