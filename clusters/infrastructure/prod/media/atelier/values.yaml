@@ -1,0 +1,131 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: atelier411-config
+  namespace: media
+spec:
+  accessModes: [ReadWriteOnce]
+  storageClassName: openebs-hostpath
+  resources:
+    requests:
+      storage: 1Gi
+
+---
+apiVersion: k8s.bitwarden.com/v1
+kind: BitwardenSecret
+metadata:
+  labels:
+    app.kubernetes.io/name: bitwardensecret
+    app.kubernetes.io/instance: bitwardensecret-sample
+    app.kubernetes.io/part-of: sm-operator
+    app.kubernetes.io/managed-by: kustomize
+    app.kubernetes.io/created-by: sm-operator
+  name: bitwardensecret-sample-atelier
+spec:
+  organizationId: "87ac8a11-cbc3-494d-9ac6-b3dd0111cc0d"
+  secretName: atelier-credentials
+  onlyMappedSecrets: true 
+  map:
+    - bwSecretId: "9e30e48b-8139-4f59-97ee-b50b00faa210"
+      secretKeyName: ATELIER411_SECRET_KEY
+    - bwSecretId: "de253227-9f6b-4805-bf83-b50b00fa7475"
+      secretKeyName: ATELIER411_C411_API_TOKEN
+  authToken:
+    secretName: bw-auth-token
+    secretKey: token
+
+---
+# --- 4. Variables d'environnement (équivalent du .env) -----------------------
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: atelier411-env
+  namespace: media
+data:
+  PUID: "1000"
+  PGID: "1000"
+  TZ: "Europe/Paris"
+  ATELIER411_VERSION: "latest"
+  ATELIER411_INSTALL: "manuel"
+  MEDIA_PATH: "/srv/media"
+  SHARE_PATH: "/srv/share"
+  PORT: "8181"
+  BIND_ADDRESS: "0.0.0.0"
+---
+# --- 5. Deployment -----------------------------------------------------------
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: atelier411
+  namespace: media
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate          
+  selector:
+    matchLabels:
+      app: atelier411
+  template:
+    metadata:
+      labels:
+        app: atelier411
+    spec:
+      containers:
+        - name: atelier411
+          image: codeberg.org/juliesworkshop/atelier411:latest
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 8181
+          envFrom:
+            - configMapRef:
+                name: atelier411-env
+            - secretRef:
+                name: atelier-credentials
+          volumeMounts:
+            - name: config
+              mountPath: /config
+            - name: media
+              mountPath: /mnt/media
+              subPath: media/movies
+            - name: media
+              mountPath: /mnt/donnees
+              subPath: media/downloads
+          readinessProbe:
+            tcpSocket:
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          livenessProbe:
+            tcpSocket:
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 20
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              memory: 1Gi
+      volumes:
+        - name: config
+          persistentVolumeClaim:
+            claimName: atelier411-config
+        - name: media
+          persistentVolumeClaim:
+            claimName: servarr-jellyfin-media 
+---
+# --- 6. Service --------------------------------------------------------------
+apiVersion: v1
+kind: Service
+metadata:
+  name: atelier411
+  namespace: media
+spec:
+  selector:
+    app: atelier411
+  ports:
+    - name: http
+      port: 80
+      targetPort: http

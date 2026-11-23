@@ -44,6 +44,7 @@ resources:
 #! MEDIA
   - media/servarr
   - media/autothrottle
+  - media/atelier
   # - media/metube
   # - media/wizarr
   # - media/sftpgo
