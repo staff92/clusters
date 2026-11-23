@@ -132,3 +132,32 @@ spec:
     - name: http
       port: 80
       targetPort: http
+
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: atelier411
+  namespace: media
+  annotations:
+    #traefik.ingress.kubernetes.io/router.middlewares: authelia-chain-authelia-auth@kubernetescrd
+    gethomepage.dev/href: "https://atelier.${CLUSTER_DOMAIN}"
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/description: "Create Torrent Releases in just a few clicks!"
+    gethomepage.dev/group: Media
+    gethomepage.dev/icon: "sh-jellyfin.png"
+    #gethomepage.dev/app: autothrottle # optional, may be needed if app.kubernetes.io/name != ingress metadata.name
+    gethomepage.dev/name: atelier411
+    gethomepage.dev/pod-selector: "app=atelier411"
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`atelier.${CLUSTER_DOMAIN}`)
+      kind: Rule
+      middlewares:
+        - name: 'vpn-whitelist-ip'
+          namespace: 'traefik'
+      services:
+        - name: atelier411
+          port: 80
