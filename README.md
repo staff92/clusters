@@ -92,6 +92,9 @@ k0sctl backup --config cluster.yaml
 When bootstrap done, you can add postBuild with secrets to use template values (infrastructure.yaml)
 
 ```bash
+
+#! Add the public key on repo with rw access
+#! BOOTSTRAP + UPGRADE 
 export GITHUB_TOKEN=<gh-token>
 
 flux bootstrap github \
@@ -99,7 +102,7 @@ flux bootstrap github \
   --owner=staff92 \
   --repository=clusters \
   --branch=main \
-  --path=clusters/my-test \
+  --path=clusters/perso \
   --personal
 
 
@@ -109,9 +112,6 @@ flux bootstrap git \
   --branch=main \
   --path=clusters/my-cluster \
   --password=TOKEN_GITEA
-
-
-#! Add the public key on repo with rw access
 
 flux get kustomizations
 flux get sources git     
