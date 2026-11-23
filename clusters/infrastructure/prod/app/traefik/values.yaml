@@ -1016,6 +1016,7 @@ ports:
     # -- See [upstream documentation](https://doc.traefik.io/traefik/reference/install-configuration/entrypoints/#allowacmebypass)
     allowACMEByPass: false
     http:
+      aliasHeadersStrategy: reject
       redirections:
         # -- Port Redirections
         # Added in 2.2, one can make permanent redirects via entrypoints.
