@@ -71,6 +71,7 @@ spec:
       labels:
         app: atelier411
     spec:
+      enableServiceLinks: false
       containers:
         - name: atelier411
           image: codeberg.org/juliesworkshop/atelier411:latest
