@@ -43,19 +43,21 @@ spec:
 
 # Needs 3 middlewares : 
     # - LAPI + APPSEC (all)
-    # - LAPI (jelly) => LePresidente/jellyfin
-    # - CAPTHCA 
+    # - LAPI (jelly) 
+    # - CAPTHCA (homepage)
 
 # Need collections 
     # crowdsecurity/vaultwarden
     # crowdsecurity/whitelist-good-actors
     # LePresidente/jellyfin
     # crowdsecurity/gitea
+    # For CAPTCHA (need to be tested)
+    # crowdsecurity/appsec-bot-challenge
 
 # Useless 
     # crowdsecurity/http-dos => be carefull 
     # crowdsecurity/iptables => not usefull in kube 
-    # crowdsecurity/sshd  => need cs-firewall-bouncer + agent directly on the node 
+    # crowdsecurity/sshd  => need cs-firewall-bouncer + agent directly on the node (no used)
 ---
 apiVersion: traefik.io/v1alpha1
 kind: Middleware
