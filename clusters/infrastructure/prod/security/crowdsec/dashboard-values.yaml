@@ -113,7 +113,7 @@ ingress:
       gethomepage.dev/description: " Curated Threat Intelligence"
       gethomepage.dev/group: "Infrastructure"
       gethomepage.dev/icon: "sh-crowdsec.png"
-      gethomepage.dev/pod-selector: "app.kubernetes.io/name=crowdsec-web-ui"
+      gethomepage.dev/pod-selector: "k8s-app=crowdsec"
       gethomepage.dev/href: "https://crowdsec.${CLUSTER_DOMAIN}"
     hosts:
       - host: "crowdsec.${CLUSTER_DOMAIN}"
