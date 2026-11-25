@@ -43,7 +43,7 @@ ingress:
     gethomepage.dev/description: "Headscale aims to implement a self-hosted, open source alternative to the Tailscale control server."
     gethomepage.dev/group: "Infrastructure"
     gethomepage.dev/icon: "sh-headscale.png"
-    gethomepage.dev/pod-selector: "app.kubernetes.io/component=ui"
+    gethomepage.dev/pod-selector: "app.kubernetes.io/instance=headscale"
   hosts:
     - host: scale.${CLUSTER_DOMAIN}
       paths:
