@@ -46,6 +46,16 @@ spec:
     # - LAPI (jelly) => LePresidente/jellyfin
     # - CAPTHCA 
 
+# Need collections 
+    # crowdsecurity/vaultwarden
+    # crowdsecurity/whitelist-good-actors
+    # LePresidente/jellyfin
+    # crowdsecurity/gitea
+
+# Useless 
+    # crowdsecurity/http-dos => be carefull 
+    # crowdsecurity/iptables => not usefull in kube 
+    # crowdsecurity/sshd  => need cs-firewall-bouncer + agent directly on the node 
 ---
 apiVersion: traefik.io/v1alpha1
 kind: Middleware
