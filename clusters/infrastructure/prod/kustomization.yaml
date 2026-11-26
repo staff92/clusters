@@ -9,7 +9,7 @@ resources:
 #! CSI
   - storage/local-storage
   - storage/juicefs
-#! LB
+#! PROXY
   - app/traefik
   - app/metallb
   - app/sablier
@@ -59,6 +59,7 @@ resources:
   - app/mattermost
   # - app/mirotalk
   # - app/gitea
+  # - app/forgejo => https://code.forgejo.org/forgejo-helm/forgejo-helm and codeberg.org/wrenix/helm-charts/forgejo-runner (better license than gitea, same perf)
   - app/homepage
   - app/semaphore
   # - app/rustical
